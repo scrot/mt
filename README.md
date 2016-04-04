@@ -1,2 +1,0 @@
-# mt
-Master Thesis
