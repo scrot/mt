@@ -2,19 +2,21 @@ package distribution;
 
 import distribution.language.structure.Language;
 import distribution.language.LanguageFactory;
+import distribution.xloc.XLocCounter;
+import distribution.xloc.XLocPatternFactory;
 
 import java.nio.file.Path;
 
 public class ClassStatistics {
     private final Path classPath;
     private final Language language;
-    private final Loc loc;
+    private final XLocCounter loc;
 
     public ClassStatistics(Path classPath) {
         this.classPath = classPath;
         this.language = getLanguageFromClassPath(classPath);
 
-        LocCalculator calculator = new LocCalculator();
+        XLocPatternFactory calculator = new XLocPatternFactory();
         this.loc = this.language.accept(calculator, this.classPath);
 
     }
@@ -32,7 +34,7 @@ public class ClassStatistics {
         return language;
     }
 
-    public Loc getLoc() {
+    public XLocCounter getLoc() {
         return loc;
     }
 }
