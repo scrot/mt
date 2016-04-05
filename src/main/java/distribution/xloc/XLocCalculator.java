@@ -33,8 +33,8 @@ public class XLocCalculator {
 
     private XLoc calculateClassXLoc() {
         XLocCounter xLocCounter = new XLocCounter();
-
         for(String classLine : this.classLines){
+            System.out.println(classLine);
             if(this.xLocPatterns.isBlankLine(classLine)){
                 xLocCounter.incrementBlankLines();
             }

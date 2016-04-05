@@ -34,4 +34,18 @@ public class XLoc {
                 "; Blank lines: " + this.blankLines +
                 "; Total lines: " + getTotalLines();
     }
+
+    public XLoc add(XLoc rhs){
+        return new XLoc(
+                this.codeLines + rhs.getCodeLines(),
+                this.commentLines + rhs.getCommentLines(),
+                this.blankLines + rhs.getBlankLines());
+    }
+
+    public XLoc sub(XLoc rhs){
+        return new XLoc(
+                this.codeLines - rhs.getCodeLines(),
+                this.commentLines - rhs.getCommentLines(),
+                this.blankLines - rhs.getBlankLines());
+    }
 }

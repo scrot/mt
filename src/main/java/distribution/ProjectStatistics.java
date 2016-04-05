@@ -1,6 +1,7 @@
 package distribution;
 
 import distribution.language.structure.Language;
+import distribution.xloc.XLoc;
 import distribution.xloc.XLocCounter;
 
 import java.io.IOException;
@@ -25,23 +26,24 @@ public class ProjectStatistics {
         return classPaths.size();
     }
 
-    public Map<Language, XLocCounter> getLocPerLanguage(){
-        Map<Language, XLocCounter> map = new HashMap<>();
+    public Map<Language, XLoc> getXLocPerLanguage(){
+        Map<Language, XLoc> map = new HashMap<>();
 
         for (ClassStatistics classStatistic : classStatistics){
             if(!map.containsKey(classStatistic.getLanguage())){
-                map.put(classStatistic.getLanguage(), classStatistic.getLoc());
+                map.put(classStatistic.getLanguage(), classStatistic.getXLoc());
             }
             else {
-                XLocCounter currentLoc = map.get(classStatistic.getLanguage());
-                map.put(classStatistic.getLanguage(), new XLocCounter(currentLoc.getCloc() + classStatistic.getLoc().getCloc()));
+                XLoc currentTotalXLoc = map.get(classStatistic.getLanguage());
+                XLoc currentClassXLoc = classStatistic.getXLoc();
+                XLoc newTotalXLoc = currentTotalXLoc.add(currentClassXLoc);
             }
         }
 
         return map;
     }
 
-    private List<ClassStatistics> buildClassStatistics() {
+    private List<ClassStatistics> buildClassStatistics() throws IOException {
         List<ClassStatistics> classStatistics = new ArrayList<>();
         for(Path classPath : this.classPaths){
             classStatistics.add(new ClassStatistics(classPath));

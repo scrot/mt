@@ -15,7 +15,7 @@ public class XLocPatternFactory implements Visitor<XLocPatternBuilder,Void>  {
     public XLocPatternBuilder visit(Java lang, Void context) {
         XLocPatternBuilder javaLocPattern = new XLocPatternBuilder();
 
-        javaLocPattern.addBlankPattern(new BlankPattern(Pattern.compile("(\\s|\\R)*")));
+        javaLocPattern.addBlankPattern(new BlankPattern(Pattern.compile("\\s*")));
 
         javaLocPattern.addCommentPattern(new SlCommentPattern(Pattern.compile("\\s*//.*")));
         javaLocPattern.addCommentPattern(new MlCommentPattern(
