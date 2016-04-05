@@ -1,4 +1,4 @@
-package distribution.language;
+package distribution;
 
 import distribution.Loc;
 import distribution.language.structure.Java;
@@ -10,14 +10,15 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class LocCalculator implements Visitor<Loc,Path>  {
     @Override
     public Loc visit(Java lang, Path context) {
         List<String> excludes = new ArrayList<>();
-        excludes.add("^\\s*\\\\.*$"); //single line comment
-        excludes.add("\\\\*.*\\*\\"); //multi line comment
-        excludes.add("^\\s*$"); //whitespace
+        excludes.add("(?s)/\\*.*\\*/"); //multi line comment
+        excludes.add("(?m)\\s*//.*$"); //single line comment
+        excludes.add("(?m)\\s*$"); //comment
         return calculateLoc(context, excludes);
     }
 
@@ -27,7 +28,7 @@ public class LocCalculator implements Visitor<Loc,Path>  {
     }
 
     private Loc calculateLoc(Path classPath, List<String> excludeRegexes){
-        
+
         try {
             String reader = FileUtils.readFileToString(classPath.toFile());
             String[] sourceLines = filterOutMatches(reader, excludeRegexes).split("\\n");
@@ -41,7 +42,11 @@ public class LocCalculator implements Visitor<Loc,Path>  {
     }
 
     private String filterOutMatches(String string, List<String> regexStrings){
-        return string.replaceAll(mergeRegexStrings(regexStrings), "");
+        String filteredString = string;
+        for(String regex : regexStrings){
+            filteredString = Pattern.compile(regex).matcher(filteredString).replaceAll("");
+        }
+        return Pattern.compile("^[\\n|\\r|\\r\\n|\\u0085|\\u2028|\\u2029]", Pattern.MULTILINE).matcher(filteredString).replaceAll("");
     }
 
     private String mergeRegexStrings(List<String> regexStrings){

@@ -10,4 +10,9 @@ public class Loc {
     public Integer getCloc() {
         return cloc;
     }
+
+    @Override
+    public String toString() {
+        return this.cloc.toString();
+    }
 }
