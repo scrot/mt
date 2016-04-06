@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args){
-        String projectRoot = "C:\\Users\\royw\\Workspace\\junit4\\src\\main\\java";
+        String projectRoot = "C:\\Users\\royw\\Workspace\\junit4";
         Path path = FileSystems.getDefault().getPath(projectRoot);
         try {
             ProjectStatistics projectStatistics = new ProjectStatistics(path);
