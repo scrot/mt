@@ -2,8 +2,6 @@ package pareto;
 
 import language.Language;
 import language.LanguageFactory;
-import xloc.XLoc;
-import xloc.XLocCalculator;
 
 import java.io.IOException;
 import java.nio.file.Path;

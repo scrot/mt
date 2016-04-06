@@ -16,9 +16,39 @@ public class CodeDistribution extends Distribution {
     }
 
     public XLoc cumulativeXLocOfPartition(Percentage distribution){
-        Double index = (distributionMap.size() * distribution.getPercentage())/100;
-        Integer roundedIndex = index.intValue();
-        return this.distributionMap.get(roundedIndex);
+        Integer index = getDistributionIndex(distribution);
+
+        if(index == 0){
+            return new XLoc(0,0,0,0);
+        }
+        else {
+            return this.distributionMap.get(index);
+        }
+    }
+
+    public XLocPercentage cumulativeXLocPercentageOfPartition(Percentage distribution){
+        XLoc xLocTotal = cumulativeXLocOfPartition(new Percentage(100.0));
+        XLoc xLocValue = cumulativeXLocOfPartition(distribution);
+        return new XLocPercentage(
+                percentageOf(xLocValue.getCodeLines(), xLocTotal.getCodeLines()),
+                percentageOf(xLocValue.getCommentLines(), xLocTotal.getCommentLines()),
+                percentageOf(xLocValue.getBlankLines(), xLocTotal.getBlankLines()),
+                percentageOf(xLocValue.getUnknownLines(), xLocTotal.getUnknownLines())
+        );
+    }
+
+    public List<CodeDistributionValue> plotCodeDistribution(Double start, Double end, Double interval){
+        List<CodeDistributionValue> plot = new ArrayList<>();
+        for(Double i = start; i <= end; i += interval){
+            Percentage partition = new Percentage(i);
+            plot.add(new CodeDistributionValue(
+                    partition,
+                    getDistributionIndex(partition),
+                    cumulativeXLocOfPartition(partition),
+                    cumulativeXLocOfPartition(new Percentage(100.0))
+            ));
+        }
+        return plot;
     }
 
     private Map<Integer, XLoc> buildCumulativeDistributionMap(Map<Path, XLoc> classXLocMap){
@@ -29,7 +59,6 @@ public class CodeDistribution extends Distribution {
 
         Integer moduleCount = 0;
         XLoc cumulativeTotal = new XLoc(0,0,0,0);
-        distributionMap.put(moduleCount, cumulativeTotal);
         for (XLoc xLoc : sortedXLocs){
             moduleCount++;
             cumulativeTotal = cumulativeTotal.add(xLoc);
@@ -37,5 +66,14 @@ public class CodeDistribution extends Distribution {
         }
 
         return distributionMap;
+    }
+
+    private Integer getDistributionIndex(Percentage partition) {
+        Double classes = (distributionMap.size() * partition.getPercentage())/100;
+        return classes.intValue();
+    }
+
+    private Percentage percentageOf(Integer value, Integer total){
+        return new Percentage((double) (value * 100 / total));
     }
 }
