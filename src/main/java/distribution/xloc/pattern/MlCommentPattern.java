@@ -18,18 +18,23 @@ public class MlCommentPattern extends CommentPattern {
 
     @Override
     public Boolean isMatch(String line){
-        if(startOfCommentPattern.matcher(line).find()){
+        Boolean match = false;
+
+        if(startOfCommentPattern.matcher(line).matches()){
             mlActive = true;
         }
 
-        if(endOfCommentPattern.matcher(line).find()){
+        if(mlActive){
+            match = true;
+        }
+        else {
+            match = false;
+        }
+
+        if(endOfCommentPattern.matcher(line).matches()){
             mlActive = false;
         }
 
-        if(mlActive){
-            return true;
-        }
-
-        return false;
+        return match;
     }
 }

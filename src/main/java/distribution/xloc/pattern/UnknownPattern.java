@@ -2,13 +2,10 @@ package distribution.xloc.pattern;
 
 import java.util.regex.Pattern;
 
-/**
- * Created by roy on 4/5/16.
- */
-public class BlankPattern extends XLocPattern {
+public class UnknownPattern extends XLocPattern {
     private final Pattern pattern;
 
-    public BlankPattern(Pattern pattern) {
+    public UnknownPattern(Pattern pattern) {
         this.pattern = pattern;
     }
 

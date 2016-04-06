@@ -24,25 +24,45 @@ public class XLocCalculator {
         this.classLines = Files.readAllLines(classPath);
         this.xLocPatterns = classLanguage.accept(new XLocPatternFactory(), null);
 
-        this.xLoc = calculateClassXLoc();
+        this.xLoc = calculateClassXLoc(true);
     }
 
     public XLoc getResult() {
         return xLoc;
     }
 
-    private XLoc calculateClassXLoc() {
+    private XLoc calculateClassXLoc(Boolean deduceCodeLine) {
         XLocCounter xLocCounter = new XLocCounter();
         for(String classLine : this.classLines){
             System.out.println(classLine);
-            if(this.xLocPatterns.isBlankLine(classLine)){
+
+            Boolean blankline = this.xLocPatterns.isBlankLine(classLine);
+            Boolean commentline = this.xLocPatterns.isCommentLine(classLine);
+            Boolean codeline = this.xLocPatterns.isCodeLine(classLine);
+            Boolean unknownline = this.xLocPatterns.isUnknownLine(classLine);
+            assert blankline || commentline || codeline || unknownline;
+
+            if(blankline){
                 xLocCounter.incrementBlankLines();
             }
-            if(this.xLocPatterns.isCommentLine(classLine)){
+
+            if(commentline){
                 xLocCounter.incrementCommentLines();
             }
-            if(this.xLocPatterns.isCodeLine(classLine)){
-                xLocCounter.incrementCodeLines();
+
+            if(deduceCodeLine){
+                if(!(blankline || commentline || unknownline)){
+                    xLocCounter.incrementCodeLines();
+                }
+            }
+            else {
+                if (codeline) {
+                    xLocCounter.incrementCodeLines();
+                }
+            }
+
+            if(unknownline){
+                xLocCounter.incrementUnknownLines();
             }
         }
 

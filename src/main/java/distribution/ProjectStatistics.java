@@ -36,7 +36,7 @@ public class ProjectStatistics {
             else {
                 XLoc currentTotalXLoc = map.get(classStatistic.getLanguage());
                 XLoc currentClassXLoc = classStatistic.getXLoc();
-                XLoc newTotalXLoc = currentTotalXLoc.add(currentClassXLoc);
+                map.put(classStatistic.getLanguage(), currentTotalXLoc.add(currentClassXLoc));
             }
         }
 

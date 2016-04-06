@@ -4,11 +4,13 @@ public class XLoc {
     private final Integer codeLines;
     private final Integer commentLines;
     private final Integer blankLines;
+    private final Integer unknownLines;
 
-    public XLoc(Integer codeLines, Integer commentLines, Integer blankLines) {
+    public XLoc(Integer codeLines, Integer commentLines, Integer blankLines, Integer unknownLines) {
         this.codeLines = codeLines;
         this.commentLines = commentLines;
         this.blankLines = blankLines;
+        this.unknownLines = unknownLines;
     }
 
     public Integer getCodeLines() {
@@ -23,8 +25,10 @@ public class XLoc {
         return this.blankLines;
     }
 
+    public Integer getUnknownLines() { return this.unknownLines; }
+
     public Integer getTotalLines() {
-        return this.codeLines + this.commentLines + this.blankLines;
+        return this.codeLines + this.commentLines + this.blankLines + this.unknownLines;
     }
 
     @Override
@@ -32,6 +36,7 @@ public class XLoc {
         return "Code lines: " + this.codeLines +
                 "; Comment lines: " + this.commentLines +
                 "; Blank lines: " + this.blankLines +
+                "; Unknown lines: " + this.unknownLines +
                 "; Total lines: " + getTotalLines();
     }
 
@@ -39,13 +44,7 @@ public class XLoc {
         return new XLoc(
                 this.codeLines + rhs.getCodeLines(),
                 this.commentLines + rhs.getCommentLines(),
-                this.blankLines + rhs.getBlankLines());
-    }
-
-    public XLoc sub(XLoc rhs){
-        return new XLoc(
-                this.codeLines - rhs.getCodeLines(),
-                this.commentLines - rhs.getCommentLines(),
-                this.blankLines - rhs.getBlankLines());
+                this.blankLines + rhs.getBlankLines(),
+                this.unknownLines + rhs.getUnknownLines());
     }
 }

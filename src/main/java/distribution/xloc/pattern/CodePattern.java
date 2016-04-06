@@ -14,6 +14,6 @@ public class CodePattern extends XLocPattern {
 
     @Override
     public Boolean isMatch(String line){
-        return pattern.matcher(line).find();
+        return pattern.matcher(line).matches();
     }
 }
