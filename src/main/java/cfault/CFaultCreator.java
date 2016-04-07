@@ -7,6 +7,8 @@ import org.kohsuke.github.GHRepository;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +17,7 @@ import java.util.regex.Pattern;
 
 public class CFaultCreator {
     private final Map<GHCommit, GHIssue> commitIssuesMap;
-    private final Map<GHCommit, Path> commitClassMap;
+    private final Map<GHCommit, List<Path>> commitClassMap;
 
     private final String fixedPattern;
     private final String resolvedPattern;
@@ -29,7 +31,7 @@ public class CFaultCreator {
         List<GHCommit> commits = collectCommits(projectRepository.getRepository());
         Map<Integer, GHIssue> issues = collectIssues(projectRepository.getRepository());
         this.commitIssuesMap = buildCommitIssueMap(commits, issues);
-        this.commitClassMap = buildCommitClassPathMap();
+        this.commitClassMap = buildCommitClassPathMap(commits, projectRoot);
     }
 
     private List<GHCommit> collectCommits(GHRepository repo) {
@@ -48,8 +50,21 @@ public class CFaultCreator {
         return commitIssueMap;
     }
 
-    private Map<GHCommit,Path> buildCommitClassPathMap() {
-        return null;
+    private Map<GHCommit,List<Path>> buildCommitClassPathMap(List<GHCommit> commits, Path projectRoot) throws IOException {
+        Map<GHCommit, List<Path>> commitClassPathMap = new HashMap<>();
+        for(GHCommit commit : commits){
+            List<GHCommit.File> changedFiles = commit.getFiles();
+
+            List<Path> changedFilePaths = new ArrayList<>();
+            for(GHCommit.File file : changedFiles){
+                String pathString = file.getFileName();
+                changedFilePaths.add(Paths.get(projectRoot.toString(), pathString));
+            }
+
+            commitClassPathMap.put(commit, changedFilePaths);
+
+        }
+        return commitClassPathMap;
     }
 
     private Map<Integer, GHIssue> collectIssues(GHRepository repository){
