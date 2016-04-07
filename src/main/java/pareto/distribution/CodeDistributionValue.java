@@ -2,7 +2,7 @@ package pareto.distribution;
 
 import xloc.XLoc;
 
-public class CodeDistributionValue {
+public class CodeDistributionValue extends Distribution {
     private final Percentage partition;
     private final Integer classCount;
     private final XLoc cummulativeXLoc;
@@ -12,9 +12,9 @@ public class CodeDistributionValue {
     public CodeDistributionValue(Percentage partition, Integer classCount, XLoc cummulativeXLoc, XLoc totalXLoc) {
         this.partition = partition;
         this.classCount = classCount;
+        this.totalXLoc = totalXLoc;
         this.cummulativeXLoc = cummulativeXLoc;
         this.cummulativeXLocPercentage = cumulativeXLocPercentage();
-        this.totalXLoc = totalXLoc;
     }
 
     public Integer getClassCount() {
@@ -29,12 +29,12 @@ public class CodeDistributionValue {
         return cummulativeXLoc;
     }
 
-    public XLoc getTotalXLoc() {
-        return totalXLoc;
-    }
-
     public XLocPercentage getCummulativeXLocPercentage() {
         return cummulativeXLocPercentage;
+    }
+
+    public XLoc getTotalXLoc() {
+        return totalXLoc;
     }
 
     private XLocPercentage cumulativeXLocPercentage(){

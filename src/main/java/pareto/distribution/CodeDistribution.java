@@ -29,12 +29,12 @@ public class CodeDistribution extends Distribution {
     public XLocPercentage cumulativeXLocPercentageOfPartition(Percentage distribution){
         XLoc xLocTotal = cumulativeXLocOfPartition(new Percentage(100.0));
         XLoc xLocValue = cumulativeXLocOfPartition(distribution);
-        return new XLocPercentage(
-                percentageOf(xLocValue.getCodeLines(), xLocTotal.getCodeLines()),
-                percentageOf(xLocValue.getCommentLines(), xLocTotal.getCommentLines()),
-                percentageOf(xLocValue.getBlankLines(), xLocTotal.getBlankLines()),
-                percentageOf(xLocValue.getUnknownLines(), xLocTotal.getUnknownLines())
-        );
+        CodeDistributionValue cdValue = new CodeDistributionValue(
+                distribution,
+                this.distributionMap.size(),
+                xLocValue,
+                xLocTotal);
+        return cdValue.getCummulativeXLocPercentage();
     }
 
     public List<CodeDistributionValue> plotCodeDistribution(Double start, Double end, Double interval){
@@ -71,9 +71,5 @@ public class CodeDistribution extends Distribution {
     private Integer getDistributionIndex(Percentage partition) {
         Double classes = (distributionMap.size() * partition.getPercentage())/100;
         return classes.intValue();
-    }
-
-    private Percentage percentageOf(Integer value, Integer total){
-        return new Percentage((double) (value * 100 / total));
     }
 }

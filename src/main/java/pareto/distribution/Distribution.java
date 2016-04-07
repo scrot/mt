@@ -1,5 +1,5 @@
 package pareto.distribution;
 
-public class Distribution {
+public abstract class Distribution {
 
 }
