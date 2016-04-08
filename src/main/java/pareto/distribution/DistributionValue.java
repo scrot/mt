@@ -1,4 +1,6 @@
 package pareto.distribution;
 
-public abstract class DistributionValue {
+public interface DistributionValue {
+    Object cumulativeOfPartition(Percentage distribution);
+    Object cumulativeOfPartitionPercentage(Percentage distribution);
 }

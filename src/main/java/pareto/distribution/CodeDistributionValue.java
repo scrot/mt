@@ -2,48 +2,42 @@ package pareto.distribution;
 
 import xloc.XLoc;
 
-public class CodeDistributionValue extends Distribution {
-    private final Percentage partition;
-    private final Integer classCount;
-    private final XLoc cummulativeXLoc;
-    private final XLocPercentage cummulativeXLocPercentage;
-    private final XLoc totalXLoc;
+import java.util.Map;
 
-    public CodeDistributionValue(Percentage partition, Integer classCount, XLoc cummulativeXLoc, XLoc totalXLoc) {
-        this.partition = partition;
-        this.classCount = classCount;
-        this.totalXLoc = totalXLoc;
-        this.cummulativeXLoc = cummulativeXLoc;
-        this.cummulativeXLocPercentage = cumulativeXLocPercentage();
+public class CodeDistributionValue implements DistributionValue {
+    private final Map<Integer, XLoc> distributionMap;
+
+    public CodeDistributionValue(Map<Integer, XLoc> distributionMap) {
+        this.distributionMap = distributionMap;
     }
 
-    public Integer getClassCount() {
-        return classCount;
+    @Override
+    public XLoc cumulativeOfPartition(Percentage partition){
+        Integer index = getDistributionIndex(partition);
+
+        if(index == 0){
+            return new XLoc(0,0,0,0);
+        }
+        else {
+            return this.distributionMap.get(index);
+        }
     }
 
-    public Percentage getPartition() {
-        return partition;
-    }
-
-    public XLoc getCummulativeXLoc() {
-        return cummulativeXLoc;
-    }
-
-    public XLocPercentage getCummulativeXLocPercentage() {
-        return cummulativeXLocPercentage;
-    }
-
-    public XLoc getTotalXLoc() {
-        return totalXLoc;
-    }
-
-    private XLocPercentage cumulativeXLocPercentage(){
+    @Override
+    public XLocPercentage cumulativeOfPartitionPercentage(Percentage partition){
+        XLoc total = cumulativeOfPartition(new Percentage(100.0));
+        XLoc value = cumulativeOfPartition(partition);
         return new XLocPercentage(
-                percentageOf(this.cummulativeXLoc.getCodeLines(), this.totalXLoc.getCodeLines()),
-                percentageOf(this.cummulativeXLoc.getCommentLines(), this.totalXLoc.getCommentLines()),
-                percentageOf(this.cummulativeXLoc.getBlankLines(), this.totalXLoc.getBlankLines()),
-                percentageOf(this.cummulativeXLoc.getUnknownLines(), this.totalXLoc.getUnknownLines())
+                percentageOf(value.getCodeLines(), total.getCodeLines()),
+                percentageOf(value.getCommentLines(), total.getCommentLines()),
+                percentageOf(value.getBlankLines(), total.getBlankLines()),
+                percentageOf(value.getUnknownLines(), total.getUnknownLines())
         );
+    }
+
+    private Integer getDistributionIndex(Percentage partition) {
+        Double classes = (distributionMap.size() * partition.getPercentage())/100;
+        return classes.intValue();
     }
 
     private Percentage percentageOf(Integer value, Integer total){
