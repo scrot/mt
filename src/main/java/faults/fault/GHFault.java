@@ -1,13 +1,13 @@
-package cfaults;
+package faults.fault;
 
 import org.kohsuke.github.GHCommit;
 import org.kohsuke.github.GHIssue;
 
-public class Fault {
+public class GHFault {
     private final GHIssue issue;
     private final GHCommit commit;
 
-    public Fault(GHIssue issue, GHCommit commit) {
+    public GHFault(GHIssue issue, GHCommit commit) {
         this.issue = issue;
         this.commit = commit;
     }

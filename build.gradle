@@ -13,6 +13,12 @@ repositories {
 }
 
 dependencies {
+    //compile 'gr.spinellis:ckjm:1.9'
+    compile 'com.squareup.okhttp:okhttp:2.7.5'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
+
+    compile 'org.gitlab:java-gitlab-api:1.2.5'
     compile 'org.kohsuke:github-api:1.73'
+
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }

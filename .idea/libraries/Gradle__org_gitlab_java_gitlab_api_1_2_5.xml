@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.gitlab:java-gitlab-api:1.2.5">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.gitlab/java-gitlab-api/1.2.5/58decaa5786efa4fdfa87c3ae53b8d23d5457cd5/java-gitlab-api-1.2.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.gitlab/java-gitlab-api/1.2.5/9afddb43e3538e329a4213878e035d97404c8791/java-gitlab-api-1.2.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

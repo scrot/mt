@@ -1,5 +1,6 @@
-package cfaults;
+package faults.crawler;
 
+import faults.fault.GHFault;
 import org.kohsuke.github.GHCommit;
 import org.kohsuke.github.GHIssue;
 import org.kohsuke.github.GHIssueState;
@@ -12,13 +13,13 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CFaultsCreator {
+public class GHFaultCrawler implements FaultCrawler {
     private final Map<GHCommit, GHIssue> commitIssues;
     private final Map<Path, List<GHCommit>> classCommits;
 
     private final String issuePattern;
 
-    public CFaultsCreator(GHRepository projectRepository, Path projectRoot) throws IOException {
+    public GHFaultCrawler(GHRepository projectRepository, Path projectRoot) throws IOException {
         this.issuePattern = "(?i)(fix(es|ed)?|resolve(s|d)?|close(s|d)?)(.*/.*|\\s*)#\\d+";
 
         List<GHCommit> issueCommits = collectIssueCommits(projectRepository);
@@ -27,13 +28,13 @@ public class CFaultsCreator {
         this.classCommits = buildClassCommitMap(issueCommits, projectRoot);
     }
 
-    public Map<Path, List<Fault>> getClassFaults(){
-        Map<Path, List<Fault>> classFaults = new HashMap<>();
+    public Map<Path, List<GHFault>> getClassFaults(){
+        Map<Path, List<GHFault>> classFaults = new HashMap<>();
         Set<Path> classPaths = classCommits.keySet();
         for(Path classPath : classPaths){
-            List<Fault> faults = new ArrayList<>();
+            List<GHFault> faults = new ArrayList<>();
             for(GHCommit commit : classCommits.get(classPath)){
-                faults.add(new Fault(commitIssues.get(commit), commit));
+                faults.add(new GHFault(commitIssues.get(commit), commit));
             }
             classFaults.put(classPath, faults);
         }
@@ -42,10 +43,14 @@ public class CFaultsCreator {
 
     private List<GHCommit> collectIssueCommits(GHRepository projectRepository) throws IOException {
         List<GHCommit> issueCommits = new ArrayList<>();
-        for(GHCommit commit : collectCommits(projectRepository)){
+        List<GHCommit> commits = collectCommits(projectRepository);
+
+        int i = 0;
+        for(GHCommit commit : commits){
             if(containsIssue(commit)){
                 issueCommits.add(commit);
             }
+            System.out.println("Number of issue commits found " + issueCommits.size() + ", number of commits checked " + i++ + "/" + commits.size());
         }
         return issueCommits;
     }
@@ -63,15 +68,18 @@ public class CFaultsCreator {
         }
         return issueMap;
     }
-    //TODO: Intensive process, add counter
+
     private Map<GHCommit, GHIssue> buildCommitIssueMap(List<GHCommit> issueCommits, Map<Integer, GHIssue> issues) throws IOException {
         Map<GHCommit, GHIssue> commitIssueMap = new HashMap<>();
+
+        int i = 0;
         for(GHCommit commit : issueCommits){
             Integer issueNumber = extractIssueNumber(commit);
             if(issues.containsKey(issueNumber)) {
                 GHIssue issue = issues.get(issueNumber);
                 commitIssueMap.put(commit, issue);
             }
+            System.out.println("Number of issues found " + commitIssueMap.size() + ", number of commits checked" + i++ + "/" + issueCommits.size());
         }
         return commitIssueMap;
     }
