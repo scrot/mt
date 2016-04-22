@@ -3,8 +3,7 @@ package pareto.distribution;
 import com.messners.gitlab.api.GitLabApiException;
 import faults.crawler.GHFaultCrawler;
 import faults.crawler.GLFaultCrawler;
-import faults.fault.GHFault;
-import faults.fault.GLFault;
+import faults.model.Fault;
 import faults.repository.GHRepoBuilder;
 
 import java.io.IOException;
@@ -19,14 +18,14 @@ public class FaultDistribution implements Distribution {
         GHRepoBuilder repositoryBuilder = new GHRepoBuilder(ghRepositoryName,
                 "9db4058bee86c76f1769f03c6cf37d7ac9c2f1b0");
         GHFaultCrawler creator = new GHFaultCrawler(repositoryBuilder.getRepository(), rootPath);
-        Map<Path, List<GHFault>> classFaults = creator.getClassFaults();
+        Map<Path, List<Fault>> classFaults = creator.getClassFaults();
         this.distribution = new FaultDistributionValue(buildCumulativeDistributionMap(classFaults));
     }
 
     public FaultDistribution(Path rootPath, String glDomainURL, String group, String project) throws GitLabApiException {
         GLFaultCrawler creator = new GLFaultCrawler(glDomainURL, group, project, "1-MjVfz8NREu-7mRgxsk", rootPath);
-        Map<Path, List<GLFault>> classFaults = creator.getClassFaults();
-        this.distribution = null;//new FaultDistributionValue(buildCumulativeDistributionMap(classFaults));
+        Map<Path, List<Fault>> classFaults = creator.getClassFaults();
+        this.distribution = new FaultDistributionValue(buildCumulativeDistributionMap(classFaults));
     }
 
     @Override
@@ -49,11 +48,11 @@ public class FaultDistribution implements Distribution {
         return plot;
     }
 
-    private Map<Integer, Integer> buildCumulativeDistributionMap(Map<Path, List<GHFault>> classFaultsMap){
+    private Map<Integer, Integer> buildCumulativeDistributionMap(Map<Path, List<Fault>> classFaultsMap){
         Map<Integer, Integer> distributionMap = new HashMap<>();
 
         List<Integer> sortedFaultSizes = new ArrayList<>();
-        for(List<GHFault> faults : classFaultsMap.values()){
+        for(List<Fault> faults : classFaultsMap.values()){
             sortedFaultSizes.add(faults.size());
         }
         sortedFaultSizes.sort(Collections.reverseOrder());

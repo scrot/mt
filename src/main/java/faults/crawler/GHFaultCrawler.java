@@ -1,6 +1,8 @@
 package faults.crawler;
 
-import faults.fault.GHFault;
+import faults.model.Fault;
+import faults.model.SimpleCommit;
+import faults.model.SimpleIssue;
 import org.kohsuke.github.GHCommit;
 import org.kohsuke.github.GHIssue;
 import org.kohsuke.github.GHIssueState;
@@ -16,6 +18,7 @@ import java.util.regex.Pattern;
 public class GHFaultCrawler implements FaultCrawler {
     private final Map<GHCommit, GHIssue> commitIssues;
     private final Map<Path, List<GHCommit>> classCommits;
+    private final Map<Path, List<Fault>> classFaults;
 
     private final String issuePattern;
 
@@ -24,17 +27,25 @@ public class GHFaultCrawler implements FaultCrawler {
 
         List<GHCommit> issueCommits = collectIssueCommits(projectRepository);
         Map<Integer, GHIssue> issues = collectIssues(projectRepository);
+
         this.commitIssues = buildCommitIssueMap(issueCommits, issues);
         this.classCommits = buildClassCommitMap(issueCommits, projectRoot);
+        this.classFaults = buildClassFaults();
     }
 
-    public Map<Path, List<GHFault>> getClassFaults(){
-        Map<Path, List<GHFault>> classFaults = new HashMap<>();
+    public  Map<Path, List<Fault>> getClassFaults(){
+        return this.classFaults;
+    }
+
+    private Map<Path, List<Fault>> buildClassFaults() throws IOException {
+        Map<Path, List<Fault>> classFaults = new HashMap<>();
         Set<Path> classPaths = classCommits.keySet();
         for(Path classPath : classPaths){
-            List<GHFault> faults = new ArrayList<>();
+            List<Fault> faults = new ArrayList<>();
             for(GHCommit commit : classCommits.get(classPath)){
-                faults.add(new GHFault(commitIssues.get(commit), commit));
+                faults.add(new Fault(
+                        new SimpleIssue(commitIssues.get(commit)),
+                        new SimpleCommit(commit)));
             }
             classFaults.put(classPath, faults);
         }

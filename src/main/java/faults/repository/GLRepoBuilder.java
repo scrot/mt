@@ -1,7 +1,7 @@
 package faults.repository;
 
 import com.messners.gitlab.api.GitLabApiException;
-import faults.crawler.GitlabAPI;
+import faults.api.GitlabAPI;
 
 
 public class GLRepoBuilder implements RepoBuilder {

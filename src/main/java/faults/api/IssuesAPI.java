@@ -1,4 +1,4 @@
-package faults.crawler;
+package faults.api;
 
 
 import com.messners.gitlab.api.AbstractApi;

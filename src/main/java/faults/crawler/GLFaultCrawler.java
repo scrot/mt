@@ -4,10 +4,12 @@ import com.messners.gitlab.api.GitLabApiException;
 import com.messners.gitlab.api.models.Commit;
 import com.messners.gitlab.api.models.Diff;
 import com.messners.gitlab.api.models.Issue;
-import faults.fault.GLFault;
+import faults.api.GitlabAPI;
+import faults.model.Fault;
+import faults.model.SimpleCommit;
+import faults.model.SimpleIssue;
 import faults.repository.GLRepoBuilder;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -19,7 +21,7 @@ public class GLFaultCrawler {
     private final Integer projectID;
     private final Map<Commit, Issue> commitIssues;
     private final Map<Path, List<Commit>> classCommits;
-    private final Map<Path, List<GLFault>> classFaults;
+    private final Map<Path, List<Fault>> classFaults;
 
     private final String issuePattern;
 
@@ -39,17 +41,19 @@ public class GLFaultCrawler {
         this.classFaults = buildClassFaults();
     }
 
-    public  Map<Path, List<GLFault>> getClassFaults(){
+    public  Map<Path, List<Fault>> getClassFaults(){
         return this.classFaults;
     }
 
-    private Map<Path, List<GLFault>> buildClassFaults(){
-        Map<Path, List<GLFault>> classFaults = new HashMap<>();
+    private Map<Path, List<Fault>> buildClassFaults(){
+        Map<Path, List<Fault>> classFaults = new HashMap<>();
         Set<Path> classPaths = classCommits.keySet();
         for(Path classPath : classPaths){
-            List<GLFault> faults = new ArrayList<>();
+            List<Fault> faults = new ArrayList<>();
             for(Commit commit : classCommits.get(classPath)){
-                faults.add(new GLFault(commitIssues.get(commit), commit));
+                faults.add(new Fault(
+                        new SimpleIssue(commitIssues.get(commit)),
+                        new SimpleCommit(commit)));
             }
             classFaults.put(classPath, faults);
         }
@@ -65,7 +69,7 @@ public class GLFaultCrawler {
             if(containsIssue(commit)){
                 issueCommits.add(commit);
             }
-            System.out.println("Number of issue commits found " + issueCommits.size() + 1 + ", number of commits checked " + (i++ + 1)  + "/" + commits.size());
+            System.out.println("Number of issue commits found " + issueCommits.size() + ", number of commits checked " + (i++ + 1)  + "/" + commits.size());
         }
         return issueCommits;
     }
