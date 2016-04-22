@@ -20,20 +20,18 @@ public class Main {
                                 + codeDistribution.cumulativePercentageOfPartition(new Percentage(i)).toString());
             }
             */
-            /*
-            FaultDistribution faultDistribution = new FaultDistribution(path, "junit-team/junit4");
+            FaultDistribution faultDistribution = new FaultDistribution(path, "scrot/test");
             for(Double i = 0.0; i <= 100.0; i+=10){
                 System.out.println(
                         "A partion of the distribution of " + i + "% results in " +
                                 faultDistribution.cumulativePercentageOfPartition(new Percentage(i)).toString());
             }
-            */
 
-            FaultDistribution faultDistribution = new FaultDistribution(path, "https://gitlab.com/", "scrot","test");
+            FaultDistribution faultDistribution2 = new FaultDistribution(path, "https://gitlab.com/", "scrot","test");
             for(Double i = 0.0; i <= 100.0; i+=10){
                 System.out.println(
                         "A partion of the distribution of " + i + "% results in " +
-                                faultDistribution.cumulativePercentageOfPartition(new Percentage(i)).toString());
+                                faultDistribution2.cumulativePercentageOfPartition(new Percentage(i)).toString());
             }
 
 

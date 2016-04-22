@@ -16,14 +16,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GHFaultCrawler implements FaultCrawler {
-    private final Map<GHCommit, GHIssue> commitIssues;
+    private final Map<GHCommit, List<GHIssue>> commitIssues;
     private final Map<Path, List<GHCommit>> classCommits;
     private final Map<Path, List<Fault>> classFaults;
 
     private final String issuePattern;
 
     public GHFaultCrawler(GHRepository projectRepository, Path projectRoot) throws IOException {
-        this.issuePattern = "(?i)(fix(es|ed)?|resolve(s|d)?|close(s|d)?)(.*/.*|\\s*)#\\d+";
+        this.issuePattern = "(?i)((fix(es|ed)?|resolve(s|d)?|close(s|d)?)(.*/.*|\\s*)#\\d+)+";
 
         List<GHCommit> issueCommits = collectIssueCommits(projectRepository);
         Map<Integer, GHIssue> issues = collectIssues(projectRepository);
@@ -43,9 +43,11 @@ public class GHFaultCrawler implements FaultCrawler {
         for(Path classPath : classPaths){
             List<Fault> faults = new ArrayList<>();
             for(GHCommit commit : classCommits.get(classPath)){
-                faults.add(new Fault(
-                        new SimpleIssue(commitIssues.get(commit)),
-                        new SimpleCommit(commit)));
+                for(GHIssue issue : commitIssues.get(commit)){
+                    faults.add(new Fault(
+                            new SimpleIssue(issue),
+                            new SimpleCommit(commit)));
+                }
             }
             classFaults.put(classPath, faults);
         }
@@ -80,17 +82,25 @@ public class GHFaultCrawler implements FaultCrawler {
         return issueMap;
     }
 
-    private Map<GHCommit, GHIssue> buildCommitIssueMap(List<GHCommit> issueCommits, Map<Integer, GHIssue> issues) throws IOException {
-        Map<GHCommit, GHIssue> commitIssueMap = new HashMap<>();
+    private Map<GHCommit, List<GHIssue>> buildCommitIssueMap(List<GHCommit> issueCommits, Map<Integer, GHIssue> issues) throws IOException {
+        Map<GHCommit, List<GHIssue>> commitIssueMap = new HashMap<>();
 
         int i = 0;
         for(GHCommit commit : issueCommits){
-            Integer issueNumber = extractIssueNumber(commit);
-            if(issues.containsKey(issueNumber)) {
-                GHIssue issue = issues.get(issueNumber);
-                commitIssueMap.put(commit, issue);
+            List<Integer> issueNumbers = extractIssueNumbers(commit);
+            for(Integer issueNumber : issueNumbers){
+                if(issues.containsKey(issueNumber)) {
+                    GHIssue issue = issues.get(issueNumber);
+                    if(!commitIssueMap.containsKey(commit)){
+                        commitIssueMap.put(commit, new ArrayList<GHIssue>(){{add(issue);}});
+                    }
+                    else {
+                        List<GHIssue> currentIssues = commitIssueMap.get(commit);
+                        currentIssues.add(issue);
+                        commitIssueMap.put(commit, currentIssues);
+                    }
+                }
             }
-            System.out.println("Number of issues found " + commitIssueMap.size() + ", number of commits checked" + i++ + "/" + issueCommits.size());
         }
         return commitIssueMap;
     }
@@ -117,13 +127,19 @@ public class GHFaultCrawler implements FaultCrawler {
         return Pattern.compile(this.issuePattern).matcher(getCommitMessage(commit)).find();
     }
 
-    private Integer extractIssueNumber(GHCommit commit) throws IOException {
+    private List<Integer> extractIssueNumbers(GHCommit commit) throws IOException {
+        List<Integer> issueNumbers = new ArrayList<>();
         Matcher issueMatcher = Pattern.compile("#\\d+").matcher(getCommitMessage(commit));
-        if(issueMatcher.find()){
+
+        while(issueMatcher.find()){
             String issueNumber = issueMatcher.group();
-            return Integer.parseInt(issueNumber.substring(1));
+            Integer issueNr = Integer.parseInt(issueNumber.substring(1));
+            if(issueNr != null){
+                issueNumbers.add(issueNr);
+            }
         }
-        return null;
+
+        return issueNumbers;
     }
 
     private String getCommitMessage(GHCommit commit) throws IOException {
