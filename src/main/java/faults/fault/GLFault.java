@@ -1,22 +1,22 @@
 package faults.fault;
 
-import org.gitlab.api.models.GitlabCommit;
-import org.gitlab.api.models.GitlabIssue;
+import com.messners.gitlab.api.models.Commit;
+import com.messners.gitlab.api.models.Issue;
 
 public class GLFault {
-    private final GitlabIssue issue;
-    private final GitlabCommit commit;
+    private final Issue issue;
+    private final Commit commit;
 
-    public GLFault(GitlabIssue issue, GitlabCommit commit) {
+    public GLFault(Issue issue, Commit commit) {
         this.issue = issue;
         this.commit = commit;
     }
 
-    public GitlabIssue getIssue() {
+    public Issue getIssue() {
         return issue;
     }
 
-    public GitlabCommit getCommit() {
+    public Commit getCommit() {
         return commit;
     }
 }

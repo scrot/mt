@@ -1,3 +1,4 @@
+import com.messners.gitlab.api.GitLabApiException;
 import pareto.distribution.CodeDistribution;
 import pareto.distribution.FaultDistribution;
 import pareto.distribution.Percentage;
@@ -28,7 +29,7 @@ public class Main {
             }
             */
 
-            FaultDistribution faultDistribution = new FaultDistribution(path, "https://gitlab.com/", 1);
+            FaultDistribution faultDistribution = new FaultDistribution(path, "https://gitlab.com/", "scrot","test");
             for(Double i = 0.0; i <= 100.0; i+=10){
                 System.out.println(
                         "A partion of the distribution of " + i + "% results in " +
@@ -38,7 +39,7 @@ public class Main {
 
             System.out.println();
         }
-        catch (IOException e) {
+        catch (Exception e) {
             e.printStackTrace();
         }
     }

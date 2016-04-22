@@ -1,11 +1,11 @@
 package pareto.distribution;
 
+import com.messners.gitlab.api.GitLabApiException;
 import faults.crawler.GHFaultCrawler;
 import faults.crawler.GLFaultCrawler;
 import faults.fault.GHFault;
 import faults.fault.GLFault;
 import faults.repository.GHRepoBuilder;
-import faults.repository.GLRepoBuilder;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -23,10 +23,8 @@ public class FaultDistribution implements Distribution {
         this.distribution = new FaultDistributionValue(buildCumulativeDistributionMap(classFaults));
     }
 
-    public FaultDistribution(Path rootPath, String glDomainURL, Integer glProjectID) throws IOException {
-        GLRepoBuilder repoBuilder = new GLRepoBuilder(glDomainURL,
-                "1-MjVfz8NREu-7mRgxsk");
-        GLFaultCrawler creator = new GLFaultCrawler(repoBuilder.getRepository(glProjectID), glProjectID, rootPath);
+    public FaultDistribution(Path rootPath, String glDomainURL, String group, String project) throws GitLabApiException {
+        GLFaultCrawler creator = new GLFaultCrawler(glDomainURL, group, project, "1-MjVfz8NREu-7mRgxsk", rootPath);
         Map<Path, List<GLFault>> classFaults = creator.getClassFaults();
         this.distribution = null;//new FaultDistributionValue(buildCumulativeDistributionMap(classFaults));
     }

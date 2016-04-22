@@ -1,17 +1,23 @@
 package faults.repository;
 
-import org.gitlab.api.GitlabAPI;
+import com.messners.gitlab.api.GitLabApiException;
+import faults.crawler.GitlabAPI;
 
-import java.io.IOException;
 
 public class GLRepoBuilder implements RepoBuilder {
-    private final GitlabAPI gitLab;
+    private final GitlabAPI gitlab;
+    private final Integer projectID;
 
-    public GLRepoBuilder(String domainURL, String oAuthToken) throws IOException {
-        this.gitLab = GitlabAPI.connect(domainURL, oAuthToken);
+    public GLRepoBuilder(String domainURL, String group, String project, String oAuthToken) throws GitLabApiException {
+        this.gitlab = new GitlabAPI(domainURL, oAuthToken);
+        this.projectID = this.gitlab.getProjectApi().getProject(group, project).getId();
     }
 
-    public GitlabAPI getRepository(Integer projectID){
-        return this.gitLab;
+    public GitlabAPI getGitlabApi(){
+        return this.gitlab;
+    }
+
+    public Integer getProjectID() {
+        return this.projectID;
     }
 }
