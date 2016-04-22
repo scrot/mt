@@ -34,19 +34,8 @@ public class CommitsAPI extends CommitsApi {
     }
 
     public List<Diff> getDiffs (int projectId, String sha) throws GitLabApiException {
-        List<Diff> diffs = new ArrayList<>();
-
-        int page = 0;
-        int diffscounter;
-        do {
-            diffscounter = diffs.size();
-            Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "commits", sha, "diff", "?page=" + page, "&per_page=100");
-            diffs.addAll((response.readEntity(new GenericType<List<Diff>>(){})));
-            page++;
-        }
-        while(diffs.size() != diffscounter);
-
-        return diffs;
+        Response response = get(Response.Status.OK, null, "projects", projectId, "repository", "commits", sha, "diff");
+        return response.readEntity(new GenericType<List<Diff>>(){});
     }
 
 }

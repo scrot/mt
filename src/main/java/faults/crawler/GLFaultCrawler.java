@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 public class GLFaultCrawler {
     private final GitlabAPI gitlab;
     private final Integer projectID;
-    private final Map<Commit, Issue> commitIssues;
+    private final Map<Commit, List<Issue>> commitIssues;
     private final Map<Path, List<Commit>> classCommits;
     private final Map<Path, List<Fault>> classFaults;
 
@@ -51,9 +51,12 @@ public class GLFaultCrawler {
         for(Path classPath : classPaths){
             List<Fault> faults = new ArrayList<>();
             for(Commit commit : classCommits.get(classPath)){
-                faults.add(new Fault(
-                        new SimpleIssue(commitIssues.get(commit)),
-                        new SimpleCommit(commit)));
+                for(Issue issue : commitIssues.get(commit)){
+                    faults.add(new Fault(
+                            new SimpleIssue(issue),
+                            new SimpleCommit(commit)));
+
+                }
             }
             classFaults.put(classPath, faults);
         }
@@ -88,17 +91,24 @@ public class GLFaultCrawler {
         return issueMap;
     }
 
-    private Map<Commit, Issue> buildCommitIssueMap(List<Commit> issueCommits, Map<Integer, Issue> issues) {
-        Map<Commit, Issue> commitIssueMap = new HashMap<>();
+    private Map<Commit, List<Issue>> buildCommitIssueMap(List<Commit> issueCommits, Map<Integer, Issue> issues) {
+        Map<Commit, List<Issue>> commitIssueMap = new HashMap<>();
 
-        int i = 0;
         for(Commit commit : issueCommits){
-            Integer issueNumber = extractIssueNumber(commit);
-            if(issues.containsKey(issueNumber)) {
-                Issue issue = issues.get(issueNumber);
-                commitIssueMap.put(commit, issue);
+            List<Integer> issueNumbers = extractIssueNumbers(commit);
+            for(Integer issueNumber : issueNumbers){
+                if(issues.containsKey(issueNumber)) {
+                    Issue issue = issues.get(issueNumber);
+                    if(!commitIssueMap.containsKey(commit)){
+                        commitIssueMap.put(commit, new ArrayList<Issue>(){{add(issue);}});
+                    }
+                    else {
+                        List<Issue> currentIssues = commitIssueMap.get(commit);
+                        currentIssues.add(issue);
+                        commitIssueMap.put(commit, currentIssues);
+                    }
+                }
             }
-            System.out.println("Number of issues found " + commitIssueMap.size() + ", number of commits checked " + (i++ + 1) + "/" + issueCommits.size());
         }
         return commitIssueMap;
     }
@@ -134,13 +144,18 @@ public class GLFaultCrawler {
         return Pattern.compile(this.issuePattern).matcher(getCommitMessage(commit)).find();
     }
 
-    private Integer extractIssueNumber(Commit commit) {
+    private List<Integer> extractIssueNumbers(Commit commit) {
+        List<Integer> issueNumbers = new ArrayList<>();
         Matcher issueMatcher = Pattern.compile("#\\d+").matcher(getCommitMessage(commit));
-        if(issueMatcher.find()){
+
+        while(issueMatcher.find()){
             String issueNumber = issueMatcher.group();
-            return Integer.parseInt(issueNumber.substring(1));
+            Integer issueNr = Integer.parseInt(issueNumber.substring(1));
+            if(issueNr != null){
+                issueNumbers.add(issueNr);
+            }
         }
-        return null;
+        return issueNumbers;
     }
 
     private String getCommitMessage(Commit commit){
