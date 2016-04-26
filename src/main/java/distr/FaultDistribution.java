@@ -1,7 +1,6 @@
 package distr;
 
 import com.messners.gitlab.api.GitLabApiException;
-import git.crawler.FaultCrawler;
 import git.model.Fault;
 import git.repository.GHRepoBuilder;
 

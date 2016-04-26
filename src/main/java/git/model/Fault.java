@@ -1,15 +1,15 @@
 package git.model;
 
 public class Fault {
-    private final SimpleIssue issue;
+    private final Issue issue;
     private final Commit commit;
 
-    public Fault(SimpleIssue issue, Commit commit) {
+    public Fault(Issue issue, Commit commit) {
         this.issue = issue;
         this.commit = commit;
     }
 
-    public SimpleIssue getIssue() {
+    public Issue getIssue() {
         return issue;
     }
 

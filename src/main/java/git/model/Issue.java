@@ -4,20 +4,20 @@ import org.kohsuke.github.GHIssue;
 
 import java.io.IOException;
 
-public class SimpleIssue {
+public class Issue {
     private final Integer id;
     private final String title;
     private final String description;
     private final String state;
 
-    public SimpleIssue(Issue glIssue) {
+    public Issue(com.messners.gitlab.api.models.Issue glIssue) {
         this.id = glIssue.getIid();
         this.title = glIssue.getTitle();
         this.description = glIssue.getDescription();
         this.state = glIssue.getState();
     }
 
-    public SimpleIssue(GHIssue ghIssue) throws IOException {
+    public Issue(GHIssue ghIssue) throws IOException {
         this.id = ghIssue.getId();
         this.title = ghIssue.getTitle();
         this.description = ghIssue.getBody();

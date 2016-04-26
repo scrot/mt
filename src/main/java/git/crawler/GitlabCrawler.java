@@ -2,12 +2,11 @@ package git.crawler;
 
 import com.messners.gitlab.api.GitLabApiException;
 import com.messners.gitlab.api.models.Diff;
-import com.messners.gitlab.api.models.Issue;
 import git.api.GitlabAPI;
 import git.model.Project;
 import git.model.Commit;
 import git.model.GitlabCommit;
-import git.model.SimpleIssue;
+import git.model.Issue;
 import git.repository.GLRepoBuilder;
 
 import java.nio.file.Path;
@@ -22,10 +21,12 @@ public class GitlabCrawler extends GitCrawler {
     private final Integer projectID;
 
     public GitlabCrawler(Project project) throws GitLabApiException {
-        super(project);
         GLRepoBuilder repoBuilder = new GLRepoBuilder(project);
         this.gitlab = repoBuilder.getGitlabApi();
         this.projectID = repoBuilder.getProjectID();
+        this.commits = collectCommits();
+        this.issues = collectIssues();
+        this.faults = collectFaults();
     }
 
     private Map<String, Commit> collectCommits() throws GitLabApiException {
@@ -37,11 +38,11 @@ public class GitlabCrawler extends GitCrawler {
         return commits;
     }
 
-    private Map<Integer, SimpleIssue> collectIssues() throws GitLabApiException {
-        Map<Integer, SimpleIssue> issueMap = new HashMap<>();
-        List<Issue> issueList = this.gitlab.getIssuesAPI().getIssues(this.projectID);
-        for(Issue issue : issueList){
-            issueMap.put(issue.getIid(), new SimpleIssue(issue));
+    private Map<Integer, Issue> collectIssues() throws GitLabApiException {
+        Map<Integer, Issue> issueMap = new HashMap<>();
+        List<com.messners.gitlab.api.models.Issue> issueList = this.gitlab.getIssuesAPI().getIssues(this.projectID);
+        for(com.messners.gitlab.api.models.Issue issue : issueList){
+            issueMap.put(issue.getIid(), new Issue(issue));
         }
         return issueMap;
     }

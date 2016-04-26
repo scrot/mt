@@ -1,7 +1,11 @@
 package report;
 
-import report.model.Report;
+import distr.CodeDistribution;
+import distr.FaultDistribution;
+import git.crawler.GitCrawler;
+import git.model.Project;
 
-public abstract class ReportBuilder {
-    public abstract Report buildReport(Project project);
+public interface ReportBuilder {
+    Project getProject();
+
 }
