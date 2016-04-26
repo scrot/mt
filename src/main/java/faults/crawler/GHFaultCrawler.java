@@ -1,8 +1,8 @@
 package faults.crawler;
 
-import faults.model.Fault;
-import faults.model.SimpleCommit;
-import faults.model.SimpleIssue;
+import faults.Fault;
+import git.model.SimpleCommit;
+import git.model.SimpleIssue;
 import org.kohsuke.github.GHCommit;
 import org.kohsuke.github.GHIssue;
 import org.kohsuke.github.GHIssueState;

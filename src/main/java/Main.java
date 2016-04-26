@@ -1,9 +1,6 @@
-import com.messners.gitlab.api.GitLabApiException;
-import pareto.distribution.CodeDistribution;
-import pareto.distribution.FaultDistribution;
-import pareto.distribution.Percentage;
+import distr.FaultDistribution;
+import distr.Percentage;
 
-import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 

@@ -1,8 +1,8 @@
 package xloc;
 
-import language.Java;
-import language.Other;
-import language.visitor.Visitor;
+import lang.Java;
+import lang.Other;
+import lang.visitor.Visitor;
 import xloc.pattern.*;
 
 import java.util.regex.Pattern;

@@ -1,8 +1,8 @@
 package xloc;
 
-import language.Language;
-import language.LanguageFactory;
-import pareto.PathsCollector;
+import lang.Language;
+import lang.LanguageFactory;
+import distr.PathsCollector;
 import xloc.pattern.XLocPatternBuilder;
 
 import java.io.BufferedReader;

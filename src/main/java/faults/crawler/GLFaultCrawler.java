@@ -4,11 +4,11 @@ import com.messners.gitlab.api.GitLabApiException;
 import com.messners.gitlab.api.models.Commit;
 import com.messners.gitlab.api.models.Diff;
 import com.messners.gitlab.api.models.Issue;
-import faults.api.GitlabAPI;
-import faults.model.Fault;
-import faults.model.SimpleCommit;
-import faults.model.SimpleIssue;
-import faults.repository.GLRepoBuilder;
+import git.api.GitlabAPI;
+import faults.Fault;
+import git.model.SimpleCommit;
+import git.model.SimpleIssue;
+import git.repository.GLRepoBuilder;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

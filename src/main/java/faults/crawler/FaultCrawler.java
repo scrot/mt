@@ -1,6 +1,6 @@
 package faults.crawler;
 
-import faults.model.Fault;
+import faults.Fault;
 
 import java.nio.file.Path;
 import java.util.List;
