@@ -3,6 +3,7 @@ package git.repository;
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.OkUrlFactory;
+import git.model.Project;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.GitHubBuilder;
@@ -14,6 +15,11 @@ import java.nio.file.FileSystems;
 public class GHRepoBuilder implements RepoBuilder {
     private final GitHub gitHub;
     private final GHRepository repository;
+
+    public GHRepoBuilder(Project project) throws IOException {
+        this.gitHub = buildGitHubConnector(project.getAuthToken());
+        this.repository = this.gitHub.getRepository(project.getGroup() + '/' + project.getProject());
+    }
 
     public GHRepoBuilder(String repositoryName, String oAuthToken) throws IOException {
         this.gitHub = buildGitHubConnector(oAuthToken);

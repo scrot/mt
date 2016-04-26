@@ -1,19 +1,26 @@
 package git.crawler;
 
 import git.model.Project;
-import git.model.SimpleCommit;
+import git.model.Commit;
 import git.model.SimpleIssue;
-import git.repository.GLRepoBuilder;
 
-import java.util.List;
+import java.util.Map;
 
 public abstract class GitCrawler {
     protected Project project;
 
-    protected List<SimpleCommit> commits;
-    protected List<SimpleIssue> issues;
+    protected Map<String, Commit> commits;
+    protected Map<Integer, SimpleIssue> issues;
+
 
     public GitCrawler(Project project) {
-        GLRepoBuilder repoBuilder = new GLRepoBuilder(project);
+    }
+
+    public Map<String, Commit> getCommits() {
+        return commits;
+    }
+
+    public Map<Integer, SimpleIssue> getIssues() {
+        return issues;
     }
 }

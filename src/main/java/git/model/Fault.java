@@ -1,13 +1,10 @@
-package faults;
-
-import git.model.SimpleCommit;
-import git.model.SimpleIssue;
+package git.model;
 
 public class Fault {
     private final SimpleIssue issue;
-    private final SimpleCommit commit;
+    private final Commit commit;
 
-    public Fault(SimpleIssue issue, SimpleCommit commit) {
+    public Fault(SimpleIssue issue, Commit commit) {
         this.issue = issue;
         this.commit = commit;
     }
@@ -16,7 +13,7 @@ public class Fault {
         return issue;
     }
 
-    public SimpleCommit getCommit() {
+    public Commit getCommit() {
         return commit;
     }
 }

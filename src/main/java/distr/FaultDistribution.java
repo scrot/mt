@@ -1,9 +1,8 @@
 package distr;
 
 import com.messners.gitlab.api.GitLabApiException;
-import faults.crawler.GHFaultCrawler;
-import faults.crawler.GLFaultCrawler;
-import faults.Fault;
+import git.crawler.FaultCrawler;
+import git.model.Fault;
 import git.repository.GHRepoBuilder;
 
 import java.io.IOException;
@@ -23,7 +22,7 @@ public class FaultDistribution implements Distribution {
     }
 
     public FaultDistribution(Path rootPath, String glDomainURL, String group, String project) throws GitLabApiException {
-        GLFaultCrawler creator = new GLFaultCrawler(glDomainURL, group, project, "1-MjVfz8NREu-7mRgxsk", rootPath);
+        FaultCrawler creator = new FaultCrawler(glDomainURL, group, project, "1-MjVfz8NREu-7mRgxsk", rootPath);
         Map<Path, List<Fault>> classFaults = creator.getClassFaults();
         this.distribution = new FaultDistributionValue(buildCumulativeDistributionMap(classFaults));
     }
