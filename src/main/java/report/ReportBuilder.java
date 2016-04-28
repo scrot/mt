@@ -50,16 +50,16 @@ public class ReportBuilder {
         this.projectCommitsCount = project.getGitCrawler().getCommits().size();
         this.projectIssuesCount = project.getGitCrawler().getIssues().size();
         this.projectFaultsCount = project.getGitCrawler().getFaults().size();
+        this.projectChangesCount = calculateMapListsLengths(this.projectChanges);
         this.projectAgeDaysCount = calculateProjectDevelopmentDays(project.getGitCrawler().createdAt(), Date.from(Instant.now()));
         this.projectDevelopmentDaysCount = calculateProjectDevelopmentDays(project.getGitCrawler().createdAt(), project.getGitCrawler().lastModified());
         this.projectFilesCount = projectFiles.size();
         this.projectCodeCount = totalXLoc.getCodeLines();
         this.projectCommentCount = totalXLoc.getCommentLines();
-        this.projectChangesCount = calculateMapListsLengths(this.projectChanges);
-        this.projectAuthorsCount = calculateMapListsLengths(this.projectAuthors);
+        this.projectAuthorsCount = calculateTotalUniqueAuthors(this.projectAuthors);
 
         this.codeDistribution = new CodeDistribution(projectPath);
-        //this.faultDistribution = new FaultDistribution(project, projectPath);
+        this.faultDistribution = new FaultDistribution(project, projectPath);
     }
 
     public Map<String, Commit> getProjectCommits() {
@@ -74,6 +74,14 @@ public class ReportBuilder {
         return projectFaults;
     }
 
+    public Map<Path, List<Commit>> getProjectChanges() {
+        return projectChanges;
+    }
+
+    public Map<Path, Set<Author>> getProjectAuthors() {
+        return projectAuthors;
+    }
+
     public Integer getProjectCommitsCount() {
         return projectCommitsCount;
     }
@@ -84,6 +92,14 @@ public class ReportBuilder {
 
     public Integer getProjectFaultsCount() {
         return projectFaultsCount;
+    }
+
+    public Integer getProjectAuthorsCount() {
+        return projectAuthorsCount;
+    }
+
+    public Integer getProjectChangesCount() {
+        return projectChangesCount;
     }
 
     public Integer getProjectAgeDaysCount() {
@@ -100,10 +116,6 @@ public class ReportBuilder {
 
     public Integer getProjectCodeCount() {
         return projectCodeCount;
-    }
-
-    public Integer getProjectChangesCount() {
-        return projectChangesCount;
     }
 
     public Integer getProjectCommentCount() {
@@ -123,6 +135,14 @@ public class ReportBuilder {
         DateTime endt = new DateTime(end);
         Days d = Days.daysBetween(startt, endt);
         return d.getDays();
+    }
+
+    private Integer calculateTotalUniqueAuthors(Map<Path, Set<Author>> authors){
+        Set<Author> uniqueAuthors = new HashSet<>();
+        for(Map.Entry<Path, Set<Author>> entry : authors.entrySet()){
+            uniqueAuthors.addAll(entry.getValue());
+        }
+        return uniqueAuthors.size();
     }
 
     private <K,V> Integer calculateMapListsLengths(Map<K,? extends Collection<V>> map){

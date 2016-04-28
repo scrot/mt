@@ -98,7 +98,7 @@ public class GitlabCrawler implements GitCrawler {
         for (com.messners.gitlab.api.models.Commit glCommit : glCommits){
             commits.put(glCommit.getId(), new Commit(
                     glCommit.getId(),
-                    new Author(glCommit.getAuthor().getName()),
+                    new Author(""), //new Author(glCommit.getAuthor().getName()), API error
                     glCommit.getMessage(),
                     glCommit.getTimestamp(),
                     getFiles(glCommit),
