@@ -24,7 +24,7 @@ public class XLocPatternFactory implements Visitor<XLocPatternBuilder,Void>  {
     @Override
     public XLocPatternBuilder visit(Other lang, Void context) {
         XLocPatternBuilder javaLocPattern = new XLocPatternBuilder();
-        javaLocPattern.addUnknownPattern(new UnknownPattern(Pattern.compile(".*$", Pattern.MULTILINE)));
+        //javaLocPattern.addUnknownPattern(new UnknownPattern(Pattern.compile(".*$", Pattern.MULTILINE)));
         return javaLocPattern;
     }
 

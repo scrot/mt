@@ -2,6 +2,7 @@ package git.repository;
 
 import com.messners.gitlab.api.GitLabApiException;
 import git.api.GitlabAPI;
+import git.model.GitlabProject;
 import git.model.Project;
 
 
@@ -9,7 +10,7 @@ public class GLRepoBuilder implements RepoBuilder {
     private final GitlabAPI gitlab;
     private final Integer projectID;
 
-    public GLRepoBuilder(Project project) throws GitLabApiException {
+    public GLRepoBuilder(GitlabProject project) throws GitLabApiException {
         this.gitlab = new GitlabAPI(project.getGitHost(), project.getAuthToken());
         this.projectID = this.gitlab.getProjectApi().getProject(project.getGroup(), project.getProject()).getId();
     }

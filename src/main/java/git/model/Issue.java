@@ -1,5 +1,4 @@
 package git.model;
-import com.messners.gitlab.api.models.Issue;
 import org.kohsuke.github.GHIssue;
 
 import java.io.IOException;

@@ -9,6 +9,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Gradle: joda-time:joda-time:2.9.3" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okhttp:okhttp:2.7.5" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okhttp:okhttp-urlconnection:2.7.5" level="project" />
     <orderEntry type="library" name="Gradle: com.messners:gitlab-api:2.0.4" level="project" />

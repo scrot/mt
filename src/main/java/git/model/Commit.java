@@ -7,16 +7,17 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class Commit {
+public class Commit {
     private final String id;
+    private final Author author;
     private final String message;
     private final Date date;
     private final List<Path> files;
-
     private final Pattern issueClosePattern;
 
-    public Commit(String id, String message, Date date, List<Path> files, Pattern issueClosePattern) {
+    public Commit(String id, Author author, String message, Date date, List<Path> files, Pattern issueClosePattern) {
         this.id = id;
+        this.author = author;
         this.message = message;
         this.date = date;
         this.files = files;
@@ -25,6 +26,10 @@ public abstract class Commit {
 
     public String getId() {
         return id;
+    }
+
+    public Author getAuthor() {
+        return author;
     }
 
     public String getMessage() {

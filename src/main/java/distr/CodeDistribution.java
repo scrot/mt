@@ -1,5 +1,8 @@
 package distr;
 
+import distr.model.CodeDistributionValue;
+import distr.model.Percentage;
+import distr.model.XLocPercentage;
 import xloc.XLoc;
 import xloc.XLocCalculator;
 
@@ -39,7 +42,7 @@ public class CodeDistribution implements Distribution {
         Map<Integer, XLoc> distributionMap = new HashMap<>();
 
         List<XLoc> sortedXLocs = new ArrayList<>(classXLocMap.values());
-        sortedXLocs.sort(Collections.reverseOrder());
+        Collections.sort(sortedXLocs);
 
         Integer moduleCount = 0;
         XLoc cumulativeTotal = new XLoc(0,0,0,0);

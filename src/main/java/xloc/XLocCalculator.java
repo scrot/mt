@@ -3,6 +3,7 @@ package xloc;
 import lang.Language;
 import lang.LanguageFactory;
 import distr.PathsCollector;
+import lang.Other;
 import xloc.pattern.XLocPatternBuilder;
 
 import java.io.BufferedReader;
@@ -31,10 +32,12 @@ public class XLocCalculator {
         this.classXLocMap = new HashMap<>();
         for(Path classPath : classPaths){
             Language classLanguage = getLanguageFromClassPath(classPath);
-            XLocPatternBuilder xLocPatterns = classLanguage.accept(new XLocPatternFactory(), null);
-            List<String> classLines = mixedCharsetFileReader(classPath);
-            XLoc xLoc = calculateClassXLoc(classLines, xLocPatterns, true);
-            this.classXLocMap.put(classPath, xLoc);
+            if(!classLanguage.equals(new Other())) {
+                XLocPatternBuilder xLocPatterns = classLanguage.accept(new XLocPatternFactory(), null);
+                List<String> classLines = mixedCharsetFileReader(classPath);
+                XLoc xLoc = calculateClassXLoc(classLines, xLocPatterns, true);
+                this.classXLocMap.put(classPath, xLoc);
+            }
         }
     }
 

@@ -1,41 +1,43 @@
-import distr.FaultDistribution;
-import distr.Percentage;
+import com.messners.gitlab.api.GitLabApiException;
+import git.model.Project;
+import report.ConfigReader;
+import report.ReportBuilder;
 
-import java.nio.file.FileSystems;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
-    public static void main(String[] args){
-        String projectRoot = "C:\\Users\\royw\\Workspace\\junit4\\src\\main\\java";
-        Path path = FileSystems.getDefault().getPath(projectRoot);
-        try {
-            /*
-            CodeDistribution codeDistribution = new CodeDistribution(path);
-            for(Double i = 0.0; i <= 100.0; i+=10){
-                System.out.println(
-                        "A partion of the distribution of " + i + "% results in "
-                                + codeDistribution.cumulativePercentageOfPartition(new Percentage(i)).toString());
-            }
-            */
-            FaultDistribution faultDistribution = new FaultDistribution(path, "scrot/test");
-            for(Double i = 0.0; i <= 100.0; i+=10){
-                System.out.println(
-                        "A partion of the distribution of " + i + "% results in " +
-                                faultDistribution.cumulativePercentageOfPartition(new Percentage(i)).toString());
-            }
+    public static void main(String[] args) throws IOException, GitLabApiException {
+        //Path config = Paths.get(args[0]);
+        Path config = Paths.get("C:\\Users\\royw\\Workspace\\mt\\src\\main\\resources\\example.conf");
+        ConfigReader confReader = new ConfigReader(config);
+        List<Project> projects = confReader.getProjects();
 
-            FaultDistribution faultDistribution2 = new FaultDistribution(path, "https://gitlab.com/", "scrot","test");
-            for(Double i = 0.0; i <= 100.0; i+=10){
-                System.out.println(
-                        "A partion of the distribution of " + i + "% results in " +
-                                faultDistribution2.cumulativePercentageOfPartition(new Percentage(i)).toString());
-            }
+        //Path projectPath = Paths.get(args[1]);
+        Path projectPath = Paths.get("C:\\Users\\royw\\Workspace\\test");
 
-
-            System.out.println();
+        List<ReportBuilder> reports = new ArrayList<>();
+        for(Project project : projects){
+            reports.add(new ReportBuilder(project, projectPath));
         }
-        catch (Exception e) {
-            e.printStackTrace();
+        writeBasicInformationToSDF(reports);
+    }
+
+    public static void writeBasicInformationToSDF(List<ReportBuilder> reports) throws IOException {
+        FileWriter writer = new FileWriter("example.sdf");
+
+        writer.write("#Days #Files #SLOC\n");
+
+        for(ReportBuilder report : reports){
+            writer.write(report.getProjectDevelopmentDaysCount() + " ");
+            writer.write(report.getProjectFilesCount() + " ");
+            writer.write(report.getProjectCodeCount() + "\n");
         }
+
+        writer.close();
     }
 }

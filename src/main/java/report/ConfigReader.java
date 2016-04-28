@@ -1,5 +1,8 @@
 package report;
 
+import com.messners.gitlab.api.GitLabApiException;
+import git.model.GithubProject;
+import git.model.GitlabProject;
 import git.model.Project;
 import report.model.*;
 
@@ -12,33 +15,56 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConfigReader {
-    public static List<Project> getProjectsFromPath(Path path) throws IOException {
+    private List<Project> projects;
+
+    public ConfigReader(Path path) throws IOException, GitLabApiException {
         BufferedReader reader = Files.newBufferedReader(path);
 
         String hostUrl;
         String line = reader.readLine();
         if(line.equalsIgnoreCase("gitlab")){
             hostUrl = reader.readLine();
+            String auth = reader.readLine();
+            this.projects = readGitlabProjects(hostUrl, auth, reader);
         }
         else if (line.equalsIgnoreCase("github")){
-            hostUrl = "https://github.com";
+            String auth = reader.readLine();
+            this.projects = readGithubProjects(auth, reader);
         }
         else {
             throw new IOException();
         }
-        String auth = reader.readLine();
-
-        return readProjects(hostUrl,auth,reader);
     }
 
-    private static List<Project> readProjects(String hostUrl, String auth, BufferedReader reader) throws IOException {
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    private List<Project> readGitlabProjects(String hostUrl, String auth, BufferedReader reader) throws IOException, GitLabApiException {
         List<Project> projects = new ArrayList<>();
 
         String line;
         while ((line = reader.readLine()) != null) {
             String[] lineWords = line.split("\\s+");
             if(lineWords.length == 2) {
-                Project project = new Project(hostUrl, lineWords[0], lineWords[1], auth);
+                Project project = new GitlabProject(hostUrl, lineWords[0], lineWords[1], auth);
+                projects.add(project);
+            }
+            else {
+                throw new IOException();
+            }
+        }
+        return projects;
+    }
+
+    private List<Project> readGithubProjects(String auth, BufferedReader reader) throws IOException {
+        List<Project> projects = new ArrayList<>();
+
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] lineWords = line.split("\\s+");
+            if(lineWords.length == 2) {
+                Project project = new GithubProject(lineWords[0], lineWords[1], auth);
                 projects.add(project);
             }
             else {
