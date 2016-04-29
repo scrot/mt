@@ -4,6 +4,7 @@ import com.messners.gitlab.api.GitLabApiException;
 import distr.CodeDistribution;
 import distr.FaultDistribution;
 import distr.PathsCollector;
+import distr.model.Percentage;
 import git.model.*;
 import git.project.Project;
 import org.joda.time.DateTime;
@@ -39,7 +40,7 @@ public class ReportBuilder {
     private final Integer projectAuthorsCount;
 
     private final CodeDistribution codeDistribution;
-    private FaultDistribution faultDistribution;
+    private final FaultDistribution faultDistribution;
 
     public ReportBuilder(Project project) throws IOException, GitLabApiException {
         List<Path> projectFiles = new PathsCollector(project.getLocalPath()).collectClassPaths();
@@ -136,9 +137,7 @@ public class ReportBuilder {
         return projectFilesCount;
     }
 
-    public Integer getProjectCodeFilesCount() {
-        return projectCodeFilesCount;
-    }
+    public Integer getProjectCodeFilesCount() { return projectCodeFilesCount; }
 
     public Integer getProjectCodeCount() {
         return projectCodeCount;
@@ -148,12 +147,12 @@ public class ReportBuilder {
         return projectCommentCount;
     }
 
-    public CodeDistribution getCodeDistribution() {
-        return codeDistribution;
+    public Double getPercentageCodeInPartition(Percentage percentage){
+        return this.codeDistribution.cumulativePercentageOfPartition(percentage).getPercentCode().getPercentage();
     }
 
-    public FaultDistribution getFaultDistribution() {
-        return faultDistribution;
+    public Double getPercentageFaultInPartition(Percentage percentage){
+        return faultDistribution.cumulativePercentageOfPartition(percentage).getPercentage();
     }
 
     public Map<String, String> simpleReport(){
@@ -169,6 +168,8 @@ public class ReportBuilder {
             put("#Issues", getProjectIssuesCount().toString());
             put("#Faults", getProjectFaultsCount().toString());
             put("#Changes", getProjectChangesCount().toString());
+            put("FaultDist", "20-" + getPercentageFaultInPartition(new Percentage(20.0)).intValue());
+            put("CodeDist", "20-" +getPercentageCodeInPartition(new Percentage(20.0)).intValue());
         }};
     }
 

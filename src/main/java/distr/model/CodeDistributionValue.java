@@ -41,6 +41,9 @@ public class CodeDistributionValue implements DistributionValue {
     }
 
     private Percentage percentageOf(Integer value, Integer total){
+        if(total == 0){
+            return new Percentage(0.0);
+        }
         return new Percentage((double) (value * 100 / total));
     }
 }

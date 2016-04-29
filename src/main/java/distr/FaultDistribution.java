@@ -31,7 +31,7 @@ public class FaultDistribution implements Distribution {
     @Override
     public List<Percentage> plotCodeDistribution(Double start, Double end, Double interval) {
         List<Percentage> plot = new ArrayList<>();
-        for(Double i = start; i <= end; i += interval){
+        for(Double i = end; i >= start; i -= interval){
             Percentage partition = new Percentage(i);
             plot.add(this.distribution.cumulativeOfPartitionPercentage(partition));
         }
@@ -45,7 +45,7 @@ public class FaultDistribution implements Distribution {
         for(List<Fault> faults : classFaultsMap.values()){
             sortedFaultSizes.add(faults.size());
         }
-        Collections.sort(sortedFaultSizes);
+        sortedFaultSizes.sort(Comparator.reverseOrder());
 
         Integer moduleCount = 0;
         Integer cumulativeTotal = 0;

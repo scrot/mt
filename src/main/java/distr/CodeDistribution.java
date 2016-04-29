@@ -31,7 +31,7 @@ public class CodeDistribution implements Distribution {
     @Override
     public List<XLocPercentage> plotCodeDistribution(Double start, Double end, Double interval){
         List<XLocPercentage> plot = new ArrayList<>();
-        for(Double i = start; i <= end; i += interval){
+        for(Double i = end; i >= start; i -= interval){
             Percentage partition = new Percentage(i);
             plot.add(this.distribution.cumulativeOfPartitionPercentage(partition));
         }
@@ -42,7 +42,7 @@ public class CodeDistribution implements Distribution {
         Map<Integer, XLoc> distributionMap = new HashMap<>();
 
         List<XLoc> sortedXLocs = new ArrayList<>(classXLocMap.values());
-        Collections.sort(sortedXLocs);
+        sortedXLocs.sort(Comparator.reverseOrder());
 
         Integer moduleCount = 0;
         XLoc cumulativeTotal = new XLoc(0,0,0,0);
