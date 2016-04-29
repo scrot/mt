@@ -2,8 +2,7 @@ package git.repository;
 
 import com.messners.gitlab.api.GitLabApiException;
 import git.api.GitlabAPI;
-import git.model.GitlabProject;
-import git.model.Project;
+import git.project.GitlabProject;
 
 
 public class GLRepoBuilder implements RepoBuilder {

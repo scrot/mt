@@ -4,7 +4,7 @@ import com.messners.gitlab.api.GitLabApiException;
 import distr.model.FaultDistributionValue;
 import distr.model.Percentage;
 import git.model.Fault;
-import git.model.Project;
+import git.project.Project;
 
 import java.nio.file.Path;
 import java.util.*;

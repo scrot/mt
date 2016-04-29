@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 public interface GitCrawler {
+    Integer getProjectId();
     Date createdAt();
     Date lastModified();
     Map<String, Commit> getCommits();

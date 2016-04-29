@@ -5,6 +5,7 @@ import distr.CodeDistribution;
 import distr.FaultDistribution;
 import distr.PathsCollector;
 import git.model.*;
+import git.project.Project;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import xloc.XLoc;
@@ -12,10 +13,13 @@ import xloc.XLocCalculator;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.time.Instant;
 import java.util.*;
 
 public class ReportBuilder {
+    private final Integer projectId;
+    private final String projectGroup;
+    private final String projectName;
+
     private final Map<String, Commit> projectCommits;
     private final Map<Integer, Issue> projectIssues;
     private final Map<Path, List<Fault>> projectFaults;
@@ -28,6 +32,7 @@ public class ReportBuilder {
     private final Integer projectAgeDaysCount;
     private final Integer projectDevelopmentDaysCount;
     private final Integer projectFilesCount;
+    private final Integer projectCodeFilesCount;
     private final Integer projectCodeCount;
     private final Integer projectCommentCount;
     private final Integer projectChangesCount;
@@ -36,10 +41,14 @@ public class ReportBuilder {
     private final CodeDistribution codeDistribution;
     private FaultDistribution faultDistribution;
 
-    public ReportBuilder(Project project, Path projectPath) throws IOException, GitLabApiException {
-        List<Path> projectFiles = new PathsCollector(projectPath).collectClassPaths();
-        Map<Path, XLoc> classesXLoc = new XLocCalculator(projectPath).getResult();
+    public ReportBuilder(Project project) throws IOException, GitLabApiException {
+        List<Path> projectFiles = new PathsCollector(project.getLocalPath()).collectClassPaths();
+        Map<Path, XLoc> classesXLoc = new XLocCalculator(project.getLocalPath()).getResult();
         XLoc totalXLoc = calculateTotalXLoc(classesXLoc);
+
+        this.projectId = project.getId();
+        this.projectGroup = project.getGroup();
+        this.projectName = project.getProject();
 
         this.projectCommits = project.getGitCrawler().getCommits();
         this.projectIssues = project.getGitCrawler().getIssues();
@@ -51,15 +60,28 @@ public class ReportBuilder {
         this.projectIssuesCount = project.getGitCrawler().getIssues().size();
         this.projectFaultsCount = project.getGitCrawler().getFaults().size();
         this.projectChangesCount = calculateMapListsLengths(this.projectChanges);
-        this.projectAgeDaysCount = calculateProjectDevelopmentDays(project.getGitCrawler().createdAt(), Date.from(Instant.now()));
-        this.projectDevelopmentDaysCount = calculateProjectDevelopmentDays(project.getGitCrawler().createdAt(), project.getGitCrawler().lastModified());
+        this.projectAgeDaysCount = calculateDateDayDiff(project.getGitCrawler().createdAt(), new Date());
+        this.projectDevelopmentDaysCount = calculateDateDayDiff(project.getGitCrawler().createdAt(), project.getGitCrawler().lastModified());
         this.projectFilesCount = projectFiles.size();
+        this.projectCodeFilesCount = classesXLoc.size();
         this.projectCodeCount = totalXLoc.getCodeLines();
         this.projectCommentCount = totalXLoc.getCommentLines();
         this.projectAuthorsCount = calculateTotalUniqueAuthors(this.projectAuthors);
 
-        this.codeDistribution = new CodeDistribution(projectPath);
-        this.faultDistribution = new FaultDistribution(project, projectPath);
+        this.codeDistribution = new CodeDistribution(project.getLocalPath());
+        this.faultDistribution = new FaultDistribution(project, project.getLocalPath());
+    }
+
+    public Integer getProjectId() {
+        return projectId;
+    }
+
+    public String getProjectGroup() {
+        return projectGroup;
+    }
+
+    public String getProjectName() {
+        return projectName;
     }
 
     public Map<String, Commit> getProjectCommits() {
@@ -114,6 +136,10 @@ public class ReportBuilder {
         return projectFilesCount;
     }
 
+    public Integer getProjectCodeFilesCount() {
+        return projectCodeFilesCount;
+    }
+
     public Integer getProjectCodeCount() {
         return projectCodeCount;
     }
@@ -130,7 +156,23 @@ public class ReportBuilder {
         return faultDistribution;
     }
 
-    private Integer calculateProjectDevelopmentDays(Date start, Date end) {
+    public Map<String, String> simpleReport(){
+        return new LinkedHashMap<String, String>(){{
+            put("Project", getProjectId().toString());
+            put("TotFiles", getProjectFilesCount().toString());
+            put("CodeFiles", getProjectCodeFilesCount().toString());
+            put("CodeLines", getProjectCodeCount().toString());
+            put("CommLines", getProjectCommentCount().toString());
+            put("DevDays", getProjectDevelopmentDaysCount().toString());
+            put("AgeDays", getProjectAgeDaysCount().toString());
+            put("#Commits", getProjectCommitsCount().toString());
+            put("#Issues", getProjectIssuesCount().toString());
+            put("#Faults", getProjectFaultsCount().toString());
+            put("#Changes", getProjectChangesCount().toString());
+        }};
+    }
+
+    private Integer calculateDateDayDiff(Date start, Date end) {
         DateTime startt = new DateTime(start);
         DateTime endt = new DateTime(end);
         Days d = Days.daysBetween(startt, endt);

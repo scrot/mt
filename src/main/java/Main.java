@@ -1,6 +1,7 @@
 import com.messners.gitlab.api.GitLabApiException;
-import git.model.Project;
+import git.project.Project;
 import report.ConfigReader;
+import report.Report;
 import report.ReportBuilder;
 
 import java.io.FileWriter;
@@ -16,28 +17,28 @@ public class Main {
         Path config = Paths.get("C:\\Users\\royw\\Workspace\\mt\\src\\main\\resources\\example.conf");
         ConfigReader confReader = new ConfigReader(config);
         List<Project> projects = confReader.getProjects();
-
-        //Path projectPath = Paths.get(args[1]);
-        Path projectPath = Paths.get("C:\\Users\\royw\\Workspace\\test");
-
-        List<ReportBuilder> reports = new ArrayList<>();
-        for(Project project : projects){
-            reports.add(new ReportBuilder(project, projectPath));
-        }
-        writeBasicInformationToSDF(reports);
+        writeSimpleReportFile(confReader.getName(), projects, " ");
     }
 
-    public static void writeBasicInformationToSDF(List<ReportBuilder> reports) throws IOException {
-        FileWriter writer = new FileWriter("example.sdf");
-
-        writer.write("#Days #Files #SLOC\n");
-
-        for(ReportBuilder report : reports){
-            writer.write(report.getProjectDevelopmentDaysCount() + " ");
-            writer.write(report.getProjectFilesCount() + " ");
-            writer.write(report.getProjectCodeCount() + "\n");
-        }
-
+    public static void writeSimpleReportFile(String filename, List<Project> projects, String seperator) throws IOException, GitLabApiException {
+        FileWriter writer = new FileWriter(filename + ".sdf");
+        writer.write("");
         writer.close();
+
+        if(!projects.isEmpty()){
+            Boolean setHeader = false;
+            for(Project project : projects){
+                writer = new FileWriter(filename + ".sdf", true);
+                System.out.println("Building Report " + (projects.indexOf(project) + 1) + "/" + projects.size() + "...");
+                ReportBuilder report = new ReportBuilder(project);
+                if(!setHeader){
+                    writer.write(String.join(seperator, report.simpleReport().keySet()) + '\n');
+                    setHeader = true;
+                }
+                writer.write(String.join(seperator, report.simpleReport().values()) + '\n');
+                writer.close();
+            }
+
+        }
     }
 }

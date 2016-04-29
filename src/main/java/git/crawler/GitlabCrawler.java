@@ -2,12 +2,12 @@ package git.crawler;
 
 import com.messners.gitlab.api.GitLabApiException;
 import com.messners.gitlab.api.models.*;
-import com.messners.gitlab.api.models.Project;
 import git.api.GitlabAPI;
 import git.model.*;
 import git.model.Author;
 import git.model.Commit;
 import git.model.Issue;
+import git.project.GitlabProject;
 import git.repository.GLRepoBuilder;
 
 import java.nio.file.Path;
@@ -31,6 +31,12 @@ public class GitlabCrawler implements GitCrawler {
         this.gitlab = repoBuilder.getGitlabApi();
         this.projectID = repoBuilder.getProjectID();
         this.glProject = this.gitlab.getProjectApi().getProject(this.projectID);
+    }
+
+
+    @Override
+    public Integer getProjectId() {
+        return projectID;
     }
 
     @Override

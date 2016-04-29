@@ -1,4 +1,4 @@
-package report.model;
+package report;
 
 import git.crawler.GitCrawler;
 import git.model.Commit;
