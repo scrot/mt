@@ -39,7 +39,7 @@ public class FaultDistribution implements Distribution {
     }
 
     private Map<Integer, Integer> buildCumulativeDistributionMap(Map<Path, List<Fault>> classFaultsMap){
-        Map<Integer, Integer> distributionMap = new HashMap<>();
+        Map<Integer, Integer> distributionMap = new LinkedHashMap<>();
 
         List<Integer> sortedFaultSizes = new ArrayList<>();
         for(List<Fault> faults : classFaultsMap.values()){

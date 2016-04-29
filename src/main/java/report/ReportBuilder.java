@@ -39,6 +39,9 @@ public class ReportBuilder {
     private final Integer projectChangesCount;
     private final Integer projectAuthorsCount;
 
+    private final Double codeGini;
+    private final Double faultGini;
+
     private final CodeDistribution codeDistribution;
     private final FaultDistribution faultDistribution;
 
@@ -70,7 +73,10 @@ public class ReportBuilder {
         this.projectAuthorsCount = calculateTotalUniqueAuthors(this.projectAuthors);
 
         this.codeDistribution = new CodeDistribution(project.getLocalPath());
+        this.codeGini = codeDistribution.giniCoefficient();
+
         this.faultDistribution = new FaultDistribution(project, project.getLocalPath());
+        this.faultGini = faultDistribution.giniCoefficient();
     }
 
     public Integer getProjectId() {
@@ -147,6 +153,14 @@ public class ReportBuilder {
         return projectCommentCount;
     }
 
+    public Double getCodeGini() {
+        return codeGini;
+    }
+
+    public Double getFaultGini() {
+        return faultGini;
+    }
+
     public Double getPercentageCodeInPartition(Percentage percentage){
         return this.codeDistribution.cumulativePercentageOfPartition(percentage).getPercentCode().getPercentage();
     }
@@ -170,6 +184,8 @@ public class ReportBuilder {
             put("#Changes", getProjectChangesCount().toString());
             put("FaultDist", "20-" + getPercentageFaultInPartition(new Percentage(20.0)).intValue());
             put("CodeDist", "20-" +getPercentageCodeInPartition(new Percentage(20.0)).intValue());
+            put("FaultGini", getFaultGini().toString());
+            put("CodeGini", getCodeGini().toString());
         }};
     }
 

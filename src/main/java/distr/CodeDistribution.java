@@ -19,18 +19,33 @@ public class CodeDistribution implements Distribution {
     }
 
     @Override
-    public XLoc cumulativeOfPartition(Percentage partition){
+    public Double giniCoefficient() {
+        Double gini = 0.0;
+        Map<Integer, Integer> codeDistribution = this.distribution.getDistribution();
+        Map<Integer, Double> linearDistribution = buildLinearDistribution(distribution.size(), distribution.cumulativeOfPartition(new Percentage(100.0)));
+
+        for(Integer i = 0; i < codeDistribution.size(); i++){
+            Double value = linearDistribution.get(i) - (double)(codeDistribution.get(i));
+            if(value > 0){
+                gini += value;
+            }
+        }
+        return gini;
+    }
+
+    @Override
+    public Integer cumulativeOfPartition(Percentage partition){
         return this.distribution.cumulativeOfPartition(partition);
     }
 
     @Override
-    public XLocPercentage cumulativePercentageOfPartition(Percentage partition){
+    public Percentage cumulativePercentageOfPartition(Percentage partition){
         return this.distribution.cumulativeOfPartitionPercentage(partition);
     }
 
     @Override
-    public List<XLocPercentage> plotCodeDistribution(Double start, Double end, Double interval){
-        List<XLocPercentage> plot = new ArrayList<>();
+    public List<Percentage> plotCodeDistribution(Double start, Double end, Double interval){
+        List<Percentage> plot = new ArrayList<>();
         for(Double i = end; i >= start; i -= interval){
             Percentage partition = new Percentage(i);
             plot.add(this.distribution.cumulativeOfPartitionPercentage(partition));
@@ -38,17 +53,26 @@ public class CodeDistribution implements Distribution {
         return plot;
     }
 
-    private Map<Integer, XLoc> buildCumulativeDistributionMap(Map<Path, XLoc> classXLocMap){
-        Map<Integer, XLoc> distributionMap = new HashMap<>();
+    private Map<Integer, Double>  buildLinearDistribution(Integer totalX, Integer totalFiles){
+        Double avgX = (double) (totalX / totalFiles);
+        Map<Integer, Double> linearDistribution = new LinkedHashMap<>();
+        for(Integer i = 0 ; i < totalFiles; i++){
+            linearDistribution.put(i, avgX + linearDistribution.get(i-1));
+        }
+        return linearDistribution;
+    }
+
+    private Map<Integer, Integer> buildCumulativeDistributionMap(Map<Path, XLoc> classXLocMap){
+        Map<Integer, Integer> distributionMap = new LinkedHashMap<>();
 
         List<XLoc> sortedXLocs = new ArrayList<>(classXLocMap.values());
         sortedXLocs.sort(Comparator.reverseOrder());
 
         Integer moduleCount = 0;
-        XLoc cumulativeTotal = new XLoc(0,0,0,0);
+        Integer cumulativeTotal = 0;
         for (XLoc xLoc : sortedXLocs){
             moduleCount++;
-            cumulativeTotal = cumulativeTotal.add(xLoc);
+            cumulativeTotal += xLoc.getCodeLines();
             distributionMap.put(moduleCount, cumulativeTotal);
         }
 

@@ -5,18 +5,28 @@ import xloc.XLoc;
 import java.util.Map;
 
 public class CodeDistributionValue implements DistributionValue {
-    private final Map<Integer, XLoc> distributionMap;
+    private final Map<Integer, Integer> distributionMap;
 
-    public CodeDistributionValue(Map<Integer, XLoc> distributionMap) {
+    public CodeDistributionValue(Map<Integer, Integer> distributionMap) {
         this.distributionMap = distributionMap;
     }
 
     @Override
-    public XLoc cumulativeOfPartition(Percentage partition){
+    public Integer size() {
+        return distributionMap.size();
+    }
+
+    @Override
+    public Map<Integer, Integer> getDistribution() {
+        return this.distributionMap;
+    }
+
+    @Override
+    public Integer cumulativeOfPartition(Percentage partition){
         Integer index = getDistributionIndex(partition);
 
         if(index == 0){
-            return new XLoc(0,0,0,0);
+            return 0;
         }
         else {
             return this.distributionMap.get(index);
@@ -24,15 +34,10 @@ public class CodeDistributionValue implements DistributionValue {
     }
 
     @Override
-    public XLocPercentage cumulativeOfPartitionPercentage(Percentage partition){
-        XLoc total = cumulativeOfPartition(new Percentage(100.0));
-        XLoc value = cumulativeOfPartition(partition);
-        return new XLocPercentage(
-                percentageOf(value.getCodeLines(), total.getCodeLines()),
-                percentageOf(value.getCommentLines(), total.getCommentLines()),
-                percentageOf(value.getBlankLines(), total.getBlankLines()),
-                percentageOf(value.getUnknownLines(), total.getUnknownLines())
-        );
+    public Percentage cumulativeOfPartitionPercentage(Percentage partition){
+        Integer total = cumulativeOfPartition(new Percentage(100.0));
+        Integer value = cumulativeOfPartition(partition);
+        return percentageOf(value, total);
     }
 
     private Integer getDistributionIndex(Percentage partition) {

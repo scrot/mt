@@ -1,5 +1,7 @@
 package distr.model;
 
+import xloc.XLoc;
+
 import java.util.Map;
 
 public class FaultDistributionValue implements DistributionValue {
@@ -7,6 +9,16 @@ public class FaultDistributionValue implements DistributionValue {
 
     public FaultDistributionValue(Map<Integer, Integer> distributionMap) {
         this.distributionMap = distributionMap;
+    }
+
+    @Override
+    public Integer size() {
+        return distributionMap.size();
+    }
+
+    @Override
+    public Map<Integer, XLoc> getDistribution() {
+        return this.distributionMap;
     }
 
     @Override
