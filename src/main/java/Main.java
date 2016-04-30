@@ -11,10 +11,18 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * TODO: Split crawler into CommitCrawler, IssueCrawler etc.
+ * TODO: Improve crawling speed -> crawl local Commits
+ * TODO: Use of codeGini -> Remove it...
+ * TODO: CodeDistr of the x% most faulty modules
+ * TODO: Caching commits, issues, etc.
+ * TODO: Verify/test lines of code counting
+ */
 public class Main {
     public static void main(String[] args) throws IOException, GitLabApiException {
         //Path config = Paths.get(args[0]);
-        Path config = Paths.get("C:\\Users\\royw\\Workspace\\mt\\src\\main\\resources\\example.conf");
+        Path config = Paths.get("/home/roy/Workspace/MT/mt/src/main/resources/example.conf");
         ConfigReader confReader = new ConfigReader(config);
         List<Project> projects = confReader.getProjects();
         writeSimpleReportFile(confReader.getName(), projects, " ");

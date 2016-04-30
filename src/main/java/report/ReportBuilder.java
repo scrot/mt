@@ -1,10 +1,9 @@
 package report;
 
 import com.messners.gitlab.api.GitLabApiException;
-import distr.CodeDistribution;
-import distr.FaultDistribution;
+import distr.Distribution;
 import distr.PathsCollector;
-import distr.model.Percentage;
+import distr.Percentage;
 import git.model.*;
 import git.project.Project;
 import org.joda.time.DateTime;
@@ -14,6 +13,7 @@ import xloc.XLocCalculator;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class ReportBuilder {
@@ -42,8 +42,8 @@ public class ReportBuilder {
     private final Double codeGini;
     private final Double faultGini;
 
-    private final CodeDistribution codeDistribution;
-    private final FaultDistribution faultDistribution;
+    private final Distribution codeDistribution;
+    private final Distribution faultDistribution;
 
     public ReportBuilder(Project project) throws IOException, GitLabApiException {
         List<Path> projectFiles = new PathsCollector(project.getLocalPath()).collectClassPaths();
@@ -72,10 +72,12 @@ public class ReportBuilder {
         this.projectCommentCount = totalXLoc.getCommentLines();
         this.projectAuthorsCount = calculateTotalUniqueAuthors(this.projectAuthors);
 
-        this.codeDistribution = new CodeDistribution(project.getLocalPath());
+
+        this.codeDistribution = new Distribution(getCodeCounts(classesXLoc));
         this.codeGini = codeDistribution.giniCoefficient();
 
-        this.faultDistribution = new FaultDistribution(project, project.getLocalPath());
+
+        this.faultDistribution = new Distribution(getListCounts(this.getProjectFaults()));
         this.faultGini = faultDistribution.giniCoefficient();
     }
 
@@ -162,14 +164,15 @@ public class ReportBuilder {
     }
 
     public Double getPercentageCodeInPartition(Percentage percentage){
-        return this.codeDistribution.cumulativePercentageOfPartition(percentage).getPercentCode().getPercentage();
+        return this.codeDistribution.cumulativeOfPartitionPercentage(percentage).getPercentage();
     }
 
     public Double getPercentageFaultInPartition(Percentage percentage){
-        return faultDistribution.cumulativePercentageOfPartition(percentage).getPercentage();
+        return this.faultDistribution.cumulativeOfPartitionPercentage(percentage).getPercentage();
     }
 
     public Map<String, String> simpleReport(){
+        DecimalFormat formatter = new DecimalFormat("#.##");
         return new LinkedHashMap<String, String>(){{
             put("Project", getProjectId().toString());
             put("TotFiles", getProjectFilesCount().toString());
@@ -184,9 +187,29 @@ public class ReportBuilder {
             put("#Changes", getProjectChangesCount().toString());
             put("FaultDist", "20-" + getPercentageFaultInPartition(new Percentage(20.0)).intValue());
             put("CodeDist", "20-" +getPercentageCodeInPartition(new Percentage(20.0)).intValue());
-            put("FaultGini", getFaultGini().toString());
-            put("CodeGini", getCodeGini().toString());
+            put("FaultGini", formatter.format(getFaultGini()));
+            put("CodeGini", formatter.format(getCodeGini()));
         }};
+    }
+
+    private <T> Map<T, Integer> getCodeCounts(Map<T, XLoc> values){
+        Map<T, Integer> counts = new HashMap<>();
+
+        for(Map.Entry<T, XLoc> entry : values.entrySet()){
+            counts.put(entry.getKey(), entry.getValue().getCodeLines());
+        }
+
+        return counts;
+    }
+
+    private <T,U> Map<T, Integer> getListCounts(Map<T, List<U>> values){
+        Map<T, Integer> counts = new HashMap<>();
+
+        for(Map.Entry<T, List<U>> entry : values.entrySet()){
+            counts.put(entry.getKey(), entry.getValue().size());
+        }
+
+        return counts;
     }
 
     private Integer calculateDateDayDiff(Date start, Date end) {

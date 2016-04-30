@@ -1,4 +1,4 @@
-package distr.model;
+package distr;
 
 public class Percentage {
     private final Double percentage;
