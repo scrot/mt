@@ -8,13 +8,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Commit {
-    private final String id;
+    private final Object id;
     private final Author author;
     private final String message;
     private final Date date;
     private final List<Path> files;
 
-    public Commit(String id, Author author, String message, Date date, List<Path> files) {
+    public Commit(Object id, Author author, String message, Date date, List<Path> files) {
         this.id = id;
         this.author = author;
         this.message = message;
@@ -22,7 +22,7 @@ public class Commit {
         this.files = files;
     }
 
-    public String getId() {
+    public Object getId() {
         return id;
     }
 

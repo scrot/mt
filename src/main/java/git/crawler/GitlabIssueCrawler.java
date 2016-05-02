@@ -31,7 +31,6 @@ public class GitlabIssueCrawler implements IssueCrawler{
     }
 
     private Map<Integer, Issue> collectIssues() throws GitLabApiException {
-        System.out.println("Collecting issues...");
         Map<Integer, Issue> issueMap = new HashMap<>();
         List<com.messners.gitlab.api.models.Issue> issueList = this.gitlab.getIssuesAPI().getIssues(this.projectID);
         for(com.messners.gitlab.api.models.Issue issue : issueList){

@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 public class GitlabFaultCrawler implements FaultCrawler {
     private final Map<Path, List<Fault>> faults;
 
-    public GitlabFaultCrawler(Map<String, Commit> commits, Map<Integer, Issue> issues) {
+    public GitlabFaultCrawler(Map<Object, Commit> commits, Map<Integer, Issue> issues) {
         this.faults = collectFaults(commits, issues);
     }
 
@@ -27,8 +27,7 @@ public class GitlabFaultCrawler implements FaultCrawler {
     }
 
 
-    private Map<Path, List<Fault>> collectFaults(Map<String, Commit> commits, Map<Integer, Issue> issues){
-        System.out.println("Collecting faults...");
+    private Map<Path, List<Fault>> collectFaults(Map<Object, Commit> commits, Map<Integer, Issue> issues){
         Map<Path, List<Fault>> classFaults = new HashMap<>();
         for (Map.Entry<Commit, List<Issue>> commit : buildCommitIssueMap(commits, issues).entrySet()) {
             List<Path> files = commit.getKey().getFiles();
@@ -44,7 +43,7 @@ public class GitlabFaultCrawler implements FaultCrawler {
     }
 
 
-    private Map<Commit, List<Issue>> buildCommitIssueMap(Map<String, Commit> commits, Map<Integer, Issue> issues) {
+    private Map<Commit, List<Issue>> buildCommitIssueMap(Map<Object, Commit> commits, Map<Integer, Issue> issues) {
         Map<Commit, List<Issue>> commitIssueMap = new HashMap<>();
 
         for(Commit commit : commits.values()){
@@ -60,10 +59,14 @@ public class GitlabFaultCrawler implements FaultCrawler {
 
     private <K, V> void addValueToList(Map<K, List<V>> map, K key, V value) {
         if (!map.containsKey(key)) {
-            map.put(key, new ArrayList<V>() {{
-                add(value);
-            }});
+            map.put(key, new ArrayList<V>() {{ add(value); }});
         }
+        else {
+            List<V> newvalue = map.get(key);
+            newvalue.add(value);
+            map.put(key, newvalue);
+        }
+
     }
 
     private Pattern getFaultPattern(){

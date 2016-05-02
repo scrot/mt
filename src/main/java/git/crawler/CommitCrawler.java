@@ -2,11 +2,12 @@ package git.crawler;
 
 import git.model.Commit;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
  * Created by roy on 4/30/16.
  */
 public interface CommitCrawler {
-    Map<String, Commit> getCommits();
+    Map<Object, Commit> getCommits();
 }

@@ -11,32 +11,17 @@ public class Distribution {
     }
 
     public Double giniCoefficient() {
-
-        Map<Integer, Double> linearDistribution = buildLinearDistribution(
-                this.distribution.size(),
-                this.cumulativeOfPartition(new Percentage(100.0))
-        );
-
-        Double totalSpace = 0.5 * this.cumulativeOfPartition(new Percentage(100.0)) * linearDistribution.size();
-        Double diffSpace = 0.0;
+        Double linSpace = 0.5 * this.cumulativeOfPartition(new Percentage(100.0)) * this.distribution.size();
+        Double lorenzSpace = 0.0;
         for(Integer i = 1; i <= this.distribution.size(); i++){
-            Double linSpace, actSpace;
             if(i == 1) {
-                linSpace = 0.5 * linearDistribution.get(i);
-                actSpace = 0.5 * this.distribution.get(i).doubleValue();
+                lorenzSpace += 0.5 * this.distribution.get(i).doubleValue();
             }
             else {
-                linSpace = 0.5 * linearDistribution.get(i) + linearDistribution.get(i-1);
-                actSpace = 0.5 * this.distribution.get(i).doubleValue() + this.distribution.get(i-1);
+                lorenzSpace += 0.5 * (this.distribution.get(i).doubleValue() - this.distribution.get(i-1)) + this.distribution.get(i-1);
             }
-            Double value = linSpace - actSpace;
-            assert(value >= 0);
-            diffSpace += value;
         }
-        assert(totalSpace > diffSpace);
-        Double gini = diffSpace / totalSpace;
-        assert(gini >= 0.0 && gini <= 1.0);
-        return gini;
+        return (linSpace - lorenzSpace) / linSpace;
     }
 
     public Integer cumulativeOfPartition(Percentage partition){
@@ -72,17 +57,6 @@ public class Distribution {
 
     private Percentage percentageOf(Integer value, Integer total){
         return new Percentage((double) (value * 100 / total));
-    }
-
-    private Map<Integer, Double>  buildLinearDistribution(Integer totalElements, Integer totalCount){
-        Double avg = totalCount.doubleValue() / totalElements.doubleValue();
-        Map<Integer, Double> linearDistribution = new HashMap<>();
-        Double cummulative = 0.0;
-        for(Integer i = 1 ; i <= totalElements; i++){
-            cummulative += avg;
-            linearDistribution.put(i, cummulative);
-        }
-        return linearDistribution;
     }
 
     private <T> Map<Integer, Integer> buildCumulativeDistribution(Map<T, Integer> counts){

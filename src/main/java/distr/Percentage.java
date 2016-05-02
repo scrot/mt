@@ -4,14 +4,11 @@ public class Percentage {
     private final Double percentage;
 
     public Percentage(Double percentage){
-        if(percentage >= 0 && percentage <= 100){
-            this.percentage = percentage;
-        }
-        else {
-            throw new IllegalArgumentException();
-        }
-        assert this.percentage >= 0 && this.percentage <= 100;
+        assert percentage >= 0 && percentage <= 100;
+        this.percentage = percentage;
     }
+
+    public Double getPercentage0to1() { return percentage / 100; }
 
     public Double getPercentage() {
         return percentage;

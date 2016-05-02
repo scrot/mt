@@ -5,10 +5,13 @@ import git.model.Commit;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevSort;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 
@@ -16,19 +19,17 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by roy on 5/2/16.
  */
-public class GitCommitCrawler implements CommitCrawler {
+public class LocalCommitCrawler implements CommitCrawler {
     private final Git git;
-    private final Map<String, Commit> commits;
+    private final Map<Object, Commit> commits;
 
-    public GitCommitCrawler(Path gitProjectRoot) throws IOException, GitAPIException {
+    public LocalCommitCrawler(Path gitProjectRoot) throws IOException, GitAPIException {
         File gitRoot = Paths.get(gitProjectRoot.toString(), ".git").toFile();
         FileRepositoryBuilder builder = new FileRepositoryBuilder();
         Repository repo = builder.setGitDir(gitRoot)
@@ -40,15 +41,15 @@ public class GitCommitCrawler implements CommitCrawler {
     }
 
     @Override
-    public Map<String, Commit> getCommits() {
+    public Map<Object, Commit> getCommits() {
         return this.commits;
     }
 
-    private Map<String,Commit> collectCommits() throws IOException, GitAPIException {
-        Map<String, Commit> commits = new HashMap<>();
+    private Map<Object,Commit> collectCommits() throws IOException, GitAPIException {
+        Map<Object, Commit> commits = new HashMap<>();
         for(RevCommit commit : git.log().all().call()){
-            commits.put(String.valueOf(commit.hashCode()), new Commit(
-                    String.valueOf(commit.hashCode()),
+            commits.put(commit.getId(), new Commit(
+                    commit.getId(),
                     new Author(commit.getAuthorIdent().getName()),
                     commit.getFullMessage(),
                     commit.getAuthorIdent().getWhen(),

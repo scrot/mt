@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 /**
  * Created by roy on 5/2/16.
@@ -22,7 +21,7 @@ import java.util.regex.Pattern;
 public class GitlabCommitCrawler implements CommitCrawler {
     private final GitlabAPI gitlab;
     private final Integer projectID;
-    private final Map<String, Commit> commits;
+    private final Map<Object, Commit> commits;
 
     public GitlabCommitCrawler(Project project) throws GitLabApiException {
         GLRepoBuilder repoBuilder = new GLRepoBuilder(project);
@@ -32,14 +31,13 @@ public class GitlabCommitCrawler implements CommitCrawler {
     }
 
     @Override
-    public Map<String, Commit> getCommits() {
+    public Map<Object, Commit> getCommits() {
         return this.commits;
     }
 
-    private Map<String, Commit> collectCommits() throws GitLabApiException {
-        System.out.println("Collecting commits...");
+    private Map<Object, Commit> collectCommits() throws GitLabApiException {
         List<com.messners.gitlab.api.models.Commit> glCommits = this.gitlab.getCommitsAPI().getCommits(this.projectID);
-        Map<String, Commit> commits = new HashMap<>();
+        Map<Object, Commit> commits = new HashMap<>();
         for (com.messners.gitlab.api.models.Commit glCommit : glCommits){
             commits.put(glCommit.getId(), new Commit(
                     glCommit.getId(),
@@ -58,11 +56,5 @@ public class GitlabCommitCrawler implements CommitCrawler {
             files.add(Paths.get(diff.getNewPath()));
         }
         return files;
-    }
-
-    private Pattern getFaultPattern(){
-        return Pattern.compile(
-                "((?:[Cc]los(?:e[sd]?|ing)|[Ff]ix(?:e[sd]|ing)?) +(?:(?:issues? +)?#\\d+(?:(?:, *| +and +)?))+)"
-        );
     }
 }

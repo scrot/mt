@@ -8,21 +8,25 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
 
-public class DefaultCrawler {
-    private final Map<String, Commit> commits;
+public class GitCrawler {
+    private final Map<Object, Commit> commits;
     private final Map<Integer, Issue> issues;
     private final Map<Path, List<Fault>> faults;
     //private final Map<Path, List<Commit>> changes;
 
-    public DefaultCrawler(Project project) throws IOException, GitAPIException, GitLabApiException {
-        this.commits = new GitCommitCrawler(project.getLocalPath()).getCommits();
+    public GitCrawler(Project project) throws IOException, GitAPIException, GitLabApiException {
+        System.out.println("Collecting commits...");
+        CommitCrawler commitCrawler = new LocalCommitCrawler(project.getLocalPath());
+        this.commits = commitCrawler.getCommits();
+        System.out.println("Collecting issues...");
         this.issues = new GitlabIssueCrawler(project).getIssues();
+        System.out.println("Collecting faults...");
         this.faults = new GitlabFaultCrawler(this.commits, this.issues).getFaults();
         //this.changes = collectChanges();
 
     }
 
-    public Map<String, Commit> getCommits() { return this.commits; }
+    public Map<Object, Commit> getCommits() { return this.commits; }
     public Map<Integer, Issue> getIssues() { return this.issues; }
     public Map<Path, List<Fault>> getFaults() { return this.faults; }
     //public Map<Path, List<Commit>> getChanges() { return this.changes; }

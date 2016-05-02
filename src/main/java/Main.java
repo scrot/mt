@@ -11,12 +11,9 @@ import java.nio.file.Paths;
 import java.util.List;
 
 /*
- * TODO: Split crawler into CommitCrawler, IssueCrawler etc.
- * TODO: Improve crawling speed -> crawl local Commits
- * TODO: Use of codeGini -> Remove it...
  * TODO: CodeDistr of the x% most faulty modules
- * TODO: Caching commits, issues, etc.
- * TODO: Verify/test lines of code counting
+ * TODO: Filter faults in files not in xloc (normalize after?)
+ * TODO: Relative path for xloc (normalize after)
  */
 public class Main {
     public static void main(String[] args) throws IOException, GitLabApiException, GitAPIException {
@@ -24,18 +21,18 @@ public class Main {
         Path config = Paths.get("/home/roy/Workspace/MT/mt/src/main/resources/example.conf");
         ConfigReader confReader = new ConfigReader(config);
         List<Project> projects = confReader.getProjects();
-        writeSimpleReportFile(confReader.getName(), projects, " ");
+        writeSimpleReportFile(confReader.getName(), projects, ", ");
     }
 
     public static void writeSimpleReportFile(String filename, List<Project> projects, String seperator) throws IOException, GitLabApiException, GitAPIException {
-        FileWriter writer = new FileWriter(filename + ".sdf");
+        FileWriter writer = new FileWriter(filename + ".csv");
         writer.write("");
         writer.close();
 
         if(!projects.isEmpty()){
             Boolean setHeader = false;
             for(Project project : projects){
-                writer = new FileWriter(filename + ".sdf", true);
+                writer = new FileWriter(filename + ".csv", true);
                 System.out.println("Building Report " + (projects.indexOf(project) + 1) + "/" + projects.size() + "...");
                 ReportBuilder report = new ReportBuilder(project);
                 if(!setHeader){
