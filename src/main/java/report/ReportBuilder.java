@@ -4,8 +4,9 @@ import com.messners.gitlab.api.GitLabApiException;
 import distr.Distribution;
 import distr.PathsCollector;
 import distr.Percentage;
+import git.crawler.DefaultCrawler;
 import git.model.*;
-import git.project.Project;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import xloc.XLoc;
@@ -17,27 +18,27 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 public class ReportBuilder {
-    private final Integer projectId;
+    //private final Integer projectId;
     private final String projectGroup;
     private final String projectName;
 
     private final Map<String, Commit> projectCommits;
     private final Map<Integer, Issue> projectIssues;
     private final Map<Path, List<Fault>> projectFaults;
-    private final Map<Path, List<Commit>> projectChanges;
-    private final Map<Path, Set<Author>> projectAuthors;
+    //private final Map<Path, List<Commit>> projectChanges;
+    //private final Map<Path, Set<Author>> projectAuthors;
 
     private final Integer projectCommitsCount;
     private final Integer projectIssuesCount;
     private final Integer projectFaultsCount;
-    private final Integer projectAgeDaysCount;
-    private final Integer projectDevelopmentDaysCount;
+    //private final Integer projectAgeDaysCount;
+    //private final Integer projectDevelopmentDaysCount;
     private final Integer projectFilesCount;
     private final Integer projectCodeFilesCount;
     private final Integer projectCodeCount;
     private final Integer projectCommentCount;
-    private final Integer projectChangesCount;
-    private final Integer projectAuthorsCount;
+    //private final Integer projectChangesCount;
+    //private final Integer projectAuthorsCount;
 
     private final Double codeGini;
     private final Double faultGini;
@@ -45,32 +46,33 @@ public class ReportBuilder {
     private final Distribution codeDistribution;
     private final Distribution faultDistribution;
 
-    public ReportBuilder(Project project) throws IOException, GitLabApiException {
+    public ReportBuilder(Project project) throws IOException, GitLabApiException, GitAPIException {
+        DefaultCrawler crawler = new DefaultCrawler(project);
         List<Path> projectFiles = new PathsCollector(project.getLocalPath()).collectClassPaths();
         Map<Path, XLoc> classesXLoc = new XLocCalculator(project.getLocalPath()).getResult();
         XLoc totalXLoc = calculateTotalXLoc(classesXLoc);
 
-        this.projectId = project.getId();
+        //this.projectId = project.getId();
         this.projectGroup = project.getGroup();
         this.projectName = project.getProject();
 
-        this.projectCommits = project.getGitCrawler().getCommits();
-        this.projectIssues = project.getGitCrawler().getIssues();
-        this.projectFaults = project.getGitCrawler().getFaults();
-        this.projectChanges = project.getGitCrawler().getChanges();
-        this.projectAuthors = project.getGitCrawler().getAuthors();
+        this.projectCommits = crawler.getCommits();
+        this.projectIssues = crawler.getIssues();
+        this.projectFaults = crawler.getFaults();
+        //this.projectChanges = project.getGitCrawler().getChanges();
 
-        this.projectCommitsCount = project.getGitCrawler().getCommits().size();
-        this.projectIssuesCount = project.getGitCrawler().getIssues().size();
-        this.projectFaultsCount = project.getGitCrawler().getFaults().size();
-        this.projectChangesCount = calculateMapListsLengths(this.projectChanges);
-        this.projectAgeDaysCount = calculateDateDayDiff(project.getGitCrawler().createdAt(), new Date());
-        this.projectDevelopmentDaysCount = calculateDateDayDiff(project.getGitCrawler().createdAt(), project.getGitCrawler().lastModified());
+
+        this.projectCommitsCount = crawler.getCommits().size();
+        this.projectIssuesCount = crawler.getIssues().size();
+        this.projectFaultsCount = crawler.getFaults().size();
+        //this.projectChangesCount = calculateMapListsLengths(this.projectChanges);
+        //this.projectAgeDaysCount = calculateDateDayDiff(project.getGitCrawler().createdAt(), new Date());
+        //this.projectDevelopmentDaysCount = calculateDateDayDiff(project.getGitCrawler().createdAt(), project.getGitCrawler().lastModified());
         this.projectFilesCount = projectFiles.size();
         this.projectCodeFilesCount = classesXLoc.size();
         this.projectCodeCount = totalXLoc.getCodeLines();
         this.projectCommentCount = totalXLoc.getCommentLines();
-        this.projectAuthorsCount = calculateTotalUniqueAuthors(this.projectAuthors);
+        //this.projectAuthorsCount = calculateTotalUniqueAuthors(this.projectAuthors);
 
 
         this.codeDistribution = new Distribution(getCodeCounts(classesXLoc));
@@ -82,7 +84,7 @@ public class ReportBuilder {
     }
 
     public Integer getProjectId() {
-        return projectId;
+        return 0;
     }
 
     public String getProjectGroup() {
@@ -106,11 +108,11 @@ public class ReportBuilder {
     }
 
     public Map<Path, List<Commit>> getProjectChanges() {
-        return projectChanges;
+        return null;
     }
 
     public Map<Path, Set<Author>> getProjectAuthors() {
-        return projectAuthors;
+        return null;
     }
 
     public Integer getProjectCommitsCount() {
@@ -126,19 +128,19 @@ public class ReportBuilder {
     }
 
     public Integer getProjectAuthorsCount() {
-        return projectAuthorsCount;
+        return 0;
     }
 
     public Integer getProjectChangesCount() {
-        return projectChangesCount;
+        return 0;
     }
 
     public Integer getProjectAgeDaysCount() {
-        return projectAgeDaysCount;
+        return 0;
     }
 
     public Integer getProjectDevelopmentDaysCount() {
-        return projectDevelopmentDaysCount;
+        return 0;
     }
 
     public Integer getProjectFilesCount() {

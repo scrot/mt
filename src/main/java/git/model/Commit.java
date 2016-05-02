@@ -13,15 +13,13 @@ public class Commit {
     private final String message;
     private final Date date;
     private final List<Path> files;
-    private final Pattern issueClosePattern;
 
-    public Commit(String id, Author author, String message, Date date, List<Path> files, Pattern issueClosePattern) {
+    public Commit(String id, Author author, String message, Date date, List<Path> files) {
         this.id = id;
         this.author = author;
         this.message = message;
         this.date = date;
         this.files = files;
-        this.issueClosePattern = issueClosePattern;
     }
 
     public String getId() {
@@ -44,9 +42,9 @@ public class Commit {
         return files;
     }
 
-    public List<Integer> getIssueNumbers(){
+    public List<Integer> getIssueNumbers(Pattern issue){
         List<Integer> issueNumbers = new ArrayList<>();
-        if(this.containsIssues()) {
+        if(this.containsIssues(issue)) {
             Matcher issueMatcher = Pattern.compile("#\\d+").matcher(this.getMessage());
 
             while (issueMatcher.find()) {
@@ -60,7 +58,7 @@ public class Commit {
         return issueNumbers;
     }
 
-    public Boolean containsIssues() {
-        return this.issueClosePattern.matcher(this.getMessage()).find();
+    public Boolean containsIssues(Pattern issue) {
+        return issue.matcher(this.getMessage()).find();
     }
 }

@@ -1,14 +1,13 @@
 import com.messners.gitlab.api.GitLabApiException;
-import git.project.Project;
+import git.model.Project;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import report.ConfigReader;
-import report.Report;
 import report.ReportBuilder;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -20,7 +19,7 @@ import java.util.List;
  * TODO: Verify/test lines of code counting
  */
 public class Main {
-    public static void main(String[] args) throws IOException, GitLabApiException {
+    public static void main(String[] args) throws IOException, GitLabApiException, GitAPIException {
         //Path config = Paths.get(args[0]);
         Path config = Paths.get("/home/roy/Workspace/MT/mt/src/main/resources/example.conf");
         ConfigReader confReader = new ConfigReader(config);
@@ -28,7 +27,7 @@ public class Main {
         writeSimpleReportFile(confReader.getName(), projects, " ");
     }
 
-    public static void writeSimpleReportFile(String filename, List<Project> projects, String seperator) throws IOException, GitLabApiException {
+    public static void writeSimpleReportFile(String filename, List<Project> projects, String seperator) throws IOException, GitLabApiException, GitAPIException {
         FileWriter writer = new FileWriter(filename + ".sdf");
         writer.write("");
         writer.close();
