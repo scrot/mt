@@ -36,7 +36,7 @@ public class XLocCalculator {
                 XLocPatternBuilder xLocPatterns = classLanguage.accept(new XLocPatternFactory(), null);
                 List<String> classLines = mixedCharsetFileReader(classPath);
                 XLoc xLoc = calculateClassXLoc(classLines, xLocPatterns, true);
-                this.classXLocMap.put(classPath, xLoc);
+                this.classXLocMap.put(rootPath.relativize(classPath), xLoc);
             }
         }
     }
