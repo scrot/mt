@@ -3,7 +3,10 @@ package xloc;
 import lang.Java;
 import lang.Other;
 import lang.visitor.Visitor;
-import xloc.pattern.*;
+import xloc.pattern.BlankPattern;
+import xloc.pattern.MlCommentPattern;
+import xloc.pattern.SlCommentPattern;
+import xloc.pattern.XLocPatternBuilder;
 
 import java.util.regex.Pattern;
 

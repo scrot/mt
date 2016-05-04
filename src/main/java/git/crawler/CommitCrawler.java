@@ -2,7 +2,6 @@ package git.crawler;
 
 import git.model.Commit;
 
-import java.util.Date;
 import java.util.Map;
 
 /**

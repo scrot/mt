@@ -1,9 +1,7 @@
 package xloc;
 
 import lang.Language;
-import lang.LanguageFactory;
 import utils.PathsCollector;
-import lang.Other;
 import xloc.pattern.XLocPatternBuilder;
 
 import java.io.BufferedReader;
@@ -25,19 +23,15 @@ import java.util.Map;
 public class XLocCalculator {
     private final Map<Path, XLoc> classXLocMap;
 
-    public XLocCalculator(Path rootPath) throws IOException {
+    public XLocCalculator(Path rootPath, List<Language> languages) throws IOException {
 
-        List<Path> classPaths = collectClassPaths(rootPath);
-
+        Map<Path, Language> classPaths = new PathsCollector(rootPath).collectClassPaths(languages);
         this.classXLocMap = new HashMap<>();
-        for(Path classPath : classPaths){
-            Language classLanguage = getLanguageFromClassPath(classPath);
-            if(!classLanguage.equals(new Other())) {
-                XLocPatternBuilder xLocPatterns = classLanguage.accept(new XLocPatternFactory(), null);
-                List<String> classLines = mixedCharsetFileReader(classPath);
-                XLoc xLoc = calculateClassXLoc(classLines, xLocPatterns, true);
-                this.classXLocMap.put(rootPath.relativize(classPath), xLoc);
-            }
+        for(Map.Entry<Path, Language> classPath : classPaths.entrySet()){
+            XLocPatternBuilder xLocPatterns = classPath.getValue().accept(new XLocPatternFactory(), null);
+            List<String> classLines = mixedCharsetFileReader(classPath.getKey());
+            XLoc xLoc = calculateClassXLoc(classLines, xLocPatterns, true);
+            this.classXLocMap.put(rootPath.relativize(classPath.getKey()), xLoc);
         }
     }
 
@@ -99,14 +93,5 @@ public class XLocCalculator {
         bufferedReader.close();
 
         return classLines;
-    }
-
-    private List<Path> collectClassPaths(Path projectPath) throws IOException {
-        return new PathsCollector(projectPath).collectClassPaths();
-    }
-
-    private Language getLanguageFromClassPath(Path classPath){
-        LanguageFactory factory = new LanguageFactory();
-        return factory.classPathToLanguage(classPath);
     }
 }

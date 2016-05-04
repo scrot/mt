@@ -1,171 +1,107 @@
 package report;
 
-import utils.PathsCollector;
 import com.messners.gitlab.api.GitLabApiException;
 import distr.Distribution;
 import distr.Percentage;
 import git.crawler.GitCrawler;
 import git.model.*;
+import lang.Java;
+import lang.Language;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
+import utils.PathsCollector;
 import xloc.XLoc;
 import xloc.XLocCalculator;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static utils.MapTransformation.filterContains;
-import static utils.MapTransformation.sumValueLengths;
-import static utils.MapTransformation.valueCounts;
+import static utils.MapTransformation.*;
 
 public class OverviewBuilder {
-    private final String projectGroup;
-    private final String projectName;
+    private final Report overviewReport;
 
-    private final Map<Object, Commit> commits;
-    private final Map<Object, Commit> codeCommits;
-    private final Integer commitsCount;
-    private final Integer codeCommitsCount;
+    public OverviewBuilder(String reportName, Project project) throws IOException, GitLabApiException, GitAPIException {
+        this.overviewReport = new Report(reportName, new LinkedHashMap<>());
+        updateOverviewReport(this.overviewReport, project);
+    }
 
-    private final Map<Integer, Issue> issues;
-    private final Map<Integer, Issue> codeIssues;
-    private final Integer issuesCount;
-    private final Integer codeIssuesCount;
+    public OverviewBuilder(String reportName, List<Project> projects) throws IOException, GitLabApiException, GitAPIException {
+        this.overviewReport = new Report(reportName, new LinkedHashMap<>());
 
-    private final Map<Path, List<Fault>> faults;
-    private final Map<Path, List<Fault>> codeFaults;
-    private final Integer faultsCount;
-    private final Integer codeFaultsCount;
+        int i = 0;
+        for(Project project : projects){
+            System.out.println("Building report " + ++i + " /" + projects.size());
+            updateOverviewReport(this.overviewReport, project);
+        }
+    }
 
-    private final Map<Path, List<Commit>> changes;
-    private final Map<Path, List<Commit>> codeChanges;
-    private final Integer changesCount;
-    private final Integer codeChangesCount;
+    public void writeOverviewReportToFile(String seperator) throws IOException, GitLabApiException, GitAPIException {
+        String writername = overviewReport.getName() + "_overview.csv";
+        FileWriter writer = new FileWriter(writername);
+        writer.write(String.join(seperator, this.overviewReport.getHeader()) + '\n');
 
-    private final Map<Path, Set<Author>> authors;
-    private final Map<Path, Set<Author>> codeAuthors;
-    private final Integer authorsCount;
-    private final Integer codeAuthorsCount;
+        for(List<String> row : this.overviewReport.getBody()){
+            writer.write(String.join(seperator, row) + '\n');
+        }
+        writer.close();
+    }
 
-    private final Integer ageDaysCount;
-    private final Integer developmentDaysCount;
-    private final Integer filesCount;
-    private final Integer codeFilesCount;
-    private final Integer codeCount;
-    private final Integer commentCount;
-    //private final Integer projectChangesCount;
-    //private final Integer projectAuthorsCount;
+    private Report updateOverviewReport(Report report, Project project) throws GitAPIException, IOException, GitLabApiException {
+        Map<String, List<String>> rmap = report.getReport();
 
-
-    private final Distribution codeDistribution;
-    private final Integer codeIn20Faults;
-    private final Double codeGini;
-
-    private final Distribution faultDistribution;
-    private final Integer faultsIn20;
-    private final Double faultGini;
-
-    public OverviewBuilder(Project project) throws IOException, GitLabApiException, GitAPIException {
+        List<Language> languageScope = new ArrayList<Language>(){{add(new Java());}};
         GitCrawler gitCrawler = new GitCrawler(project);
 
         List<Path> projectFiles = new PathsCollector(project.getLocalPath()).collectClassPaths();
-        Map<Path, XLoc> classesXLoc = new XLocCalculator(project.getLocalPath()).getResult();
+        Map<Path, XLoc> classesXLoc = new XLocCalculator(project.getLocalPath(), languageScope).getResult();
         XLoc totalXLoc = calculateTotalXLoc(classesXLoc);
 
         Map<Path, List<Fault>> codeFaults = filterContains(gitCrawler.getFaults(), classesXLoc);
         Map<Path, List<Commit>> codeChanges = filterContains(gitCrawler.getChanges(), classesXLoc);
         Map<Path, Set<Author>> codeAuthors = filterContains(gitCrawler.getAuthors(), classesXLoc);
 
-        this.projectGroup = project.getGroup();
-        this.projectName = project.getProject();
-
-        this.filesCount = projectFiles.size();
-        this.codeFilesCount = classesXLoc.size();
-
-        // Commits
-        this.commits = gitCrawler.getCommits();
-        this.commitsCount = gitCrawler.getCommits().size();
-        this.codeCommits = extractCommitsFromFaults(codeFaults);
-        this.codeCommitsCount = this.codeCommits.size();
-
-        List<Commit> commitSorted = sortCommits(this.commits);
+        List<Commit> commitSorted = sortCommits(gitCrawler.getCommits());
         Commit firstCommit = commitSorted.get(0);
         Commit lastCommit = commitSorted.get(commitSorted.size() - 1);
 
-        // Issues
-        this.issues = gitCrawler.getIssues();
-        this.codeIssues = extractIssuesFromFaults(codeFaults);
-        this.issuesCount = this.issues.size();
-        this.codeIssuesCount = this.codeIssues.size();
+        Distribution faultDistribution = new Distribution(valueCounts(codeFaults));
+        Distribution codeDistribution = new Distribution(getCodeCounts(classesXLoc));
 
-        // Faults
-        this.faults = gitCrawler.getFaults();
-        this.codeFaults = codeFaults;
-        this.faultsCount = gitCrawler.getFaults().size();
-        this.codeFaultsCount = this.codeFaults.size();
-
-        // Changes
-        this.changes = gitCrawler.getChanges();
-        this.codeChanges = codeChanges;
-        this.changesCount = sumValueLengths(gitCrawler.getChanges());
-        this.codeChangesCount = sumValueLengths(codeChanges);
-
-        // Authors
-        this.authors = gitCrawler.getAuthors();
-        this.codeAuthors = codeAuthors;
-        this.authorsCount = calculateTotalUniqueAuthors(gitCrawler.getAuthors());
-        this.codeAuthorsCount = calculateTotalUniqueAuthors(codeAuthors);
-
-        this.ageDaysCount = calculateDateDayDiff(firstCommit.getDate(), new Date());
-        this.developmentDaysCount = calculateDateDayDiff(firstCommit.getDate(), lastCommit.getDate());
-        this.codeCount = totalXLoc.getCodeLines();
-        this.commentCount = totalXLoc.getCommentLines();
-
-
-        this.codeDistribution = new Distribution(getCodeCounts(classesXLoc));
-        this.codeIn20Faults = getCodeIn20Percent(codeFaults, classesXLoc);
-        this.codeGini = codeDistribution.giniCoefficient();
-
-        this.faultDistribution = new Distribution(valueCounts(this.faults));
-        this.faultsIn20 = this.get20Percent(this.faultDistribution);
-        this.faultGini = faultDistribution.giniCoefficient();
-    }
-
-    public Map<String, String> getOverviewReport(){
         DecimalFormat formatter = new DecimalFormat("#.##");
-        Map<String,String> report = new LinkedHashMap<>();
-        report.put("Project", this.projectName);
-        report.put("TotFiles",this.filesCount.toString());
-        report.put("CodeFiles", this.codeFilesCount.toString());
-        report.put("CodeLines", this.codeCount.toString());
-        report.put("CommLines", this.commentCount.toString());
-        report.put("DevDays", this.developmentDaysCount.toString());
-        report.put("AgeDays", this.ageDaysCount.toString());
-        report.put("TotCommits", this.commitsCount.toString());
-        report.put("CodeCommits", this.codeCommitsCount.toString());
-        report.put("TotIssues", this.issuesCount.toString());
-        report.put("CodeIssues", this.codeIssuesCount.toString());
-        report.put("TotFaults", this.faultsCount.toString());
-        report.put("CodeFaults", this.codeFaultsCount.toString());
-        report.put("TotChanges", this.changesCount.toString());
-        report.put("CodeChanges", this.codeChangesCount.toString());
-        report.put("TotAuthors", this.authorsCount.toString());
-        report.put("CodeAuthors", this.codeAuthorsCount.toString());
-        report.put("FaultDist", "20-" + this.faultsIn20);
-        report.put("FaultCode", "20-" + this.codeIn20Faults);
-        report.put("FaultGini", formatter.format(this.faultGini));
-        report.put("CodeGini", formatter.format(this.codeGini));
+        addValueToMapList(rmap, "Project", project.getProject());
+        addValueToMapList(rmap, "TotFiles", Integer.toString(projectFiles.size()));
+        addValueToMapList(rmap, "CodeFiles", Integer.toString(classesXLoc.size()));
+        addValueToMapList(rmap, "CodeLines", Integer.toString(totalXLoc.getCodeLines()));
+        addValueToMapList(rmap, "CommLines", Integer.toString(totalXLoc.getCommentLines()));
+        addValueToMapList(rmap, "DevDays", Integer.toString(calculateDateDayDiff(firstCommit.getDate(), lastCommit.getDate())));
+        addValueToMapList(rmap, "AgeDays", Integer.toString(calculateDateDayDiff(firstCommit.getDate(), new Date())));
+        addValueToMapList(rmap, "TotCommits", Integer.toString(gitCrawler.getCommits().size()));
+        addValueToMapList(rmap, "CodeCommits", Integer.toString(extractCommitsFromFaults(codeFaults).size()));
+        addValueToMapList(rmap, "TotIssues", Integer.toString(gitCrawler.getIssues().size()));
+        addValueToMapList(rmap, "CodeIssues", Integer.toString(extractIssuesFromFaults(codeFaults).size()));
+        addValueToMapList(rmap, "TotFaults", Integer.toString(gitCrawler.getFaults().size()));
+        addValueToMapList(rmap, "CodeFaults", Integer.toString(codeFaults.size()));
+        addValueToMapList(rmap, "TotChanges", Integer.toString(gitCrawler.getChanges().size()));
+        addValueToMapList(rmap, "CodeChanges", Integer.toString(codeChanges.size()));
+        addValueToMapList(rmap, "TotAuthors", Integer.toString(gitCrawler.getAuthors().size()));
+        addValueToMapList(rmap, "CodeAuthors", Integer.toString(codeAuthors.size()));
+        addValueToMapList(rmap, "FaultDist", "20-" + this.get20Percent(faultDistribution));
+        addValueToMapList(rmap, "FaultCode", "20-" +  getCodeIn20Percent(codeFaults, classesXLoc));
+        addValueToMapList(rmap, "FaultGini", formatter.format(faultDistribution.giniCoefficient()));
+        addValueToMapList(rmap, "CodeGini", formatter.format(codeDistribution.giniCoefficient()));
         return report;
     }
 
     private Integer getCodeIn20Percent(Map<Path, List<Fault>> codeFaults, Map<Path, XLoc> clocs){
         List<FPath> faulty = getMostFaultyFiles(codeFaults, new Percentage(20.0));
         Integer faulyCloc = codeInFiles(faulty, clocs);
-        return new Percentage(faulyCloc / this.codeCount.doubleValue() * 100).getPercentage().intValue();
+        return new Percentage(faulyCloc / calculateTotalXLoc(clocs).getCodeLines().doubleValue() * 100).getPercentage().intValue();
     }
 
     private List<FPath> getMostFaultyFiles(Map<Path, List<Fault>> codeFaults, Percentage percentage){
@@ -174,7 +110,7 @@ public class OverviewBuilder {
             faulty.add(new FPath(entry.getKey(), entry.getValue().size()));
         }
         faulty.sort(Comparator.comparing(FPath::getFaultCount).reversed());
-        return faulty.subList(0, (int)(this.codeFaults.size() * percentage.getPercentage0to1()));
+        return faulty.subList(0, (int)(codeFaults.size() * percentage.getPercentage0to1()));
     }
 
     private Integer codeInFiles(List<FPath> files, Map<Path,XLoc> locs){

@@ -35,11 +35,24 @@ public class MapTransformation {
         return counts;
     }
 
-    public static <K,V extends Collection> Integer sumValueLengths(Map<K,V> map){
+    public static <K, V extends Collection> Integer sumValueLengths(Map<K,V> map){
         Integer counter = 0;
         for(V value : map.values()){
             counter += value.size();
         }
         return counter;
+    }
+
+    public static <K,V> List<List<V>> transposeValues(Map<K, List<V>> map){
+        List<List<V>> values = new ArrayList<>(map.values());
+        List<List<V>> newvalues = new ArrayList<>();
+        for(int i = 0; i < values.get(0).size(); i++){
+            List<V> row = new ArrayList<>();
+            for(int j = 0; j < values.size(); j++){
+                row.add(values.get(j).get(i));
+            }
+            newvalues.add(row);
+        }
+        return newvalues;
     }
 }
