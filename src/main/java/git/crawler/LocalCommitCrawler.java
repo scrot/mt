@@ -47,7 +47,7 @@ public class LocalCommitCrawler implements CommitCrawler {
 
     private Map<Object,Commit> collectCommits() throws IOException, GitAPIException {
         Map<Object, Commit> commits = new HashMap<>();
-        for(RevCommit commit : git.log().all().call()){
+        for(RevCommit commit : git.log().call()){
             commits.put(commit.getId(), new Commit(
                     commit.getId(),
                     new Author(commit.getAuthorIdent().getName()),

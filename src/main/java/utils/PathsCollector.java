@@ -1,4 +1,4 @@
-package distr;
+package utils;
 
 import java.io.IOException;
 import java.nio.file.FileVisitResult;

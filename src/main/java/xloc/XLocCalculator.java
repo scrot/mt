@@ -2,7 +2,7 @@ package xloc;
 
 import lang.Language;
 import lang.LanguageFactory;
-import distr.PathsCollector;
+import utils.PathsCollector;
 import lang.Other;
 import xloc.pattern.XLocPatternBuilder;
 

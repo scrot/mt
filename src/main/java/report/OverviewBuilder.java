@@ -1,8 +1,8 @@
 package report;
 
+import utils.PathsCollector;
 import com.messners.gitlab.api.GitLabApiException;
 import distr.Distribution;
-import distr.PathsCollector;
 import distr.Percentage;
 import git.crawler.GitCrawler;
 import git.model.*;
@@ -17,6 +17,10 @@ import java.nio.file.Path;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static utils.MapTransformation.filterContains;
+import static utils.MapTransformation.sumValueLengths;
+import static utils.MapTransformation.valueCounts;
 
 public class OverviewBuilder {
     private final String projectGroup;
@@ -37,8 +41,15 @@ public class OverviewBuilder {
     private final Integer faultsCount;
     private final Integer codeFaultsCount;
 
-    //private final Map<Path, List<Commit>> projectChanges;
-    //private final Map<Path, Set<Author>> projectAuthors;
+    private final Map<Path, List<Commit>> changes;
+    private final Map<Path, List<Commit>> codeChanges;
+    private final Integer changesCount;
+    private final Integer codeChangesCount;
+
+    private final Map<Path, Set<Author>> authors;
+    private final Map<Path, Set<Author>> codeAuthors;
+    private final Integer authorsCount;
+    private final Integer codeAuthorsCount;
 
     private final Integer ageDaysCount;
     private final Integer developmentDaysCount;
@@ -64,7 +75,10 @@ public class OverviewBuilder {
         List<Path> projectFiles = new PathsCollector(project.getLocalPath()).collectClassPaths();
         Map<Path, XLoc> classesXLoc = new XLocCalculator(project.getLocalPath()).getResult();
         XLoc totalXLoc = calculateTotalXLoc(classesXLoc);
+
         Map<Path, List<Fault>> codeFaults = filterContains(gitCrawler.getFaults(), classesXLoc);
+        Map<Path, List<Commit>> codeChanges = filterContains(gitCrawler.getChanges(), classesXLoc);
+        Map<Path, Set<Author>> codeAuthors = filterContains(gitCrawler.getAuthors(), classesXLoc);
 
         this.projectGroup = project.getGroup();
         this.projectName = project.getProject();
@@ -72,45 +86,56 @@ public class OverviewBuilder {
         this.filesCount = projectFiles.size();
         this.codeFilesCount = classesXLoc.size();
 
+        // Commits
         this.commits = gitCrawler.getCommits();
         this.commitsCount = gitCrawler.getCommits().size();
         this.codeCommits = extractCommitsFromFaults(codeFaults);
         this.codeCommitsCount = this.codeCommits.size();
 
+        List<Commit> commitSorted = sortCommits(this.commits);
+        Commit firstCommit = commitSorted.get(0);
+        Commit lastCommit = commitSorted.get(commitSorted.size() - 1);
+
+        // Issues
         this.issues = gitCrawler.getIssues();
         this.codeIssues = extractIssuesFromFaults(codeFaults);
         this.issuesCount = this.issues.size();
         this.codeIssuesCount = this.codeIssues.size();
 
-
+        // Faults
         this.faults = gitCrawler.getFaults();
         this.codeFaults = codeFaults;
         this.faultsCount = gitCrawler.getFaults().size();
         this.codeFaultsCount = this.codeFaults.size();
-        //this.projectChanges = project.getGitCrawler().getChanges();
 
-        List<Commit> commitSorted = sortCommits(this.commits);
-        Commit firstCommit = commitSorted.get(0);
-        Commit lastCommit = commitSorted.get(commitSorted.size() - 1);
+        // Changes
+        this.changes = gitCrawler.getChanges();
+        this.codeChanges = codeChanges;
+        this.changesCount = sumValueLengths(gitCrawler.getChanges());
+        this.codeChangesCount = sumValueLengths(codeChanges);
 
-        //this.projectChangesCount = calculateMapListsLengths(this.projectChanges);
+        // Authors
+        this.authors = gitCrawler.getAuthors();
+        this.codeAuthors = codeAuthors;
+        this.authorsCount = calculateTotalUniqueAuthors(gitCrawler.getAuthors());
+        this.codeAuthorsCount = calculateTotalUniqueAuthors(codeAuthors);
+
         this.ageDaysCount = calculateDateDayDiff(firstCommit.getDate(), new Date());
         this.developmentDaysCount = calculateDateDayDiff(firstCommit.getDate(), lastCommit.getDate());
         this.codeCount = totalXLoc.getCodeLines();
         this.commentCount = totalXLoc.getCommentLines();
-        //this.projectAuthorsCount = calculateTotalUniqueAuthors(this.projectAuthors);
 
 
         this.codeDistribution = new Distribution(getCodeCounts(classesXLoc));
         this.codeIn20Faults = getCodeIn20Percent(codeFaults, classesXLoc);
         this.codeGini = codeDistribution.giniCoefficient();
 
-        this.faultDistribution = new Distribution(getListCounts(this.faults));
+        this.faultDistribution = new Distribution(valueCounts(this.faults));
         this.faultsIn20 = this.get20Percent(this.faultDistribution);
         this.faultGini = faultDistribution.giniCoefficient();
     }
 
-    public Map<String, String> simpleReport(){
+    public Map<String, String> getOverviewReport(){
         DecimalFormat formatter = new DecimalFormat("#.##");
         Map<String,String> report = new LinkedHashMap<>();
         report.put("Project", this.projectName);
@@ -126,6 +151,10 @@ public class OverviewBuilder {
         report.put("CodeIssues", this.codeIssuesCount.toString());
         report.put("TotFaults", this.faultsCount.toString());
         report.put("CodeFaults", this.codeFaultsCount.toString());
+        report.put("TotChanges", this.changesCount.toString());
+        report.put("CodeChanges", this.codeChangesCount.toString());
+        report.put("TotAuthors", this.authorsCount.toString());
+        report.put("CodeAuthors", this.codeAuthorsCount.toString());
         report.put("FaultDist", "20-" + this.faultsIn20);
         report.put("FaultCode", "20-" + this.codeIn20Faults);
         report.put("FaultGini", formatter.format(this.faultGini));
@@ -170,30 +199,10 @@ public class OverviewBuilder {
         return counts;
     }
 
-    private <T,U,V> Map<T,U> filterContains(Map<T,U> toFilter, Map<T,V> toCheck){
-        Map<T,U> result = new HashMap<>();
-        for(Map.Entry<T,U> entry : toFilter.entrySet()){
-            if(toCheck.containsKey(entry.getKey())){
-                result.put(entry.getKey(), entry.getValue());
-            }
-        }
-        return result;
-    }
-
     private List<Commit> sortCommits(Map<Object, Commit> commits) {
         return commits.values().stream()
                 .sorted(Comparator.comparing(Commit::getDate))
                 .collect(Collectors.toList());
-    }
-
-    private <T,U> Map<T, Integer> getListCounts(Map<T, List<U>> values){
-        Map<T, Integer> counts = new HashMap<>();
-
-        for(Map.Entry<T, List<U>> entry : values.entrySet()){
-            counts.put(entry.getKey(), entry.getValue().size());
-        }
-
-        return counts;
     }
 
     private Integer calculateDateDayDiff(Date start, Date end) {
@@ -229,14 +238,6 @@ public class OverviewBuilder {
             uniqueAuthors.addAll(entry.getValue());
         }
         return uniqueAuthors.size();
-    }
-
-    private <K,V> Integer calculateMapListsLengths(Map<K,? extends Collection<V>> map){
-        Integer counter = 0;
-        for(Collection<V> value : map.values()){
-            counter += value.size();
-        }
-        return counter;
     }
 
     private XLoc calculateTotalXLoc(Map<Path, XLoc> classesXLoc) {

@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import static utils.MapTransformation.addValueToMapList;
+
 /**
  * Created by roy on 5/2/16.
  */
@@ -35,7 +37,7 @@ public class GitlabFaultCrawler implements FaultCrawler {
 
             for (Path file : files){
                 for(Issue issue : commitIssues){
-                    addValueToList(classFaults, file, new Fault(issue,commit.getKey()));
+                    addValueToMapList(classFaults, file, new Fault(issue,commit.getKey()));
                 }
             }
         }
@@ -50,23 +52,11 @@ public class GitlabFaultCrawler implements FaultCrawler {
             for(Integer issueNumber : commit.getIssueNumbers(getFaultPattern())){
                 if(issues.containsKey(issueNumber)) {
                     Issue issue = issues.get(issueNumber);
-                    addValueToList(commitIssueMap, commit, issue);
+                    addValueToMapList(commitIssueMap, commit, issue);
                 }
             }
         }
         return commitIssueMap;
-    }
-
-    private <K, V> void addValueToList(Map<K, List<V>> map, K key, V value) {
-        if (!map.containsKey(key)) {
-            map.put(key, new ArrayList<V>() {{ add(value); }});
-        }
-        else {
-            List<V> newvalue = map.get(key);
-            newvalue.add(value);
-            map.put(key, newvalue);
-        }
-
     }
 
     private Pattern getFaultPattern(){
