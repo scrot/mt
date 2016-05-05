@@ -1,12 +1,14 @@
-package git.crawler;
+package git.crawler.online;
 
 import com.messners.gitlab.api.GitLabApiException;
 import com.messners.gitlab.api.models.Diff;
 import git.api.GitlabAPI;
+import git.crawler.CommitCrawler;
 import git.model.Author;
 import git.model.Commit;
 import git.model.Project;
 import git.repository.GLRepoBuilder;
+import org.eclipse.jgit.api.Git;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,30 +23,37 @@ import java.util.Map;
 public class GitlabCommitCrawler implements CommitCrawler {
     private final GitlabAPI gitlab;
     private final Integer projectID;
-    private final Map<Object, Commit> commits;
+    private Map<Object, Commit> commits;
 
     public GitlabCommitCrawler(Project project) throws GitLabApiException {
         GLRepoBuilder repoBuilder = new GLRepoBuilder(project);
         this.gitlab = repoBuilder.getGitlabApi();
         this.projectID = repoBuilder.getProjectID();
-        this.commits = collectCommits();
     }
 
     @Override
     public Map<Object, Commit> getCommits() {
+        if(this.commits == null){
+            this.commits = collectCommits(gitlab, projectID);
+        }
         return this.commits;
     }
 
-    private Map<Object, Commit> collectCommits() throws GitLabApiException {
-        List<com.messners.gitlab.api.models.Commit> glCommits = this.gitlab.getCommitsAPI().getCommits(this.projectID);
-        Map<Object, Commit> commits = new HashMap<>();
-        for (com.messners.gitlab.api.models.Commit glCommit : glCommits){
-            commits.put(glCommit.getId(), new Commit(
-                    glCommit.getId(),
-                    new Author(""), //new Author(glCommit.getAuthor().getName()), API error
-                    glCommit.getMessage(),
-                    glCommit.getTimestamp(),
-                    getFiles(glCommit)));
+    private Map<Object, Commit> collectCommits(GitlabAPI gitlab, Integer projectID) {
+        List<com.messners.gitlab.api.models.Commit> glCommits = null;
+        try {
+            glCommits = gitlab.getCommitsAPI().getCommits(projectID);
+            Map<Object, Commit> commits = new HashMap<>();
+            for (com.messners.gitlab.api.models.Commit glCommit : glCommits){
+                commits.put(glCommit.getId(), new Commit(
+                        glCommit.getId(),
+                        new Author(""), //new Author(glCommit.getAuthor().getName()), API error
+                        glCommit.getMessage(),
+                        glCommit.getTimestamp(),
+                        getFiles(glCommit)));
+            }
+        } catch (GitLabApiException e) {
+            e.printStackTrace();
         }
         return commits;
     }

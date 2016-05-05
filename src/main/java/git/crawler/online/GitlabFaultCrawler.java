@@ -1,5 +1,6 @@
-package git.crawler;
+package git.crawler.online;
 
+import git.crawler.FaultCrawler;
 import git.model.Commit;
 import git.model.Fault;
 import git.model.Issue;
@@ -16,14 +17,20 @@ import static utils.MapTransformation.addValueToMapList;
  * Created by roy on 5/2/16.
  */
 public class GitlabFaultCrawler implements FaultCrawler {
-    private final Map<Path, List<Fault>> faults;
+    private final Map<Object, Commit> commits;
+    private final Map<Integer, Issue> issues;
+    private Map<Path, List<Fault>> faults;
 
     public GitlabFaultCrawler(Map<Object, Commit> commits, Map<Integer, Issue> issues) {
-        this.faults = collectFaults(commits, issues);
+        this.commits = commits;
+        this.issues = issues;
     }
 
     @Override
     public Map<Path, List<Fault>> getFaults() {
+        if(this.faults == null){
+            this.faults = collectFaults(commits, issues);
+        }
         return this.faults;
     }
 

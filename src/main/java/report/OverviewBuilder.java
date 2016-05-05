@@ -3,7 +3,8 @@ package report;
 import com.messners.gitlab.api.GitLabApiException;
 import distr.Distribution;
 import distr.Percentage;
-import git.crawler.GitCrawler;
+import git.crawler.Crawler;
+import git.crawler.local.LocalCrawler;
 import git.model.*;
 import lang.Java;
 import lang.Language;
@@ -56,17 +57,17 @@ public class OverviewBuilder {
         Map<String, List<String>> rmap = report.getReport();
 
         List<Language> languageScope = new ArrayList<Language>(){{add(new Java());}};
-        GitCrawler gitCrawler = new GitCrawler(project);
+        Crawler crawler = new LocalCrawler(project);
 
         List<Path> projectFiles = new PathsCollector(project.getLocalPath()).collectClassPaths();
         Map<Path, XLoc> classesXLoc = new XLocCalculator(project.getLocalPath(), languageScope).getResult();
         XLoc totalXLoc = calculateTotalXLoc(classesXLoc);
 
-        Map<Path, List<Fault>> codeFaults = filterContains(gitCrawler.getFaults(), classesXLoc);
-        Map<Path, List<Commit>> codeChanges = filterContains(gitCrawler.getChanges(), classesXLoc);
-        Map<Path, Set<Author>> codeAuthors = filterContains(gitCrawler.getAuthors(), classesXLoc);
+        Map<Path, List<Fault>> codeFaults = filterContains(crawler.getFaults(), classesXLoc);
+        Map<Path, List<Commit>> codeChanges = filterContains(crawler.getChanges(), classesXLoc);
+        Map<Path, Set<Author>> codeAuthors = filterContains(crawler.getAuthors(), classesXLoc);
 
-        List<Commit> commitSorted = sortCommits(gitCrawler.getCommits());
+        List<Commit> commitSorted = sortCommits(crawler.getCommits());
         Commit firstCommit = commitSorted.get(0);
         Commit lastCommit = commitSorted.get(commitSorted.size() - 1);
 
@@ -81,16 +82,16 @@ public class OverviewBuilder {
         addValueToMapList(rmap, "CommLines", Integer.toString(totalXLoc.getCommentLines()));
         addValueToMapList(rmap, "DevDays", Integer.toString(calculateDateDayDiff(firstCommit.getDate(), lastCommit.getDate())));
         addValueToMapList(rmap, "AgeDays", Integer.toString(calculateDateDayDiff(firstCommit.getDate(), new Date())));
-        addValueToMapList(rmap, "TotCommits", Integer.toString(gitCrawler.getCommits().size()));
+        addValueToMapList(rmap, "TotCommits", Integer.toString(crawler.getCommits().size()));
         addValueToMapList(rmap, "CodeCommits", Integer.toString(extractCommitsFromFaults(codeFaults).size()));
-        addValueToMapList(rmap, "TotIssues", Integer.toString(gitCrawler.getIssues().size()));
+        addValueToMapList(rmap, "TotIssues", Integer.toString(crawler.getIssues().size()));
         addValueToMapList(rmap, "CodeIssues", Integer.toString(extractIssuesFromFaults(codeFaults).size()));
-        addValueToMapList(rmap, "TotFaults", Integer.toString(gitCrawler.getFaults().size()));
+        addValueToMapList(rmap, "TotFaults", Integer.toString(crawler.getFaults().size()));
         addValueToMapList(rmap, "CodeFaults", Integer.toString(codeFaults.size()));
-        addValueToMapList(rmap, "TotChanges", Integer.toString(gitCrawler.getChanges().size()));
+        addValueToMapList(rmap, "TotChanges", Integer.toString(crawler.getChanges().size()));
         addValueToMapList(rmap, "CodeChanges", Integer.toString(codeChanges.size()));
-        addValueToMapList(rmap, "TotAuthors", Integer.toString(gitCrawler.getAuthors().size()));
-        addValueToMapList(rmap, "CodeAuthors", Integer.toString(codeAuthors.size()));
+        addValueToMapList(rmap, "TotAuthors", Integer.toString(calculateTotalUniqueAuthors(crawler.getAuthors())));
+        addValueToMapList(rmap, "CodeAuthors", Integer.toString(calculateTotalUniqueAuthors(codeAuthors)));
         addValueToMapList(rmap, "FaultDist", "20-" + this.get20Percent(faultDistribution));
         addValueToMapList(rmap, "FaultCode", "20-" +  getCodeIn20Percent(codeFaults, classesXLoc));
         addValueToMapList(rmap, "FaultGini", formatter.format(faultDistribution.giniCoefficient()));
@@ -152,7 +153,9 @@ public class OverviewBuilder {
         Map<Integer, Issue> filteredIssues = new HashMap<>();
         for(List<Fault> entry : faults.values()){
             for(Fault fault : entry){
-                filteredIssues.put(fault.getIssue().getId(), fault.getIssue());
+                if(fault.getIssue() != null){
+                    filteredIssues.put(fault.getIssue().getId(), fault.getIssue());
+                }
             }
         }
         return filteredIssues;
@@ -162,7 +165,9 @@ public class OverviewBuilder {
         Map<Object, Commit> filteredCommits = new HashMap<>();
         for(List<Fault> entry : faults.values()){
             for(Fault fault : entry){
-                filteredCommits.put(fault.getCommit().getId(), fault.getCommit());
+                if(fault.getCommit() != null){
+                    filteredCommits.put(fault.getCommit().getId(), fault.getCommit());
+                }
             }
         }
         return filteredCommits;

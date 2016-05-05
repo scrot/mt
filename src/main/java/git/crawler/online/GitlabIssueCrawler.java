@@ -1,7 +1,8 @@
-package git.crawler;
+package git.crawler.online;
 
 import com.messners.gitlab.api.GitLabApiException;
 import git.api.GitlabAPI;
+import git.crawler.IssueCrawler;
 import git.model.Issue;
 import git.model.Project;
 import git.repository.GLRepoBuilder;
@@ -13,28 +14,35 @@ import java.util.Map;
 /**
  * Created by roy on 5/2/16.
  */
-public class GitlabIssueCrawler implements IssueCrawler{
+public class GitlabIssueCrawler implements IssueCrawler {
     private final GitlabAPI gitlab;
     private final Integer projectID;
-    private final Map<Integer, Issue> issues;
+    private Map<Integer, Issue> issues;
 
     public GitlabIssueCrawler(Project project) throws GitLabApiException {
         GLRepoBuilder repoBuilder = new GLRepoBuilder(project);
         this.gitlab = repoBuilder.getGitlabApi();
         this.projectID = repoBuilder.getProjectID();
-        this.issues = collectIssues();
     }
 
     @Override
     public Map<Integer, Issue> getIssues() {
+        if(this.issues == null){
+            this.issues = collectIssues(gitlab, projectID);
+        }
         return this.issues;
     }
 
-    private Map<Integer, Issue> collectIssues() throws GitLabApiException {
+    private Map<Integer, Issue> collectIssues(GitlabAPI gitlab, Integer projectID) {
         Map<Integer, Issue> issueMap = new HashMap<>();
-        List<com.messners.gitlab.api.models.Issue> issueList = this.gitlab.getIssuesAPI().getIssues(this.projectID);
-        for(com.messners.gitlab.api.models.Issue issue : issueList){
-            issueMap.put(issue.getIid(), new Issue(issue));
+        List<com.messners.gitlab.api.models.Issue> issueList = null;
+        try {
+            issueList = gitlab.getIssuesAPI().getIssues(projectID);
+            for(com.messners.gitlab.api.models.Issue issue : issueList){
+                issueMap.put(issue.getIid(), new Issue(issue));
+            }
+        } catch (GitLabApiException e) {
+            e.printStackTrace();
         }
         return issueMap;
     }

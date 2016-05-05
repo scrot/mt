@@ -1,5 +1,6 @@
-package git.crawler;
+package git.crawler.local;
 
+import git.crawler.CommitCrawler;
 import git.model.Author;
 import git.model.Commit;
 import org.eclipse.jgit.api.Git;
@@ -25,9 +26,9 @@ import java.util.Map;
  */
 public class LocalCommitCrawler implements CommitCrawler {
     private final Git git;
-    private final Map<Object, Commit> commits;
+    private Map<Object, Commit> commits;
 
-    public LocalCommitCrawler(Path gitProjectRoot) throws IOException, GitAPIException {
+    public LocalCommitCrawler(Path gitProjectRoot) throws IOException {
         File gitRoot = Paths.get(gitProjectRoot.toString(), ".git").toFile();
         FileRepositoryBuilder builder = new FileRepositoryBuilder();
         Repository repo = builder.setGitDir(gitRoot)
@@ -35,23 +36,29 @@ public class LocalCommitCrawler implements CommitCrawler {
                 .findGitDir()
                 .build();
         this.git = new Git(repo);
-        this.commits = collectCommits();
     }
 
     @Override
     public Map<Object, Commit> getCommits() {
+        if(this.commits == null){
+            this.commits = collectCommits();
+        }
         return this.commits;
     }
 
-    private Map<Object,Commit> collectCommits() throws IOException, GitAPIException {
+    private Map<Object,Commit> collectCommits(){
         Map<Object, Commit> commits = new HashMap<>();
-        for(RevCommit commit : git.log().call()){
-            commits.put(commit.getId(), new Commit(
-                    commit.getId(),
-                    new Author(commit.getAuthorIdent().getName()),
-                    commit.getFullMessage(),
-                    commit.getAuthorIdent().getWhen(),
-                    getFiles(commit)));
+        try {
+            for(RevCommit commit : git.log().call()){
+                commits.put(commit.getId(), new Commit(
+                        commit.getId(),
+                        new Author(commit.getAuthorIdent().getName()),
+                        commit.getFullMessage(),
+                        commit.getAuthorIdent().getWhen(),
+                        getFiles(commit)));
+            }
+        } catch (GitAPIException | IOException e) {
+            e.printStackTrace();
         }
         return commits;
     }
