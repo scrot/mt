@@ -19,16 +19,7 @@ public class ConfigReader {
         String filename = path.getFileName().toString();
         this.name = filename.substring(0, filename.indexOf('.'));
         BufferedReader reader = Files.newBufferedReader(path);
-
-        String gitType = reader.readLine();
-        if(gitType.equalsIgnoreCase("gitlab")){
-            String hostUrl = reader.readLine();
-            String auth = reader.readLine();
-            this.projects = readGitlabProjects(hostUrl, auth, reader);
-        }
-        else {
-            throw new IOException();
-        }
+        this.projects = readGitlabProjects("", "", reader);
     }
 
     public String getName() {return name; }

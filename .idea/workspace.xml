@@ -2,30 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eb317eed-238d-4ad5-b116-67dd8f37efe5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/git/crawler/Crawler.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/git/crawler/local/LocalCrawler.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/git/crawler/local/LocalFaultCrawler.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/git/crawler/online/OnlineCrawler.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/git/crawler/GitCrawler.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/git/crawler/GitlabCommitCrawler.java" afterPath="$PROJECT_DIR$/src/main/java/git/crawler/online/GitlabCommitCrawler.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/git/crawler/GitlabFaultCrawler.java" afterPath="$PROJECT_DIR$/src/main/java/git/crawler/online/GitlabFaultCrawler.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/git/crawler/GitlabIssueCrawler.java" afterPath="$PROJECT_DIR$/src/main/java/git/crawler/online/GitlabIssueCrawler.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/git/crawler/LocalCommitCrawler.java" afterPath="$PROJECT_DIR$/src/main/java/git/crawler/local/LocalCommitCrawler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/cache.properties.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/fileHashes.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/git/repository/GHRepoBuilder.class" afterPath="$PROJECT_DIR$/build/classes/main/git/repository/GHRepoBuilder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/metrics/ClassMetrics.class" afterPath="$PROJECT_DIR$/build/classes/main/metrics/ClassMetrics.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/report/OverviewBuilder$1.class" afterPath="$PROJECT_DIR$/build/classes/main/report/OverviewBuilder$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/report/OverviewBuilder.class" afterPath="$PROJECT_DIR$/build/classes/main/report/OverviewBuilder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/report/ReportWriter.class" afterPath="$PROJECT_DIR$/build/classes/main/report/ReportWriter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/xloc/XLoc.class" afterPath="$PROJECT_DIR$/build/classes/main/xloc/XLoc.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/resources/main/example.conf" afterPath="$PROJECT_DIR$/build/resources/main/example.conf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/example_overview.csv" afterPath="$PROJECT_DIR$/example_overview.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/report/OverviewBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/report/OverviewBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/report/ReportWriter.java" afterPath="$PROJECT_DIR$/src/main/java/report/ReportWriter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/report/ConfigReader.java" afterPath="$PROJECT_DIR$/src/main/java/report/ConfigReader.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/example.conf" afterPath="$PROJECT_DIR$/src/main/resources/example.conf" />
     </list>
     <ignored path="utils.iws" />
@@ -78,6 +55,26 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="ConfigReader.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/report/ConfigReader.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="154">
+              <caret line="21" column="59" selection-start-line="21" selection-start-column="59" selection-end-line="21" selection-end-column="59" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="example.conf" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/example.conf">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="GitlabIssueCrawler.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/git/crawler/online/GitlabIssueCrawler.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -108,16 +105,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GitlabCommitCrawler.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/git/crawler/online/GitlabCommitCrawler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="44" column="69" selection-start-line="44" selection-start-column="69" selection-end-line="44" selection-end-column="69" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="OverviewBuilder.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/report/OverviewBuilder.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -131,9 +118,21 @@
       <file leaf-file-name="example_overview.csv" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/example_overview.csv">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="2" selection-end-column="118" />
+            <state relative-caret-position="54">
+              <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LocalFaultCrawler.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/git/crawler/local/LocalFaultCrawler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="390">
+              <caret line="59" column="17" selection-start-line="59" selection-start-column="17" selection-end-line="59" selection-end-column="70" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -510,7 +509,6 @@
         <option value="$PROJECT_DIR$/src/main/java/git/model/Project.java" />
         <option value="$PROJECT_DIR$/src/main/java/git/crawler/DefaultCrawler.java" />
         <option value="$PROJECT_DIR$/src/main/java/git/repository/GHRepoBuilder.java" />
-        <option value="$PROJECT_DIR$/src/main/java/report/ConfigReader.java" />
         <option value="$PROJECT_DIR$/src/main/java/git/crawler/GitCommitCrawler.java" />
         <option value="$PROJECT_DIR$/example.sdf" />
         <option value="$PROJECT_DIR$/src/main/java/git/crawler/GitlabIssueCrawler.java" />
@@ -545,9 +543,7 @@
         <option value="$PROJECT_DIR$/src/main/java/report/FeatureBuilder.java" />
         <option value="$PROJECT_DIR$/src/main/java/git/crawler/OnlineCrawler.java" />
         <option value="$PROJECT_DIR$/src/main/java/git/crawler/LocalCrawler.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/example.conf" />
         <option value="$PROJECT_DIR$/example_overview.csv" />
-        <option value="$PROJECT_DIR$/src/main/java/report/ReportWriter.java" />
         <option value="$PROJECT_DIR$/src/main/java/report/OverviewBuilder.java" />
         <option value="$PROJECT_DIR$/src/main/java/git/crawler/LocalFaultCrawler.java" />
         <option value="$PROJECT_DIR$/src/main/java/git/crawler/local/LocalCommitCrawler.java" />
@@ -558,6 +554,9 @@
         <option value="$PROJECT_DIR$/src/main/java/git/crawler/online/GitlabIssueCrawler.java" />
         <option value="$PROJECT_DIR$/src/main/java/git/crawler/online/GitlabCommitCrawler.java" />
         <option value="$PROJECT_DIR$/src/main/java/git/crawler/Crawler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/report/ReportWriter.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/example.conf" />
+        <option value="$PROJECT_DIR$/src/main/java/report/ConfigReader.java" />
       </list>
     </option>
   </component>
@@ -1393,12 +1392,12 @@
       <workItem from="1462259110890" duration="37000" />
       <workItem from="1462259173819" duration="6984000" />
       <workItem from="1462345423489" duration="23720000" />
-      <workItem from="1462439060743" duration="4907000" />
+      <workItem from="1462439060743" duration="5527000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="267395000" />
+    <option name="totallyTimeSpent" value="268015000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="27" width="1920" height="1053" extended-state="6" />
@@ -1736,39 +1735,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/report/ConfigReader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/example.conf">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="3" column="38" selection-start-line="3" selection-start-column="38" selection-end-line="3" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/git/crawler/local.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="5" column="18" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/git/crawler/local/LocalFaultCrawler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="30" column="43" selection-start-line="30" selection-start-column="43" selection-end-line="30" selection-end-column="43" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#595#596#0" expanded="true" />
-            <element signature="e#633#634#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1838,14 +1809,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/report/ReportWriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="23" column="10" selection-start-line="23" selection-start-column="10" selection-end-line="23" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/report/OverviewBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="486">
@@ -1854,10 +1817,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/git/crawler/local/LocalFaultCrawler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="59" column="17" selection-start-line="59" selection-start-column="17" selection-end-line="59" selection-end-column="70" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/report/ReportWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="23" column="10" selection-start-line="23" selection-start-column="10" selection-end-line="23" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/report/ConfigReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="21" column="59" selection-start-line="21" selection-start-column="59" selection-end-line="21" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/example.conf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/example_overview.csv">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="2" selection-end-column="118" />
+        <state relative-caret-position="54">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
           <folding />
         </state>
       </provider>
