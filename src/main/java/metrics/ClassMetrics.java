@@ -16,7 +16,10 @@
 
 package metrics;
 
+import java.security.InvalidParameterException;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Store details needed for calculating a class's Chidamber-Kemerer metrics.
@@ -51,22 +54,24 @@ public class ClassMetrics {
     private HashSet<String> afferentCoupledClasses;
 
     /** Default constructor. */
-    ClassMetrics() {
+    public ClassMetrics() {
 	wmc = 0;
 	noc = 0;
 	cbo = 0;
 	npm = 0;
 	visited = false;
-	afferentCoupledClasses = new HashSet<String>();
+	afferentCoupledClasses = new HashSet<>();
     }
 
     /** Increment the weighted methods count */
     public void incWmc() { wmc++; }
+    public void setWmc(int wmc) { this.wmc = wmc; }
     /** Return the weighted methods per class metric */
     public int getWmc() { return wmc; }
 
     /** Increment the number of children */
     public void incNoc() { noc++; }
+    public void setNoc(int noc) { this.noc = noc; }
     /** Return the number of children */
     public int getNoc() { return noc; }
 
@@ -94,9 +99,16 @@ public class ClassMetrics {
     public int getCa() { return afferentCoupledClasses.size(); }
     /** Add a class to the set of classes that depend on this class */
     public void addAfferentCoupling(String name) { afferentCoupledClasses.add(name); }
+    public Set<String> getAfferentCouplingClasses() { return afferentCoupledClasses; }
+    public Set<String> addAfferentCoupling(Set<String> seta, Set<String> setb) {
+        Set<String> set = this.afferentCoupledClasses;
+        seta.addAll(setb);
+        return set;
+    }
 
     /** Increment the number of public methods count */
     public void incNpm() { npm++; }
+    public void setNpm(int npm) { this.npm = npm; }
     /** Return the number of public methods metric */
     public int getNpm() { return npm; }
 
@@ -136,4 +148,21 @@ public class ClassMetrics {
      * we do not want them to appear in the output results.
      */
     public boolean isVisited() { return visited; }
+
+    public ClassMetrics add(Object object){
+        if(object instanceof ClassMetrics){
+            ClassMetrics y = (ClassMetrics) object;
+            ClassMetrics total = new ClassMetrics();
+            total.setWmc(this.getWmc() + y.getWmc());
+            total.setDit(this.getDit() + y.getDit());
+            total.setNoc(this.getNoc() + y.getNoc());
+            total.setCbo(this.getCbo() + y.getCbo());
+            total.setRfc(this.getRfc() + y.getRfc());
+            total.setLcom(this.getLcom() + y.getLcom());
+            total.addAfferentCoupling(this.getAfferentCouplingClasses(), y.getAfferentCouplingClasses());
+            total.setNpm(this.getNpm() + y.getNpm());
+            return total;
+        }
+        throw new InvalidParameterException();
+    }
 }

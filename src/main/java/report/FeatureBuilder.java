@@ -9,15 +9,14 @@ import metrics.ClassVisitor;
 import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.classfile.JavaClass;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import utils.PathsCollector;
+import utils.ClassCollector;
+import utils.SourceCollector;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.nio.file.Paths;
+import java.util.*;
 
 import static utils.MapTransformation.addValueToMapList;
 
@@ -48,42 +47,58 @@ public class FeatureBuilder {
     }
 
     private void addFeatureReport(Project project) throws IOException {
-        List<Path> javaClassPaths = new PathsCollector(project.getLocalPath()).collectClassPaths(new Java());
         Report featureReport = new Report(project.getProject(), new LinkedHashMap<>());
-        for(Path javaClassPath : javaClassPaths) {
-            updateFeatureReport(featureReport, javaClassPath);
+
+        Map<Path, List<JavaClass>> sourceClasses = buildClassSourceMap(project);
+        for(Map.Entry<Path, List<JavaClass>> entry : sourceClasses.entrySet()){
+            ClassMetrics totalClassMetrics = new ClassMetrics();
+            for(JavaClass javaClass : entry.getValue()){
+                totalClassMetrics = totalClassMetrics.add(calculateMetrics(javaClass));
+            }
+            updateFeatureReport(featureReport, entry.getKey(), totalClassMetrics);
         }
         featureReports.add(featureReport);
     }
 
-    private Report updateFeatureReport(Report report, Path javaClassPath) throws IOException {
-        ClassMetrics cm = calculateMetrics(javaClassPath);
+    private Report updateFeatureReport(Report report, Path sourcePath, ClassMetrics cm) throws IOException {
         Map<String, List<String>> rmap = report.getReport();
-        addValueToMapList(rmap, "Class", javaClassPath.toString());
+        addValueToMapList(rmap, "Class", sourcePath.toString());
         addValueToMapList(rmap, "WMC", Integer.toString(cm.getWmc()));
         addValueToMapList(rmap, "DIT", Integer.toString(cm.getDit()));
         addValueToMapList(rmap, "NOC", Integer.toString(cm.getNoc()));
         addValueToMapList(rmap, "CBO", Integer.toString(cm.getCbo()));
         addValueToMapList(rmap, "RFC", Integer.toString(cm.getRfc()));
         addValueToMapList(rmap, "LCOM", Integer.toString(cm.getLcom()));
-        addValueToMapList(rmap, "CTI", Integer.toString(cm.getWmc()));
-        addValueToMapList(rmap, "CTM", Integer.toString(cm.getWmc()));
-        addValueToMapList(rmap, "CTA", Integer.toString(cm.getWmc()));
-        addValueToMapList(rmap, "NOM", Integer.toString(cm.getWmc()));
-        addValueToMapList(rmap, "SIZE1", Integer.toString(cm.getWmc()));
-        addValueToMapList(rmap, "SIZE2", Integer.toString(cm.getWmc()));
-        addValueToMapList(rmap, "IsNew", Integer.toString(cm.getWmc()));
-        addValueToMapList(rmap, "IsChg", Integer.toString(cm.getWmc()));
-        addValueToMapList(rmap, "AGE", Integer.toString(cm.getWmc()));
-        addValueToMapList(rmap, "U", Integer.toString(cm.getWmc()));
-        addValueToMapList(rmap, "S", Integer.toString(cm.getWmc()));
+        addValueToMapList(rmap, "CTI", Integer.toString(-1));
+        addValueToMapList(rmap, "CTM", Integer.toString(-1));
+        addValueToMapList(rmap, "CTA", Integer.toString(-1));
+        addValueToMapList(rmap, "NOM", Integer.toString(-1));
+        addValueToMapList(rmap, "SIZE1", Integer.toString(-1));
+        addValueToMapList(rmap, "SIZE2", Integer.toString(-1));
+        addValueToMapList(rmap, "IsNew", Integer.toString(-1));
+        addValueToMapList(rmap, "IsChg", Integer.toString(-1));
+        addValueToMapList(rmap, "AGE", Integer.toString(-1));
+        addValueToMapList(rmap, "U", Integer.toString(-1));
+        addValueToMapList(rmap, "S", Integer.toString(-1));
         addValueToMapList(rmap, "Ca", Integer.toString(cm.getCa()));
         addValueToMapList(rmap, "NPM", Integer.toString(cm.getNpm()));
         return report;
     }
 
-    private ClassMetrics calculateMetrics(Path javaClassPath) throws IOException {
-        JavaClass jc = new ClassParser(javaClassPath.toString()).parse();
+    private Map<Path, List<JavaClass>> buildClassSourceMap(Project project) throws IOException {
+        Map<Path, List<JavaClass>> map = new HashMap<>();
+        List<Path> javaClassPaths = new ClassCollector(project.getJarPath()).collectClassPaths();
+
+        for(Path javaClassPath : javaClassPaths){
+            JavaClass jc = new ClassParser(project.getJarPath().toString(), javaClassPath.toString().substring(1)).parse();
+            Path sourcePath = Paths.get(jc.getPackageName().replace('.', '/') + "/" + jc.getSourceFileName());
+            addValueToMapList(map, sourcePath, jc);
+        }
+
+        return map;
+    }
+
+    private ClassMetrics calculateMetrics(JavaClass jc) throws IOException {
         ClassVisitor visitor = new ClassVisitor(jc, new ClassMetricsContainer());
         visitor.start();
         visitor.end();
