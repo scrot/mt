@@ -69,6 +69,7 @@ public class FeatureBuilder {
         addValueToMapList(rmap, "CBO", Integer.toString(cm.getCbo()));
         addValueToMapList(rmap, "RFC", Integer.toString(cm.getRfc()));
         addValueToMapList(rmap, "LCOM", Integer.toString(cm.getLcom()));
+        /*
         addValueToMapList(rmap, "CTI", Integer.toString(-1));
         addValueToMapList(rmap, "CTM", Integer.toString(-1));
         addValueToMapList(rmap, "CTA", Integer.toString(-1));
@@ -80,6 +81,7 @@ public class FeatureBuilder {
         addValueToMapList(rmap, "AGE", Integer.toString(-1));
         addValueToMapList(rmap, "U", Integer.toString(-1));
         addValueToMapList(rmap, "S", Integer.toString(-1));
+        */
         addValueToMapList(rmap, "Ca", Integer.toString(cm.getCa()));
         addValueToMapList(rmap, "NPM", Integer.toString(cm.getNpm()));
         return report;
