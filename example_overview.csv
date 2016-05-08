@@ -1,3 +1,2 @@
 Project, TotFiles, CodeFiles, CodeLines, CommLines, DevDays, AgeDays, TotCommits, CodeCommits, TotIssues, CodeIssues, TotFaults, CodeFaults, TotChanges, CodeChanges, TotAuthors, CodeAuthors, FaultDist, FaultCode, FaultGini, CodeGini
-test, 40, 4, 13, 1, 20, 27, 9, 3, 0, 0, 6, 4, 8, 4, 1, 1, 20-0, 20-0, 0.15, 0.29
-fdroidclient, 670, 203, 26940, 5820, 2019, 2024, 3361, 30, 0, 0, 1744, 158, 5440, 203, 63, 6, 20-12, 20-29, 0.24, 0.57
+junit4, 506, 395, 26461, 6599, 5595, 5635, 2079, 322, 0, 0, 741, 358, 1611, 395, 148, 125, 20-55, 20-32, 0.5, 0.56

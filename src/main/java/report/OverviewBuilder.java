@@ -123,7 +123,7 @@ public class OverviewBuilder {
     }
 
     private Integer get20Percent(Distribution d){
-        return d.cumulativeOfPartitionPercentage(new Percentage(20.0)).getPercentage().intValue();
+        return d.cumulativeTailOfPartitionPercentage(new Percentage(20.0)).getPercentage().intValue();
     }
 
     private <T> Map<T, Integer> getCodeCounts(Map<T, XLoc> values){

@@ -11,7 +11,7 @@ public class Distribution {
     }
 
     public Double giniCoefficient() {
-        Double linSpace = 0.5 * this.cumulativeOfPartition(new Percentage(100.0)) * this.distribution.size();
+        Double linSpace = 0.5 * this.cumulativeHeadOfPartition(new Percentage(100.0)) * this.distribution.size();
         Double lorenzSpace = 0.0;
         for(Integer i = 1; i <= this.distribution.size(); i++){
             if(i == 1) {
@@ -24,7 +24,7 @@ public class Distribution {
         return (linSpace - lorenzSpace) / linSpace;
     }
 
-    public Integer cumulativeOfPartition(Percentage partition){
+    public Integer cumulativeHeadOfPartition(Percentage partition){
         Integer index = getDistributionIndex(partition);
 
         if(index == 0){
@@ -35,9 +35,29 @@ public class Distribution {
         }
     }
 
-    public Percentage cumulativeOfPartitionPercentage(Percentage partition) {
-        Integer total = cumulativeOfPartition(new Percentage(100.0));
-        Integer value = cumulativeOfPartition(partition);
+    public Integer cumulativeTailOfPartition(Percentage partition){
+        Integer startIndex = getDistributionIndex(new Percentage(100.0 - partition.getPercentage()));
+        Integer endIndex = getDistributionIndex(new Percentage(100.0));
+
+        if(startIndex == 0){
+            return distribution.get(endIndex);
+        }
+        else {
+            Integer start = distribution.get(startIndex);
+            Integer end = distribution.get(endIndex);
+            return end - start;
+        }
+    }
+
+    public Percentage cumulativeHeadOfPartitionPercentage(Percentage partition) {
+        Integer total = cumulativeHeadOfPartition(new Percentage(100.0));
+        Integer value = cumulativeHeadOfPartition(partition);
+        return new Percentage(percentageOf(value, total).getPercentage());
+    }
+
+    public Percentage cumulativeTailOfPartitionPercentage(Percentage partition) {
+        Integer total = cumulativeTailOfPartition(new Percentage(100.0));
+        Integer value = cumulativeTailOfPartition(partition);
         return new Percentage(percentageOf(value, total).getPercentage());
     }
 
@@ -45,7 +65,7 @@ public class Distribution {
         List<Percentage> plot = new ArrayList<>();
         for(Double i = end; i >= start; i -= interval){
             Percentage partition = new Percentage(i);
-            plot.add(this.cumulativeOfPartitionPercentage(partition));
+            plot.add(this.cumulativeHeadOfPartitionPercentage(partition));
         }
         return plot;
     }
@@ -55,7 +75,11 @@ public class Distribution {
         return classes.intValue();
     }
 
+    //TODO: Track cause of divide by zero when not checking total < 1
     private Percentage percentageOf(Integer value, Integer total){
+        if(total < 1) {
+            return new Percentage(0.0);
+        }
         return new Percentage((double) (value * 100 / total));
     }
 
