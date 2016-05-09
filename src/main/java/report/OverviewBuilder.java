@@ -57,7 +57,7 @@ public class OverviewBuilder {
         Map<String, List<String>> rmap = report.getReport();
 
         List<Language> languageScope = new ArrayList<Language>(){{add(new Java());}};
-        Crawler crawler = new LocalCrawler(project);
+        Crawler crawler = null; //new LocalCrawler(project);
 
         List<Path> projectFiles = new SourceCollector(project.getLocalPath()).collectFilePaths();
         Map<Path, XLoc> classesXLoc = new XLocCalculator(project.getLocalPath(), languageScope).getResult();

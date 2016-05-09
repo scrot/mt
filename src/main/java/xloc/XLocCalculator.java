@@ -25,7 +25,7 @@ public class XLocCalculator {
 
     public XLocCalculator(Path rootPath, List<Language> languages) throws IOException {
 
-        Map<Path, Language> classPaths = new SourceCollector(rootPath).collectFilePaths(languages);
+        Map<Path, Language> classPaths = new SourceCollector(rootPath, true).collectFilePaths(languages);
         this.classXLocMap = new HashMap<>();
         for(Map.Entry<Path, Language> classPath : classPaths.entrySet()){
             XLocPatternBuilder xLocPatterns = classPath.getValue().accept(new XLocPatternFactory(), null);
