@@ -18,8 +18,8 @@ public class XLocPatternFactory implements Visitor<XLocPatternBuilder,Void>  {
         javaLocPattern.addBlankPattern(new BlankPattern(Pattern.compile("\\s*$", Pattern.MULTILINE)));
         javaLocPattern.addCommentPattern(new SlCommentPattern(Pattern.compile("^\\s*//.*$", Pattern.MULTILINE)));
         javaLocPattern.addCommentPattern(new MlCommentPattern(
-                Pattern.compile("^\\s*/\\*.*$", Pattern.MULTILINE),
-                Pattern.compile("^.*\\*/\\s*$", Pattern.MULTILINE)));
+                Pattern.compile("/\\*", Pattern.MULTILINE),
+                Pattern.compile("\\*/", Pattern.MULTILINE)));
 
         return javaLocPattern;
     }

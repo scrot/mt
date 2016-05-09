@@ -52,24 +52,14 @@ public class XLocCalculator {
             if(blankline){
                 xLocCounter.incrementBlankLines();
             }
-
-            if(commentline){
+            else if(commentline){
                 xLocCounter.incrementCommentLines();
             }
-
-            if(deduceCodeLine){
-                if(!(blankline || commentline || unknownline)){
-                    xLocCounter.incrementCodeLines();
-                }
+            else if(unknownline){
+                xLocCounter.incrementUnknownLines();
             }
             else {
-                if (codeline) {
-                    xLocCounter.incrementCodeLines();
-                }
-            }
-
-            if(unknownline){
-                xLocCounter.incrementUnknownLines();
+                xLocCounter.incrementCodeLines();
             }
         }
 

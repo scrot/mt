@@ -20,7 +20,7 @@ public class ReportWriter {
         ConfigReader confReader = new ConfigReader(config);
         List<Project> projects = confReader.getProjects();
         OverviewBuilder builder = new OverviewBuilder(confReader.getName(), projects);
-        builder.writeOverviewReportToFile(", ");
+        //builder.writeOverviewReportToFile(", ");
         //FeatureBuilder fbuilder = new FeatureBuilder(projects);
         //fbuilder.writeOverviewReportToFile(", ");
     }
