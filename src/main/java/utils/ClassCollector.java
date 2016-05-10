@@ -20,11 +20,16 @@ public class ClassCollector extends SimpleFileVisitor<Path> {
     public ClassCollector(Path sourcePath) throws IOException {
         this.classPaths = new ArrayList<>();
         this.dirPaths = new ArrayList<>();
-        try (FileSystem fs = FileSystems.newFileSystem(sourcePath, null)){
-            Path walkerRoot = fs.getPath("/");
-            Files.walkFileTree(walkerRoot, this);
-        } catch (Exception e){
-            e.getStackTrace();
+        if(sourcePath.toFile().isDirectory()){
+            Files.walkFileTree(sourcePath, this);
+        }
+        else {
+            try (FileSystem fs = FileSystems.newFileSystem(sourcePath, null)){
+                Path walkerRoot = fs.getPath("/");
+                Files.walkFileTree(walkerRoot, this);
+            } catch (Exception e){
+                e.getStackTrace();
+            }
         }
     }
 

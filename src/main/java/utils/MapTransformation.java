@@ -44,6 +44,9 @@ public class MapTransformation {
     }
 
     public static <K,V> List<List<V>> transposeValues(Map<K, List<V>> map){
+        if(map.size() <= 0) {
+            return new ArrayList<>();
+        }
         List<List<V>> values = new ArrayList<>(map.values());
         List<List<V>> newvalues = new ArrayList<>();
         for(int i = 0; i < values.get(0).size(); i++){

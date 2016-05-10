@@ -1,16 +1,14 @@
 package report;
 
 import com.messners.gitlab.api.GitLabApiException;
-import git.model.Project;
-import lang.Java;
-import metrics.ClassMetrics;
-import metrics.ClassMetricsContainer;
+import gitcrawler.model.Project;
+import javassist.compiler.Javac;
+import metrics.Metric;
 import metrics.ClassVisitor;
 import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.classfile.JavaClass;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import utils.ClassCollector;
-import utils.SourceCollector;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -49,18 +47,12 @@ public class FeatureBuilder {
     private void addFeatureReport(Project project) throws IOException {
         Report featureReport = new Report(project.getProject(), new LinkedHashMap<>());
 
-        Map<Path, List<JavaClass>> sourceClasses = buildClassSourceMap(project);
-        for(Map.Entry<Path, List<JavaClass>> entry : sourceClasses.entrySet()){
-            ClassMetrics totalClassMetrics = new ClassMetrics();
-            for(JavaClass javaClass : entry.getValue()){
-                totalClassMetrics = totalClassMetrics.add(calculateMetrics(javaClass));
-            }
-            updateFeatureReport(featureReport, entry.getKey(), totalClassMetrics);
-        }
+        List<JavaClass> classes = collectClasses(project.getJarPath());
+        calculateMetrics(classes);
         featureReports.add(featureReport);
     }
 
-    private Report updateFeatureReport(Report report, Path sourcePath, ClassMetrics cm) throws IOException {
+    private Report updateFeatureReport(Report report, Path sourcePath, Metric cm) throws IOException {
         Map<String, List<String>> rmap = report.getReport();
         addValueToMapList(rmap, "Class", sourcePath.toString());
         addValueToMapList(rmap, "WMC", Integer.toString(cm.getWmc()));
@@ -81,10 +73,25 @@ public class FeatureBuilder {
         addValueToMapList(rmap, "AGE", Integer.toString(-1));
         addValueToMapList(rmap, "U", Integer.toString(-1));
         addValueToMapList(rmap, "S", Integer.toString(-1));
-        */
         addValueToMapList(rmap, "Ca", Integer.toString(cm.getCa()));
         addValueToMapList(rmap, "NPM", Integer.toString(cm.getNpm()));
+        */
         return report;
+    }
+
+    private List<JavaClass> collectClasses(Path classesRoot) throws IOException {
+        List<JavaClass> classes = new ArrayList<>();
+        List<Path> javaClassPaths = new ClassCollector(classesRoot).collectClassPaths();
+
+        for(Path javaClassPath : javaClassPaths){
+            if(classesRoot.toFile().isDirectory()){
+                classes.add(new ClassParser(javaClassPath.toString()).parse());
+            }
+            else {
+                classes.add(new ClassParser(classesRoot.toString(), javaClassPath.toString().substring(1)).parse());
+            }
+        }
+        return classes;
     }
 
     private Map<Path, List<JavaClass>> buildClassSourceMap(Project project) throws IOException {
@@ -92,18 +99,24 @@ public class FeatureBuilder {
         List<Path> javaClassPaths = new ClassCollector(project.getJarPath()).collectClassPaths();
 
         for(Path javaClassPath : javaClassPaths){
-            JavaClass jc = new ClassParser(project.getJarPath().toString(), javaClassPath.toString().substring(1)).parse();
-            Path sourcePath = Paths.get(jc.getPackageName().replace('.', '/') + "/" + jc.getSourceFileName());
-            addValueToMapList(map, sourcePath, jc);
+            JavaClass jc;
+            if(project.getJarPath().toFile().isDirectory()){
+                jc = new ClassParser(javaClassPath.toString()).parse();
+            }
+            else {
+                jc = new ClassParser(project.getJarPath().toString(), javaClassPath.toString().substring(1)).parse();
+            }
+            if(!jc.getPackageName().equals("") && !jc.getSourceFileName().equals("<Unknown>")){
+                Path sourcePath = Paths.get(jc.getPackageName().replace('.', '/') + "/" + jc.getSourceFileName());
+                addValueToMapList(map, sourcePath, jc);
+            }
         }
 
         return map;
     }
 
-    private ClassMetrics calculateMetrics(JavaClass jc) throws IOException {
-        ClassVisitor visitor = new ClassVisitor(jc, new ClassMetricsContainer());
-        visitor.start();
-        visitor.end();
-        return visitor.getMetrics();
+    private Metric calculateMetrics(List<JavaClass> classes) throws IOException {
+        ClassVisitor visitor = new ClassVisitor(classes);
+        return null;
     }
 }

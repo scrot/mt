@@ -1,10 +1,9 @@
 package report;
 
 import com.messners.gitlab.api.GitLabApiException;
-import git.model.Project;
+import gitcrawler.model.Project;
 import org.eclipse.jgit.api.errors.GitAPIException;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,9 +18,9 @@ public class ReportWriter {
         Path config = Paths.get("C:\\Users\\royw\\Workspace\\mt\\src\\main\\resources\\example.conf");
         ConfigReader confReader = new ConfigReader(config);
         List<Project> projects = confReader.getProjects();
-        OverviewBuilder builder = new OverviewBuilder(confReader.getName(), projects);
+        //OverviewBuilder builder = new OverviewBuilder(confReader.getName(), projects);
         //builder.writeOverviewReportToFile(", ");
-        //FeatureBuilder fbuilder = new FeatureBuilder(projects);
-        //fbuilder.writeOverviewReportToFile(", ");
+        FeatureBuilder fbuilder = new FeatureBuilder(projects);
+        fbuilder.writeOverviewReportToFile(", ");
     }
 }

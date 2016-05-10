@@ -1,7 +1,7 @@
 package report;
 
 import com.messners.gitlab.api.GitLabApiException;
-import git.model.Project;
+import gitcrawler.model.Project;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -3,9 +3,9 @@ package report;
 import com.messners.gitlab.api.GitLabApiException;
 import distr.Distribution;
 import distr.Percentage;
-import git.crawler.Crawler;
-import git.crawler.local.LocalCrawler;
-import git.model.*;
+import gitcrawler.crawler.Crawler;
+import gitcrawler.crawler.local.LocalCrawler;
+import gitcrawler.model.*;
 import lang.Java;
 import lang.Language;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -57,7 +57,7 @@ public class OverviewBuilder {
         Map<String, List<String>> rmap = report.getReport();
 
         List<Language> languageScope = new ArrayList<Language>(){{add(new Java());}};
-        Crawler crawler = null; //new LocalCrawler(project);
+        Crawler crawler = new LocalCrawler(project);
 
         List<Path> projectFiles = new SourceCollector(project.getLocalPath()).collectFilePaths();
         Map<Path, XLoc> classesXLoc = new XLocCalculator(project.getLocalPath(), languageScope, true).getResult();

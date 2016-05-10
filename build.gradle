@@ -17,7 +17,7 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.7.5'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
     compile 'org.slf4j:slf4j-nop:1.7.21'
-    compile 'org.apache.bcel:bcel:5.2'
+    compile 'com.google.code.findbugs:bcel-findbugs:6.0'
 
 
     compile 'com.messners:gitlab-api:2.0.4'
