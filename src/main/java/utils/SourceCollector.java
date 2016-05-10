@@ -16,12 +16,10 @@ import java.util.Map;
 public class SourceCollector extends SimpleFileVisitor<Path> {
     private final List<Path> classPaths;
     private final List<Path> dirPaths;
-    private final Boolean ignoreGenerated;
 
-    public SourceCollector(Path sourcePath, Boolean ignoreGenerated) throws IOException {
+    public SourceCollector(Path sourcePath) throws IOException {
         this.classPaths = new ArrayList<>();
         this.dirPaths = new ArrayList<>();
-        this.ignoreGenerated = ignoreGenerated;
 
         Files.walkFileTree(sourcePath, this);
     }
@@ -62,7 +60,6 @@ public class SourceCollector extends SimpleFileVisitor<Path> {
         for(Path classPath : this.classPaths){
             Language classLanguage = getLanguageFromClassPath(classPath);
             if(ofLanguages.contains(classLanguage)) {
-                if(!ignoreGenerated && isGenerated(classPath) || ignoreGenerated)
                 filteredClasses.put(classPath, classLanguage);
             }
         }
@@ -72,15 +69,5 @@ public class SourceCollector extends SimpleFileVisitor<Path> {
     public static Language getLanguageFromClassPath(Path classPath){
         LanguageFactory factory = new LanguageFactory();
         return factory.classPathToLanguage(classPath);
-    }
-
-    private Boolean isGenerated(Path classPath) {
-        try {
-            FileReader reader = new FileReader(classPath.toFile());
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
     }
 }

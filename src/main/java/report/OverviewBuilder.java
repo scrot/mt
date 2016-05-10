@@ -60,7 +60,7 @@ public class OverviewBuilder {
         Crawler crawler = null; //new LocalCrawler(project);
 
         List<Path> projectFiles = new SourceCollector(project.getLocalPath()).collectFilePaths();
-        Map<Path, XLoc> classesXLoc = new XLocCalculator(project.getLocalPath(), languageScope).getResult();
+        Map<Path, XLoc> classesXLoc = new XLocCalculator(project.getLocalPath(), languageScope, true).getResult();
         XLoc totalXLoc = calculateTotalXLoc(classesXLoc);
 
         Map<Path, List<Fault>> codeFaults = filterContains(crawler.getFaults(), classesXLoc);

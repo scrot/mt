@@ -16,22 +16,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * Created by roy on 4/5/16.
  */
 public class XLocCalculator {
     private final Map<Path, XLoc> classXLocMap;
+    private final Boolean ignoreGenerated;
 
-    public XLocCalculator(Path rootPath, List<Language> languages) throws IOException {
+    public XLocCalculator(Path rootPath, List<Language> languages, Boolean ignoreGenerated) throws IOException {
 
-        Map<Path, Language> classPaths = new SourceCollector(rootPath, true).collectFilePaths(languages);
+        Map<Path, Language> classPaths = new SourceCollector(rootPath).collectFilePaths(languages);
         this.classXLocMap = new HashMap<>();
+        this.ignoreGenerated = ignoreGenerated;
         for(Map.Entry<Path, Language> classPath : classPaths.entrySet()){
             XLocPatternBuilder xLocPatterns = classPath.getValue().accept(new XLocPatternFactory(), null);
             List<String> classLines = mixedCharsetFileReader(classPath.getKey());
             XLoc xLoc = calculateClassXLoc(classLines, xLocPatterns, true);
-            this.classXLocMap.put(rootPath.relativize(classPath.getKey()), xLoc);
+            if(xLoc.getTotalLines() != 0){
+                this.classXLocMap.put(rootPath.relativize(classPath.getKey()), xLoc);
+            }
         }
     }
 
@@ -41,6 +46,10 @@ public class XLocCalculator {
 
     private XLoc calculateClassXLoc(List<String> classLines, XLocPatternBuilder xLocPatterns, Boolean deduceCodeLine) {
         XLocCounter xLocCounter = new XLocCounter();
+        if(ignoreGenerated && isGeneratedFile(classLines, xLocPatterns, 15)){
+            return xLocCounter.getXLoc();
+        }
+
         for(String classLine : classLines){
 
             Boolean blankline = xLocPatterns.isBlankLine(classLine);
@@ -64,6 +73,24 @@ public class XLocCalculator {
         }
 
         return xLocCounter.getXLoc();
+    }
+
+    private Boolean isGeneratedFile(List<String> fileContent, XLocPatternBuilder xLocPatterns, Integer checkLines){
+        Integer commentCount = 0;
+        for(String line: fileContent){
+            if(commentCount <= checkLines){
+                if(xLocPatterns.isCommentLine(line)){
+                    commentCount++;
+                    if(Pattern.compile("(?i)generated").matcher(line).find()){
+                        return true;
+                    }
+                }
+            }
+            else {
+                return false;
+            }
+        }
+        return false;
     }
 
     private List<String> mixedCharsetFileReader(Path classpath) throws IOException {
