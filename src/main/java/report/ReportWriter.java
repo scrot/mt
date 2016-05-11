@@ -13,7 +13,7 @@ import java.util.List;
  * TODO: Boost IssueCrawling (other lib?)
  */
 public class ReportWriter {
-    public static void main(String[] args) throws IOException, GitLabApiException, GitAPIException {
+    public static void main(String[] args) throws IOException, GitLabApiException, GitAPIException, ClassNotFoundException {
         //Path config = Paths.get(args[0]);
         Path config = Paths.get("C:\\Users\\royw\\Workspace\\mt\\src\\main\\resources\\example.conf");
         ConfigReader confReader = new ConfigReader(config);

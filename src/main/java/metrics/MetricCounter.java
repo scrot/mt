@@ -7,8 +7,6 @@ public class MetricCounter {
     private int cbo;
     private int dit;
     private int lcom;
-    private int npm;
-    private int ca;
 
     public MetricCounter() {
         this.wmc = 0;
@@ -17,37 +15,25 @@ public class MetricCounter {
         this.cbo = 0;
         this.dit = 0;
         this.lcom = 0;
-        this.npm = 0;
-        this.ca = 0;
     }
 
     public Metric getMetric() {
-        return new Metric(wmc, noc, rfc, cbo, dit, lcom, npm, ca);
+        return new Metric(wmc, noc, rfc, cbo, dit, lcom);
     }
 
-    public void incrementNoc(){
-        this.noc++;
+    public void incrementWmc(Integer increment){
+        this.wmc += increment;
     }
 
-    public void incrementDit(){
-        this.dit++;
+    public void incrementRfc(Integer increment){
+        this.rfc += increment;
     }
-    /*
-    public Metric add(Object object){
-        if(object instanceof Metric){
-            Metric y = (Metric) object;
-            Metric total = new Metric();
-            total.setWmc(this.getWmc() + y.getWmc());
-            total.setDit(this.getDit() + y.getDit());
-            total.setNoc(this.getNoc() + y.getNoc());
-            total.setCbo(this.getCbo() + y.getCbo());
-            total.setRfc(this.getRfc() + y.getRfc());
-            total.setLcom(this.getLcom() + y.getLcom());
-            total.addAfferentCoupling(this.getAfferentCouplingClasses(), y.getAfferentCouplingClasses());
-            total.setNpm(this.getNpm() + y.getNpm());
-            return total;
-        }
-        throw new InvalidParameterException();
+
+    public void incrementNoc(Integer increment){
+        this.noc += increment;
     }
-    */
+
+    public void incrementDit(Integer increment){
+        this.dit += increment;
+    }
 }

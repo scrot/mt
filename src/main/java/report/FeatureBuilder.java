@@ -2,7 +2,6 @@ package report;
 
 import com.messners.gitlab.api.GitLabApiException;
 import gitcrawler.model.Project;
-import javassist.compiler.Javac;
 import metrics.Metric;
 import metrics.ClassVisitor;
 import org.apache.bcel.classfile.ClassParser;
@@ -15,18 +14,20 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import static utils.MapTransformation.addValueToMapList;
 
 public class FeatureBuilder {
     private final List<Report> featureReports;
 
-    public FeatureBuilder(Project project) throws IOException {
+    public FeatureBuilder(Project project) throws IOException, ClassNotFoundException {
         this.featureReports = new ArrayList<>();
         addFeatureReport(project);
     }
 
-    public FeatureBuilder(List<Project> projects) throws IOException {
+    public FeatureBuilder(List<Project> projects) throws IOException, ClassNotFoundException {
         this.featureReports = new ArrayList<>();
         for(Project project : projects) {
             addFeatureReport(project);
@@ -44,11 +45,10 @@ public class FeatureBuilder {
         }
     }
 
-    private void addFeatureReport(Project project) throws IOException {
+    private void addFeatureReport(Project project) throws IOException, ClassNotFoundException {
         Report featureReport = new Report(project.getProject(), new LinkedHashMap<>());
 
-        List<JavaClass> classes = collectClasses(project.getJarPath());
-        calculateMetrics(classes);
+        new ClassVisitor(project.getBinaryPath());
         featureReports.add(featureReport);
     }
 
@@ -79,32 +79,17 @@ public class FeatureBuilder {
         return report;
     }
 
-    private List<JavaClass> collectClasses(Path classesRoot) throws IOException {
-        List<JavaClass> classes = new ArrayList<>();
-        List<Path> javaClassPaths = new ClassCollector(classesRoot).collectClassPaths();
-
-        for(Path javaClassPath : javaClassPaths){
-            if(classesRoot.toFile().isDirectory()){
-                classes.add(new ClassParser(javaClassPath.toString()).parse());
-            }
-            else {
-                classes.add(new ClassParser(classesRoot.toString(), javaClassPath.toString().substring(1)).parse());
-            }
-        }
-        return classes;
-    }
-
     private Map<Path, List<JavaClass>> buildClassSourceMap(Project project) throws IOException {
         Map<Path, List<JavaClass>> map = new HashMap<>();
-        List<Path> javaClassPaths = new ClassCollector(project.getJarPath()).collectClassPaths();
+        List<Path> javaClassPaths = new ClassCollector(project.getBinaryPath()).collectClassPaths();
 
         for(Path javaClassPath : javaClassPaths){
             JavaClass jc;
-            if(project.getJarPath().toFile().isDirectory()){
+            if(project.getBinaryPath().toFile().isDirectory()){
                 jc = new ClassParser(javaClassPath.toString()).parse();
             }
             else {
-                jc = new ClassParser(project.getJarPath().toString(), javaClassPath.toString().substring(1)).parse();
+                jc = new ClassParser(project.getBinaryPath().toString(), javaClassPath.toString().substring(1)).parse();
             }
             if(!jc.getPackageName().equals("") && !jc.getSourceFileName().equals("<Unknown>")){
                 Path sourcePath = Paths.get(jc.getPackageName().replace('.', '/') + "/" + jc.getSourceFileName());
@@ -113,10 +98,5 @@ public class FeatureBuilder {
         }
 
         return map;
-    }
-
-    private Metric calculateMetrics(List<JavaClass> classes) throws IOException {
-        ClassVisitor visitor = new ClassVisitor(classes);
-        return null;
     }
 }

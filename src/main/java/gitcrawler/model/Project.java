@@ -37,7 +37,7 @@ public class Project {
         return this.localPath;
     }
 
-    public Path getJarPath() {
+    public Path getBinaryPath() {
         return jarPath;
     }
 
