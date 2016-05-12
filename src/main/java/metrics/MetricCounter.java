@@ -36,4 +36,12 @@ public class MetricCounter {
     public void incrementDit(Integer increment){
         this.dit += increment;
     }
+
+    public void incrementCbo(Integer increment){
+        this.cbo += increment;
+    }
+
+    public void incrementLcom(Integer increment){
+        this.lcom += increment;
+    }
 }

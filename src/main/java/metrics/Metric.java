@@ -21,11 +21,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Metric {
-    private final int wmc; // add McCabe
-    private final int noc; // done
-    private final int rfc; //done
+    private final int wmc;
+    private final int noc;
+    private final int rfc;
     private final int cbo;
-    private final int dit; // done
+    private final int dit;
     private final int lcom;
 
     public Metric(int wmc, int noc, int rfc, int cbo, int dit, int lcom) {

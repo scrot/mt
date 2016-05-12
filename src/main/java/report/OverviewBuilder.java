@@ -64,7 +64,7 @@ public class OverviewBuilder {
         XLoc totalXLoc = calculateTotalXLoc(classesXLoc);
 
         Map<Path, List<Fault>> codeFaults = filterContains(crawler.getFaults(), classesXLoc);
-        Map<Path, List<Commit>> codeChanges = filterContains(crawler.getChanges(), classesXLoc);
+        Map<Path, Set<Commit>> codeChanges = filterContains(crawler.getChanges(), classesXLoc);
         Map<Path, Set<Author>> codeAuthors = filterContains(crawler.getAuthors(), classesXLoc);
 
         List<Commit> commitSorted = sortCommits(crawler.getCommits());

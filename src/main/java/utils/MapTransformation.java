@@ -4,6 +4,17 @@ import java.util.*;
 
 public class MapTransformation {
 
+    public static <K, V> void addValueToMapSet(Map<K, Set<V>> map, K key, V value) {
+        if (!map.containsKey(key)) {
+            map.put(key, new HashSet<V>() {{ add(value); }});
+        }
+        else {
+            Set<V> newvalue = map.get(key);
+            newvalue.add(value);
+            map.put(key, newvalue);
+        }
+    }
+
     public static <K, V> void addValueToMapList(Map<K, List<V>> map, K key, V value) {
         if (!map.containsKey(key)) {
             map.put(key, new ArrayList<V>() {{ add(value); }});

@@ -3,7 +3,7 @@ package report;
 import com.messners.gitlab.api.GitLabApiException;
 import gitcrawler.model.Project;
 import metrics.Metric;
-import metrics.ClassVisitor;
+import metrics.MetricCalculator;
 import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.classfile.JavaClass;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -14,8 +14,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 import static utils.MapTransformation.addValueToMapList;
 
@@ -48,7 +46,7 @@ public class FeatureBuilder {
     private void addFeatureReport(Project project) throws IOException, ClassNotFoundException {
         Report featureReport = new Report(project.getProject(), new LinkedHashMap<>());
 
-        new ClassVisitor(project.getBinaryPath());
+        new MetricCalculator(project.getBinaryPath());
         featureReports.add(featureReport);
     }
 
