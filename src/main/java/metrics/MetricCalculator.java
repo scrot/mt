@@ -85,7 +85,18 @@ public class MetricCalculator extends org.apache.bcel.classfile.EmptyVisitor {
         addToCouplings(field.getType());
     }
 
-    public Map<JavaClass, MetricCounter> getMetrics() { return metrics; }
+    public Map<String, Metric> getMetrics() {
+        Map<String, Metric> smetrics = new HashMap<>();
+        for(Map.Entry<JavaClass, MetricCounter> entry : this.metrics.entrySet()){
+            if(!entry.getKey().getPackageName().equals("")){
+                smetrics.put(entry.getKey().getPackageName() + "." + entry.getKey().getClassName(), entry.getValue().getMetric());
+            }
+            else {
+                smetrics.put(entry.getKey().getClassName(), entry.getValue().getMetric());
+            }
+        }
+        return smetrics;
+    }
 
     private void updateClassWmc(MethodGen methodGen){
         Integer cc = calculateMethodCC(methodGen);
@@ -139,8 +150,8 @@ public class MetricCalculator extends org.apache.bcel.classfile.EmptyVisitor {
             for(Integer j = i + 1; j < methodInstanceVariables.size(); j++){
                 Set<String> setI = methodInstanceVariables.get(i);
                 Set<String> setJ = methodInstanceVariables.get(j);
-                setI.retainAll(setJ);
-                if(setI.size() == 0){
+
+                if(intersection(setI,setJ).size() == 0){
                     lcom++;
                 }
                 else {
@@ -222,7 +233,9 @@ public class MetricCalculator extends org.apache.bcel.classfile.EmptyVisitor {
                 }
             }
         }
-        this.methodVariablesMap.put(methodSignature(methodGen), locals);
+        if(locals.size() > 0){
+            this.methodVariablesMap.put(methodSignature(methodGen), locals);
+        }
     }
 
     private Integer calculateMethodCC(MethodGen methodGen) {
@@ -270,6 +283,17 @@ public class MetricCalculator extends org.apache.bcel.classfile.EmptyVisitor {
             emptyMetrics.put(jclass, new MetricCounter());
         }
         return emptyMetrics;
+    }
+
+    private <T> Set<T> intersection(Set<T> set1, Set<T> set2) {
+        Set<T> set = new HashSet<>();
+
+        for (T t : set1) {
+            if(set2.contains(t)) {
+                set.add(t);
+            }
+        }
+        return set;
     }
 
     private Repository buildClassRepository(Path binaryPath) throws IOException, ClassNotFoundException {

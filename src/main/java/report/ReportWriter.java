@@ -9,9 +9,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-/*
- * TODO: Boost IssueCrawling (other lib?)
- */
 public class ReportWriter {
     public static void main(String[] args) throws IOException, GitLabApiException, GitAPIException, ClassNotFoundException {
         //Path config = Paths.get(args[0]);

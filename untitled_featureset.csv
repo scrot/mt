@@ -1,1 +1,8 @@
-
+Class, WMC, DIT, NOC, CBO, RFC, LCOM
+Super, 1, 1, 2, 3, 2, 0
+Utils, 2, 1, 0, 3, 3, 0
+Child2, 1, 2, 0, 4, 4, 0
+Child1, 13, 2, 1, 4, 11, 4
+ExternChild1, 1, 2, 0, 3, 2, 0
+Infant1, 1, 3, 0, 3, 2, 0
+Main, 2, 1, 0, 4, 5, 0

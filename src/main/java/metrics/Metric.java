@@ -16,10 +16,6 @@
 
 package metrics;
 
-import java.security.InvalidParameterException;
-import java.util.HashSet;
-import java.util.Set;
-
 public class Metric {
     private final int wmc;
     private final int noc;

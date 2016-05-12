@@ -46,13 +46,16 @@ public class FeatureBuilder {
     private void addFeatureReport(Project project) throws IOException, ClassNotFoundException {
         Report featureReport = new Report(project.getProject(), new LinkedHashMap<>());
 
-        new MetricCalculator(project.getBinaryPath());
+        Map<String, Metric> metrics = new MetricCalculator(project.getBinaryPath()).getMetrics();
+        for(Map.Entry<String,Metric> metric : metrics.entrySet()){
+            updateFeatureReport(featureReport, metric.getKey(), metric.getValue());
+        }
         featureReports.add(featureReport);
     }
 
-    private Report updateFeatureReport(Report report, Path sourcePath, Metric cm) throws IOException {
+    private Report updateFeatureReport(Report report, String className, Metric cm) throws IOException {
         Map<String, List<String>> rmap = report.getReport();
-        addValueToMapList(rmap, "Class", sourcePath.toString());
+        addValueToMapList(rmap, "Class", className);
         addValueToMapList(rmap, "WMC", Integer.toString(cm.getWmc()));
         addValueToMapList(rmap, "DIT", Integer.toString(cm.getDit()));
         addValueToMapList(rmap, "NOC", Integer.toString(cm.getNoc()));
@@ -71,30 +74,7 @@ public class FeatureBuilder {
         addValueToMapList(rmap, "AGE", Integer.toString(-1));
         addValueToMapList(rmap, "U", Integer.toString(-1));
         addValueToMapList(rmap, "S", Integer.toString(-1));
-        addValueToMapList(rmap, "Ca", Integer.toString(cm.getCa()));
-        addValueToMapList(rmap, "NPM", Integer.toString(cm.getNpm()));
         */
         return report;
-    }
-
-    private Map<Path, List<JavaClass>> buildClassSourceMap(Project project) throws IOException {
-        Map<Path, List<JavaClass>> map = new HashMap<>();
-        List<Path> javaClassPaths = new ClassCollector(project.getBinaryPath()).collectClassPaths();
-
-        for(Path javaClassPath : javaClassPaths){
-            JavaClass jc;
-            if(project.getBinaryPath().toFile().isDirectory()){
-                jc = new ClassParser(javaClassPath.toString()).parse();
-            }
-            else {
-                jc = new ClassParser(project.getBinaryPath().toString(), javaClassPath.toString().substring(1)).parse();
-            }
-            if(!jc.getPackageName().equals("") && !jc.getSourceFileName().equals("<Unknown>")){
-                Path sourcePath = Paths.get(jc.getPackageName().replace('.', '/') + "/" + jc.getSourceFileName());
-                addValueToMapList(map, sourcePath, jc);
-            }
-        }
-
-        return map;
     }
 }
