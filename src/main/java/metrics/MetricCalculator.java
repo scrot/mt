@@ -210,15 +210,15 @@ public class MetricCalculator extends org.apache.bcel.classfile.EmptyVisitor {
     }
 
     private void addToCouplings(Type type){
-        this.classCouples.add(className(type));
+        if(!className(type).equals(this.currectClass.getClassName())){
+            this.classCouples.add(className(type));
+        }
     }
 
     private void addToCouplings(List<Type> types){
-        List<String> typeNames = new ArrayList<>();
         for(Type type : types){
-            typeNames.add(className(type));
+            addToCouplings(type);
         }
-        this.classCouples.addAll(typeNames);
     }
 
     private void addMethodInstanceVariables(MethodGen methodGen) {
