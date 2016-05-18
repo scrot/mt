@@ -1,7 +1,7 @@
 package xloc;
 
+import collector.SourceCollector;
 import lang.Language;
-import utils.SourceCollector;
 import xloc.pattern.XLocPatternBuilder;
 
 import java.io.BufferedReader;
@@ -18,22 +18,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import static collector.SourceCollector.mixedCharsetFileReader;
+
 /**
  * Created by roy on 4/5/16.
  */
 public class XLocCalculator {
     private final Map<Path, XLoc> classXLocMap;
-    private final Boolean ignoreGenerated;
 
-    public XLocCalculator(Path rootPath, List<Language> languages, Boolean ignoreGenerated) throws IOException {
+    public XLocCalculator(Path rootPath, List<Language> languages) throws IOException {
 
-        Map<Path, Language> classPaths = new SourceCollector(rootPath).collectFilePaths(languages);
+        Map<Path, Language> classPaths = new SourceCollector(rootPath, true, true).collectFilePaths(languages);
         this.classXLocMap = new HashMap<>();
-        this.ignoreGenerated = ignoreGenerated;
         for(Map.Entry<Path, Language> classPath : classPaths.entrySet()){
             XLocPatternBuilder xLocPatterns = classPath.getValue().accept(new XLocPatternFactory(), null);
             List<String> classLines = mixedCharsetFileReader(classPath.getKey());
-            XLoc xLoc = calculateClassXLoc(classLines, xLocPatterns, true);
+            XLoc xLoc = calculateClassXLoc(classLines, xLocPatterns);
             if(xLoc.getTotalLines() != 0){
                 this.classXLocMap.put(rootPath.relativize(classPath.getKey()), xLoc);
             }
@@ -44,11 +44,8 @@ public class XLocCalculator {
         return this.classXLocMap;
     }
 
-    private XLoc calculateClassXLoc(List<String> classLines, XLocPatternBuilder xLocPatterns, Boolean deduceCodeLine) {
+    private XLoc calculateClassXLoc(List<String> classLines, XLocPatternBuilder xLocPatterns) {
         XLocCounter xLocCounter = new XLocCounter();
-        if(ignoreGenerated && isGeneratedFile(classLines, xLocPatterns, 15)){
-            return xLocCounter.getXLoc();
-        }
 
         for(String classLine : classLines){
 
@@ -73,42 +70,5 @@ public class XLocCalculator {
         }
 
         return xLocCounter.getXLoc();
-    }
-
-    private Boolean isGeneratedFile(List<String> fileContent, XLocPatternBuilder xLocPatterns, Integer checkLines){
-        Integer commentCount = 0;
-        for(String line: fileContent){
-            if(commentCount <= checkLines){
-                if(xLocPatterns.isCommentLine(line)){
-                    commentCount++;
-                    if(Pattern.compile("(?i)generated").matcher(line).find()){
-                        return true;
-                    }
-                }
-            }
-            else {
-                return false;
-            }
-        }
-        return false;
-    }
-
-    private List<String> mixedCharsetFileReader(Path classpath) throws IOException {
-        CharsetDecoder decoder = Charset.forName("UTF-8").newDecoder();
-        decoder.onMalformedInput(CodingErrorAction.IGNORE);
-
-        FileInputStream stream = new FileInputStream(classpath.toFile());
-        InputStreamReader reader = new InputStreamReader(stream, decoder);
-        BufferedReader bufferedReader = new BufferedReader(reader);
-
-        List<String> classLines = new ArrayList<>();
-
-        String line;
-        while ((line = bufferedReader.readLine()) != null) {
-            classLines.add(line);
-        }
-        bufferedReader.close();
-
-        return classLines;
     }
 }

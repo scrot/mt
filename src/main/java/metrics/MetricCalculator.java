@@ -1,7 +1,10 @@
 package metrics;
 
 import org.apache.bcel.Constants;
-import org.apache.bcel.classfile.*;
+import org.apache.bcel.classfile.ClassParser;
+import org.apache.bcel.classfile.Field;
+import org.apache.bcel.classfile.JavaClass;
+import org.apache.bcel.classfile.Method;
 import org.apache.bcel.generic.*;
 import org.apache.bcel.util.ClassPath;
 import org.apache.bcel.util.Repository;
@@ -77,22 +80,26 @@ public class MetricCalculator extends org.apache.bcel.classfile.EmptyVisitor {
         addToResponses(methodGen, constantPoolGen);
         addMethodCouplings(methodGen);
         addMethodInstanceVariables(methodGen);
+        updateClassNom(methodGen);
     }
 
     @Override
     public void visitField(Field field){
-        this.classInstanceVariables.add(field.getName());
-        addToCouplings(field.getType());
+        ConstantPoolGen constantPoolGen = new ConstantPoolGen(this.currectClass.getConstantPool());
+        FieldGen fieldGen = new FieldGen(field, constantPoolGen);
+        this.classInstanceVariables.add(fieldGen.getName());
+        addToCouplings(fieldGen.getType());
+        updateClassDac(fieldGen);
     }
 
-    public Map<String, Metric> getMetrics() {
-        Map<String, Metric> smetrics = new HashMap<>();
+    public Map<String, MetricCounter> getMetrics() {
+        Map<String, MetricCounter> smetrics = new HashMap<>();
         for(Map.Entry<JavaClass, MetricCounter> entry : this.metrics.entrySet()){
             if(!entry.getKey().getPackageName().equals("")){
-                smetrics.put(entry.getKey().getPackageName() + "." + entry.getKey().getClassName(), entry.getValue().getMetric());
+                smetrics.put(entry.getKey().getPackageName() + "." + entry.getKey().getClassName(), entry.getValue());
             }
             else {
-                smetrics.put(entry.getKey().getClassName(), entry.getValue().getMetric());
+                smetrics.put(entry.getKey().getClassName(), entry.getValue());
             }
         }
         return smetrics;
@@ -164,6 +171,19 @@ public class MetricCalculator extends org.apache.bcel.classfile.EmptyVisitor {
         }
         else {
             this.metrics.get(jclass).incrementLcom(lcom);
+        }
+    }
+
+    private void updateClassDac(FieldGen fieldGen) {
+        JavaClass jclass = classRepository.findClass(fieldGen.getType().toString());
+        if(jclass != null && (jclass.isInterface() || jclass.isAbstract())){
+            this.metrics.get(currectClass).incrementDac(1);
+        }
+    }
+
+    private void updateClassNom(MethodGen methodGen){
+        if(methodGen.isPublic()){
+            this.metrics.get(this.currectClass).incrementNom(1);
         }
     }
 

@@ -2,18 +2,16 @@ package report;
 
 import com.messners.gitlab.api.GitLabApiException;
 import gitcrawler.model.Project;
-import metrics.Metric;
 import metrics.MetricCalculator;
-import org.apache.bcel.classfile.ClassParser;
-import org.apache.bcel.classfile.JavaClass;
+import metrics.MetricCounter;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import utils.ClassCollector;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import static utils.MapTransformation.addValueToMapList;
 
@@ -46,14 +44,14 @@ public class FeatureBuilder {
     private void addFeatureReport(Project project) throws IOException, ClassNotFoundException {
         Report featureReport = new Report(project.getProject(), new LinkedHashMap<>());
 
-        Map<String, Metric> metrics = new MetricCalculator(project.getBinaryPath()).getMetrics();
-        for(Map.Entry<String,Metric> metric : metrics.entrySet()){
+        Map<String, MetricCounter> metrics = new MetricCalculator(project.getBinaryPath()).getMetrics();
+        for(Map.Entry<String,MetricCounter> metric : metrics.entrySet()){
             updateFeatureReport(featureReport, metric.getKey(), metric.getValue());
         }
         featureReports.add(featureReport);
     }
 
-    private Report updateFeatureReport(Report report, String className, Metric cm) throws IOException {
+    private Report updateFeatureReport(Report report, String className, MetricCounter cm) throws IOException {
         Map<String, List<String>> rmap = report.getReport();
         addValueToMapList(rmap, "Class", className);
         addValueToMapList(rmap, "WMC", Integer.toString(cm.getWmc()));
@@ -62,19 +60,16 @@ public class FeatureBuilder {
         addValueToMapList(rmap, "CBO", Integer.toString(cm.getCbo()));
         addValueToMapList(rmap, "RFC", Integer.toString(cm.getRfc()));
         addValueToMapList(rmap, "LCOM", Integer.toString(cm.getLcom()));
-        /*
-        addValueToMapList(rmap, "CTI", Integer.toString(-1));
-        addValueToMapList(rmap, "CTM", Integer.toString(-1));
-        addValueToMapList(rmap, "CTA", Integer.toString(-1));
-        addValueToMapList(rmap, "NOM", Integer.toString(-1));
-        addValueToMapList(rmap, "SIZE1", Integer.toString(-1));
-        addValueToMapList(rmap, "SIZE2", Integer.toString(-1));
-        addValueToMapList(rmap, "IsNew", Integer.toString(-1));
-        addValueToMapList(rmap, "IsChg", Integer.toString(-1));
-        addValueToMapList(rmap, "AGE", Integer.toString(-1));
-        addValueToMapList(rmap, "U", Integer.toString(-1));
-        addValueToMapList(rmap, "S", Integer.toString(-1));
-        */
+        addValueToMapList(rmap, "DAC", Integer.toString(cm.getDac()));
+        //addValueToMapList(rmap, "MPC", Integer.toString(-1));
+        addValueToMapList(rmap, "NOM", Integer.toString(cm.getNom()));
+        //addValueToMapList(rmap, "SIZE1", Integer.toString(-1));
+        //addValueToMapList(rmap, "SIZE2", Integer.toString(-1));
+        //addValueToMapList(rmap, "IsNew", Integer.toString(-1));
+        //addValueToMapList(rmap, "IsChg", Integer.toString(-1));
+        //addValueToMapList(rmap, "AGE", Integer.toString(-1));
+        //addValueToMapList(rmap, "U", Integer.toString(-1));
+        //addValueToMapList(rmap, "S", Integer.toString(-1));
         return report;
     }
 }

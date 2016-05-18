@@ -1,5 +1,6 @@
 package report;
 
+import collector.SourceCollector;
 import com.messners.gitlab.api.GitLabApiException;
 import distr.Distribution;
 import distr.Percentage;
@@ -11,7 +12,6 @@ import lang.Language;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
-import utils.SourceCollector;
 import xloc.XLoc;
 import xloc.XLocCalculator;
 
@@ -59,8 +59,8 @@ public class OverviewBuilder {
         List<Language> languageScope = new ArrayList<Language>(){{add(new Java());}};
         Crawler crawler = new LocalCrawler(project);
 
-        List<Path> projectFiles = new SourceCollector(project.getLocalPath()).collectFilePaths();
-        Map<Path, XLoc> classesXLoc = new XLocCalculator(project.getLocalPath(), languageScope, true).getResult();
+        List<Path> projectFiles = new SourceCollector(project.getLocalPath(), true, true).collectFilePaths();
+        Map<Path, XLoc> classesXLoc = new XLocCalculator(project.getLocalPath(), languageScope).getResult();
         XLoc totalXLoc = calculateTotalXLoc(classesXLoc);
 
         Map<Path, List<Fault>> codeFaults = filterContains(crawler.getFaults(), classesXLoc);

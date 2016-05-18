@@ -1,7 +1,5 @@
-package utils;
+package collector;
 
-import lang.Language;
-import lang.LanguageFactory;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.IOException;

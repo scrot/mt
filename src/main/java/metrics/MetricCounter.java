@@ -7,6 +7,9 @@ public class MetricCounter {
     private int cbo;
     private int dit;
     private int lcom;
+    private int mpc;
+    private int dac;
+    private int nom;
 
     public MetricCounter() {
         this.wmc = 0;
@@ -15,10 +18,45 @@ public class MetricCounter {
         this.cbo = 0;
         this.dit = 0;
         this.lcom = 0;
+        this.mpc = 0;
+        this.dac = 0;
+        this.nom = 0;
     }
 
-    public Metric getMetric() {
-        return new Metric(wmc, noc, rfc, cbo, dit, lcom);
+    public int getWmc() {
+        return wmc;
+    }
+
+    public int getNoc() {
+        return noc;
+    }
+
+    public int getRfc() {
+        return rfc;
+    }
+
+    public int getCbo() {
+        return cbo;
+    }
+
+    public int getDit() {
+        return dit;
+    }
+
+    public int getLcom() {
+        return lcom;
+    }
+
+    public int getMpc() {
+        return mpc;
+    }
+
+    public int getDac() {
+        return dac;
+    }
+
+    public int getNom() {
+        return nom;
     }
 
     public void incrementWmc(Integer increment){
@@ -43,5 +81,17 @@ public class MetricCounter {
 
     public void incrementLcom(Integer increment){
         this.lcom += increment;
+    }
+
+    public void incrementMpc(Integer increment){
+        this.mpc += increment;
+    }
+
+    public void incrementDac(Integer increment){
+        this.dac += increment;
+    }
+
+    public void incrementNom(Integer increment){
+        this.nom += increment;
     }
 }

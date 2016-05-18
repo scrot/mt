@@ -8,7 +8,6 @@ import gitcrawler.model.Issue;
 import java.nio.file.Path;
 import java.util.*;
 
-import static utils.MapTransformation.addValueToMapList;
 import static utils.MapTransformation.addValueToMapSet;
 
 /**
