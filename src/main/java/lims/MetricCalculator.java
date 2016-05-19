@@ -1,4 +1,4 @@
-package metrics;
+package lims;
 
 import org.apache.bcel.Constants;
 import org.apache.bcel.classfile.ClassParser;
@@ -67,6 +67,9 @@ public class MetricCalculator extends org.apache.bcel.classfile.EmptyVisitor {
             method.accept(this);
         }
 
+        this.metrics.get(jclass).incrementSize1(jclass.getFields().length);
+        this.metrics.get(jclass).incrementSize2(jclass.getMethods().length + jclass.getFields().length);
+
         updateClassRfc(jclass);
         updateClassCouplingMap(jclass, this.classCouples);
         updateClassLcom(jclass);
@@ -76,11 +79,14 @@ public class MetricCalculator extends org.apache.bcel.classfile.EmptyVisitor {
     public void visitMethod(Method method) {
         ConstantPoolGen constantPoolGen = new ConstantPoolGen(this.currectClass.getConstantPool());
         MethodGen methodGen = new MethodGen(method, this.currectClass.getClassName(), constantPoolGen);
+
         updateClassWmc(methodGen);
         addToResponses(methodGen, constantPoolGen);
         addMethodCouplings(methodGen);
         addMethodInstanceVariables(methodGen);
+        updateClassMpc(methodGen);
         updateClassNom(methodGen);
+        updateClassSize1(methodGen);
     }
 
     @Override
@@ -181,10 +187,22 @@ public class MetricCalculator extends org.apache.bcel.classfile.EmptyVisitor {
         }
     }
 
+    private void updateClassMpc(MethodGen methodGen){
+        for(Instruction instruction : methodGen.getInstructionList().getInstructions()){
+            if(instruction instanceof InvokeInstruction){
+                this.metrics.get(currectClass).incrementMpc(1);
+            }
+        }
+    }
+
     private void updateClassNom(MethodGen methodGen){
         if(methodGen.isPublic()){
             this.metrics.get(this.currectClass).incrementNom(1);
         }
+    }
+
+    private void updateClassSize1(MethodGen methodGen){
+        this.metrics.get(currectClass).incrementSize1(methodGen.getInstructionList().getInstructions().length);
     }
 
 

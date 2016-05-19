@@ -1,15 +1,20 @@
-package metrics;
+package lims;
 
 public class MetricCounter {
+    //CK-metrics
     private int wmc;
     private int noc;
     private int rfc;
     private int cbo;
     private int dit;
     private int lcom;
+
+    //Li-Metrics
     private int mpc;
     private int dac;
     private int nom;
+    private int size1;
+    private int size2;
 
     public MetricCounter() {
         this.wmc = 0;
@@ -21,6 +26,7 @@ public class MetricCounter {
         this.mpc = 0;
         this.dac = 0;
         this.nom = 0;
+        this.size2 = 0;
     }
 
     public int getWmc() {
@@ -59,6 +65,10 @@ public class MetricCounter {
         return nom;
     }
 
+    public int getSize1() { return size1; }
+
+    public int getSize2() { return size2; }
+
     public void incrementWmc(Integer increment){
         this.wmc += increment;
     }
@@ -94,4 +104,8 @@ public class MetricCounter {
     public void incrementNom(Integer increment){
         this.nom += increment;
     }
+
+    public void incrementSize1(Integer increment){ this.size1 += increment; }
+
+    public void incrementSize2(Integer increment){ this.size2 += increment; }
 }

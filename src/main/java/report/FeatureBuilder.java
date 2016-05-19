@@ -2,8 +2,8 @@ package report;
 
 import com.messners.gitlab.api.GitLabApiException;
 import gitcrawler.model.Project;
-import metrics.MetricCalculator;
-import metrics.MetricCounter;
+import lims.MetricCalculator;
+import lims.MetricCounter;
 import org.eclipse.jgit.api.errors.GitAPIException;
 
 import java.io.FileWriter;
@@ -61,10 +61,10 @@ public class FeatureBuilder {
         addValueToMapList(rmap, "RFC", Integer.toString(cm.getRfc()));
         addValueToMapList(rmap, "LCOM", Integer.toString(cm.getLcom()));
         addValueToMapList(rmap, "DAC", Integer.toString(cm.getDac()));
-        //addValueToMapList(rmap, "MPC", Integer.toString(-1));
+        addValueToMapList(rmap, "MPC", Integer.toString(cm.getMpc()));
         addValueToMapList(rmap, "NOM", Integer.toString(cm.getNom()));
-        //addValueToMapList(rmap, "SIZE1", Integer.toString(-1));
-        //addValueToMapList(rmap, "SIZE2", Integer.toString(-1));
+        addValueToMapList(rmap, "SIZE1", Integer.toString(cm.getSize1()));
+        addValueToMapList(rmap, "SIZE2", Integer.toString(cm.getSize2()));
         //addValueToMapList(rmap, "IsNew", Integer.toString(-1));
         //addValueToMapList(rmap, "IsChg", Integer.toString(-1));
         //addValueToMapList(rmap, "AGE", Integer.toString(-1));

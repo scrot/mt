@@ -2,29 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eb317eed-238d-4ad5-b116-67dd8f37efe5" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/classes/main/utils/ClassCollector.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/classes/main/utils/SourceCollector.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/metrics/Metric.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/utils/ClassCollector.java" afterPath="$PROJECT_DIR$/src/main/java/collector/ClassCollector.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/utils/SourceCollector.java" afterPath="$PROJECT_DIR$/src/main/java/collector/SourceCollector.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/metrics/MetricCalculator.java" afterPath="$PROJECT_DIR$/src/main/java/lims/MetricCalculator.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/metrics/MetricCounter.java" afterPath="$PROJECT_DIR$/src/main/java/lims/MetricCounter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/gitcrawler/crawler/Crawler.class" afterPath="$PROJECT_DIR$/build/classes/main/gitcrawler/crawler/Crawler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/gitcrawler/crawler/online/OnlineCrawler.class" afterPath="$PROJECT_DIR$/build/classes/main/gitcrawler/crawler/online/OnlineCrawler.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/metrics/MetricCalculator.class" afterPath="$PROJECT_DIR$/build/classes/main/metrics/MetricCalculator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/metrics/MetricCounter.class" afterPath="$PROJECT_DIR$/build/classes/main/metrics/MetricCounter.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/report/FeatureBuilder.class" afterPath="$PROJECT_DIR$/build/classes/main/report/FeatureBuilder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/report/OverviewBuilder.class" afterPath="$PROJECT_DIR$/build/classes/main/report/OverviewBuilder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/xloc/XLocCalculator.class" afterPath="$PROJECT_DIR$/build/classes/main/xloc/XLocCalculator.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/Crawler.java" afterPath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/Crawler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/online/OnlineCrawler.java" afterPath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/online/OnlineCrawler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/metrics/MetricCalculator.java" afterPath="$PROJECT_DIR$/src/main/java/metrics/MetricCalculator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/metrics/MetricCounter.java" afterPath="$PROJECT_DIR$/src/main/java/metrics/MetricCounter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/report/FeatureBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/report/FeatureBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/report/OverviewBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/report/OverviewBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/xloc/XLocCalculator.java" afterPath="$PROJECT_DIR$/src/main/java/xloc/XLocCalculator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/untitled_featureset.csv" afterPath="$PROJECT_DIR$/untitled_featureset.csv" />
     </list>
     <ignored path="utils.iws" />
@@ -77,11 +66,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="untitled_featureset.csv" pinned="false" current-in-tab="true">
+      <file leaf-file-name="untitled_featureset.csv" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/untitled_featureset.csv">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
+            <state relative-caret-position="153">
+              <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -97,21 +86,41 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="SourceCollector.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/collector/SourceCollector.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="131" column="25" selection-start-line="131" selection-start-column="25" selection-end-line="131" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/build.gradle">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="FeatureBuilder.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/report/FeatureBuilder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="65" column="58" selection-start-line="65" selection-start-column="58" selection-end-line="65" selection-end-column="58" />
+            <state relative-caret-position="493">
+              <caret line="65" column="74" selection-start-line="65" selection-start-column="74" selection-end-line="65" selection-end-column="74" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="MetricCalculator.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/metrics/MetricCalculator.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/lims/MetricCalculator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="179" column="0" selection-start-line="179" selection-start-column="0" selection-end-line="179" selection-end-column="0" />
+            <state relative-caret-position="544">
+              <caret line="70" column="104" selection-start-line="70" selection-start-column="104" selection-end-line="70" selection-end-column="104" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -120,10 +129,10 @@
         </entry>
       </file>
       <file leaf-file-name="MetricCounter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/metrics/MetricCounter.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/lims/MetricCounter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="22" column="21" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
+            <state relative-caret-position="629">
+              <caret line="108" column="0" selection-start-line="108" selection-start-column="0" selection-end-line="108" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -335,7 +344,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="2922737717223" />
+        <entry key="$PROJECT_DIR$" value="2923486654598" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -520,7 +529,6 @@
         <option value="$PROJECT_DIR$/src/main/java/utils/SourceCollector.java" />
         <option value="$PROJECT_DIR$/src/main/java/utils/ClassCollector.java" />
         <option value="$PROJECT_DIR$/src/main/java/metrics/MetricBuilder.java" />
-        <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/src/main/resources/example.conf" />
         <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/bcel-findbugs/6.0/7a7563ba41dceff3da4af4927b7c09908bd5132c/bcel-findbugs-6.0.jar!/org/apache/bcel/util/Repository.class" />
         <option value="$PROJECT_DIR$/src/main/java/metrics/ClassVisitor.java" />
@@ -528,7 +536,6 @@
         <option value="$PROJECT_DIR$/src/main/java/utils/MapTransformation.java" />
         <option value="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/Crawler.java" />
         <option value="$PROJECT_DIR$/src/main/java/metrics/Metric.java" />
-        <option value="$PROJECT_DIR$/untitled_featureset.csv" />
         <option value="$PROJECT_DIR$/src/main/java/collector/ClassCollector.java" />
         <option value="$PROJECT_DIR$/src/main/java/xloc/XLocCalculator.java" />
         <option value="$PROJECT_DIR$/src/main/java/collector/SourceCollector.java" />
@@ -537,6 +544,8 @@
         <option value="$PROJECT_DIR$/src/main/java/metrics/MetricCounter.java" />
         <option value="$PROJECT_DIR$/src/main/java/metrics/MetricCalculator.java" />
         <option value="$PROJECT_DIR$/src/main/java/report/FeatureBuilder.java" />
+        <option value="$PROJECT_DIR$/untitled_featureset.csv" />
+        <option value="$PROJECT_DIR$/build.gradle" />
       </list>
     </option>
   </component>
@@ -732,10 +741,6 @@
               <option name="myItemId" value="java" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="xloc" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -784,6 +789,10 @@
               <option name="myItemId" value="java" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="collector" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -807,7 +816,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="metrics" />
+              <option name="myItemId" value="collector" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parser" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1369,7 +1382,7 @@
     </recent_temporary>
   </component>
   <component name="SbtLocalSettings">
-    <option name="lastUpdateTimestamp" value="1462954423565" />
+    <option name="lastUpdateTimestamp" value="1463646981307" />
     <option name="externalProjectsViewState">
       <projects_view />
     </option>
@@ -1407,16 +1420,16 @@
       <workItem from="1463036430335" duration="599000" />
       <workItem from="1463037691777" duration="16158000" />
       <workItem from="1463059545520" duration="7398000" />
-      <workItem from="1463560713525" duration="10490000" />
+      <workItem from="1463560713525" duration="15691000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="377473000" />
+    <option name="totallyTimeSpent" value="382674000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1176" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1425,11 +1438,11 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25599232" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25599232" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15245202" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15245202" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32739213" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28697917" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1616,14 +1629,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="20" selection-start-line="3" selection-start-column="20" selection-end-line="3" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/bcel-findbugs/6.0/7a7563ba41dceff3da4af4927b7c09908bd5132c/bcel-findbugs-6.0.jar!/org/apache/bcel/util/Repository.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -1703,26 +1708,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/collector/SourceCollector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1785">
-          <caret line="131" column="25" selection-start-line="131" selection-start-column="25" selection-end-line="131" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/collector/ClassCollector.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="15" column="38" selection-start-line="15" selection-start-column="38" selection-end-line="15" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/report/ReportWriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="17" column="10" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
           <folding />
         </state>
       </provider>
@@ -1745,14 +1734,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/report/OverviewBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="61" column="88" selection-start-line="61" selection-start-column="88" selection-end-line="61" selection-end-column="88" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Downloads/ReferenceType.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-867">
@@ -1763,36 +1744,68 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/report/FeatureBuilder.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/lims/MetricCalculator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="65" column="58" selection-start-line="65" selection-start-column="58" selection-end-line="65" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/metrics/MetricCounter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="21" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/metrics/MetricCalculator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="179" column="0" selection-start-line="179" selection-start-column="0" selection-end-line="179" selection-end-column="0" />
+        <state relative-caret-position="544">
+          <caret line="70" column="104" selection-start-line="70" selection-start-column="104" selection-end-line="70" selection-end-column="104" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/lims/MetricCounter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="629">
+          <caret line="108" column="0" selection-start-line="108" selection-start-column="0" selection-end-line="108" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/report/FeatureBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="65" column="74" selection-start-line="65" selection-start-column="74" selection-end-line="65" selection-end-column="74" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/untitled_featureset.csv">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
+        <state relative-caret-position="153">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/report/ReportWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="17" column="10" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/report/OverviewBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="663">
+          <caret line="61" column="88" selection-start-line="61" selection-start-column="88" selection-end-line="61" selection-end-column="88" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/collector/SourceCollector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="131" column="25" selection-start-line="131" selection-start-column="25" selection-end-line="131" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
           <folding />
         </state>
       </provider>
