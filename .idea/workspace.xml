@@ -6,17 +6,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore.txt" afterPath="$PROJECT_DIR$/.gitignore.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/collector/ClassBaseVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/collector/ClassBaseVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/collector/model/ClassSource.java" afterPath="$PROJECT_DIR$/src/main/java/collector/model/ClassSource.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/Crawler.java" afterPath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/Crawler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/local/LocalCommitCrawler.java" afterPath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/local/LocalCommitCrawler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/local/LocalFaultCrawler.java" afterPath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/local/LocalFaultCrawler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/online/GitlabFaultCrawler.java" afterPath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/online/GitlabFaultCrawler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/model/Commit.java" afterPath="$PROJECT_DIR$/src/main/java/gitcrawler/model/Commit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/report/ReportWriter.java" afterPath="$PROJECT_DIR$/src/main/java/report/ReportWriter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/example.conf" afterPath="$PROJECT_DIR$/src/main/resources/example.conf" />
     </list>
     <ignored path="fm-toolkit.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -1246,7 +1236,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1463653400449</updated>
-      <workItem from="1463653404730" duration="32419000" />
+      <workItem from="1463653404730" duration="32431000" />
     </task>
     <task id="LOCAL-00001" summary="Update file splitter">
       <created>1463734867621</created>
@@ -1262,11 +1252,18 @@
       <option name="project" value="LOCAL" />
       <updated>1463738185280</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="last changes&#10;">
+      <created>1463743866525</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1463743866525</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32419000" />
+    <option name="totallyTimeSpent" value="32431000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="0" width="1923" height="1176" extended-state="0" />
@@ -1318,7 +1315,8 @@
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="Update file splitter" />
     <MESSAGE value="prepare source of classes" />
-    <option name="LAST_COMMIT_MESSAGE" value="prepare source of classes" />
+    <MESSAGE value="last changes&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="last changes&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
