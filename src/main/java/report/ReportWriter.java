@@ -17,8 +17,8 @@ public class ReportWriter {
         Path config = Paths.get("C:\\Users\\royw\\Workspace\\fm-toolkit\\src\\main\\resources\\example.conf");
         ConfigReader confReader = new ConfigReader(config);
         List<Project> projects = confReader.getProjects();
-        //OverviewBuilder builder = new OverviewBuilder(confReader.getName(), projects);
-        //builder.writeOverviewReportToFile(", ");
+        OverviewBuilder builder = new OverviewBuilder(confReader.getName(), projects);
+        builder.writeOverviewReportToFile(", ");
         SourceCollector collector = new SourceCollector(projects.get(0).getLocalPath(), new Java(), true, true);
         FeatureBuilder fbuilder = new FeatureBuilder(projects);
         fbuilder.writeOverviewReportToFile(", ");

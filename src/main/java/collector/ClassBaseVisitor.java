@@ -40,7 +40,7 @@ public class ClassBaseVisitor extends Java8BaseVisitor<Void> {
         this.visit(tree);
 
         for(ClassSource clazz : classSources){
-            clazz.removeInnerClasses(classSources);
+            clazz.collectContent(classSources);
         }
     }
 

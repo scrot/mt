@@ -38,7 +38,7 @@ public abstract class Crawler {
     private Map<Path, Set<Commit>> collectChanges(){
         Map<Path, Set<Commit>> changes = new HashMap<>();
         for(Commit commit : this.getCommits().values()){
-            List<Path> commitFiles = commit.getFiles();
+            List<Path> commitFiles = commit.getChanges();
             for(Path file : commitFiles){
                 addValueToMapSet(changes, file, commit);
             }

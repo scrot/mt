@@ -1,9 +1,12 @@
 package gitcrawler.model;
 
+import collector.model.Location;
+
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,14 +15,14 @@ public class Commit {
     private final Author author;
     private final String message;
     private final Date date;
-    private final List<Path> files;
+    private final Map<Path, List<Location>> changes;
 
-    public Commit(Object id, Author author, String message, Date date, List<Path> files) {
+    public Commit(Object id, Author author, String message, Date date, Map<Path, List<Location>> changes) {
         this.id = id;
         this.author = author;
         this.message = message;
         this.date = date;
-        this.files = files;
+        this.changes = changes;
     }
 
     public Object getId() {
@@ -38,8 +41,8 @@ public class Commit {
         return this.date;
     }
 
-    public List<Path> getFiles() {
-        return files;
+    public Map<Path, List<Location>> getChanges() {
+        return changes;
     }
 
     public List<Integer> getIssueNumbers(Pattern issue){

@@ -1,5 +1,6 @@
 package gitcrawler.crawler.local;
 
+import collector.model.Location;
 import gitcrawler.crawler.CommitCrawler;
 import gitcrawler.model.Author;
 import gitcrawler.model.Commit;
@@ -55,7 +56,7 @@ public class LocalCommitCrawler implements CommitCrawler {
                         new Author(commit.getAuthorIdent().getName()),
                         commit.getFullMessage(),
                         commit.getAuthorIdent().getWhen(),
-                        getFiles(commit)));
+                        getChanges(commit)));
             }
         } catch (GitAPIException | IOException e) {
             e.printStackTrace();
@@ -63,8 +64,8 @@ public class LocalCommitCrawler implements CommitCrawler {
         return commits;
     }
 
-    private List<Path> getFiles(RevCommit commit) throws IOException, GitAPIException {
-        List<Path> files = new ArrayList<>();
+    private Map<Path, List<Location>> getChanges(RevCommit commit) throws IOException, GitAPIException {
+        Map<Path, List<Location>> files = new HashMap<>();
 
         if(commit.getParentCount() <= 0){
             return files;
@@ -79,10 +80,10 @@ public class LocalCommitCrawler implements CommitCrawler {
         List<DiffEntry> diffs = git.diff().setNewTree(newTree).setOldTree(oldTree).call();
         for(DiffEntry diff : diffs){
             if (diff.getChangeType() == DiffEntry.ChangeType.DELETE){
-                files.add(Paths.get(diff.getOldPath()));
+                files.put(Paths.get(diff.getOldPath()));
             }
             else {
-                files.add(Paths.get(diff.getNewPath()));
+                files.put(Paths.get(diff.getNewPath()));
             }
         }
 

@@ -35,7 +35,7 @@ public class LocalFaultCrawler implements FaultCrawler {
     private Map<Path, List<Fault>> collectFaults(Map<Object, Commit> commits){
         Map<Path, List<Fault>> classFaults = new HashMap<>();
         for (Commit issueCommit : collectIssueCommits(commits)) {
-            List<Path> files = issueCommit.getFiles();
+            List<Path> files = issueCommit.getChanges();
 
             for (Path file : files){
                     addValueToMapList(classFaults, file, new Fault(null, issueCommit));

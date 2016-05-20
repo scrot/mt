@@ -38,7 +38,7 @@ public class GitlabFaultCrawler implements FaultCrawler {
     private Map<Path, List<Fault>> collectFaults(Map<Object, Commit> commits, Map<Integer, Issue> issues){
         Map<Path, List<Fault>> classFaults = new HashMap<>();
         for (Map.Entry<Commit, List<Issue>> commit : buildCommitIssueMap(commits, issues).entrySet()) {
-            List<Path> files = commit.getKey().getFiles();
+            List<Path> files = commit.getKey().getChanges();
             List<Issue> commitIssues = commit.getValue();
 
             for (Path file : files){

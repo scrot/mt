@@ -1,7 +1,5 @@
 package collector.model;
 
-import collector.SourceCollector;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
@@ -13,14 +11,13 @@ public class ClassSource extends Source {
     private final Path sourceFile;
     private final Path classFile;
     private final Location location;
-    private final List<String> content;
+    private List<String> content;
 
     public ClassSource(String className, Path sourceFile, Path classFile, Location location) {
         this.className = className;
         this.sourceFile = sourceFile;
         this.classFile = classFile;
         this.location = location;
-        this.content = collectContent();
     }
 
     public String getClassName() {
@@ -45,34 +42,35 @@ public class ClassSource extends Source {
         return content;
     }
 
-    public void removeInnerClasses(List<ClassSource> classes){
-        for(ClassSource clazz : classes){
-            Integer outerStart = this.getLocation().getStart().getLine();
-            Integer outerEnd = this.getLocation().getEnd().getLine();
-            Integer innerStart = clazz.getLocation().getStart().getLine();
-            Integer innerEnd = clazz.getLocation().getEnd().getLine();
-            if(innerStart > outerStart && innerEnd < outerEnd){
-                for(int i = innerStart - 1; i < innerEnd; i++){
-                    this.content.set(i, "");
-                }
-            }
-        }
-        this.content.removeAll(Arrays.asList("", null));
-    }
-
-    private List<String> collectContent() {
+    public void collectContent(List<ClassSource> innerClasses) {
         List<String> content = new ArrayList<>();
         try {
             List<String> source = SourceFileReader(this.sourceFile);
             Integer start = this.location.getStart().getLine();
             Integer end = this.location.getEnd().getLine();
-            for(int i = start - 1; i < end; i++){
-                content.add(source.get(i));
+            for(int i = start; i <= end; i++){
+                if(!innerClass(i, innerClasses)){
+                    content.add(source.get(i - 1));
+                }
             }
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-        return content;
+        this.content = content;
+    }
+
+    private Boolean innerClass(Integer index, List<ClassSource> innerClasses){
+        for(ClassSource innerClass : innerClasses){
+            Integer innerStart = innerClass.getLocation().getStart().getLine();
+            Integer innerEnd = innerClass.getLocation().getEnd().getLine();
+            Integer thisStart = this.getLocation().getStart().getLine();
+            Integer thisEnd = this.getLocation().getEnd().getLine();
+            if(innerStart > thisStart && innerEnd < thisEnd && index >= innerStart && index <= innerEnd){
+                    return true;
+                }
+            }
+
+        return false;
     }
 }
