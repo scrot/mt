@@ -18,23 +18,25 @@ public class MlCommentPattern extends CommentPattern {
 
     @Override
     public Boolean isMatch(String line){
-        Boolean match = false;
+        line = emptyInlineStrings(line);
 
-        if(startOfCommentPattern.matcher(line).matches()){
+        if(startOfCommentPattern.matcher(line).find()){
             mlActive = true;
         }
 
-        if(mlActive){
-            match = true;
-        }
-        else {
-            match = false;
-        }
+        Boolean match = mlActive;
 
-        if(endOfCommentPattern.matcher(line).matches()){
+        if(endOfCommentPattern.matcher(line).find()){
             mlActive = false;
         }
 
-        return match;
+        Boolean codeBeforeComment =Pattern.compile("\\S.*" + startOfCommentPattern.pattern()).matcher(line).find();
+        Boolean codeAfterComment = Pattern.compile(endOfCommentPattern.pattern() + ".*\\S").matcher(line).find();
+        return match && !codeBeforeComment && !codeAfterComment;
+    }
+
+    private String emptyInlineStrings(String line){
+        Pattern enclosure = Pattern.compile("\".*\"");
+        return enclosure.matcher(line).replaceAll("");
     }
 }

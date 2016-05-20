@@ -15,9 +15,9 @@ public class LanguageFactory {
     }
 
     public Language classPathToLanguage(Path classPath){
-        String extetionString = FilenameUtils.getExtension(classPath.toString());
-        if(this.extentions.containsKey(extetionString)){
-            return this.extentions.get(extetionString);
+        String extentionString = FilenameUtils.getExtension(classPath.toString());
+        if(this.extentions.containsKey(extentionString)){
+            return this.extentions.get(extentionString);
         }
         else {
             return new Other();

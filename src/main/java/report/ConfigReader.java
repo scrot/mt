@@ -1,7 +1,7 @@
 package report;
 
 import com.messners.gitlab.api.GitLabApiException;
-import git.model.Project;
+import gitcrawler.model.Project;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,8 +34,8 @@ public class ConfigReader {
         String line;
         while ((line = reader.readLine()) != null) {
             String[] lineWords = line.split("\\s+");
-            if(lineWords.length == 2) {
-                Project project = new Project(Paths.get(lineWords[1]), hostUrl, "", lineWords[0], auth);
+            if(lineWords.length == 3) {
+                Project project = new Project(Paths.get(lineWords[1]), Paths.get(lineWords[2]), hostUrl, "", lineWords[0], auth);
                 projects.add(project);
             }
             else {

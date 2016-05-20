@@ -4,6 +4,17 @@ import java.util.*;
 
 public class MapTransformation {
 
+    public static <K, V> void addValueToMapSet(Map<K, Set<V>> map, K key, V value) {
+        if (!map.containsKey(key)) {
+            map.put(key, new HashSet<V>() {{ add(value); }});
+        }
+        else {
+            Set<V> newvalue = map.get(key);
+            newvalue.add(value);
+            map.put(key, newvalue);
+        }
+    }
+
     public static <K, V> void addValueToMapList(Map<K, List<V>> map, K key, V value) {
         if (!map.containsKey(key)) {
             map.put(key, new ArrayList<V>() {{ add(value); }});
@@ -15,10 +26,10 @@ public class MapTransformation {
         }
     }
 
-    public static <T,U,V> Map<T,U> filterContains(Map<T,U> toFilter, Map<T,V> toCheck){
+    public static <T,U> Map<T,U> filterContains(Map<T,U> toFilter, List<T> toCheck){
         Map<T,U> result = new HashMap<>();
         for(Map.Entry<T,U> entry : toFilter.entrySet()){
-            if(toCheck.containsKey(entry.getKey())){
+            if(toCheck.contains(entry.getKey())){
                 result.put(entry.getKey(), entry.getValue());
             }
         }
@@ -44,6 +55,9 @@ public class MapTransformation {
     }
 
     public static <K,V> List<List<V>> transposeValues(Map<K, List<V>> map){
+        if(map.size() <= 0) {
+            return new ArrayList<>();
+        }
         List<List<V>> values = new ArrayList<>(map.values());
         List<List<V>> newvalues = new ArrayList<>();
         for(int i = 0; i < values.get(0).size(); i++){
