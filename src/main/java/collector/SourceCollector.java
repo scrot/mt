@@ -3,6 +3,7 @@ package collector;
 import lang.Java;
 import lang.Language;
 import lang.LanguageFactory;
+import org.antlr.v4.runtime.ParserRuleContext;
 import xloc.XLocPatternFactory;
 import xloc.pattern.XLocPatternBuilder;
 
@@ -83,6 +84,14 @@ public class SourceCollector extends SimpleFileVisitor<Path> {
 
     public List<Path> collectFilePaths() {
         return this.classPaths;
+    }
+
+    public Map<String, Path> collectClasses(Language ofLanguage) throws IOException {
+        Map<String, Path> classes = new HashMap<>();
+        for(Path fpath : collectFilePaths(ofLanguage)){
+            classes.put(new ClassBaseVisitor(fpath).getPackageName(), fpath);
+        }
+        return classes;
     }
 
     public List<Path> collectFilePaths(Language ofLanguage){

@@ -8,7 +8,7 @@ import gitcrawler.model.Issue;
 import java.nio.file.Path;
 import java.util.*;
 
-import static utils.MapTransformation.addValueToMapSet;
+import static utils.Utils.addValueToMapSet;
 
 /**
  * Created by roy on 5/5/16.

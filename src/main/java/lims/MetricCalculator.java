@@ -9,7 +9,7 @@ import org.apache.bcel.generic.*;
 import org.apache.bcel.util.ClassPath;
 import org.apache.bcel.util.Repository;
 import org.apache.bcel.util.SyntheticRepository;
-import utils.MapTransformation;
+import utils.Utils;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -20,6 +20,7 @@ import java.util.jar.JarFile;
 public class MetricCalculator extends org.apache.bcel.classfile.EmptyVisitor {
     private final Map<JavaClass, MetricCounter> metrics;
     private final Repository classRepository;
+    private final Boolean ignoreInnerClasses;
 
     private final Map<String, JavaClass> classesMap;
     private final Map<String, Set<String>> classCouplesMap;
@@ -30,7 +31,8 @@ public class MetricCalculator extends org.apache.bcel.classfile.EmptyVisitor {
     private Set<String> classInstanceVariables;
     private Map<String, Set<String>> methodVariablesMap;
 
-    public MetricCalculator(Path binaryRoot) throws IOException, ClassNotFoundException {
+    public MetricCalculator(Path binaryRoot, Boolean ignoreInnerClasses) throws IOException, ClassNotFoundException {
+        this.ignoreInnerClasses = ignoreInnerClasses;
         List<JavaClass> classes = collectClasses(binaryRoot);
         this.metrics = initializeMetrics(classes);
         this.classRepository = buildClassRepository(binaryRoot);
@@ -144,7 +146,7 @@ public class MetricCalculator extends org.apache.bcel.classfile.EmptyVisitor {
     private void updateClassesCbo() {
         for(Map.Entry<String, Set<String>> entry : this.classCouplesMap.entrySet()){
             for(String className : entry.getValue()){
-                MapTransformation.addValueToMapSet(this.classCouplesMap, entry.getKey(), className);
+                Utils.addValueToMapSet(this.classCouplesMap, entry.getKey(), className);
             }
         }
 
@@ -188,9 +190,11 @@ public class MetricCalculator extends org.apache.bcel.classfile.EmptyVisitor {
     }
 
     private void updateClassMpc(MethodGen methodGen){
-        for(Instruction instruction : methodGen.getInstructionList().getInstructions()){
-            if(instruction instanceof InvokeInstruction){
-                this.metrics.get(currectClass).incrementMpc(1);
+        if(methodGen.getInstructionList() != null) {
+            for (Instruction instruction : methodGen.getInstructionList().getInstructions()) {
+                if (instruction instanceof InvokeInstruction) {
+                    this.metrics.get(currectClass).incrementMpc(1);
+                }
             }
         }
     }
@@ -202,7 +206,9 @@ public class MetricCalculator extends org.apache.bcel.classfile.EmptyVisitor {
     }
 
     private void updateClassSize1(MethodGen methodGen){
-        this.metrics.get(currectClass).incrementSize1(methodGen.getInstructionList().getInstructions().length);
+        if(methodGen.getInstructionList() != null) {
+            this.metrics.get(currectClass).incrementSize1(methodGen.getInstructionList().getInstructions().length);
+        }
     }
 
 
@@ -213,14 +219,16 @@ public class MetricCalculator extends org.apache.bcel.classfile.EmptyVisitor {
     private void addToResponses(MethodGen methodGen, ConstantPoolGen constantPoolGen){
         this.classResponses.add(methodSignature(methodGen));
 
-        for(Instruction instruction : methodGen.getInstructionList().getInstructions()){
-            if(instruction instanceof InvokeInstruction){
-                InvokeInstruction ii = (InvokeInstruction) instruction;
-                this.classResponses.add(
-                        ii.getReferenceType(constantPoolGen).getSignature()
-                        + ii.getMethodName(constantPoolGen)
-                        + Arrays.toString(ii.getArgumentTypes(constantPoolGen))
-                );
+        if(methodGen.getInstructionList() != null) {
+            for (Instruction instruction : methodGen.getInstructionList().getInstructions()) {
+                if (instruction instanceof InvokeInstruction) {
+                    InvokeInstruction ii = (InvokeInstruction) instruction;
+                    this.classResponses.add(
+                            ii.getReferenceType(constantPoolGen).getSignature()
+                                    + ii.getMethodName(constantPoolGen)
+                                    + Arrays.toString(ii.getArgumentTypes(constantPoolGen))
+                    );
+                }
             }
         }
     }
@@ -262,24 +270,31 @@ public class MetricCalculator extends org.apache.bcel.classfile.EmptyVisitor {
     private void addMethodInstanceVariables(MethodGen methodGen) {
         Set<String> locals = new HashSet<>();
         ConstantPoolGen constantPoolGen = methodGen.getConstantPool();
-        List<Instruction> methodInstructions = Arrays.asList(methodGen.getInstructionList().getInstructions());
-        for(Instruction instruction : methodInstructions){
-            if(instruction instanceof PUTFIELD){
-                String fieldname = ((PUTFIELD) instruction).getFieldName(constantPoolGen);
-                if(this.classInstanceVariables.contains(fieldname)){
-                    locals.add(fieldname);
+        if(methodGen.getInstructionList() != null) {
+            List<Instruction> methodInstructions = Arrays.asList(methodGen.getInstructionList().getInstructions());
+            for (Instruction instruction : methodInstructions) {
+                if (instruction instanceof PUTFIELD) {
+                    String fieldname = ((PUTFIELD) instruction).getFieldName(constantPoolGen);
+                    if (this.classInstanceVariables.contains(fieldname)) {
+                        locals.add(fieldname);
+                    }
                 }
             }
-        }
-        if(locals.size() > 0){
-            this.methodVariablesMap.put(methodSignature(methodGen), locals);
+            if (locals.size() > 0) {
+                this.methodVariablesMap.put(methodSignature(methodGen), locals);
+            }
         }
     }
 
     private Integer calculateMethodCC(MethodGen methodGen) {
-        List<Instruction> methodInstructions = Arrays.asList(methodGen.getInstructionList().getInstructions());
-        return 1 + getBranch(methodInstructions)
-                + methodGen.getExceptions().length;
+        if(methodGen.getInstructionList() != null){
+            List<Instruction> methodInstructions = Arrays.asList(methodGen.getInstructionList().getInstructions());
+            return 1 + getBranch(methodInstructions)
+                    + methodGen.getExceptions().length;
+        }
+        else {
+            return 1;
+        }
     }
 
     private Integer getBranch(List<Instruction> methodInstructions) {
@@ -351,7 +366,7 @@ public class MetricCalculator extends org.apache.bcel.classfile.EmptyVisitor {
         Enumeration<JarEntry> jarFiles = new JarFile(jarPath.toFile()).entries();
         while(jarFiles.hasMoreElements()){
             String filename = jarFiles.nextElement().getName();
-            if(filename.endsWith(".class")){
+            if(filename.endsWith(".class") && (ignoreInnerClasses && !filename.contains("$"))){
                 JavaClass javaClass = new ClassParser(jarPath.toString(), filename).parse();
                 classes.add(javaClass);
             }

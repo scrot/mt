@@ -20,7 +20,7 @@ dependencies {
 
     compile 'com.google.code.findbugs:bcel-findbugs:6.0'
     compile 'org.antlr:antlr4-master:4.5.3'
-
+    compile 'org.antlr:antlr4-runtime:4.5.3'
 
     compile 'com.messners:gitlab-api:2.0.4'
     compile 'org.kohsuke:github-api:1.73'

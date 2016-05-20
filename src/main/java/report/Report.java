@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static utils.MapTransformation.transposeValues;
+import static utils.Utils.transposeValues;
 
 public class Report {
     private final String name;

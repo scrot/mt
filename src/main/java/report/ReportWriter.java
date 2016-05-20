@@ -15,8 +15,8 @@ public class ReportWriter {
         Path config = Paths.get("C:\\Users\\royw\\Workspace\\mt\\src\\main\\resources\\example.conf");
         ConfigReader confReader = new ConfigReader(config);
         List<Project> projects = confReader.getProjects();
-        //OverviewBuilder builder = new OverviewBuilder(confReader.getName(), projects);
-        //builder.writeOverviewReportToFile(", ");
+        OverviewBuilder builder = new OverviewBuilder(confReader.getName(), projects);
+        builder.writeOverviewReportToFile(", ");
         FeatureBuilder fbuilder = new FeatureBuilder(projects);
         fbuilder.writeOverviewReportToFile(", ");
     }

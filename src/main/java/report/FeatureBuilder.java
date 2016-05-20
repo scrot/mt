@@ -1,6 +1,10 @@
 package report;
 
+import collector.ClassBaseVisitor;
 import com.messners.gitlab.api.GitLabApiException;
+import gitcrawler.crawler.Crawler;
+import gitcrawler.crawler.local.LocalCrawler;
+import gitcrawler.model.Fault;
 import gitcrawler.model.Project;
 import lims.MetricCalculator;
 import lims.MetricCounter;
@@ -8,12 +12,13 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static utils.MapTransformation.addValueToMapList;
+import static utils.Utils.addValueToMapList;
 
 public class FeatureBuilder {
     private final List<Report> featureReports;
@@ -41,10 +46,13 @@ public class FeatureBuilder {
         }
     }
 
-    private void addFeatureReport(Project project) throws IOException, ClassNotFoundException {
+    private void addFeatureReport(Project project) throws IOException, ClassNotFoundException, GitAPIException, GitLabApiException {
         Report featureReport = new Report(project.getProject(), new LinkedHashMap<>());
 
-        Map<String, MetricCounter> metrics = new MetricCalculator(project.getBinaryPath()).getMetrics();
+        Map<String, MetricCounter> metrics = new MetricCalculator(project.getBinaryPath(), true).getMetrics();
+        Crawler crawler = new LocalCrawler(project);
+        Map<Path, List<Fault>> faults = crawler.getFaults();
+
         for(Map.Entry<String,MetricCounter> metric : metrics.entrySet()){
             updateFeatureReport(featureReport, metric.getKey(), metric.getValue());
         }

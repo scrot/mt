@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import static utils.MapTransformation.addValueToMapList;
+import static utils.Utils.addValueToMapList;
 
 /**
  * Created by roy on 5/2/16.

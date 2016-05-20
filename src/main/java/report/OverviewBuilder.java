@@ -22,7 +22,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static utils.MapTransformation.*;
+import static utils.Utils.*;
 
 public class OverviewBuilder {
     private final Report overviewReport;
