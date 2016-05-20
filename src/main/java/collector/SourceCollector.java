@@ -34,7 +34,6 @@ public class SourceCollector extends SimpleFileVisitor<Path> {
 
     public SourceCollector(Path sourcePath, Language ofLanguage, Boolean ignoreGenerated, Boolean ignoreTests) throws IOException {
         this.classSources = new ArrayList<>();
-        this.classes = new HashMap<>();
         this.filePaths = new ArrayList<>();
         this.dirPaths = new ArrayList<>();
 

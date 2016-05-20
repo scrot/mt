@@ -1,6 +1,7 @@
 package report;
 
 import collector.SourceCollector;
+import collector.model.Source;
 import com.messners.gitlab.api.GitLabApiException;
 import distr.Distribution;
 import distr.Percentage;
@@ -57,7 +58,7 @@ public class OverviewBuilder {
         Crawler crawler = new LocalCrawler(project);
 
         List<Path> projectFiles = new SourceCollector(project.getLocalPath(), new Java(), true, true).getFilePaths();
-        Map<String, XLoc> classesXLoc = new XLocCalculator(project.getLocalPath(), new Java(), XLocCalculator.Level.CLASS).getResult();
+        Map<Source, XLoc> classesXLoc = new XLocCalculator(project.getLocalPath(), new Java(), XLocCalculator.Level.CLASS).getResult();
         XLoc totalXLoc = calculateTotalXLoc(classesXLoc);
 
         Map<Path, List<Fault>> codeFaults = filterContains(crawler.getFaults(), projectFiles);
@@ -85,19 +86,19 @@ public class OverviewBuilder {
         addValueToMapList(rmap, "CodeChanges", Integer.toString(codeChanges.size()));
         addValueToMapList(rmap, "CodeAuthors", Integer.toString(calculateTotalUniqueAuthors(codeAuthors)));
         addValueToMapList(rmap, "FaultDist", "20-" + this.get20Percent(faultDistribution));
-        addValueToMapList(rmap, "FaultCode", "20-" +  getCodeIn20Percent(codeFaults, classesXLoc));
+        //addValueToMapList(rmap, "FaultCode", "20-" +  getCodeIn20Percent(codeFaults, classesXLoc));
         addValueToMapList(rmap, "FaultGini", formatter.format(faultDistribution.giniCoefficient()));
         addValueToMapList(rmap, "CodeGini", formatter.format(codeDistribution.giniCoefficient()));
         return report;
     }
 
-    private Integer getCodeIn20Percent(Map<Path, List<Fault>> codeFaults, Map<String, XLoc> clocs){
+    /*
+    private Integer getCodeIn20Percent(Map<Path, List<Fault>> codeFaults, Map<Source, XLoc> clocs){
         List<FPath> faulty = getMostFaultyFiles(codeFaults, new Percentage(20.0));
         Integer faulyCloc = codeInFiles(faulty, clocs);
         return new Percentage(faulyCloc / calculateTotalXLoc(clocs).getCodeLines().doubleValue() * 100).getPercentage().intValue();
     }
 
-    /*
     private List<FPath> getMostFaultyFiles(Map<Path, List<Fault>> codeFaults, Percentage percentage){
         List<FPath> faulty = new ArrayList<>();
         for(Map.Entry<Path, List<Fault>> entry : codeFaults.entrySet()){
@@ -175,9 +176,9 @@ public class OverviewBuilder {
         return uniqueAuthors.size();
     }
 
-    private XLoc calculateTotalXLoc(Map<String, XLoc> classesXLoc) {
+    private XLoc calculateTotalXLoc(Map<Source, XLoc> classesXLoc) {
         XLoc totalXLoc = new XLoc(0,0,0,0);
-        for(Map.Entry<String, XLoc> entry : classesXLoc.entrySet()){
+        for(Map.Entry<Source, XLoc> entry : classesXLoc.entrySet()){
             totalXLoc = totalXLoc.add(entry.getValue());
         }
         return totalXLoc;

@@ -2,47 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3a304e36-56b5-451d-9a45-70166fd1cae3" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_abego_treelayout_org_abego_treelayout_core_1_0_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_antlr_ST4_4_0_8.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_antlr_antlr4_4_5.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_antlr_antlr4_runtime_4_5.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_antlr_antlr_runtime_3_5_2.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/collector/ClassBaseVisitor.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/collector/model/ClassSource.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/collector/model/FileSource.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/collector/model/Location.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/collector/model/Position.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/collector/model/Source.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/classes/main/metrics/MetricCalculator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/classes/main/metrics/MetricCounter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/build/classes/main/report/OverviewBuilder$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/collector/parser/Java.g4" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/outputFileStates.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/taskArtifacts.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/collector/SourceCollector.class" afterPath="$PROJECT_DIR$/build/classes/main/collector/SourceCollector.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/report/FeatureBuilder.class" afterPath="$PROJECT_DIR$/build/classes/main/report/FeatureBuilder.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/report/OverviewBuilder.class" afterPath="$PROJECT_DIR$/build/classes/main/report/OverviewBuilder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/report/ReportWriter.class" afterPath="$PROJECT_DIR$/build/classes/main/report/ReportWriter.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/utils/MapTransformation.class" afterPath="$PROJECT_DIR$/build/classes/main/utils/MapTransformation.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/xloc/XLocCalculator.class" afterPath="$PROJECT_DIR$/build/classes/main/xloc/XLocCalculator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/fm-toolkit.iml" afterPath="$PROJECT_DIR$/.idea/modules/fm-toolkit.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/fm-toolkit_main.iml" afterPath="$PROJECT_DIR$/.idea/modules/fm-toolkit_main.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/fm-toolkit_test.iml" afterPath="$PROJECT_DIR$/.idea/modules/fm-toolkit_test.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/collector/ClassBaseVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/collector/ClassBaseVisitor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/collector/SourceCollector.java" afterPath="$PROJECT_DIR$/src/main/java/collector/SourceCollector.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/collector/model/ClassSource.java" afterPath="$PROJECT_DIR$/src/main/java/collector/model/ClassSource.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/report/OverviewBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/report/OverviewBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/report/ReportWriter.java" afterPath="$PROJECT_DIR$/src/main/java/report/ReportWriter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utils/MapTransformation.java" afterPath="$PROJECT_DIR$/src/main/java/utils/MapTransformation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/xloc/XLocCalculator.java" afterPath="$PROJECT_DIR$/src/main/java/xloc/XLocCalculator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/untitled_featureset.csv" afterPath="$PROJECT_DIR$/untitled_featureset.csv" />
     </list>
     <ignored path="fm-toolkit.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -86,11 +58,10 @@
       <file leaf-file-name="SourceCollector.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/collector/SourceCollector.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="392">
-              <caret line="94" column="28" selection-start-line="94" selection-start-column="28" selection-end-line="94" selection-end-column="28" />
+            <state relative-caret-position="519">
+              <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#SourceCollector#0;class#SourceCollector#0" expanded="false" />
                 <element signature="method#visitFile#0;class#SourceCollector#0" expanded="false" />
                 <element signature="method#getLanguageFromClassPath#0;class#SourceCollector#0" expanded="false" />
                 <element signature="method#SourceFileReader#0;class#SourceCollector#0" expanded="false" />
@@ -102,21 +73,46 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="ClassSource.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/collector/model/ClassSource.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="386">
+              <caret line="47" column="61" selection-start-line="47" selection-start-column="61" selection-end-line="47" selection-end-column="61" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#removeInnerClasses#0;class#ClassSource#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClassBaseVisitor.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/collector/ClassBaseVisitor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="332">
+              <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="OverviewBuilder.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/report/OverviewBuilder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1003">
-              <caret line="116" column="6" selection-start-line="116" selection-start-column="6" selection-end-line="116" selection-end-column="6" />
+            <state relative-caret-position="1122">
+              <caret line="88" column="10" selection-start-line="88" selection-start-column="10" selection-end-line="88" selection-end-column="10" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="XLocCalculator.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="XLocCalculator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/xloc/XLocCalculator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-42">
-              <caret line="33" column="13" selection-start-line="33" selection-start-column="13" selection-end-line="33" selection-end-column="13" />
+            <state relative-caret-position="808">
+              <caret line="67" column="35" selection-start-line="67" selection-start-column="35" selection-end-line="67" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -132,6 +128,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Roy de Wildt" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GradleLocalSettings">
@@ -494,13 +495,13 @@
         <option value="$PROJECT_DIR$/src/main/java/collector/model/Location.java" />
         <option value="$PROJECT_DIR$/src/main/java/collector/model/Position.java" />
         <option value="$PROJECT_DIR$/src/main/java/utils/MapTransformation.java" />
-        <option value="$PROJECT_DIR$/src/main/java/report/OverviewBuilder.java" />
-        <option value="$PROJECT_DIR$/src/main/java/collector/ClassBaseVisitor.java" />
-        <option value="$PROJECT_DIR$/src/main/java/collector/SourceCollector.java" />
         <option value="$PROJECT_DIR$/src/main/java/collector/model/Source.java" />
-        <option value="$PROJECT_DIR$/src/main/java/collector/model/ClassSource.java" />
         <option value="$PROJECT_DIR$/src/main/java/collector/model/FileSource.java" />
         <option value="$PROJECT_DIR$/src/main/java/xloc/XLocCalculator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/collector/SourceCollector.java" />
+        <option value="$PROJECT_DIR$/src/main/java/report/OverviewBuilder.java" />
+        <option value="$PROJECT_DIR$/src/main/java/collector/ClassBaseVisitor.java" />
+        <option value="$PROJECT_DIR$/src/main/java/collector/model/ClassSource.java" />
       </list>
     </option>
   </component>
@@ -1202,12 +1203,20 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1463653400449</updated>
-      <workItem from="1463653404730" duration="23677000" />
+      <workItem from="1463653404730" duration="26989000" />
     </task>
+    <task id="LOCAL-00001" summary="Update file splitter">
+      <created>1463734867621</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1463734867621</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23677000" />
+    <option name="totallyTimeSpent" value="26989000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="0" width="1923" height="1176" extended-state="0" />
@@ -1246,6 +1255,12 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="Update file splitter" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update file splitter" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
@@ -1255,14 +1270,8 @@
           <properties />
           <option name="timeStamp" value="26" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/collector/ClassBaseVisitor.java</url>
-          <line>40</line>
-          <properties />
-          <option name="timeStamp" value="39" />
-        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="40" />
+      <option name="time" value="58" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1436,18 +1445,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/collector/ClassBaseVisitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="42" column="29" selection-start-line="42" selection-start-column="29" selection-end-line="42" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1366#1367#0" expanded="true" />
-            <element signature="e#1401#1402#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/collector/model/Source.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -1455,45 +1452,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/collector/model/ClassSource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="44" column="38" selection-start-line="44" selection-start-column="38" selection-end-line="44" selection-end-column="38" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#772#773#0" expanded="true" />
-            <element signature="e#804#805#0" expanded="true" />
-            <element signature="e#1104#1105#0" expanded="true" />
-            <element signature="method#collectContent#0;class#ClassSource#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/collector/SourceCollector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
-          <caret line="94" column="28" selection-start-line="94" selection-start-column="28" selection-end-line="94" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#SourceCollector#0;class#SourceCollector#0" expanded="false" />
-            <element signature="method#visitFile#0;class#SourceCollector#0" expanded="false" />
-            <element signature="method#getLanguageFromClassPath#0;class#SourceCollector#0" expanded="false" />
-            <element signature="method#SourceFileReader#0;class#SourceCollector#0" expanded="false" />
-            <element signature="method#isGeneratedFile#0;class#SourceCollector#0" expanded="false" />
-            <element signature="method#isTestFile#0;class#SourceCollector#0" expanded="false" />
-            <element signature="method#isOfLanguage#0;class#SourceCollector#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/report/OverviewBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1003">
-          <caret line="116" column="6" selection-start-line="116" selection-start-column="6" selection-end-line="116" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1513,9 +1471,54 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/xloc/XLocCalculator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-42">
-          <caret line="33" column="13" selection-start-line="33" selection-start-column="13" selection-end-line="33" selection-end-column="13" />
+        <state relative-caret-position="808">
+          <caret line="67" column="35" selection-start-line="67" selection-start-column="35" selection-end-line="67" selection-end-column="35" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/report/OverviewBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1122">
+          <caret line="88" column="10" selection-start-line="88" selection-start-column="10" selection-end-line="88" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/collector/SourceCollector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="519">
+          <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#visitFile#0;class#SourceCollector#0" expanded="false" />
+            <element signature="method#getLanguageFromClassPath#0;class#SourceCollector#0" expanded="false" />
+            <element signature="method#SourceFileReader#0;class#SourceCollector#0" expanded="false" />
+            <element signature="method#isGeneratedFile#0;class#SourceCollector#0" expanded="false" />
+            <element signature="method#isTestFile#0;class#SourceCollector#0" expanded="false" />
+            <element signature="method#isOfLanguage#0;class#SourceCollector#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/collector/ClassBaseVisitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="332">
+          <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/collector/model/ClassSource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="386">
+          <caret line="47" column="61" selection-start-line="47" selection-start-column="61" selection-end-line="47" selection-end-column="61" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#removeInnerClasses#0;class#ClassSource#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

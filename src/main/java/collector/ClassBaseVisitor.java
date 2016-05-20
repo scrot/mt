@@ -38,6 +38,10 @@ public class ClassBaseVisitor extends Java8BaseVisitor<Void> {
         Java8Parser parser = new Java8Parser(new CommonTokenStream(lexer));
         ParseTree tree = parser.compilationUnit();
         this.visit(tree);
+
+        for(ClassSource clazz : classSources){
+            clazz.removeInnerClasses(classSources);
+        }
     }
 
     public List<ClassSource> getClassSources() {
