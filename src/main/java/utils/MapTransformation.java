@@ -26,10 +26,10 @@ public class MapTransformation {
         }
     }
 
-    public static <T,U,V> Map<T,U> filterContains(Map<T,U> toFilter, Map<T,V> toCheck){
+    public static <T,U> Map<T,U> filterContains(Map<T,U> toFilter, List<T> toCheck){
         Map<T,U> result = new HashMap<>();
         for(Map.Entry<T,U> entry : toFilter.entrySet()){
-            if(toCheck.containsKey(entry.getKey())){
+            if(toCheck.contains(entry.getKey())){
                 result.put(entry.getKey(), entry.getValue());
             }
         }

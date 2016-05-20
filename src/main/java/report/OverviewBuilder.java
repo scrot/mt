@@ -8,7 +8,6 @@ import gitcrawler.crawler.Crawler;
 import gitcrawler.crawler.local.LocalCrawler;
 import gitcrawler.model.*;
 import lang.Java;
-import lang.Language;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -55,17 +54,15 @@ public class OverviewBuilder {
 
     private Report updateOverviewReport(Report report, Project project) throws GitAPIException, IOException, GitLabApiException {
         Map<String, List<String>> rmap = report.getReport();
-
-        List<Language> languageScope = new ArrayList<Language>(){{add(new Java());}};
         Crawler crawler = new LocalCrawler(project);
 
-        List<Path> projectFiles = new SourceCollector(project.getLocalPath(), true, true).collectFilePaths();
-        Map<Path, XLoc> classesXLoc = new XLocCalculator(project.getLocalPath(), languageScope).getResult();
+        List<Path> projectFiles = new SourceCollector(project.getLocalPath(), new Java(), true, true).getFilePaths();
+        Map<String, XLoc> classesXLoc = new XLocCalculator(project.getLocalPath(), new Java(), XLocCalculator.Level.CLASS).getResult();
         XLoc totalXLoc = calculateTotalXLoc(classesXLoc);
 
-        Map<Path, List<Fault>> codeFaults = filterContains(crawler.getFaults(), classesXLoc);
-        Map<Path, Set<Commit>> codeChanges = filterContains(crawler.getChanges(), classesXLoc);
-        Map<Path, Set<Author>> codeAuthors = filterContains(crawler.getAuthors(), classesXLoc);
+        Map<Path, List<Fault>> codeFaults = filterContains(crawler.getFaults(), projectFiles);
+        Map<Path, Set<Commit>> codeChanges = filterContains(crawler.getChanges(), projectFiles);
+        Map<Path, Set<Author>> codeAuthors = filterContains(crawler.getAuthors(), projectFiles);
 
         List<Commit> commitSorted = sortCommits(crawler.getCommits());
         Commit firstCommit = commitSorted.get(0);
@@ -82,15 +79,10 @@ public class OverviewBuilder {
         addValueToMapList(rmap, "CommLines", Integer.toString(totalXLoc.getCommentLines()));
         addValueToMapList(rmap, "DevDays", Integer.toString(calculateDateDayDiff(firstCommit.getDate(), lastCommit.getDate())));
         addValueToMapList(rmap, "AgeDays", Integer.toString(calculateDateDayDiff(firstCommit.getDate(), new Date())));
-        addValueToMapList(rmap, "TotCommits", Integer.toString(crawler.getCommits().size()));
         addValueToMapList(rmap, "CodeCommits", Integer.toString(extractCommitsFromFaults(codeFaults).size()));
-        addValueToMapList(rmap, "TotIssues", Integer.toString(crawler.getIssues().size()));
         addValueToMapList(rmap, "CodeIssues", Integer.toString(extractIssuesFromFaults(codeFaults).size()));
-        addValueToMapList(rmap, "TotFaults", Integer.toString(crawler.getFaults().size()));
         addValueToMapList(rmap, "CodeFaults", Integer.toString(codeFaults.size()));
-        addValueToMapList(rmap, "TotChanges", Integer.toString(crawler.getChanges().size()));
         addValueToMapList(rmap, "CodeChanges", Integer.toString(codeChanges.size()));
-        addValueToMapList(rmap, "TotAuthors", Integer.toString(calculateTotalUniqueAuthors(crawler.getAuthors())));
         addValueToMapList(rmap, "CodeAuthors", Integer.toString(calculateTotalUniqueAuthors(codeAuthors)));
         addValueToMapList(rmap, "FaultDist", "20-" + this.get20Percent(faultDistribution));
         addValueToMapList(rmap, "FaultCode", "20-" +  getCodeIn20Percent(codeFaults, classesXLoc));
@@ -99,12 +91,13 @@ public class OverviewBuilder {
         return report;
     }
 
-    private Integer getCodeIn20Percent(Map<Path, List<Fault>> codeFaults, Map<Path, XLoc> clocs){
+    private Integer getCodeIn20Percent(Map<Path, List<Fault>> codeFaults, Map<String, XLoc> clocs){
         List<FPath> faulty = getMostFaultyFiles(codeFaults, new Percentage(20.0));
         Integer faulyCloc = codeInFiles(faulty, clocs);
         return new Percentage(faulyCloc / calculateTotalXLoc(clocs).getCodeLines().doubleValue() * 100).getPercentage().intValue();
     }
 
+    /*
     private List<FPath> getMostFaultyFiles(Map<Path, List<Fault>> codeFaults, Percentage percentage){
         List<FPath> faulty = new ArrayList<>();
         for(Map.Entry<Path, List<Fault>> entry : codeFaults.entrySet()){
@@ -114,13 +107,14 @@ public class OverviewBuilder {
         return faulty.subList(0, (int)(codeFaults.size() * percentage.getPercentage0to1()));
     }
 
-    private Integer codeInFiles(List<FPath> files, Map<Path,XLoc> locs){
+    private Integer codeInFiles(List<FPath> files, Map<String, XLoc> locs){
         int cloc = 0;
         for(FPath file : files){
             cloc += locs.get(file.getPath()).getCodeLines();
         }
         return cloc;
     }
+    */
 
     private Integer get20Percent(Distribution d){
         return d.cumulativeTailOfPartitionPercentage(new Percentage(20.0)).getPercentage().intValue();
@@ -181,9 +175,9 @@ public class OverviewBuilder {
         return uniqueAuthors.size();
     }
 
-    private XLoc calculateTotalXLoc(Map<Path, XLoc> classesXLoc) {
+    private XLoc calculateTotalXLoc(Map<String, XLoc> classesXLoc) {
         XLoc totalXLoc = new XLoc(0,0,0,0);
-        for(Map.Entry<Path, XLoc> entry : classesXLoc.entrySet()){
+        for(Map.Entry<String, XLoc> entry : classesXLoc.entrySet()){
             totalXLoc = totalXLoc.add(entry.getValue());
         }
         return totalXLoc;

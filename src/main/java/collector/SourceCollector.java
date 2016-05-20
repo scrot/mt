@@ -1,8 +1,10 @@
 package collector;
 
-import lang.Java;
+import collector.model.ClassSource;
+import collector.model.Location;
 import lang.Language;
 import lang.LanguageFactory;
+import utils.MapTransformation;
 import xloc.XLocPatternFactory;
 import xloc.pattern.XLocPatternBuilder;
 
@@ -18,21 +20,25 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class SourceCollector extends SimpleFileVisitor<Path> {
-    private final List<Path> classPaths;
+    private final List<ClassSource> classSources;
+    private final List<Path> filePaths;
     private final List<Path> dirPaths;
+
+    private final Language ofLanguage;
     private final Boolean ignoreGenerated;
     private final Boolean ignoreTests;
 
-    public SourceCollector(Path sourcePath, Boolean ignoreGenerated, Boolean ignoreTests) throws IOException {
-        this.classPaths = new ArrayList<>();
+    public SourceCollector(Path sourcePath, Language ofLanguage, Boolean ignoreGenerated, Boolean ignoreTests) throws IOException {
+        this.classSources = new ArrayList<>();
+        this.classes = new HashMap<>();
+        this.filePaths = new ArrayList<>();
         this.dirPaths = new ArrayList<>();
+
+        this.ofLanguage = ofLanguage;
         this.ignoreGenerated = ignoreGenerated;
         this.ignoreTests = ignoreTests;
 
@@ -47,8 +53,9 @@ public class SourceCollector extends SimpleFileVisitor<Path> {
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-        if(!isGeneratedFile(file) && !isTestFile(file)){
-            this.classPaths.add(file);
+        if(isOfLanguage(file) && !isGeneratedFile(file) && !isTestFile(file)){
+            this.filePaths.add(file);
+            this.classSources.addAll(new ClassBaseVisitor(file).getClassSources());
         }
         return super.visitFile(file, attrs);
     }
@@ -58,7 +65,7 @@ public class SourceCollector extends SimpleFileVisitor<Path> {
         return factory.classPathToLanguage(classPath);
     }
 
-    public static List<String> mixedCharsetFileReader(Path classpath) throws IOException {
+    public static List<String> SourceFileReader(Path classpath) throws IOException {
         CharsetDecoder decoder = Charset.forName("UTF-8").newDecoder();
         decoder.onMalformedInput(CodingErrorAction.IGNORE);
 
@@ -77,40 +84,20 @@ public class SourceCollector extends SimpleFileVisitor<Path> {
         return classLines;
     }
 
-    public List<Path> collectDirPaths() {
+    public List<Path> getDirPaths() {
         return this.dirPaths;
     }
 
-    public List<Path> collectFilePaths() {
-        return this.classPaths;
+    public List<Path> getFilePaths() {
+        return this.filePaths;
     }
 
-    public List<Path> collectFilePaths(Language ofLanguage){
-        List<Path> filteredPaths = new ArrayList<>();
-        for(Path classPath : this.classPaths){
-            Language classLanguage = getLanguageFromClassPath(classPath);
-            if(ofLanguage.equals(classLanguage)){
-                filteredPaths.add(classPath);
-            }
-        }
-        return filteredPaths;
-    }
-
-    public Map<Path, Language> collectFilePaths(List<Language> ofLanguages){
-        Map<Path, Language> filteredClasses = new HashMap<>();
-        for(Path classPath : this.classPaths){
-            Language classLanguage = getLanguageFromClassPath(classPath);
-            if(ofLanguages.contains(classLanguage)) {
-                filteredClasses.put(classPath, classLanguage);
-            }
-        }
-        return filteredClasses;
-    }
+    public List<ClassSource> getClassSources() { return this.classSources; }
 
     private Boolean isGeneratedFile(Path file) throws IOException {
         if(ignoreGenerated){
             Integer commentCount = 0;
-            List<String> fileContent = mixedCharsetFileReader(file);
+            List<String> fileContent = SourceFileReader(file);
             XLocPatternBuilder xLocPatterns = getLanguageFromClassPath(file).accept(new XLocPatternFactory(), null);
 
             for(String line: fileContent){
@@ -133,14 +120,23 @@ public class SourceCollector extends SimpleFileVisitor<Path> {
         }
     }
 
-    //TODO: use visitor if more languages are supported
     private Boolean isTestFile(Path file) throws IOException {
         if(this.ignoreTests){
-            String fileContent = String.join(" ", mixedCharsetFileReader(file));
+            String fileContent = String.join(" ", SourceFileReader(file));
             return Pattern.compile("(?m)@(Test|Before|After)").matcher(fileContent).find();
         }
         else {
             return false;
+        }
+    }
+
+    private Boolean isOfLanguage(Path file) {
+        Language classLanguage = getLanguageFromClassPath(file);
+        if(this.ofLanguage.equals(classLanguage)) {
+            return true;
+        }
+        else {
+            return  false;
         }
     }
 }
