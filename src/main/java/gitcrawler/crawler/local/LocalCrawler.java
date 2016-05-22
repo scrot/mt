@@ -4,7 +4,6 @@ import com.messners.gitlab.api.GitLabApiException;
 import gitcrawler.crawler.CommitCrawler;
 import gitcrawler.crawler.Crawler;
 import gitcrawler.crawler.FaultCrawler;
-import gitcrawler.crawler.IssueCrawler;
 import gitcrawler.model.Commit;
 import gitcrawler.model.Fault;
 import gitcrawler.model.Issue;
@@ -22,14 +21,16 @@ import java.util.Map;
  */
 public class LocalCrawler extends Crawler {
     private final CommitCrawler commitCrawler;
-    private final IssueCrawler issueCrawler;
     private final FaultCrawler faultCrawler;
+
+    public LocalCrawler(Path gitPath) throws IOException {
+        this.commitCrawler = new LocalCommitCrawler(gitPath);
+        this.faultCrawler = new LocalFaultCrawler(getCommits());
+    }
 
     public LocalCrawler(Project project) throws IOException, GitAPIException, GitLabApiException {
         this.commitCrawler = new LocalCommitCrawler(project.getLocalPath());
-        this.issueCrawler = null;
         this.faultCrawler = new LocalFaultCrawler(getCommits());
-
     }
 
     @Override

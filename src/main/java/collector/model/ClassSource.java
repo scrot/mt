@@ -2,9 +2,8 @@ package collector.model;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.*;
-
-import static collector.SourceCollector.SourceFileReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClassSource extends Source {
     private final String className;
@@ -67,9 +66,9 @@ public class ClassSource extends Source {
             Integer thisStart = this.getLocation().getStart().getLine();
             Integer thisEnd = this.getLocation().getEnd().getLine();
             if(innerStart > thisStart && innerEnd < thisEnd && index >= innerStart && index <= innerEnd){
-                    return true;
-                }
+                return true;
             }
+        }
 
         return false;
     }

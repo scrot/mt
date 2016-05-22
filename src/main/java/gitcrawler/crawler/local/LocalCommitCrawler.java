@@ -26,12 +26,14 @@ import java.util.Map;
  */
 public class LocalCommitCrawler implements CommitCrawler {
     private final Git git;
+    private final Path gitRoot;
     private Map<Object, Commit> commits;
 
-    public LocalCommitCrawler(Path gitProjectRoot) throws IOException {
-        File gitRoot = Paths.get(gitProjectRoot.toString(), ".git").toFile();
+    public LocalCommitCrawler(Path gitRoot) throws IOException {
+        this.gitRoot = gitRoot;
+        File gitFolder = Paths.get(gitRoot.toString(), ".git").toFile();
         FileRepositoryBuilder builder = new FileRepositoryBuilder();
-        Repository repo = builder.setGitDir(gitRoot)
+        Repository repo = builder.setGitDir(gitFolder)
                 .readEnvironment()
                 .findGitDir()
                 .build();
@@ -79,10 +81,12 @@ public class LocalCommitCrawler implements CommitCrawler {
         List<DiffEntry> diffs = git.diff().setNewTree(newTree).setOldTree(oldTree).call();
         for(DiffEntry diff : diffs){
             if (diff.getChangeType() == DiffEntry.ChangeType.DELETE){
-                files.add(Paths.get(diff.getOldPath()));
+                Path path = Paths.get(diff.getOldPath());
+                files.add(path);
             }
             else {
-                files.add(Paths.get(diff.getNewPath()));
+                Path path = Paths.get(diff.getNewPath());
+                files.add(path);
             }
         }
 

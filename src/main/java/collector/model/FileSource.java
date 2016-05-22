@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
-import static collector.SourceCollector.SourceFileReader;
-
 public class FileSource extends Source {
     private final Path sourceFile;
     private final List<String> content;

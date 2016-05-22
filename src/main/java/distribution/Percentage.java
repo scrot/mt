@@ -1,4 +1,4 @@
-package distr;
+package distribution;
 
 public class Percentage {
     private final Double percentage;

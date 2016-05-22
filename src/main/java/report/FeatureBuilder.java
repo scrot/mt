@@ -1,18 +1,16 @@
 package report;
 
-import collector.ClassBaseVisitor;
 import com.messners.gitlab.api.GitLabApiException;
-import gitcrawler.crawler.Crawler;
-import gitcrawler.crawler.local.LocalCrawler;
-import gitcrawler.model.Fault;
+import feature.Feature;
+import feature.FeatureCalculator;
 import gitcrawler.model.Project;
+import lims.Metric;
 import lims.MetricCalculator;
-import lims.MetricCounter;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import xloc.lang.Java;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -23,12 +21,12 @@ import static utils.Utils.addValueToMapList;
 public class FeatureBuilder {
     private final List<Report> featureReports;
 
-    public FeatureBuilder(Project project) throws IOException, ClassNotFoundException {
+    public FeatureBuilder(Project project) throws Exception {
         this.featureReports = new ArrayList<>();
         addFeatureReport(project);
     }
 
-    public FeatureBuilder(List<Project> projects) throws IOException, ClassNotFoundException {
+    public FeatureBuilder(List<Project> projects) throws Exception {
         this.featureReports = new ArrayList<>();
         for(Project project : projects) {
             addFeatureReport(project);
@@ -46,20 +44,20 @@ public class FeatureBuilder {
         }
     }
 
-    private void addFeatureReport(Project project) throws IOException, ClassNotFoundException, GitAPIException, GitLabApiException {
+    private void addFeatureReport(Project project) throws Exception {
         Report featureReport = new Report(project.getProject(), new LinkedHashMap<>());
 
-        Map<String, MetricCounter> metrics = new MetricCalculator(project.getBinaryPath(), true).getMetrics();
-        Crawler crawler = new LocalCrawler(project);
-        Map<Path, List<Fault>> faults = crawler.getFaults();
+        Map<String, Feature> metrics = new FeatureCalculator(project.getBinaryPath(), project.getLocalPath(), false, false, new Java()).getFeatures();
+        //Crawler crawler = new LocalCrawler(project);
+        //Map<Path, List<Fault>> faults = crawler.getFaults();
 
-        for(Map.Entry<String,MetricCounter> metric : metrics.entrySet()){
-            updateFeatureReport(featureReport, metric.getKey(), metric.getValue());
+        for(Map.Entry<String, Feature> feature : metrics.entrySet()){
+            updateFeatureReport(featureReport, feature.getKey(), feature.getValue());
         }
         featureReports.add(featureReport);
     }
 
-    private Report updateFeatureReport(Report report, String className, MetricCounter cm) throws IOException {
+    private Report updateFeatureReport(Report report, String className, Metric cm) throws IOException {
         Map<String, List<String>> rmap = report.getReport();
         addValueToMapList(rmap, "Class", className);
         addValueToMapList(rmap, "WMC", Integer.toString(cm.getWmc()));

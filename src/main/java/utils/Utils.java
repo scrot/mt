@@ -15,6 +15,17 @@ public class Utils {
         }
     }
 
+    public static <K, V> void addValueToMapSet(Map<K, Set<V>> map, K key, Set<V> value) {
+        if (!map.containsKey(key)) {
+            map.put(key, value);
+        }
+        else {
+            Set<V> newvalue = map.get(key);
+            newvalue.addAll(value);
+            map.put(key, newvalue);
+        }
+    }
+
     public static <K, V> void addValueToMapList(Map<K, List<V>> map, K key, V value) {
         if (!map.containsKey(key)) {
             map.put(key, new ArrayList<V>() {{ add(value); }});

@@ -1,19 +1,19 @@
 package report;
 
-import collector.SourceCollector;
 import com.messners.gitlab.api.GitLabApiException;
-import distr.Distribution;
-import distr.Percentage;
+import distribution.Distribution;
+import distribution.Percentage;
 import gitcrawler.crawler.Crawler;
 import gitcrawler.crawler.local.LocalCrawler;
 import gitcrawler.model.*;
-import lang.Java;
-import lang.Language;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
+import xloc.SourceCollector;
 import xloc.XLoc;
 import xloc.XLocCalculator;
+import xloc.lang.Java;
+import xloc.lang.Language;
 
 import java.io.FileWriter;
 import java.io.IOException;

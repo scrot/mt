@@ -1,4 +1,4 @@
-package distr;
+package distribution;
 
 import java.util.*;
 import java.util.stream.Collectors;
