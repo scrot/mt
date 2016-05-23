@@ -8,6 +8,7 @@ import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.uva.rdewildt.mt.featureset.SourceVisitor;
 import org.uva.rdewildt.mt.featureset.git.crawler.CommitCrawler;
+import org.uva.rdewildt.mt.featureset.git.model.Author;
 import org.uva.rdewildt.mt.featureset.git.model.Commit;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -29,24 +30,20 @@ import java.util.stream.Collectors;
  */
 public class LocalCommitCrawler implements CommitCrawler {
     private final Git git;
-    private Map<Object, Commit> commits;
+    private final Map<String, Set<Commit>> commits;
 
     public LocalCommitCrawler(Git git) {
         this.git = git;
-        try {
-            collectClassCommits();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        this.commits = collectClassCommits();
     }
 
     @Override
-    public Map<Object, Commit> getCommits() {
+    public Map<String, Set<Commit>> getCommits() {
         return this.commits;
     }
 
-    public Map<String, List<RevCommit>> collectClassCommits(){
-        Map<String, List<RevCommit>> classCommits = new HashMap<>();
+    private Map<String, Set<Commit>> collectClassCommits(){
+        Map<String, Set<Commit>> classCommits = new HashMap<>();
 
         for(Map.Entry<RevCommit, List<Path>> entry : getCommitsPaths().entrySet()){
             for(Path commitPath : entry.getValue()){
@@ -55,7 +52,7 @@ public class LocalCommitCrawler implements CommitCrawler {
                     Map<String, ClassSource> commitClasses = new SourceVisitor(commitPath, commitSource).getClassSources();
                     Set<String> affectedClasses = classesAffectedByCommit(entry.getKey(), commitClasses);
                     for(String jclass : affectedClasses){
-                        Utils.addValueToMapList(classCommits, jclass, entry.getKey());
+                        Utils.addValueToMapSet(classCommits, jclass, RevCommitToCommit(entry.getKey()));
                     }
                 }
             }
@@ -179,5 +176,13 @@ public class LocalCommitCrawler implements CommitCrawler {
         }
 
         return files;
+    }
+
+    private Commit RevCommitToCommit(RevCommit revCommit){
+        return new Commit(
+                revCommit.getId(),
+                new Author(revCommit.getAuthorIdent().getName()),
+                revCommit.getFullMessage(),
+                revCommit.getAuthorIdent().getWhen());
     }
 }

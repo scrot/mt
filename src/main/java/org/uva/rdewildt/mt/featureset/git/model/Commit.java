@@ -12,14 +12,12 @@ public class Commit {
     private final Author author;
     private final String message;
     private final Date date;
-    private final List<Path> files;
 
-    public Commit(Object id, Author author, String message, Date date, List<Path> files) {
+    public Commit(Object id, Author author, String message, Date date) {
         this.id = id;
         this.author = author;
         this.message = message;
         this.date = date;
-        this.files = files;
     }
 
     public Object getId() {
@@ -38,10 +36,6 @@ public class Commit {
         return this.date;
     }
 
-    public List<Path> getFiles() {
-        return files;
-    }
-
     public List<Integer> getIssueNumbers(Pattern issue){
         List<Integer> issueNumbers = new ArrayList<>();
         if(this.containsIssues(issue)) {
@@ -50,9 +44,7 @@ public class Commit {
             while (issueMatcher.find()) {
                 String issueNumber = issueMatcher.group();
                 Integer issueNr = Integer.parseInt(issueNumber.substring(1));
-                if (issueNr != null) {
-                    issueNumbers.add(issueNr);
-                }
+                issueNumbers.add(issueNr);
             }
         }
         return issueNumbers;

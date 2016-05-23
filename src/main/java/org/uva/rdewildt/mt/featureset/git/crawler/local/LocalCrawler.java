@@ -20,6 +20,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by roy on 5/5/16.
@@ -32,11 +33,11 @@ public class LocalCrawler extends Crawler {
     public LocalCrawler(Path gitPath) throws Exception {
         this.git = getGitFromPath(gitPath);
         this.commitCrawler = new LocalCommitCrawler(git);
-        this.faultCrawler = null;//new LocalFaultCrawler(getCommits());
+        this.faultCrawler = new LocalFaultCrawler(getCommits());
     }
 
     @Override
-    public Map<Object, Commit> getCommits() {
+    public Map<String, Set<Commit>> getCommits() {
         return commitCrawler.getCommits();
     }
 
@@ -46,7 +47,7 @@ public class LocalCrawler extends Crawler {
     }
 
     @Override
-    public Map<Path, List<Fault>> getFaults() {
+    public Map<String, Set<Fault>> getFaults() {
         return faultCrawler.getFaults();
     }
 

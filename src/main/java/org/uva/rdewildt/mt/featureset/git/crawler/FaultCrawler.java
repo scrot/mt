@@ -5,10 +5,11 @@ import org.uva.rdewildt.mt.featureset.git.model.Fault;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by roy on 4/30/16.
  */
 public interface FaultCrawler {
-    Map<Path, List<Fault>> getFaults();
+    Map<String, Set<Fault>> getFaults();
 }

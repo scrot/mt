@@ -7,6 +7,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.uva.rdewildt.mt.featureset.SourceVisitor;
 import org.uva.rdewildt.mt.featureset.git.crawler.FaultCrawler;
+import org.uva.rdewildt.mt.featureset.git.model.Commit;
 import org.uva.rdewildt.mt.featureset.git.model.Fault;
 import org.uva.rdewildt.mt.featureset.model.ClassSource;
 
@@ -18,37 +19,30 @@ import java.util.regex.Pattern;
  * Created by roy on 5/5/16.
  */
 public class LocalFaultCrawler implements FaultCrawler {
-    private final Git git;
-    private Map<Path, List<Fault>> faults;
+    private Map<String, Set<Fault>> faults;
 
-    public LocalFaultCrawler(Git git, Map<RevCommit, List<Path>> commitPaths) {
-        this.git = git;
-        Map<RevCommit, List<Path>> issueCommitPaths = filterOnIssueCommits(commitPaths);
+    public LocalFaultCrawler(Map<String, Set<Commit>> commits) {
+        this.faults = filterOnIssueCommits(commits);
     }
 
     @Override
-    public Map<Path, List<Fault>> getFaults() {
+    public Map<String, Set<Fault>> getFaults() {
         return this.faults;
     }
 
 
-    private Map<RevCommit, List<Path>> filterOnIssueCommits(Map<RevCommit, List<Path>> commitPaths){
-        Map<RevCommit, List<Path>> issueCommitPaths = new HashMap<>();
-        for(Map.Entry<RevCommit, List<Path>> entry : commitPaths.entrySet()){
-            if(containsIssue(entry.getKey())){
-                issueCommitPaths.put(entry.getKey(), entry.getValue());
+    private Map<String, Set<Fault>> filterOnIssueCommits(Map<String, Set<Commit>> commits){
+        Map<String, Set<Fault>> issueCommits = new HashMap<>();
+        for(Map.Entry<String, Set<Commit>> entry : commits.entrySet()){
+            Set<Fault> issueCommit = new HashSet<>();
+            for(Commit commit : entry.getValue()){
+                if(commit.containsIssues(getFaultPattern())){
+                    issueCommit.add(new Fault(null, commit));
+                }
             }
+            issueCommits.put(entry.getKey(), issueCommit);
         }
-        return issueCommitPaths;
-    }
-
-    private Boolean containsIssue(RevCommit commit){
-        if(getFaultPattern().matcher(commit.getFullMessage()).matches()){
-            return true;
-        }
-        else {
-            return false;
-        }
+        return issueCommits;
     }
 
     private Pattern getFaultPattern(){
