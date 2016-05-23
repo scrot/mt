@@ -12,8 +12,8 @@ public class FeatureCounter extends MetricCounter {
     private int authors;
     private int age;
 
-    public FeatureCounter() {
-        super("");
+    public FeatureCounter(String classname) {
+        super(classname);
         this.faults = 0;
         this.changes = 0;
         this.authors = 0;

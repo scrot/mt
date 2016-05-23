@@ -33,11 +33,11 @@ public class Project {
         return this.project;
     }
 
-    public Path getLocalPath() {
+    public Path getGitRoot() {
         return this.localPath;
     }
 
-    public Path getBinaryPath() {
+    public Path getBinaryRoot() {
         return jarPath;
     }
 

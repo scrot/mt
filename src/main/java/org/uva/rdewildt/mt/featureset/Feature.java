@@ -2,6 +2,9 @@ package org.uva.rdewildt.mt.featureset;
 
 import org.uva.rdewildt.lims.Metric;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by roy on 5/22/16.
  */
@@ -26,7 +29,6 @@ public class Feature extends Metric {
         this.changes = changes;
         this.authors = authors;
         this.age = age;
-
     }
 
     public Feature(String classname, int wmc, int noc, int rfc, int cbo, int dit,
@@ -37,6 +39,24 @@ public class Feature extends Metric {
         this.changes = changes;
         this.authors = authors;
         this.age = age;
+    }
+
+    public static List<String> getFeatureNames(){
+        List<String> featureNames = getMetricNames();
+        featureNames.add("Faults");
+        featureNames.add("Changes");
+        featureNames.add("Authors");
+        featureNames.add("Age");
+        return featureNames;
+    }
+
+    public Map<String, Object> getFeatures(){
+        Map<String, Object> features = getMetrics();
+        features.put("Faults", getFaults());
+        features.put("Changes", getChanges());
+        features.put("Authors", getAuthors());
+        features.put("Age", getAge());
+        return features;
     }
 
     public int getFaults() {
