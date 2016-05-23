@@ -1,6 +1,7 @@
 package org.uva.rdewildt.mt.featureset;
 
-import lims.MetricCounter;
+
+import org.uva.rdewildt.lims.MetricCounter;
 
 /**
  * Created by roy on 5/22/16.
@@ -12,6 +13,7 @@ public class FeatureCounter extends MetricCounter {
     private int age;
 
     public FeatureCounter() {
+        super("");
         this.faults = 0;
         this.changes = 0;
         this.authors = 0;

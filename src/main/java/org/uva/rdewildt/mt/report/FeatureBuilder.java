@@ -46,7 +46,7 @@ public class FeatureBuilder {
     private void addFeatureReport(Project project) throws Exception {
         Report featureReport = new Report(project.getProject(), new LinkedHashMap<>());
 
-        Map<String, Feature> metrics = new FeatureCalculator(project.getBinaryPath(), project.getLocalPath(), false, false, new Java()).getFeatures();
+        Map<String, Feature> metrics = new FeatureCalculator(project.getBinaryPath(), project.getLocalPath()).getFeatures();
         //Crawler crawler = new LocalCrawler(project);
         //Map<Path, List<Fault>> faults = crawler.getFaults();
 

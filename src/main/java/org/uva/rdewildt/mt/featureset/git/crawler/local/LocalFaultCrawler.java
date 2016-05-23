@@ -24,7 +24,6 @@ public class LocalFaultCrawler implements FaultCrawler {
     public LocalFaultCrawler(Git git, Map<RevCommit, List<Path>> commitPaths) {
         this.git = git;
         Map<RevCommit, List<Path>> issueCommitPaths = filterOnIssueCommits(commitPaths);
-        Map<RevCommit, List<String>> issueCommitClasses = parseCommitClasses(issueCommitPaths);
     }
 
     @Override
@@ -32,30 +31,6 @@ public class LocalFaultCrawler implements FaultCrawler {
         return this.faults;
     }
 
-    private Map<RevCommit, List<String>> parseCommitClasses(Map<RevCommit, List<Path>> issueCommitPaths) throws Exception {
-        Map<RevCommit, List<String>> issueCommitClasses = new HashMap<>();
-
-        for(Map.Entry<RevCommit, List<Path>> entry : issueCommitPaths.entrySet()){
-            for(Path commitPath : entry.getValue()){
-                String commitSource = getCommitSource(entry.getKey(), commitPath);
-                Map<String, ClassSource> commitClasses = new SourceVisitor(commitPath, commitSource).getClassSources();
-            }
-        }
-        return null;
-    }
-
-    private String getCommitSource(RevCommit commit, Path filePath) throws Exception {
-        TreeWalk treeWalk = new TreeWalk(this.git.getRepository());
-        treeWalk.addTree(commit.getTree());
-        treeWalk.setRecursive(true);
-        treeWalk.setFilter(PathFilter.create(filePath.toString()));
-        if(!treeWalk.next()){
-            throw new IllegalStateException("Dit not find expected file " + filePath.toString());
-        }
-        ObjectLoader loader = this.git.getRepository().open(treeWalk.getObjectId(0));
-        return loader.toString();
-
-    }
 
     private Map<RevCommit, List<Path>> filterOnIssueCommits(Map<RevCommit, List<Path>> commitPaths){
         Map<RevCommit, List<Path>> issueCommitPaths = new HashMap<>();

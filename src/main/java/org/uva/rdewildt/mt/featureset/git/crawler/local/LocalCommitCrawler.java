@@ -1,28 +1,28 @@
 package org.uva.rdewildt.mt.featureset.git.crawler.local;
 
-import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.revwalk.RevTree;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.eclipse.jgit.util.io.DisabledOutputStream;
+import org.uva.rdewildt.mt.featureset.SourceVisitor;
 import org.uva.rdewildt.mt.featureset.git.crawler.CommitCrawler;
-import org.uva.rdewildt.mt.featureset.git.model.Author;
 import org.uva.rdewildt.mt.featureset.git.model.Commit;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
+import org.uva.rdewildt.mt.featureset.model.ClassSource;
+import org.uva.rdewildt.mt.utils.Utils;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by roy on 5/2/16.
@@ -31,70 +31,153 @@ public class LocalCommitCrawler implements CommitCrawler {
     private final Git git;
     private Map<Object, Commit> commits;
 
-    public LocalCommitCrawler(Git git) throws IOException {
+    public LocalCommitCrawler(Git git) {
         this.git = git;
+        try {
+            collectClassCommits();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public Map<Object, Commit> getCommits() {
-        if(this.commits == null){
-            this.commits = collectCommits();
-        }
         return this.commits;
     }
 
-    public Map<RevCommit, List<Path>> getCommitsPaths() throws GitAPIException, IOException {
+    public Map<String, List<RevCommit>> collectClassCommits(){
+        Map<String, List<RevCommit>> classCommits = new HashMap<>();
+
+        for(Map.Entry<RevCommit, List<Path>> entry : getCommitsPaths().entrySet()){
+            for(Path commitPath : entry.getValue()){
+                if(commitPath.toString().endsWith(".java")){
+                    String commitSource = getCommitSource(entry.getKey(), commitPath);
+                    Map<String, ClassSource> commitClasses = new SourceVisitor(commitPath, commitSource).getClassSources();
+                    Set<String> affectedClasses = classesAffectedByCommit(entry.getKey(), commitClasses);
+                    for(String jclass : affectedClasses){
+                        Utils.addValueToMapList(classCommits, jclass, entry.getKey());
+                    }
+                }
+            }
+        }
+        return classCommits;
+    }
+
+    private Set<String> classesAffectedByCommit(RevCommit commit, Map<String, ClassSource> commitClasses) {
+        Set<String> classes = new HashSet<>();
+
+        try {
+            ObjectReader reader = this.git.getRepository().newObjectReader();
+            CanonicalTreeParser oldTree = new CanonicalTreeParser();
+            oldTree.reset(reader, commit.getTree());
+            CanonicalTreeParser newTree = new CanonicalTreeParser();
+            newTree.reset(reader, commit.getParent(0).getTree());
+
+
+            DiffFormatter diffFormatter = new DiffFormatter(DisabledOutputStream.INSTANCE);
+            diffFormatter.setRepository(git.getRepository());
+            diffFormatter.setContext(0);
+
+            List<DiffEntry> diffs = git.diff().setNewTree(newTree).setOldTree(oldTree).call();
+            for (DiffEntry diff : diffs) {
+                Path path = diff.getChangeType() == DiffEntry.ChangeType.DELETE ? Paths.get(diff.getOldPath()) : Paths.get(diff.getNewPath());
+                List<Edit> editList = diffFormatter.toFileHeader(diff).toEditList();
+
+                Map<Integer, String> classMap = getClassMap(commitClasses, path);
+                for(Edit edit : editList){
+                    int start = edit.getBeginA();
+                    int end = edit.getEndA();
+                    for(int i = start; i <= end; i++){
+                        if(classMap.containsKey(i)){
+                            classes.add(classMap.get(i));
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception e){
+            e.getStackTrace();
+        }
+
+        return classes;
+    }
+
+    private Map<Integer, String> getClassMap(Map<String, ClassSource> classSources, Path classPath){
+        Map<Integer, String> classMap = new HashMap<>();
+
+        List<ClassSource> sortedOnLoc = classSources.values().stream().sorted((c1, c2) -> c1.getLocation().compareTo(c2.getLocation())).collect(Collectors.toList());
+        for(ClassSource classSource : sortedOnLoc){
+            if (classSource.getSourceFile().equals(classPath)) {
+                int start = classSource.getLocation().getStart().getLine();
+                int end = classSource.getLocation().getEnd().getLine();
+                for (int i = start; i <= end; i++) {
+                    classMap.put(i, classSource.getClassName());
+                }
+            }
+        }
+
+
+        return classMap;
+    }
+
+    private String getCommitSource(RevCommit commit, Path filePath) {
+        String source = "";
+
+        try {
+            TreeWalk treeWalk = new TreeWalk(this.git.getRepository());
+            treeWalk.addTree(commit.getTree());
+            treeWalk.setRecursive(true);
+            treeWalk.setFilter(PathFilter.create(filePath.toString()));
+            treeWalk.next();
+            ObjectLoader loader = this.git.getRepository().open(treeWalk.getObjectId(0));
+            source = new String(loader.getBytes());
+        }
+        catch (Exception e){
+            e.getStackTrace();
+        }
+
+        return source;
+    }
+
+    private Map<RevCommit, List<Path>> getCommitsPaths() {
         Map<RevCommit, List<Path>> commitPaths = new HashMap<>();
-        for(RevCommit commit : git.log().call()){
-            commitPaths.put(commit, getCommitFiles(commit));
+        try {
+            for (RevCommit commit : git.log().call()) {
+                commitPaths.put(commit, getCommitFiles(commit));
+            }
+        }
+        catch (Exception e){
+            e.getStackTrace();
         }
         return commitPaths;
     }
 
-    private Map<Object,Commit> collectCommits(){
-        Map<Object, Commit> commits = new HashMap<>();
-        try {
-            for(RevCommit commit : git.log().call()){
-                commits.put(commit.getId(), new Commit(
-                        commit.getId(),
-                        new Author(commit.getAuthorIdent().getName()),
-                        commit.getFullMessage(),
-                        commit.getAuthorIdent().getWhen(),
-                        getCommitFiles(commit)));
-            }
-        } catch (GitAPIException | IOException e) {
-            e.printStackTrace();
-        }
-        return commits;
-    }
-
-    private List<Path> getCommitFiles(RevCommit commit) throws IOException, GitAPIException {
+    private List<Path> getCommitFiles(RevCommit commit) {
         List<Path> files = new ArrayList<>();
 
-        if(commit.getParentCount() <= 0){
-            return files;
+        try {
+            ObjectReader reader = this.git.getRepository().newObjectReader();
+            CanonicalTreeParser oldTree = new CanonicalTreeParser();
+            oldTree.reset(reader, commit.getTree());
+            CanonicalTreeParser newTree = new CanonicalTreeParser();
+            newTree.reset(reader, commit.getParent(0).getTree());
+
+            List<DiffEntry> diffs = git.diff().setNewTree(newTree).setOldTree(oldTree).call();
+            for(DiffEntry diff : diffs){
+                if (diff.getChangeType() == DiffEntry.ChangeType.DELETE){
+                    Path path = Paths.get(diff.getOldPath());
+                    files.add(path);
+                }
+                else {
+                    Path path = Paths.get(diff.getNewPath());
+                    files.add(path);
+                }
+            }
         }
-
-        ObjectReader reader = this.git.getRepository().newObjectReader();
-        CanonicalTreeParser oldTree = new CanonicalTreeParser();
-        oldTree.reset(reader, commit.getTree());
-        CanonicalTreeParser newTree = new CanonicalTreeParser();
-        newTree.reset(reader, commit.getParent(0).getTree());
-
-        List<DiffEntry> diffs = git.diff().setNewTree(newTree).setOldTree(oldTree).call();
-        for(DiffEntry diff : diffs){
-            if (diff.getChangeType() == DiffEntry.ChangeType.DELETE){
-                Path path = Paths.get(diff.getOldPath());
-                files.add(path);
-            }
-            else {
-                Path path = Paths.get(diff.getNewPath());
-                files.add(path);
-            }
+        catch (IOException | GitAPIException e) {
+            e.printStackTrace();
         }
 
         return files;
     }
-
-
 }

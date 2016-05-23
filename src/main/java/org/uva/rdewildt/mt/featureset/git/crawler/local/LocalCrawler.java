@@ -29,10 +29,10 @@ public class LocalCrawler extends Crawler {
     private final CommitCrawler commitCrawler;
     private final FaultCrawler faultCrawler;
 
-    public LocalCrawler(Path gitPath) throws IOException {
+    public LocalCrawler(Path gitPath) throws Exception {
         this.git = getGitFromPath(gitPath);
         this.commitCrawler = new LocalCommitCrawler(git);
-        this.faultCrawler = new LocalFaultCrawler(getCommits());
+        this.faultCrawler = null;//new LocalFaultCrawler(getCommits());
     }
 
     @Override

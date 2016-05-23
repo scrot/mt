@@ -43,7 +43,7 @@ public class SourceVisitor extends Java8BaseVisitor<Void> {
         }
     }
 
-    public SourceVisitor(Path path, String file) throws IOException {
+    public SourceVisitor(Path path, String file) {
         this.path = path;
         this.classSources = new HashMap<>();
         this.packagePrefix = "";
@@ -53,9 +53,9 @@ public class SourceVisitor extends Java8BaseVisitor<Void> {
         ParseTree tree = parser.compilationUnit();
         this.visit(tree);
 
-        for(Map.Entry<String, ClassSource> entry : classSources.entrySet()) {
-            entry.getValue().collectContent(classSources);
-        }
+        //for(Map.Entry<String, ClassSource> entry : classSources.entrySet()) {
+        //    entry.getValue().collectContent(classSources);
+        //}
     }
 
     public Map<String, ClassSource> getClassSources() {
@@ -80,7 +80,7 @@ public class SourceVisitor extends Java8BaseVisitor<Void> {
 
     @Override
     public Void visitNormalClassDeclaration(Java8Parser.NormalClassDeclarationContext ctx) {
-        appendOuterClass(ctx.Identifier().getText());
+        appendOuterClass(ctx.Identifier());
         addClassLocation(ctx);
         super.visitNormalClassDeclaration(ctx);
         this.outerClass = this.oldOuterClass;
@@ -89,7 +89,7 @@ public class SourceVisitor extends Java8BaseVisitor<Void> {
 
     @Override
     public Void visitNormalInterfaceDeclaration(Java8Parser.NormalInterfaceDeclarationContext ctx) {
-        appendOuterClass(ctx.Identifier().getText());
+        appendOuterClass(ctx.Identifier());
         addClassLocation(ctx);
         super.visitNormalInterfaceDeclaration(ctx);
         this.outerClass = this.oldOuterClass;
@@ -98,7 +98,7 @@ public class SourceVisitor extends Java8BaseVisitor<Void> {
 
     @Override
     public Void visitEnumDeclaration(Java8Parser.EnumDeclarationContext ctx) {
-        appendOuterClass(ctx.Identifier().getText());
+        appendOuterClass(ctx.Identifier());
         addClassLocation(ctx);
         super.visitEnumDeclaration(ctx);
         this.outerClass = this.oldOuterClass;
@@ -107,7 +107,7 @@ public class SourceVisitor extends Java8BaseVisitor<Void> {
 
     @Override
     public Void visitAnnotationTypeDeclaration(Java8Parser.AnnotationTypeDeclarationContext ctx) {
-        appendOuterClass(ctx.Identifier().getText());
+        appendOuterClass(ctx.Identifier());
         addClassLocation(ctx);
         super.visitAnnotationTypeDeclaration(ctx);
         this.outerClass = this.oldOuterClass;
@@ -168,17 +168,28 @@ public class SourceVisitor extends Java8BaseVisitor<Void> {
         this.classSources.put(this.outerClass, new ClassSource(this.outerClass, this.path, null, new Location(start, end, this.path)));
     }
 
-    private void appendOuterClass(String className){
-        this.oldOuterClass = this.outerClass;
-        if(this.outerClass.equals("")){
-            if(path.toFile().isFile()){
-                this.outerClass = this.packagePrefix + className;
+    private void appendOuterClass(TerminalNode jclass){
+        if(jclass != null){
+            this.oldOuterClass = this.outerClass;
+            if(this.outerClass.equals("")){
+                this.outerClass = this.packagePrefix + jclass.getText();
             }
+            else {
+                this.outerClass += "$" + jclass.getText();
+            }
+            this.anonclass.put(this.outerClass, 1);
         }
-        else {
-            this.outerClass += "$" + className;
-        }
-        this.anonclass.put(this.outerClass, 1);
+    }
+
+    private void appendOuterClass(String jclass){
+            this.oldOuterClass = this.outerClass;
+            if(this.outerClass.equals("")){
+                this.outerClass = this.packagePrefix + jclass;
+            }
+            else {
+                this.outerClass += "$" + jclass;
+            }
+            this.anonclass.put(this.outerClass, 1);
     }
 
     private void IncreaseAnonClass(){

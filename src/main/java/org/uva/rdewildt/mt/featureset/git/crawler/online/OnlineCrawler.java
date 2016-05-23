@@ -23,7 +23,7 @@ public class OnlineCrawler extends Crawler {
     private final FaultCrawler faultCrawler;
 
     public OnlineCrawler(Project project) throws IOException, GitAPIException, GitLabApiException {
-        this.commitCrawler = new LocalCommitCrawler(project.getLocalPath());
+        this.commitCrawler = null; //new LocalCommitCrawler(project.getLocalPath());
         this.issueCrawler = new GitlabIssueCrawler(project);
         this.faultCrawler = new GitlabFaultCrawler(getCommits(), getIssues());
 

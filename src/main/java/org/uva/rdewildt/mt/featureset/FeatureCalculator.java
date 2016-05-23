@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * Created by roy on 5/22/16.
  */
 public class FeatureCalculator extends MetricCalculator {
-    private final Map<String, Feature> features;
+    private Map<String, Feature> features;
     private final Map<String, Integer> classesFaults;
     private final Map<String, Integer> classesChanges;
     private final Map<String, Integer> classesAuthors;
@@ -41,15 +41,7 @@ public class FeatureCalculator extends MetricCalculator {
         this.head = sortCommits(new HashSet<>(gcrawler.getCommits().values())).get(gcrawler.getCommits().size() -1);
         this.gitRoot = gitRoot;
 
-        List<Path> filePaths = new SourceCollector(gitRoot, ignoreInnerClasses, ignoreTests).collectFilePaths(ofLanguage);
-        for(Path filePath : filePaths){
-            this.classesFaults.putAll(fileToClassCountList(filePath, gcrawler.getFaults()));
-            this.classesChanges.putAll(fileToClassCountSet(filePath, gcrawler.getChanges()));
-            this.classesAuthors.putAll(fileToClassCountSet(filePath, gcrawler.getAuthors()));
-            this.classesAge.putAll(fileToClassCount(filePath, changeAges(gcrawler.getChanges())));
-        }
-
-
+/*
         this.features = new HashMap<>();
         for(Map.Entry<String, Metric> entry : classMetrics.entrySet()){
             FeatureCounter feature = new FeatureCounter();
@@ -60,12 +52,14 @@ public class FeatureCalculator extends MetricCalculator {
             feature.incrementFaults(this.classesAge.get(entry.getKey()));
             features.put(entry.getKey(), feature.getFeature());
         }
+        */
     }
 
     public Map<String, Feature> getFeatures() {
         return features;
     }
 
+    /*
     private <T> Map<String, Integer> fileToClassCountSet(Path file, Map<Path, Set<T>> fileCounts) throws IOException {
         Map<String, Integer> faultCounts = new HashMap<>();
 
@@ -104,6 +98,7 @@ public class FeatureCalculator extends MetricCalculator {
         }
         return faultCounts;
     }
+    */
 
     private Map<Path, Integer> changeAges(Map<Path, Set<Commit>> changes) {
         Map<Path, Integer> filesAge = new HashMap<>();

@@ -27,12 +27,12 @@ import static org.uva.rdewildt.mt.utils.Utils.*;
 public class OverviewBuilder {
     private final Report overviewReport;
 
-    public OverviewBuilder(String reportName, Project project) throws IOException, GitLabApiException, GitAPIException {
+    public OverviewBuilder(String reportName, Project project) throws Exception {
         this.overviewReport = new Report(reportName, new LinkedHashMap<>());
         updateOverviewReport(this.overviewReport, project);
     }
 
-    public OverviewBuilder(String reportName, List<Project> projects) throws IOException, GitLabApiException, GitAPIException {
+    public OverviewBuilder(String reportName, List<Project> projects) throws Exception {
         this.overviewReport = new Report(reportName, new LinkedHashMap<>());
 
         int i = 0;
@@ -53,11 +53,11 @@ public class OverviewBuilder {
         writer.close();
     }
 
-    private Report updateOverviewReport(Report report, Project project) throws GitAPIException, IOException, GitLabApiException {
+    private Report updateOverviewReport(Report report, Project project) throws Exception {
         Map<String, List<String>> rmap = report.getReport();
 
         List<Language> languageScope = new ArrayList<Language>(){{add(new Java());}};
-        Crawler crawler = new LocalCrawler(project);
+        Crawler crawler = new LocalCrawler(project.getLocalPath());
 
         List<Path> projectFiles = new SourceCollector(project.getLocalPath(), true, true).collectFilePaths();
         Map<Path, XLoc> classesXLoc = new XLocCalculator(project.getLocalPath(), languageScope).getResult();
