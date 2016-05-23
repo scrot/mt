@@ -2,62 +2,70 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eb317eed-238d-4ad5-b116-67dd8f37efe5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/collector/SourceVisitor.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/feature/Feature.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/feature/FeatureCalculator.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/feature/FeatureCounter.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.gitignore.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_code_findbugs_bcel_findbugs_6_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/example_overview.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/junit4_featureset.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/collector/ClassBaseVisitor.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/collector/SourceCollector.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/lang/Java.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/lang/Language.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/lang/LanguageFactory.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/lang/Other.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/lang/visitor/Visitable.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/lang/visitor/Visitor.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/lims/MetricCalculator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/lims/MetricCounter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/xloc/XLoc.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/xloc/XLocCalculator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/xloc/XLocCounter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/xloc/XLocPatternFactory.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/xloc/pattern/BlankPattern.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/xloc/pattern/CodePattern.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/xloc/pattern/CommentPattern.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/xloc/pattern/MlCommentPattern.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/xloc/pattern/SlCommentPattern.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/xloc/pattern/UnknownPattern.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/xloc/pattern/XLocPattern.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/xloc/pattern/XLocPatternBuilder.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/untitled_featureset.csv" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/distr/Distribution.java" afterPath="$PROJECT_DIR$/src/main/java/distribution/Distribution.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/distr/Percentage.java" afterPath="$PROJECT_DIR$/src/main/java/distribution/Percentage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/cache.properties.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/fileHashes.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/outputFileStates.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.9/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/classes/main/collector/SourceCollector.class" afterPath="$PROJECT_DIR$/build/classes/main/collector/SourceCollector.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/fm-toolkit_main.iml" afterPath="$PROJECT_DIR$/.idea/modules/fm-toolkit_main.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/fm-toolkit_test.iml" afterPath="$PROJECT_DIR$/.idea/modules/fm-toolkit_test.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/FeatureReport.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/repository/RepoBuilder.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/modules/fm-toolkit.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/modules/fm-toolkit_main.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/modules/fm-toolkit_test.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/libs/lims-1.0.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/collector/ClassCollector.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/repository/RepoBuilder.java" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/collector/SourceVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/SourceVisitor.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/collector/model/ClassSource.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/model/ClassSource.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/collector/model/FileSource.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/model/FileSource.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/collector/model/Location.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/model/Location.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/collector/model/Position.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/model/Position.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/collector/model/Source.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/model/Source.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/collector/parser/Java8.g4" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/parser/Java8.g4" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/collector/parser/Java8.tokens" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/parser/Java8.tokens" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/collector/parser/Java8BaseListener.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/parser/Java8BaseListener.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/collector/parser/Java8BaseVisitor.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/parser/Java8BaseVisitor.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/collector/parser/Java8Lexer.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/parser/Java8Lexer.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/collector/parser/Java8Lexer.tokens" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/parser/Java8Lexer.tokens" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/collector/parser/Java8Listener.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/parser/Java8Listener.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/collector/parser/Java8Parser.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/parser/Java8Parser.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/collector/parser/Java8Visitor.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/parser/Java8Visitor.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/distribution/Distribution.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/distribution/Distribution.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/distribution/Percentage.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/distribution/Percentage.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/feature/Feature.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/Feature.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/feature/FeatureCalculator.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/FeatureCalculator.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/feature/FeatureCounter.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/FeatureCounter.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/api/CommitsAPI.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/api/CommitsAPI.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/api/GitlabAPI.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/api/GitlabAPI.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/api/IssuesAPI.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/api/IssuesAPI.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/CommitCrawler.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/crawler/CommitCrawler.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/Crawler.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/crawler/Crawler.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/FaultCrawler.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/crawler/FaultCrawler.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/IssueCrawler.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/crawler/IssueCrawler.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/local/LocalCommitCrawler.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/crawler/local/LocalCommitCrawler.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/local/LocalCrawler.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/crawler/local/LocalCrawler.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/local/LocalFaultCrawler.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/crawler/local/LocalFaultCrawler.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/online/GitlabCommitCrawler.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/crawler/online/GitlabCommitCrawler.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/online/GitlabFaultCrawler.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/crawler/online/GitlabFaultCrawler.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/online/GitlabIssueCrawler.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/crawler/online/GitlabIssueCrawler.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/online/OnlineCrawler.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/crawler/online/OnlineCrawler.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/model/Author.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/model/Author.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/model/Commit.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/model/Commit.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/model/FPath.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/model/FPath.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/model/Fault.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/model/Fault.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/model/Issue.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/model/Issue.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/model/Project.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/model/Project.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/repository/GHRepoBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/repository/GHRepoBuilder.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/repository/GLRepoBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/repository/GLRepoBuilder.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/report/ConfigReader.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/report/ConfigReader.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/report/FeatureBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/report/FeatureBuilder.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/report/OverviewBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/report/OverviewBuilder.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/report/Report.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/report/Report.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/report/ReportWriter.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/report/ReportWriter.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/utils/Utils.java" afterPath="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/utils/Utils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="$PROJECT_DIR$/.idea/.name" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/resources/main/example.conf" afterPath="$PROJECT_DIR$/build/resources/main/example.conf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/collector/model/ClassSource.java" afterPath="$PROJECT_DIR$/src/main/java/collector/model/ClassSource.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/collector/model/FileSource.java" afterPath="$PROJECT_DIR$/src/main/java/collector/model/FileSource.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/collector/model/Source.java" afterPath="$PROJECT_DIR$/src/main/java/collector/model/Source.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/collector/parser/Java8Lexer.java" afterPath="$PROJECT_DIR$/src/main/java/collector/parser/Java8Lexer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/collector/parser/Java8Parser.java" afterPath="$PROJECT_DIR$/src/main/java/collector/parser/Java8Parser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/local/LocalCommitCrawler.java" afterPath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/local/LocalCommitCrawler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/local/LocalCrawler.java" afterPath="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/local/LocalCrawler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/report/FeatureBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/report/FeatureBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/report/OverviewBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/report/OverviewBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/report/ReportWriter.java" afterPath="$PROJECT_DIR$/src/main/java/report/ReportWriter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/utils/Utils.java" afterPath="$PROJECT_DIR$/src/main/java/utils/Utils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/example.conf" afterPath="$PROJECT_DIR$/src/main/resources/example.conf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradlew" afterPath="$PROJECT_DIR$/gradlew" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/settings.gradle" afterPath="$PROJECT_DIR$/settings.gradle" />
     </list>
     <ignored path="utils.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -102,95 +110,95 @@
       <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="24" column="56" selection-start-line="24" selection-start-column="56" selection-end-line="24" selection-end-column="56" />
+            <state relative-caret-position="486">
+              <caret line="27" column="41" selection-start-line="27" selection-start-column="41" selection-end-line="27" selection-end-column="41" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="SourceVisitor.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/collector/SourceVisitor.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/SourceVisitor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="31" column="22" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
-              <folding />
+            <state relative-caret-position="558">
+              <caret line="47" column="44" selection-start-line="47" selection-start-column="44" selection-end-line="47" selection-end-column="44" />
+              <folding>
+                <element signature="method#visitPackageDeclaration#0;class#SourceVisitor#0" expanded="false" />
+                <element signature="method#visitTypeDeclaration#0;class#SourceVisitor#0" expanded="false" />
+                <element signature="method#visitNormalClassDeclaration#0;class#SourceVisitor#0" expanded="false" />
+                <element signature="method#visitNormalInterfaceDeclaration#0;class#SourceVisitor#0" expanded="false" />
+                <element signature="method#visitEnumDeclaration#0;class#SourceVisitor#0" expanded="false" />
+                <element signature="method#visitAnnotationTypeDeclaration#0;class#SourceVisitor#0" expanded="false" />
+                <element signature="method#visitEnumConstant#0;class#SourceVisitor#0" expanded="false" />
+                <element signature="method#visitClassInstanceCreationExpression#0;class#SourceVisitor#0" expanded="false" />
+                <element signature="method#visitClassInstanceCreationExpression_lf_primary#0;class#SourceVisitor#0" expanded="false" />
+                <element signature="method#visitClassInstanceCreationExpression_lfno_primary#0;class#SourceVisitor#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FeatureCalculator.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/feature/FeatureCalculator.java">
+      <file leaf-file-name="LocalFaultCrawler.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/crawler/local/LocalFaultCrawler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+            <state relative-caret-position="523">
+              <caret line="48" column="28" selection-start-line="48" selection-start-column="28" selection-end-line="48" selection-end-column="28" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#2811#2812#0" expanded="true" />
-                <element signature="e#2842#2843#0" expanded="true" />
+                <element signature="e#1103#1104#0" expanded="true" />
+                <element signature="e#1137#1138#0" expanded="true" />
+                <element signature="method#containsIssue#0;class#LocalFaultCrawler#0" expanded="false" />
+                <element signature="method#getFaultPattern#0;class#LocalFaultCrawler#0" expanded="false" />
+                <marker date="1463993681291" expanded="false" signature="2400:2732" placeholder="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="LocalCrawler.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/gitcrawler/crawler/local/LocalCrawler.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/crawler/local/LocalCrawler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="33" column="5" selection-start-line="33" selection-start-column="5" selection-end-line="33" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Crawler.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/gitcrawler/crawler/Crawler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="40" column="47" selection-start-line="40" selection-start-column="44" selection-end-line="40" selection-end-column="52" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Commit.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/gitcrawler/model/Commit.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="36">
-              <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+            <state relative-caret-position="252">
+              <caret line="33" column="57" selection-start-line="33" selection-start-column="57" selection-end-line="33" selection-end-column="57" />
               <folding>
-                <element signature="e#892#893#0" expanded="true" />
-                <element signature="e#920#921#0" expanded="true" />
+                <element signature="method#getGitFromPath#0;class#LocalCrawler#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ReportWriter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/report/ReportWriter.java">
+      <file leaf-file-name="ClassSource.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/model/ClassSource.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="576">
+              <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+              <folding>
+                <element signature="method#collectContent#0;class#ClassSource#0" expanded="false" />
+                <element signature="method#innerClass#0;class#ClassSource#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="settings.gradle" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/settings.gradle">
+      <file leaf-file-name="FeatureCalculator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/FeatureCalculator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="631">
+              <caret line="52" column="40" selection-start-line="52" selection-start-column="40" selection-end-line="52" selection-end-column="40" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#fileToClassCountSet#0;class#FeatureCalculator#0" expanded="false" />
+                <element signature="method#fileToClassCountList#0;class#FeatureCalculator#0" expanded="false" />
+                <element signature="method#fileToClassCount#0;class#FeatureCalculator#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LocalCommitCrawler.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/gitcrawler/crawler/local/LocalCommitCrawler.java">
+      <file leaf-file-name="FeatureBuilder.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/report/FeatureBuilder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="218">
-              <caret line="88" column="0" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
+            <state relative-caret-position="667">
+              <caret line="58" column="74" selection-start-line="58" selection-start-column="74" selection-end-line="58" selection-end-column="74" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -198,11 +206,33 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="example.conf" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/example.conf">
+      <file leaf-file-name="FeatureReport.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/FeatureReport.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="6" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
+            <state relative-caret-position="90">
+              <caret line="5" column="26" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LocalCommitCrawler.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/crawler/local/LocalCommitCrawler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="487">
+              <caret line="50" column="27" selection-start-line="50" selection-start-column="27" selection-end-line="50" selection-end-column="27" />
+              <folding>
+                <element signature="method#getCommitFiles#0;class#LocalCommitCrawler#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Feature.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/Feature.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="612">
+              <caret line="34" column="25" selection-start-line="34" selection-start-column="25" selection-end-line="34" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -227,14 +257,14 @@
         <entry>
           <key>
             <ExternalProjectPojo>
-              <option name="name" value="fm-toolkit" />
+              <option name="name" value="org.uva.rdewildt.mt" />
               <option name="path" value="$PROJECT_DIR$" />
             </ExternalProjectPojo>
           </key>
           <value>
             <list>
               <ExternalProjectPojo>
-                <option name="name" value="fm-toolkit" />
+                <option name="name" value="org.uva.rdewildt.mt" />
                 <option name="path" value="$PROJECT_DIR$" />
               </ExternalProjectPojo>
             </list>
@@ -248,7 +278,7 @@
           <value>
             <list>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the components produced by root project 'fm-toolkit'. [incubating]" />
+                <option name="description" value="Displays the components produced by root project 'org.uva.rdewildt.mt'. [incubating]" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="components" />
               </ExternalTaskPojo>
@@ -258,7 +288,7 @@
                 <option name="name" value="buildDependents" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the sub-projects of root project 'fm-toolkit'." />
+                <option name="description" value="Displays the sub-projects of root project 'org.uva.rdewildt.mt'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="projects" />
               </ExternalTaskPojo>
@@ -298,7 +328,7 @@
                 <option name="name" value="jar" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the configuration model of root project 'fm-toolkit'. [incubating]" />
+                <option name="description" value="Displays the configuration model of root project 'org.uva.rdewildt.mt'. [incubating]" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="model" />
               </ExternalTaskPojo>
@@ -313,7 +343,7 @@
                 <option name="name" value="processResources" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the tasks runnable from root project 'fm-toolkit'." />
+                <option name="description" value="Displays the tasks runnable from root project 'org.uva.rdewildt.mt'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="tasks" />
               </ExternalTaskPojo>
@@ -338,7 +368,7 @@
                 <option name="name" value="compileJava" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the insight into a specific dependency in root project 'fm-toolkit'." />
+                <option name="description" value="Displays the insight into a specific dependency in root project 'org.uva.rdewildt.mt'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="dependencyInsight" />
               </ExternalTaskPojo>
@@ -368,7 +398,7 @@
                 <option name="name" value="installApp" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays all dependencies declared in root project 'fm-toolkit'." />
+                <option name="description" value="Displays all dependencies declared in root project 'org.uva.rdewildt.mt'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="dependencies" />
               </ExternalTaskPojo>
@@ -403,7 +433,7 @@
                 <option name="name" value="distZip" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the properties of root project 'fm-toolkit'." />
+                <option name="description" value="Displays the properties of root project 'org.uva.rdewildt.mt'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="properties" />
               </ExternalTaskPojo>
@@ -414,7 +444,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="2923810072627" />
+        <entry key="$PROJECT_DIR$" value="2927973473175" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -433,7 +463,7 @@
                   </entry>
                 </map>
               </option>
-              <option name="name" value="fm-toolkit" />
+              <option name="name" value="org.uva.rdewildt.mt" />
               <option name="projectBuildClasspath">
                 <list>
                   <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-2.9-all/1aw2ic01pldw5fkvoq6t1fsz4/gradle-2.9/src/test-kit" />
@@ -565,17 +595,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/git/crawler/local/LocalCrawler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/git/crawler/online/OnlineCrawler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/git/crawler/online/GitlabFaultCrawler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/git/crawler/online/GitlabIssueCrawler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/git/crawler/online/GitlabCommitCrawler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/git/crawler/Crawler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/git/model/Project.java" />
-        <option value="$PROJECT_DIR$/src/main/java/report/ConfigReader.java" />
-        <option value="$PROJECT_DIR$/src/main/java/utils/PathsCollector.java" />
-        <option value="$PROJECT_DIR$/src/main/java/lang/LanguageFactory.java" />
-        <option value="$PROJECT_DIR$/src/main/java/metrics/ClassMetrics.java" />
         <option value="$PROJECT_DIR$/src/main/java/distr/Distribution.java" />
         <option value="$PROJECT_DIR$/src/main/java/xloc/XLocPatternFactory.java" />
         <option value="$PROJECT_DIR$/src/main/java/xloc/pattern/MlCommentPattern.java" />
@@ -610,12 +629,23 @@
         <option value="$PROJECT_DIR$/src/main/java/feature/FeatureCounter.java" />
         <option value="$PROJECT_DIR$/src/main/java/report/OverviewBuilder.java" />
         <option value="$PROJECT_DIR$/src/main/java/report/FeatureBuilder.java" />
-        <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/src/main/java/report/ReportWriter.java" />
         <option value="$PROJECT_DIR$/src/main/resources/example.conf" />
         <option value="$PROJECT_DIR$/src/main/java/gitcrawler/crawler/local/LocalCommitCrawler.java" />
         <option value="$PROJECT_DIR$/src/main/java/collector/SourceVisitor.java" />
         <option value="$PROJECT_DIR$/src/main/java/feature/FeatureCalculator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/feature/FeatureCalculator.java" />
+        <option value="$PROJECT_DIR$/settings.gradle" />
+        <option value="$PROJECT_DIR$/build.gradle" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/report/FeatureBuilder.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/Feature.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/FeatureCalculator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/collector/SourceVisitor.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/collector/model/ClassSource.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/crawler/local/LocalCommitCrawler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/crawler/local/LocalCrawler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/SourceVisitor.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/crawler/local/LocalFaultCrawler.java" />
       </list>
     </option>
   </component>
@@ -736,41 +766,30 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="fm-toolkit" />
+              <option name="myItemId" value="org.uva.rdewildt.mt" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="fm-toolkit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mt" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fm-toolkit" />
+              <option name="myItemId" value="org.uva.rdewildt.mt" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="mt" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="fm-toolkit" />
+              <option name="myItemId" value="org.uva.rdewildt.mt" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -781,18 +800,10 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="org.jetbrains.plugins.gradle.projectView.GradleTreeStructureProvider$GradleSourceSetDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="fm-toolkit" />
+              <option name="myItemId" value="org.uva.rdewildt.mt" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -807,14 +818,10 @@
               <option name="myItemId" value="main" />
               <option name="myItemType" value="org.jetbrains.plugins.gradle.projectView.GradleTreeStructureProvider$GradleSourceSetDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="fm-toolkit" />
+              <option name="myItemId" value="org.uva.rdewildt.mt" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -834,13 +841,17 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="gitcrawler" />
+              <option name="myItemId" value="mt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="utils" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="fm-toolkit" />
+              <option name="myItemId" value="org.uva.rdewildt.mt" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -860,17 +871,13 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="gitcrawler" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="crawler" />
+              <option name="myItemId" value="mt" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="fm-toolkit" />
+              <option name="myItemId" value="org.uva.rdewildt.mt" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -890,23 +897,16 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="gitcrawler" />
+              <option name="myItemId" value="mt" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="crawler" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="local" />
+              <option name="myItemId" value="featureset" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -926,9 +926,8 @@
     <property name="$PROJECT_DIR$/src/main/java/collector/parser/Java8.g4::/gen-visitor" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\royw\Workspace\mt\src\main\java\collector" />
-      <recent name="C:\Users\royw\Workspace\mt\src\main\java\metrics" />
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="git.model" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
@@ -937,8 +936,9 @@
       <recent name="git.model" />
       <recent name="distribution.xloc" />
     </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="git.model" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\royw\Workspace\mt\src\main\java\collector" />
+      <recent name="C:\Users\royw\Workspace\mt\src\main\java\metrics" />
     </key>
   </component>
   <component name="RunManager" selected="Gradle.mt [:run]">
@@ -1463,7 +1463,8 @@
       <workItem from="1463560713525" duration="15691000" />
       <workItem from="1463755901749" duration="3698000" />
       <workItem from="1463824233977" duration="814000" />
-      <workItem from="1463825165117" duration="40502000" />
+      <workItem from="1463825165117" duration="40603000" />
+      <workItem from="1463984638282" duration="7689000" />
     </task>
     <servers />
   </component>
@@ -1500,16 +1501,15 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="427688000" />
+    <option name="totallyTimeSpent" value="435478000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="27" width="1920" height="1053" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Tool Output" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32786885" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
@@ -1528,11 +1528,12 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.431694" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.431694" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32786885" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -1560,14 +1561,14 @@
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/feature/FeatureCalculator.java</url>
-          <line>51</line>
+          <url>file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/FeatureCalculator.java</url>
+          <line>48</line>
           <properties />
           <option name="timeStamp" value="406" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/feature/FeatureCalculator.java</url>
-          <line>85</line>
+          <url>file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/FeatureCalculator.java</url>
+          <line>82</line>
           <properties />
           <option name="timeStamp" value="408" />
         </line-breakpoint>
@@ -1575,7 +1576,7 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="411" />
+      <option name="time" value="413" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1584,15 +1585,8 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/hsqldb_featureset.csv" />
     <entry file="file://$PROJECT_DIR$/src/main/java/metrics/ClassMetricsContainer.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/xloc/XLocCounter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/xloc/XLocCounter.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/metrics/MethodVisitor.java" />
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.bcel/bcel/5.2/96b2cefeb067c08c31225d48e2a689f814baae25/bcel-5.2.jar!/org/apache/bcel/classfile/JavaClass.class">
       <provider selected="true" editor-type-id="text-editor">
@@ -1609,43 +1603,32 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/metrics/Metric.java" />
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/bcel-findbugs/6.0/7a7563ba41dceff3da4af4927b7c09908bd5132c/bcel-findbugs-6.0.jar!/org/apache/bcel/classfile/Method.class" />
     <entry file="file://$USER_HOME$/Downloads/ReferenceType.java" />
-    <entry file="file://$PROJECT_DIR$/untitled_featureset.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="50" selection-start-line="16" selection-start-column="50" selection-end-line="16" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/junit4_featureset.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/collector/parser/Java8BaseListener.java">
+    <entry file="file://$PROJECT_DIR$/untitled_featureset.csv" />
+    <entry file="file://$PROJECT_DIR$/junit4_featureset.csv" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/parser/Java8BaseListener.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/report/Report.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="21" column="27" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="27" />
-          <folding>
-            <element signature="e#478#479#0" expanded="false" />
-            <element signature="e#507#508#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/collector/model/ClassSource.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/model/ClassSource.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="45" column="42" selection-start-line="45" selection-start-column="42" selection-end-line="45" selection-end-column="42" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#674#675#0" expanded="false" />
+            <element signature="e#706#707#0" expanded="false" />
+            <element signature="e#755#756#0" expanded="false" />
+            <element signature="e#788#789#0" expanded="false" />
+            <element signature="e#822#823#0" expanded="false" />
+            <element signature="e#854#855#0" expanded="false" />
+            <element signature="e#891#892#0" expanded="false" />
+            <element signature="e#922#923#0" expanded="false" />
+            <element signature="e#976#977#0" expanded="false" />
+            <element signature="e#1006#1007#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1653,9 +1636,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
           <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
-          <folding>
-            <element signature="e#1511#1512#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1663,7 +1643,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="234">
           <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1671,89 +1650,30 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
           <caret line="59" column="28" selection-start-line="59" selection-start-column="28" selection-end-line="59" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/lims/Metric.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="644">
-          <caret line="43" column="37" selection-start-line="43" selection-start-column="37" selection-end-line="43" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/lims/MetricCounter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/lims/MetricCalculatorTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="487">
-          <caret line="94" column="30" selection-start-line="94" selection-start-column="30" selection-end-line="94" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/lims/MetricCalculator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/utils/Utils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="26" column="5" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/xloc/XLocCalculator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="26" column="49" selection-start-line="26" selection-start-column="49" selection-end-line="26" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/collector/SourceCollector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="700">
-          <caret line="72" column="33" selection-start-line="72" selection-start-column="33" selection-end-line="72" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/collector/ClassCollector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-116">
-          <caret line="15" column="38" selection-start-line="15" selection-start-column="38" selection-end-line="15" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/collector/model/FileSource.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/lims/Metric.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/lims/MetricCounter.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/lims/MetricCalculatorTest.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/lims/MetricCalculator.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/xloc/XLocCalculator.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/collector/SourceCollector.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/model/FileSource.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
           <caret line="12" column="37" selection-start-line="12" selection-start-column="37" selection-end-line="12" selection-end-column="37" />
           <folding>
             <element signature="imports" expanded="false" />
-            <element signature="e#426#427#0" expanded="false" />
-            <element signature="e#464#465#0" expanded="false" />
-            <element signature="e#518#519#0" expanded="false" />
-            <element signature="e#553#554#0" expanded="false" />
+            <element signature="e#447#448#0" expanded="false" />
+            <element signature="e#485#486#0" expanded="false" />
+            <element signature="e#539#540#0" expanded="false" />
+            <element signature="e#574#575#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/collector/model/Source.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/model/Source.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
           <caret line="13" column="3" selection-start-line="13" selection-start-column="3" selection-end-line="13" selection-end-column="3" />
@@ -1761,27 +1681,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/collector/model/ClassSource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="14" column="35" selection-start-line="14" selection-start-column="35" selection-end-line="14" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#631#632#0" expanded="true" />
-            <element signature="e#663#664#0" expanded="true" />
-            <element signature="e#712#713#0" expanded="true" />
-            <element signature="e#745#746#0" expanded="true" />
-            <element signature="e#779#780#0" expanded="true" />
-            <element signature="e#811#812#0" expanded="true" />
-            <element signature="e#848#849#0" expanded="true" />
-            <element signature="e#879#880#0" expanded="true" />
-            <element signature="e#933#934#0" expanded="true" />
-            <element signature="e#963#964#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/feature/FeatureCounter.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/FeatureCounter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="522">
           <caret line="35" column="5" selection-start-line="35" selection-start-column="5" selection-end-line="35" selection-end-column="5" />
@@ -1791,36 +1691,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/gitcrawler/crawler/local/LocalFaultCrawler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-144">
-          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/report/OverviewBuilder.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/report/OverviewBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="213">
           <caret line="144" column="20" selection-start-line="144" selection-start-column="20" selection-end-line="144" selection-end-column="20" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/report/FeatureBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="31" column="25" selection-start-line="31" selection-start-column="25" selection-end-line="31" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/feature/Feature.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1829,26 +1703,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="213">
           <caret line="18" column="11" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="24" column="56" selection-start-line="24" selection-start-column="56" selection-end-line="24" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lims-test_featureset.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/lims-test_featureset.csv" />
     <entry file="file://$PROJECT_DIR$/src/main/resources/example.conf">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1857,45 +1715,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/settings.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/report/ReportWriter.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/report/ReportWriter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
-          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding />
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/gitcrawler/crawler/local/LocalCrawler.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/crawler/Crawler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="33" column="5" selection-start-line="33" selection-start-column="5" selection-end-line="33" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/gitcrawler/crawler/Crawler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
+        <state relative-caret-position="576">
           <caret line="40" column="47" selection-start-line="40" selection-start-column="44" selection-end-line="40" selection-end-column="52" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/gitcrawler/model/Commit.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/model/Commit.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
+        <state relative-caret-position="198">
           <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
           <folding>
-            <element signature="e#892#893#0" expanded="true" />
-            <element signature="e#920#921#0" expanded="true" />
+            <element signature="e#916#917#0" expanded="true" />
+            <element signature="e#944#945#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1905,13 +1751,13 @@
         <state relative-caret-position="162">
           <caret line="379" column="18" selection-start-line="379" selection-start-column="18" selection-end-line="379" selection-end-column="18" />
           <folding>
-            <element signature="e#12202#12203#0" expanded="true" />
-            <element signature="e#12223#12224#0" expanded="true" />
+            <element signature="e#12202#12203#0" expanded="false" />
+            <element signature="e#12223#12224#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/gitcrawler/crawler/CommitCrawler.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/crawler/CommitCrawler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
           <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
@@ -1919,32 +1765,148 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/gitcrawler/crawler/local/LocalCommitCrawler.java">
+    <entry file="file://$PROJECT_DIR$/settings.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="88" column="0" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
+        <state relative-caret-position="36">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/utils/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="28" column="4" selection-start-line="28" selection-start-column="4" selection-end-line="37" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/report/Report.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+          <folding>
+            <element signature="e#518#519#0" expanded="true" />
+            <element signature="e#547#548#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="486">
+          <caret line="27" column="41" selection-start-line="27" selection-start-column="41" selection-end-line="27" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/report/FeatureBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="667">
+          <caret line="58" column="74" selection-start-line="58" selection-start-column="74" selection-end-line="58" selection-end-column="74" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/collector/SourceVisitor.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/FeatureReport.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="31" column="22" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
+        <state relative-caret-position="90">
+          <caret line="5" column="26" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/feature/FeatureCalculator.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/Feature.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+        <state relative-caret-position="612">
+          <caret line="34" column="25" selection-start-line="34" selection-start-column="25" selection-end-line="34" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/FeatureCalculator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="631">
+          <caret line="52" column="40" selection-start-line="52" selection-start-column="40" selection-end-line="52" selection-end-column="40" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2811#2812#0" expanded="true" />
-            <element signature="e#2842#2843#0" expanded="true" />
+            <element signature="method#fileToClassCountSet#0;class#FeatureCalculator#0" expanded="false" />
+            <element signature="method#fileToClassCountList#0;class#FeatureCalculator#0" expanded="false" />
+            <element signature="method#fileToClassCount#0;class#FeatureCalculator#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/collector/ClassCollector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="31" column="5" selection-start-line="31" selection-start-column="5" selection-end-line="31" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/model/ClassSource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="576">
+          <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+          <folding>
+            <element signature="method#collectContent#0;class#ClassSource#0" expanded="false" />
+            <element signature="method#innerClass#0;class#ClassSource#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/crawler/local/LocalCommitCrawler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="487">
+          <caret line="50" column="27" selection-start-line="50" selection-start-column="27" selection-end-line="50" selection-end-column="27" />
+          <folding>
+            <element signature="method#getCommitFiles#0;class#LocalCommitCrawler#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/crawler/local/LocalCrawler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="33" column="57" selection-start-line="33" selection-start-column="57" selection-end-line="33" selection-end-column="57" />
+          <folding>
+            <element signature="method#getGitFromPath#0;class#LocalCrawler#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/SourceVisitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="558">
+          <caret line="47" column="44" selection-start-line="47" selection-start-column="44" selection-end-line="47" selection-end-column="44" />
+          <folding>
+            <element signature="method#visitPackageDeclaration#0;class#SourceVisitor#0" expanded="false" />
+            <element signature="method#visitTypeDeclaration#0;class#SourceVisitor#0" expanded="false" />
+            <element signature="method#visitNormalClassDeclaration#0;class#SourceVisitor#0" expanded="false" />
+            <element signature="method#visitNormalInterfaceDeclaration#0;class#SourceVisitor#0" expanded="false" />
+            <element signature="method#visitEnumDeclaration#0;class#SourceVisitor#0" expanded="false" />
+            <element signature="method#visitAnnotationTypeDeclaration#0;class#SourceVisitor#0" expanded="false" />
+            <element signature="method#visitEnumConstant#0;class#SourceVisitor#0" expanded="false" />
+            <element signature="method#visitClassInstanceCreationExpression#0;class#SourceVisitor#0" expanded="false" />
+            <element signature="method#visitClassInstanceCreationExpression_lf_primary#0;class#SourceVisitor#0" expanded="false" />
+            <element signature="method#visitClassInstanceCreationExpression_lfno_primary#0;class#SourceVisitor#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/uva/rdewildt/mt/featureset/git/crawler/local/LocalFaultCrawler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="523">
+          <caret line="48" column="28" selection-start-line="48" selection-start-column="28" selection-end-line="48" selection-end-column="28" />
+          <folding>
+            <element signature="e#1103#1104#0" expanded="true" />
+            <element signature="e#1137#1138#0" expanded="true" />
+            <element signature="method#containsIssue#0;class#LocalFaultCrawler#0" expanded="false" />
+            <element signature="method#getFaultPattern#0;class#LocalFaultCrawler#0" expanded="false" />
+            <marker date="1463993681291" expanded="false" signature="2400:2732" placeholder="{...}" />
           </folding>
         </state>
       </provider>

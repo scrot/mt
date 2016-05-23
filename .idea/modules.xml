@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fm-toolkit.iml" filepath="$PROJECT_DIR$/.idea/modules/fm-toolkit.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fm-toolkit_main.iml" filepath="$PROJECT_DIR$/.idea/modules/fm-toolkit_main.iml" group="fm-toolkit" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fm-toolkit_test.iml" filepath="$PROJECT_DIR$/.idea/modules/fm-toolkit_test.iml" group="fm-toolkit" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt.iml" filepath="$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt_main.iml" filepath="$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt_main.iml" group="org.uva.rdewildt.mt" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt_test.iml" filepath="$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt_test.iml" group="org.uva.rdewildt.mt" />
     </modules>
   </component>
 </project>
