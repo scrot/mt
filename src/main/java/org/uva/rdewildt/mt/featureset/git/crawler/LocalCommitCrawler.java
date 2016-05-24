@@ -1,20 +1,20 @@
 package org.uva.rdewildt.mt.featureset.git.crawler;
 
-import org.eclipse.jgit.diff.DiffFormatter;
-import org.eclipse.jgit.diff.Edit;
-import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.treewalk.TreeWalk;
-import org.eclipse.jgit.treewalk.filter.PathFilter;
-import org.eclipse.jgit.util.io.DisabledOutputStream;
-import org.uva.rdewildt.mt.featureset.splitter.SourceVisitor;
-import org.uva.rdewildt.mt.featureset.git.model.Author;
-import org.uva.rdewildt.mt.featureset.git.model.Commit;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.diff.Edit;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
+import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.eclipse.jgit.util.io.DisabledOutputStream;
+import org.uva.rdewildt.mt.featureset.git.model.Author;
+import org.uva.rdewildt.mt.featureset.git.model.Commit;
+import org.uva.rdewildt.mt.featureset.splitter.SourceVisitor;
 import org.uva.rdewildt.mt.featureset.splitter.model.ClassSource;
 import org.uva.rdewildt.mt.utils.Utils;
 
@@ -126,7 +126,7 @@ public class LocalCommitCrawler implements CommitCrawler {
             TreeWalk treeWalk = new TreeWalk(this.git.getRepository());
             treeWalk.addTree(commit.getTree());
             treeWalk.setRecursive(true);
-            treeWalk.setFilter(PathFilter.create(filePath.toString()));
+            treeWalk.setFilter(PathFilter.create(filePath.toString().replace('\\', '/')));
             treeWalk.next();
             ObjectLoader loader = this.git.getRepository().open(treeWalk.getObjectId(0));
             source = new String(loader.getBytes());

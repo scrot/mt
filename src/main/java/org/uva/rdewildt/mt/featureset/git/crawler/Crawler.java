@@ -5,10 +5,7 @@ import org.uva.rdewildt.mt.featureset.git.model.Commit;
 import org.uva.rdewildt.mt.featureset.git.model.Fault;
 import org.uva.rdewildt.mt.featureset.git.model.Issue;
 
-import java.nio.file.Path;
 import java.util.*;
-
-import static org.uva.rdewildt.mt.utils.Utils.addValueToMapSet;
 
 /**
  * Created by roy on 5/5/16.

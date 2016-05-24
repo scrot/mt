@@ -9,7 +9,6 @@ import org.uva.rdewildt.mt.featureset.git.model.Project;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class FeatureReports {
     private final List<Report> featureReports;

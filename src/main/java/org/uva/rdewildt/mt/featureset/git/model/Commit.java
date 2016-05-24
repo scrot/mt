@@ -1,6 +1,5 @@
 package org.uva.rdewildt.mt.featureset.git.model;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

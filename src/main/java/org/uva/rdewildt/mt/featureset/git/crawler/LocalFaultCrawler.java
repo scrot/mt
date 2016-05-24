@@ -3,7 +3,10 @@ package org.uva.rdewildt.mt.featureset.git.crawler;
 import org.uva.rdewildt.mt.featureset.git.model.Commit;
 import org.uva.rdewildt.mt.featureset.git.model.Fault;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**

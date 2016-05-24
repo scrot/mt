@@ -23,8 +23,8 @@ public class LocalCrawler extends Crawler {
     private final CommitCrawler commitCrawler;
     private final FaultCrawler faultCrawler;
 
-    public LocalCrawler(Path gitPath) throws Exception {
-        this.git = getGitFromPath(gitPath);
+    public LocalCrawler(Path gitRoot) throws Exception {
+        this.git = getGitFromFileSystem(gitRoot);
         this.commitCrawler = new LocalCommitCrawler(git);
         this.faultCrawler = new LocalFaultCrawler(getCommits());
     }
@@ -44,7 +44,7 @@ public class LocalCrawler extends Crawler {
         return faultCrawler.getFaults();
     }
 
-    private Git getGitFromPath(Path gitPath) throws IOException {
+    private Git getGitFromFileSystem(Path gitPath) throws IOException {
         File gitFolder = Paths.get(gitPath.toString(), ".git").toFile();
         FileRepositoryBuilder builder = new FileRepositoryBuilder();
         Repository repo = builder.setGitDir(gitFolder)

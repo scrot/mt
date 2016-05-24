@@ -1,29 +1,5 @@
 package org.uva.rdewildt.mt.report;
 
-import com.messners.gitlab.api.GitLabApiException;
-import org.uva.rdewildt.mt.distribution.Distribution;
-import org.uva.rdewildt.mt.distribution.Percentage;
-import org.uva.rdewildt.mt.featureset.git.crawler.Crawler;
-import org.uva.rdewildt.mt.featureset.git.crawler.LocalCrawler;
-import org.uva.rdewildt.mt.featureset.git.model.*;
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.joda.time.DateTime;
-import org.joda.time.Days;
-import xloc.SourceCollector;
-import xloc.XLoc;
-import xloc.XLocCalculator;
-import xloc.lang.Java;
-import xloc.lang.Language;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.text.DecimalFormat;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static org.uva.rdewildt.mt.utils.Utils.*;
-
 public class OverviewReports {
     /*
     private final Report overviewReport;

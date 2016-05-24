@@ -1,12 +1,12 @@
 package org.uva.rdewildt.mt.featureset;
 
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.uva.rdewildt.lims.Metric;
 import org.uva.rdewildt.lims.MetricCalculator;
 import org.uva.rdewildt.mt.featureset.git.crawler.Crawler;
 import org.uva.rdewildt.mt.featureset.git.crawler.LocalCrawler;
 import org.uva.rdewildt.mt.featureset.git.model.Commit;
-import org.joda.time.DateTime;
-import org.joda.time.Days;
 
 import java.nio.file.Path;
 import java.util.*;
@@ -16,12 +16,20 @@ import java.util.stream.Collectors;
  * Created by roy on 5/22/16.
  */
 public class FeatureCalculator extends MetricCalculator {
+    private final Crawler gcrawler;
     private Map<String, Feature> features;
 
     public FeatureCalculator(Path binaryRoot, Path gitRoot) throws Exception {
         super(binaryRoot);
+        this.gcrawler = new LocalCrawler(gitRoot);
+        calculateFeatures();
+    }
 
-        Crawler gcrawler = new LocalCrawler(gitRoot);
+    public Map<String, Feature> getFeatures() {
+        return features;
+    }
+
+    private void calculateFeatures() {
         Map<String, Integer> classesFaults = mapListLenghts(gcrawler.getFaults());
         Map<String, Integer> classesChanges = mapListLenghts(gcrawler.getCommits());
         Map<String, Integer> classesAuthors = mapListLenghts(gcrawler.getAuthors());
@@ -42,9 +50,6 @@ public class FeatureCalculator extends MetricCalculator {
         }
     }
 
-    public Map<String, Feature> getFeatures() {
-        return features;
-    }
 
     private <T,U> Map<T, Integer> mapListLenghts(Map<T, ? extends Collection<U>> map){
         Map<T, Integer> counts = new HashMap<>();
