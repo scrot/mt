@@ -9,7 +9,7 @@ import java.util.List;
 public class ReportWriter {
     public static void main(String[] args) throws Exception {
         //Path config = Paths.get(args[0]);
-        Path config = Paths.get("/home/roy/Workspace/MT/mt/src/main/resources/example.conf");
+        Path config = Paths.get("C:\\Users\\royw\\Workspace\\mt\\src\\main\\resources\\example.conf");
         ConfigReader confReader = new ConfigReader(config);
         List<Project> projects = confReader.getProjects();
         //OverviewReports builder = new OverviewReports(confReader.getName(), projects);

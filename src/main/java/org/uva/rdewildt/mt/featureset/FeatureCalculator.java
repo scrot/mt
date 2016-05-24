@@ -37,10 +37,10 @@ public class FeatureCalculator extends MetricCalculator {
 
 
         this.features = new HashMap<>();
-        for(Map.Entry<String, Metric> entry : super.getMetrics().entrySet()){
-            if(classesChanges.containsKey(entry.getKey())){
+        for(Map.Entry<String, Integer> entry : classesChanges.entrySet()){
+            if(this.getMetrics().containsKey(entry.getKey())){
                 FeatureCounter feature = new FeatureCounter(entry.getKey());
-                feature.setMetric(entry.getValue());
+                feature.setMetric(this.getMetrics().get(entry.getKey()));
                 feature.incrementFaults(classesFaults.get(entry.getKey()));
                 feature.incrementChanges(classesChanges.get(entry.getKey()));
                 feature.incrementAuthors(classesAuthors.get(entry.getKey()));
