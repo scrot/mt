@@ -1,17 +1,18 @@
 package org.uva.rdewildt.mt.fpms.splitter.model;
 
+import org.uva.rdewildt.mt.xloc.PathCollector;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ClassSource extends Source {
+public class ClassSource implements Source {
     private final String className;
     private final Path sourceFile;
     private final Path classFile;
     private final Location location;
-    private List<String> content;
 
     public ClassSource(String className, Path sourceFile, Path classFile, Location location) {
         this.className = className;
@@ -37,15 +38,11 @@ public class ClassSource extends Source {
         return location;
     }
 
-    @Override
-    public List<String> getContent() {
-        return content;
-    }
-
+    /*
     public void collectContent(Map<String, ClassSource> innerClasses) {
         List<String> content = new ArrayList<>();
         try {
-            List<String> source = SourceFileReader(this.sourceFile);
+            List<String> source = PathCollector.mixedCharsetFileReader(this.sourceFile);
             Integer start = this.location.getStart().getLine();
             Integer end = this.location.getEnd().getLine();
             for(int i = start; i <= end; i++){
@@ -59,6 +56,7 @@ public class ClassSource extends Source {
         }
         this.content = content;
     }
+    */
 
     private Boolean innerClass(Integer index, List<ClassSource> innerClasses){
         for(ClassSource innerClass : innerClasses){

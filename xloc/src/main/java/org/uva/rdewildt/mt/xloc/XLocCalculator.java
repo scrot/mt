@@ -3,13 +3,18 @@ package org.uva.rdewildt.mt.xloc;
 import org.uva.rdewildt.mt.xloc.lang.Language;
 import org.uva.rdewildt.mt.xloc.pattern.XLocPatternBuilder;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CodingErrorAction;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.uva.rdewildt.mt.xloc.SourceCollector.mixedCharsetFileReader;
 
 /**
  * Created by roy on 4/5/16.
@@ -19,14 +24,16 @@ public class XLocCalculator {
 
     public XLocCalculator(Path rootPath, List<Language> languages) throws IOException {
 
-        Map<Path, Language> classPaths = new SourceCollector(rootPath, true, true).collectFilePaths(languages);
+        Map<Language, List<Path>> classPaths = new PathCollector(rootPath, true, true, true,languages).getFilePaths();
         this.classXLocMap = new HashMap<>();
-        for(Map.Entry<Path, Language> classPath : classPaths.entrySet()){
-            XLocPatternBuilder xLocPatterns = classPath.getValue().accept(new XLocPatternFactory(), null);
-            List<String> classLines = mixedCharsetFileReader(classPath.getKey());
-            XLoc xLoc = calculateClassXLoc(classLines, xLocPatterns);
-            if(xLoc.getTotalLines() != 0){
-                this.classXLocMap.put(rootPath.relativize(classPath.getKey()), xLoc);
+        for(Map.Entry<Language, List<Path>> entry : classPaths.entrySet()){
+            XLocPatternBuilder xLocPatterns = entry.getKey().accept(new XLocPatternFactory(), null);
+            for(Path classPath : entry.getValue()){
+                List<String> classLines = mixedCharsetFileReader(classPath);
+                XLoc xLoc = calculateClassXLoc(classLines, xLocPatterns);
+                if(xLoc.getTotalLines() != 0){
+                    this.classXLocMap.put(rootPath.relativize(classPath), xLoc);
+                }
             }
         }
     }
@@ -61,5 +68,24 @@ public class XLocCalculator {
         }
 
         return xLocCounter.getXLoc();
+    }
+
+    private List<String> mixedCharsetFileReader(Path classpath) throws IOException {
+        CharsetDecoder decoder = Charset.forName("UTF-8").newDecoder();
+        decoder.onMalformedInput(CodingErrorAction.IGNORE);
+
+        FileInputStream stream = new FileInputStream(classpath.toFile());
+        InputStreamReader reader = new InputStreamReader(stream, decoder);
+        BufferedReader bufferedReader = new BufferedReader(reader);
+
+        List<String> classLines = new ArrayList<>();
+
+        String line;
+        while ((line = bufferedReader.readLine()) != null) {
+            classLines.add(line);
+        }
+        bufferedReader.close();
+
+        return classLines;
     }
 }

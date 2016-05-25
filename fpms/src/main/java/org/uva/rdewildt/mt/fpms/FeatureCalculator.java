@@ -2,10 +2,12 @@ package org.uva.rdewildt.mt.fpms;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
-import org.uva.rdewildt.mt.fpms.git.crawler.Crawler;
+import org.uva.rdewildt.mt.fpms.git.crawler.ClassCrawler;
 import org.uva.rdewildt.mt.fpms.git.crawler.LocalCrawler;
 import org.uva.rdewildt.mt.fpms.git.model.Commit;
 import org.uva.rdewildt.mt.lims.MetricCalculator;
+import org.uva.rdewildt.mt.xloc.lang.Java;
+import org.uva.rdewildt.mt.xloc.lang.Language;
 
 import java.nio.file.Path;
 import java.util.*;
@@ -15,12 +17,12 @@ import java.util.stream.Collectors;
  * Created by roy on 5/22/16.
  */
 public class FeatureCalculator extends MetricCalculator {
-    private final Crawler gcrawler;
+    private final ClassCrawler gcrawler;
     private Map<String, Feature> features;
 
     public FeatureCalculator(Path binaryRoot, Path gitRoot) throws Exception {
         super(binaryRoot);
-        this.gcrawler = new LocalCrawler(gitRoot);
+        this.gcrawler = new LocalCrawler(gitRoot, true, true, new Java());
         calculateFeatures();
     }
 

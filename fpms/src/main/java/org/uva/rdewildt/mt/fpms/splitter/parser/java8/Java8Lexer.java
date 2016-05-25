@@ -1,5 +1,5 @@
-// Generated from C:/Users/royw/Workspace/mt/fpms/src/main/java/org/uva/rdewildt/mt/fpms/splitter/parser\Java8.g4 by ANTLR 4.5.1
-package org.uva.rdewildt.mt.fpms.splitter.parser;
+// Generated from C:/Users/royw/Workspace/mt/fpms/src/main/java/org/uva/rdewildt/mt/fpms/splitter/parser/java8\Java8.g4 by ANTLR 4.5.1
+package org.uva.rdewildt.mt.fpms.splitter.parser.java8;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;

@@ -1,4 +1,4 @@
-package org.uva.rdewildt.mt.fpms.splitter;
+package org.uva.rdewildt.mt.fpms.splitter.parser.java8;
 
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -9,10 +9,6 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import org.uva.rdewildt.mt.fpms.splitter.model.ClassSource;
 import org.uva.rdewildt.mt.fpms.splitter.model.Location;
 import org.uva.rdewildt.mt.fpms.splitter.model.Position;
-import org.uva.rdewildt.mt.fpms.splitter.parser.Java8BaseVisitor;
-import org.uva.rdewildt.mt.fpms.splitter.parser.Java8Lexer;
-import org.uva.rdewildt.mt.fpms.splitter.parser.Java8Parser;
-
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -29,18 +25,18 @@ public class SourceVisitor extends Java8BaseVisitor<Void> {
     private String outerClass;
     private Map<String, Integer> anonclass;
 
-    public SourceVisitor(Path path) throws IOException {
+    public SourceVisitor(Path path) {
         this.path = path;
         this.classSources = new HashMap<>();
         this.packagePrefix = "";
 
-        Java8Lexer lexer = new Java8Lexer(new ANTLRFileStream(path.toString()));
-        Java8Parser parser = new Java8Parser(new CommonTokenStream(lexer));
-        ParseTree tree = parser.compilationUnit();
-        this.visit(tree);
-
-        for(Map.Entry<String, ClassSource> entry : classSources.entrySet()) {
-            entry.getValue().collectContent(classSources);
+        try {
+            Java8Lexer lexer = new Java8Lexer(new ANTLRFileStream(path.toString()));
+            Java8Parser parser = new Java8Parser(new CommonTokenStream(lexer));
+            ParseTree tree = parser.compilationUnit();
+            this.visit(tree);
+        } catch (IOException e) {
+            System.out.println("Could not read path: " + path.toString());
         }
     }
 

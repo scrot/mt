@@ -34,7 +34,7 @@ public class OverviewReports {
         Map<String, List<String>> rmap = report.getReport();
 
         List<Language> languageScope = new ArrayList<Language>(){{add(new Java());}};
-        Crawler crawler = new LocalCrawler(project.getGitRoot());
+        ClassCrawler crawler = new LocalCrawler(project.getGitRoot());
 
         List<Path> projectFiles = new SourceCollector(project.getGitRoot(), true, true).collectFilePaths();
         Map<Path, XLoc> classesXLoc = new XLocCalculator(project.getGitRoot(), languageScope).getResult();
