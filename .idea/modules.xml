@@ -2,9 +2,22 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fpms/fpms.iml" filepath="$PROJECT_DIR$/.idea/modules/fpms/fpms.iml" group="fpms" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fpms/fpms_main.iml" filepath="$PROJECT_DIR$/.idea/modules/fpms/fpms_main.iml" group="fpms" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fpms/fpms_test.iml" filepath="$PROJECT_DIR$/.idea/modules/fpms/fpms_test.iml" group="fpms" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lims/lims.iml" filepath="$PROJECT_DIR$/.idea/modules/lims/lims.iml" group="lims" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lims-test/lims-test.iml" filepath="$PROJECT_DIR$/.idea/modules/lims-test/lims-test.iml" group="lims-test" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lims-test/lims-test_main.iml" filepath="$PROJECT_DIR$/.idea/modules/lims-test/lims-test_main.iml" group="lims-test" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lims-test/lims-test_test.iml" filepath="$PROJECT_DIR$/.idea/modules/lims-test/lims-test_test.iml" group="lims-test" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lims/lims_main.iml" filepath="$PROJECT_DIR$/.idea/modules/lims/lims_main.iml" group="lims" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lims/lims_test.iml" filepath="$PROJECT_DIR$/.idea/modules/lims/lims_test.iml" group="lims" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt.iml" filepath="$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt_main.iml" filepath="$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt_main.iml" group="org.uva.rdewildt.mt" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt_test.iml" filepath="$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt_test.iml" group="org.uva.rdewildt.mt" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/report/report.iml" filepath="$PROJECT_DIR$/.idea/modules/report/report.iml" group="report" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/report/report_main.iml" filepath="$PROJECT_DIR$/.idea/modules/report/report_main.iml" group="report" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/report/report_test.iml" filepath="$PROJECT_DIR$/.idea/modules/report/report_test.iml" group="report" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/xloc/xloc.iml" filepath="$PROJECT_DIR$/.idea/modules/xloc/xloc.iml" group="xloc" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/xloc/xloc_main.iml" filepath="$PROJECT_DIR$/.idea/modules/xloc/xloc_main.iml" group="xloc" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/xloc/xloc_test.iml" filepath="$PROJECT_DIR$/.idea/modules/xloc/xloc_test.iml" group="xloc" />
     </modules>
   </component>
 </project>

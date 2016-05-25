@@ -1,2 +1,2 @@
 rootProject.name = 'org.uva.rdewildt.mt'
-
+include ':lims', ':lims-test', ':xloc', ':fpms', ':report'
