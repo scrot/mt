@@ -44,17 +44,17 @@ public class CommitCrawler implements ClassCommitCrawler {
 
     private Map<String, Set<Commit>> collectClassCommits(){
         Map<String, Set<Commit>> classCommits = new HashMap<>();
+
+        System.out.println("Collecting and filtering commit paths...");
         Map<RevCommit, List<Path>> commitPaths =  getFilteredCommitsPaths();
 
         int i = 0;
         for(Map.Entry<RevCommit, List<Path>> entry : commitPaths.entrySet()){
-            System.out.println("Path " + i++ + " of " + commitPaths.size());
+            System.out.println("Analysing commit " + i++ + " of " + commitPaths.size());
             entry.getValue().stream().forEach(commitPath -> {
-                System.out.println("reading source...");
+                System.out.println("\t Path: " + commitPath.toString());
                 String commitSource = getCommitSource(entry.getKey(), commitPath);
-                System.out.println("parsing source...");
                 Map<String, ClassSource> commitClasses = new SourceVisitor(commitPath, commitSource).getClassSources();
-                System.out.println("mapping commits...");
                 Set<String> affectedClasses = classesAffectedByCommit(entry.getKey(), commitClasses);
                 affectedClasses.forEach(jclass -> addValueToMapSet(classCommits, jclass, RevCommitToCommit(entry.getKey())));
             });

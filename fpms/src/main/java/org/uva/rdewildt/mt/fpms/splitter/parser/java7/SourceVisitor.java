@@ -126,7 +126,7 @@ public class SourceVisitor extends Java7BaseVisitor<Void> {
 
     @Override
     public Void visitCreator(Java7Parser.CreatorContext ctx) {
-        if(ctx.createdName() != null){
+        if(ctx.createdName() != null && this.anonclass.get(this.outerClass) != null){
             appendOuterClass(Integer.toString(this.anonclass.get(this.outerClass)));
             addClassLocation(ctx);
             super.visitCreator(ctx);
