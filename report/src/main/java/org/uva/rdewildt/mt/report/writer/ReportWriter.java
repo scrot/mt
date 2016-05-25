@@ -14,7 +14,7 @@ public class ReportWriter {
         List<Project> projects = confReader.getProjects();
         //OverviewReports builder = new OverviewReports(confReader.getName(), projects);
         //builder.writeOverviewReportToFile(", ");
-        FeatureReports fbuilder = new FeatureReports(projects);
+        FeatureReports fbuilder = new FeatureReports(projects, true, true);
         fbuilder.writeOverviewReportToFile();
     }
 }

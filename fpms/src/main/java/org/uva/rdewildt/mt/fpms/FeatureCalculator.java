@@ -20,9 +20,9 @@ public class FeatureCalculator extends MetricCalculator {
     private final ClassCrawler gcrawler;
     private Map<String, Feature> features;
 
-    public FeatureCalculator(Path binaryRoot, Path gitRoot) throws Exception {
+    public FeatureCalculator(Path binaryRoot, Path gitRoot, Boolean ignoreGenerated, Boolean ignoreTests) throws Exception {
         super(binaryRoot);
-        this.gcrawler = new LocalCrawler(gitRoot, true, true, new Java());
+        this.gcrawler = new LocalCrawler(gitRoot, ignoreGenerated, ignoreTests, new Java());
         calculateFeatures();
     }
 

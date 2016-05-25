@@ -38,11 +38,14 @@ public abstract class Report {
         }
     }
 
-    public void toCSV(String nameAddition) throws IOException {
+    public void writeToFile(String nameAddition, Character seperator, Boolean seperatorFlag) throws IOException {
         FileWriter writer = new FileWriter(this.getName() + nameAddition + ".csv");
+        if(seperatorFlag){
+            writer.write("sep=" + seperator + "\n");
+        }
         writer.write(String.join(",", this.getHeader()) + '\n');
         for(List<Object> row : this.getBody()){
-            writer.write(String.join(",", row.stream().map(Object::toString).collect(Collectors.toList())) + '\n');
+            writer.write(String.join(seperator.toString(), row.stream().map(Object::toString).collect(Collectors.toList())) + '\n');
         }
         writer.close();
     }

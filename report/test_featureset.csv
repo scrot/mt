@@ -1,3 +1,4 @@
+sep=,
 Class,WMC,DIT,NOC,CBO,RFC,LCOM,DAC,MPC,NOM,SIZE1,SIZE2,Faults,Changes,Authors,Age
 com.google.common.collect.ArrayListMultimap,39,4,0,26,77,3,3,48,25,188,35,0,8,4,1724
 com.google.common.collect.TreeRangeMap$AsMapOfRanges,10,3,0,13,14,0,1,10,3,54,7,0,3,3,280

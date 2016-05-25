@@ -1,6 +1,7 @@
 package org.uva.rdewildt.mt.fpms;
 
 import net.lingala.zip4j.core.ZipFile;
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
 import java.io.File;
@@ -9,6 +10,7 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -16,8 +18,7 @@ import static org.junit.Assert.assertEquals;
 public class FeatureCalculatorTest {
     @Test
     public void testFaults() {
-        String relativeBinary = Paths.get("build", "libs", "test-1.0-SNAPSHOT.jar").toString();
-        Map<String, Feature> fs =  getFeatures("featuretests.zip", relativeBinary);
+        Map<String, Feature> fs =  getFeatures("featuretests.zip", "featuretests.zip");
         assertEquals(1 ,fs.get("Main").getFaults());
         assertEquals(1 ,fs.get("Outer").getFaults());
         assertEquals(1 ,fs.get("Main$Inner").getFaults());
@@ -26,8 +27,7 @@ public class FeatureCalculatorTest {
 
     @Test
     public void testAuthors() {
-        String relativeBinary = Paths.get("build", "libs", "test-1.0-SNAPSHOT.jar").toString();
-        Map<String, Feature> fs =  getFeatures("featuretests.zip", relativeBinary);
+        Map<String, Feature> fs =  getFeatures("featuretests.zip", "featuretests.zip");
         assertEquals(2 ,fs.get("Main").getAuthors());
         assertEquals(1 ,fs.get("Outer").getAuthors());
         assertEquals(1 ,fs.get("Main$Inner").getAuthors());
@@ -36,8 +36,7 @@ public class FeatureCalculatorTest {
 
     @Test
     public void testChanges() {
-        String relativeBinary = Paths.get("build", "libs", "test-1.0-SNAPSHOT.jar").toString();
-        Map<String, Feature> fs =  getFeatures("featuretests.zip", relativeBinary);
+        Map<String, Feature> fs =  getFeatures("featuretests.zip", "featuretests.zip");
         assertEquals(3 ,fs.get("Main").getChanges());
         assertEquals(2 ,fs.get("Outer").getChanges());
         assertEquals(2 ,fs.get("Main$Inner").getChanges());
@@ -46,8 +45,7 @@ public class FeatureCalculatorTest {
 
     @Test
     public void testAge() {
-        String relativeBinary = Paths.get("build", "libs", "test-1.0-SNAPSHOT.jar").toString();
-        Map<String, Feature> fs =  getFeatures("featuretests.zip", relativeBinary);
+        Map<String, Feature> fs =  getFeatures("featuretests.zip", "featuretests.zip");
         assertEquals(1 ,fs.get("Main").getAge());
         assertEquals(0 ,fs.get("Outer").getAge());
         assertEquals(0 ,fs.get("Main$Inner").getAge());
@@ -55,15 +53,18 @@ public class FeatureCalculatorTest {
     }
 
     private Map<String, Feature> getFeatures(String zipRoot, String binaryRoot) {
+        Map<String, Feature> mc = new HashMap<>();
+        Path sourcePath = Paths.get(getResource(zipRoot).getParent(), zipRoot.substring(0, zipRoot.lastIndexOf('.')));
+        Path binaryPath = Paths.get(binaryRoot);
+
         try {
-            new ZipFile(getResource(zipRoot)).extractAll(getResource(zipRoot).getParent());
-            Path sourcePath = Paths.get(getResource(zipRoot).getParent(), zipRoot.substring(0, zipRoot.lastIndexOf('.')));
-            Path binaryPath = Paths.get(sourcePath.toString(), binaryRoot);
-            FeatureCalculator mc = new FeatureCalculator(binaryPath, sourcePath);
-            return mc.getFeatures();
+            ZipFile zip = new ZipFile(getResource(zipRoot));
+            zip.extractAll(getResource(zipRoot).getParent());
+            mc = new FeatureCalculator(binaryPath, sourcePath, true, true).getFeatures();
+            FileUtils.deleteDirectory(sourcePath.toFile());
         }
         catch (Exception e) { e.printStackTrace();}
-        return null;
+        return mc;
     }
 
     private File getResource(String name){

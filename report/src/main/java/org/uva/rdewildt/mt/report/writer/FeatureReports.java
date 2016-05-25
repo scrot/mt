@@ -13,12 +13,12 @@ import java.util.List;
 public class FeatureReports {
     private final List<Report> featureReports;
 
-    public FeatureReports(List<Project> projects) {
+    public FeatureReports(List<Project> projects, Boolean ignoreGenerated, Boolean ignoreTests) {
         this.featureReports = new ArrayList<>();
         for(Project project : projects) {
             try {
                 FeatureReport report = new FeatureReport(project.getProject());
-                FeatureCalculator fcalc = new FeatureCalculator(project.getBinaryRoot(), project.getGitRoot());
+                FeatureCalculator fcalc = new FeatureCalculator(project.getBinaryRoot(), project.getGitRoot(), ignoreGenerated, ignoreTests);
 
                 for(Feature feature : fcalc.getFeatures().values()){
                     report.updateReport(feature.getFeatures());
@@ -33,7 +33,7 @@ public class FeatureReports {
     public void writeOverviewReportToFile() {
         for(Report featureReport : featureReports){
             try {
-                featureReport.toCSV("_featureset");
+                featureReport.writeToFile("_featureset", ',', true);
             }
             catch (IOException e) { e.printStackTrace(); }
         }

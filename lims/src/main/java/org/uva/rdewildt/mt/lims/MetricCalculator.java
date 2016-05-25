@@ -25,7 +25,7 @@ public class MetricCalculator extends EmptyVisitor {
     private Set<String> classInstanceVariables;
     private Map<String, Set<String>> methodVariablesMap;
 
-    public MetricCalculator(Path binaryRoot) throws IOException, ClassNotFoundException {
+    public MetricCalculator(Path binaryRoot) {
         List<JavaClass> classes = collectClasses(binaryRoot);
         this.metrics = initializeMetrics(classes);
         Repository classRepository = buildClassRepository(binaryRoot);
@@ -358,7 +358,7 @@ public class MetricCalculator extends EmptyVisitor {
         return emptyMetrics;
     }
 
-    private Repository buildClassRepository(Path binaryPath) throws IOException, ClassNotFoundException {
+    private Repository buildClassRepository(Path binaryPath) {
         ClassPath classPath = new ClassPath(binaryPath.toString());
         List<JavaClass> javaClasses = collectClasses(binaryPath);
         SyntheticRepository repo = SyntheticRepository.getInstance(classPath);
@@ -370,16 +370,20 @@ public class MetricCalculator extends EmptyVisitor {
     }
 
 
-    private List<JavaClass> collectClasses(Path jarPath) throws IOException {
+    private List<JavaClass> collectClasses(Path jarPath) {
         List<JavaClass> classes = new ArrayList<>();
 
-        Enumeration<JarEntry> jarFiles = new JarFile(jarPath.toFile()).entries();
-        while(jarFiles.hasMoreElements()){
-            String filename = jarFiles.nextElement().getName();
-            if(filename.endsWith(".class")){
-                JavaClass javaClass = new ClassParser(jarPath.toString(), filename).parse();
-                classes.add(javaClass);
+        try {
+            Enumeration<JarEntry> jarFiles = new JarFile(jarPath.toFile()).entries();
+            while (jarFiles.hasMoreElements()) {
+                String filename = jarFiles.nextElement().getName();
+                if (filename.endsWith(".class")) {
+                    JavaClass javaClass = new ClassParser(jarPath.toString(), filename).parse();
+                    classes.add(javaClass);
+                }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return classes;
     }
