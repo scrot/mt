@@ -21,7 +21,7 @@ public class FeatureReports {
                 FeatureCalculator fcalc = new FeatureCalculator(project.getBinaryRoot(), project.getGitRoot(), ignoreGenerated, ignoreTests);
 
                 for(Feature feature : fcalc.getFeatures().values()){
-                    report.updateReport(feature.getFeatures());
+                    report.updateReport(feature.getValues());
                 }
 
                 featureReports.add(report);

@@ -11,7 +11,6 @@ junit.framework.TestSuite,59,1,1,33,84,0,1,150,20,501,28,6,21,14,1763
 org.junit.ComparisonFailure$ComparisonCompactor,19,1,0,8,27,0,0,39,2,180,15,2,11,9,601
 org.junit.runner.Result$1,0,1,0,2,0,0,0,0,0,0,0,2,14,9,1833
 org.junit.experimental.categories.Categories$IncludeCategory,2,1,0,4,2,0,0,0,2,0,2,1,14,8,1996
-org.junit.runners.model.FrameworkMethod$1,3,2,0,5,5,0,1,3,0,24,5,2,9,8,498
 org.junit.rules.ExpectedExceptionMatcherBuilder,10,1,0,9,19,0,0,12,0,52,8,2,9,8,675
 junit.framework.JUnit4TestAdapterCache$1,7,2,0,6,11,0,0,9,3,38,6,1,9,7,1069
 org.junit.runners.parameterized.BlockJUnit4ClassRunnerWithParameters$InjectionType,4,2,0,6,8,0,0,5,2,41,7,0,1,1,0
@@ -110,7 +109,6 @@ org.junit.runners.parameterized.BlockJUnit4ClassRunnerWithParametersFactory,3,1,
 org.junit.rules.Stopwatch$Clock,2,1,0,3,4,0,0,2,1,5,2,1,2,2,0
 org.junit.internal.runners.ClassRoadie,17,1,0,15,22,0,0,26,2,124,10,1,9,7,708
 org.junit.internal.builders.JUnit3Builder,5,2,0,8,7,0,2,4,2,18,3,1,5,5,52
-org.junit.runners.model.FrameworkMethod,39,2,0,40,53,0,1,70,18,257,22,10,44,19,1826
 org.junit.internal.builders.IgnoredBuilder,3,2,0,6,5,0,2,3,2,14,2,1,5,5,52
 org.junit.runners.model.TestTimedOutException,3,3,0,6,8,0,0,5,3,33,6,2,4,3,152
 org.junit.internal.runners.statements.FailOnTimeout$1,0,1,0,4,0,0,0,0,0,0,0,5,23,10,1967

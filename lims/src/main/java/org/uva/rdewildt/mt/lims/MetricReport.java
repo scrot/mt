@@ -6,6 +6,6 @@ package org.uva.rdewildt.mt.lims;
 public class MetricReport extends Report {
 
     public MetricReport(String name) {
-        super(name, Metric.getMetricNames());
+        super(name, new Metric());
     }
 }

@@ -17,7 +17,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class MetricCalculator extends EmptyVisitor {
-    private final Map<JavaClass, MetricCounter> metrics;
+    private final Map<JavaClass, Metric> metrics;
 
     private final Map<String, JavaClass> classesMap;
     private final Map<String, Set<String>> classCouplesMap;
@@ -102,8 +102,8 @@ public class MetricCalculator extends EmptyVisitor {
 
     public Map<String, Metric> getMetrics() {
         Map<String, Metric> smetrics = new HashMap<>();
-        for(Map.Entry<JavaClass, MetricCounter> entry : this.metrics.entrySet()){
-            smetrics.put(entry.getKey().getClassName(), entry.getValue().getMetric());
+        for(Map.Entry<JavaClass, Metric> entry : this.metrics.entrySet()){
+            smetrics.put(entry.getKey().getClassName(), entry.getValue());
         }
         return smetrics;
     }
@@ -348,10 +348,10 @@ public class MetricCalculator extends EmptyVisitor {
         }
     }
 
-    private Map<JavaClass, MetricCounter> initializeMetrics(List<JavaClass> classes) {
-        Map<JavaClass, MetricCounter> emptyMetrics = new HashMap<>();
+    private Map<JavaClass, Metric> initializeMetrics(List<JavaClass> classes) {
+        Map<JavaClass, Metric> emptyMetrics = new HashMap<>();
         for(JavaClass jclass : classes){
-            emptyMetrics.put(jclass, new MetricCounter(className(jclass)));
+            emptyMetrics.put(jclass, new Metric(className(jclass)));
         }
         return emptyMetrics;
     }

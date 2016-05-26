@@ -7,7 +7,6 @@ import org.uva.rdewildt.mt.fpms.git.crawler.LocalCrawler;
 import org.uva.rdewildt.mt.fpms.git.model.Commit;
 import org.uva.rdewildt.mt.lims.MetricCalculator;
 import org.uva.rdewildt.mt.xloc.lang.Java;
-import org.uva.rdewildt.mt.xloc.lang.Language;
 
 import java.nio.file.Path;
 import java.util.*;
@@ -40,13 +39,13 @@ public class FeatureCalculator extends MetricCalculator {
         this.features = new HashMap<>();
         for(Map.Entry<String, Integer> entry : classesChanges.entrySet()){
             if(this.getMetrics().containsKey(entry.getKey())){
-                FeatureCounter feature = new FeatureCounter(entry.getKey());
-                feature.setMetric(this.getMetrics().get(entry.getKey()));
-                feature.incrementFaults(classesFaults.get(entry.getKey()));
-                feature.incrementChanges(classesChanges.get(entry.getKey()));
-                feature.incrementAuthors(classesAuthors.get(entry.getKey()));
-                feature.incrementAge(classesAge.get(entry.getKey()));
-                features.put(entry.getKey(), feature.getFeature());
+                Feature feature = new Feature(
+                        this.getMetrics().get(entry.getKey()),
+                        classesFaults.get(entry.getKey()),
+                        classesChanges.get(entry.getKey()),
+                        classesAuthors.get(entry.getKey()),
+                        classesAge.get(entry.getKey()));
+                features.put(entry.getKey(), feature);
             }
         }
     }

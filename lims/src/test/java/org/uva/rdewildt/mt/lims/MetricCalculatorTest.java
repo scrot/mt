@@ -1,3 +1,5 @@
+package org.uva.rdewildt.mt.lims;
+
 import org.junit.Test;
 import org.uva.rdewildt.mt.lims.Metric;
 import org.uva.rdewildt.mt.lims.MetricCalculator;

@@ -8,37 +8,39 @@ import java.util.Map;
 /**
  * Created by roy on 5/22/16.
  */
-public class Metric {
-    private final String classname;
+public class Metric implements Reportable {
+
+    private String classname;
 
     //CK-metrics
-    private final int wmc;
-    private final int noc;
-    private final int rfc;
-    private final int cbo;
-    private final int dit;
-    private final int lcom;
+    private int wmc;
+    private int noc;
+    private int rfc;
+    private int cbo;
+    private int dit;
+    private int lcom;
 
     //Li-Metrics
-    private final int mpc;
-    private final int dac;
-    private final int nom;
-    private final int size1;
-    private final int size2;
+    private int mpc;
+    private int dac;
+    private int nom;
+    private int size1;
+    private int size2;
+
+    public Metric(){
+        this("");
+    }
+
+    public Metric(String classname){
+        this(classname,0,0,0,0,0,0,0,0,0,0,0);
+
+    }
 
     public Metric(Metric metric){
-        this.classname = metric.getClassname();
-        this.wmc = metric.getWmc();
-        this.noc = metric.getNoc();
-        this.rfc = metric.getRfc();
-        this.cbo = metric.getCbo();
-        this.dit = metric.getDit();
-        this.lcom = metric.getLcom();
-        this.mpc = metric.getMpc();
-        this.dac = metric.getDac();
-        this.nom = metric.getNom();
-        this.size1 = metric.getSize1();
-        this.size2 = metric.getSize2();
+        this(metric.getClassname(), metric.getWmc(), metric.getNoc(),
+        metric.getRfc(), metric.getCbo(), metric.getDit(),
+        metric.getLcom(), metric.getMpc(), metric.getDac(),
+        metric.getNom(), metric.getSize1(), metric.getSize2());
 
     }
 
@@ -59,15 +61,7 @@ public class Metric {
         this.size2 = size2;
     }
 
-    public static List<String> getMetricNames(){
-        return new ArrayList<String>(){{
-            add("Class"); add("WMC"); add("DIT"); add("NOC");
-            add("CBO"); add("RFC"); add("LCOM"); add("DAC");
-            add("MPC"); add("NOM"); add("SIZE1"); add("SIZE2");
-        }};
-    }
-
-    public Map<String, Object> getMetrics(){
+    private Map<String, Object> buildMap(){
         return new LinkedHashMap<String, Object>(){{
             put("Class", getClassname());
             put("WMC", getWmc());
@@ -82,6 +76,16 @@ public class Metric {
             put("SIZE1", getSize1());
             put("SIZE2", getSize2());
         }};
+    }
+
+    @Override
+    public List<String> getKeys(){
+        return new ArrayList<>(buildMap().keySet());
+    }
+
+    @Override
+    public Map<String, Object> getValues(){
+        return buildMap();
     }
 
     public String getClassname() {
@@ -125,4 +129,44 @@ public class Metric {
     public int getSize1() { return size1; }
 
     public int getSize2() { return size2; }
+
+    public void incrementWmc(Integer increment){
+        this.wmc += increment;
+    }
+
+    public void incrementRfc(Integer increment){
+        this.rfc += increment;
+    }
+
+    public void incrementNoc(Integer increment){
+        this.noc += increment;
+    }
+
+    public void incrementDit(Integer increment){
+        this.dit += increment;
+    }
+
+    public void incrementCbo(Integer increment){
+        this.cbo += increment;
+    }
+
+    public void incrementLcom(Integer increment){
+        this.lcom += increment;
+    }
+
+    public void incrementMpc(Integer increment){
+        this.mpc += increment;
+    }
+
+    public void incrementDac(Integer increment){
+        this.dac += increment;
+    }
+
+    public void incrementNom(Integer increment){
+        this.nom += increment;
+    }
+
+    public void incrementSize1(Integer increment){ this.size1 += increment; }
+
+    public void incrementSize2(Integer increment){ this.size2 += increment; }
 }

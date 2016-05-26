@@ -2,6 +2,7 @@ package org.uva.rdewildt.mt.fpms;
 
 import org.uva.rdewildt.mt.lims.Metric;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,18 +10,21 @@ import java.util.Map;
  * Created by roy on 5/22/16.
  */
 public class Feature extends Metric {
-    private final int faults;
-    private final int changes;
-    private final int authors;
-    private final int age;
+    private int faults;
+    private int changes;
+    private int authors;
+    private int age;
 
-    public Feature(Feature f){
-        super(f);
-        this.faults = f.getFaults();
-        this.changes = f.getChanges();
-        this.authors = f.getAuthors();
-        this.age = f.getAge();
+    public Feature(){
+        this("");
+    }
 
+    public Feature(String classname) {
+        super(classname);
+        this.faults = 0;
+        this.changes = 0;
+        this.authors = 0;
+        this.age = 0;
     }
 
     public Feature(Metric m, int faults, int changes, int authors, int age){
@@ -31,32 +35,23 @@ public class Feature extends Metric {
         this.age = age;
     }
 
-    public Feature(String classname, int wmc, int noc, int rfc, int cbo, int dit,
-                   int lcom, int mpc, int dac, int nom, int size1,
-                   int size2, int faults, int changes, int authors, int age) {
-        super(classname, wmc, noc, rfc, cbo, dit, lcom, mpc, dac, nom, size1, size2);
-        this.faults = faults;
-        this.changes = changes;
-        this.authors = authors;
-        this.age = age;
-    }
-
-    public static List<String> getFeatureNames(){
-        List<String> featureNames = Metric.getMetricNames();
-        featureNames.add("Faults");
-        featureNames.add("Changes");
-        featureNames.add("Authors");
-        featureNames.add("Age");
-        return featureNames;
-    }
-
-    public Map<String, Object> getFeatures(){
-        Map<String, Object> features = getMetrics();
+    private Map<String, Object> buildMap(){
+        Map<String, Object> features = super.getValues();
         features.put("Faults", getFaults());
         features.put("Changes", getChanges());
         features.put("Authors", getAuthors());
         features.put("Age", getAge());
         return features;
+    }
+
+    @Override
+    public List<String> getKeys(){
+        return new ArrayList<>(buildMap().keySet());
+    }
+
+    @Override
+    public Map<String, Object> getValues(){
+        return buildMap();
     }
 
     public int getFaults() {
@@ -73,5 +68,21 @@ public class Feature extends Metric {
 
     public int getAge() {
         return age;
+    }
+
+    public void incrementFaults(Integer increment){
+        this.faults += increment;
+    }
+
+    public void incrementChanges(Integer increment){
+        this.changes += increment;
+    }
+
+    public void incrementAuthors(Integer increment){
+        this.authors += increment;
+    }
+
+    public void incrementAge(Integer increment){
+        this.age += increment;
     }
 }

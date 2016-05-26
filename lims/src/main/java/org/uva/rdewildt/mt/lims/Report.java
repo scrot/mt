@@ -12,9 +12,9 @@ public abstract class Report {
     private final String name;
     private final Map<String, List<Object>> report;
 
-    public Report(String name, List<String> header) {
+    public Report(String name, Reportable reportable) {
         this.name = name;
-        this.report = initReport(header);
+        this.report = initReport(reportable);
     }
 
     public String getName() {
@@ -50,9 +50,9 @@ public abstract class Report {
         writer.close();
     }
 
-    private Map<String, List<Object>> initReport(List<String> header){
+    private Map<String, List<Object>> initReport(Reportable reportable){
         Map<String, List<Object>> emptyReport = new LinkedHashMap<>();
-        for(String column : header){
+        for(String column : reportable.getKeys()){
             emptyReport.put(column, null);
         }
         return emptyReport;

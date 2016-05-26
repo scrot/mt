@@ -7,6 +7,6 @@ import org.uva.rdewildt.mt.lims.Report;
  */
 public class FeatureReport extends Report {
     public FeatureReport(String name) {
-        super(name, Feature.getFeatureNames());
+        super(name, new Feature());
     }
 }
