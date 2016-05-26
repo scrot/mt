@@ -10,6 +10,7 @@ public class LanguageFactory {
     public LanguageFactory() {
         this.extentions = new HashMap<>();
         this.extentions.put("java", new Java());
+        this.extentions.put("class", new Class());
     }
 
     public Language classPathToLanguage(Path classPath){

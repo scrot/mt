@@ -98,14 +98,7 @@ public class MetricCalculatorTest {
 
     private Map<String, Metric> getMetrics(String name) {
         Path x = getResource(name);
-        MetricCalculator mc = null;
-        try {
-            mc = new MetricCalculator(x);
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        assert mc != null;
-        return mc.getMetrics();
+        return new MetricCalculator(x).getMetrics();
     }
 
     private Path getResource(String name){

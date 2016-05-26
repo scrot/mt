@@ -12,6 +12,8 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/lims/lims_main.iml" filepath="$PROJECT_DIR$/.idea/modules/lims/lims_main.iml" group="lims" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/lims/lims_test.iml" filepath="$PROJECT_DIR$/.idea/modules/lims/lims_test.iml" group="lims" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt.iml" filepath="$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt_main.iml" filepath="$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt_main.iml" group="org.uva.rdewildt.mt" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt_test.iml" filepath="$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt_test.iml" group="org.uva.rdewildt.mt" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/report/report.iml" filepath="$PROJECT_DIR$/.idea/modules/report/report.iml" group="report" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/report/report_main.iml" filepath="$PROJECT_DIR$/.idea/modules/report/report_main.iml" group="report" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/report/report_test.iml" filepath="$PROJECT_DIR$/.idea/modules/report/report_test.iml" group="report" />

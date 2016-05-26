@@ -6,6 +6,9 @@ import org.apache.bcel.generic.*;
 import org.apache.bcel.util.ClassPath;
 import org.apache.bcel.util.Repository;
 import org.apache.bcel.util.SyntheticRepository;
+import org.uva.rdewildt.mt.xloc.PathCollector;
+import org.uva.rdewildt.mt.xloc.lang.Class;
+import org.uva.rdewildt.mt.xloc.lang.Language;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -28,7 +31,7 @@ public class MetricCalculator extends EmptyVisitor {
     public MetricCalculator(Path binaryRoot) {
         List<JavaClass> classes = collectClasses(binaryRoot);
         this.metrics = initializeMetrics(classes);
-        Repository classRepository = buildClassRepository(binaryRoot);
+        Repository classRepository = buildClassRepository(binaryRoot, classes);
 
         this.classesMap = new HashMap<>();
         this.classCouplesMap = new HashMap<>();
@@ -315,11 +318,6 @@ public class MetricCalculator extends EmptyVisitor {
                     instruction instanceof GotoInstruction){
                 branch++;
             }
-            /*
-            else if (instruction instanceof Select){
-                branch += ((Select) instruction).getMatchs().length;
-            }
-            */
         }
         return branch;
     }
@@ -358,19 +356,42 @@ public class MetricCalculator extends EmptyVisitor {
         return emptyMetrics;
     }
 
-    private Repository buildClassRepository(Path binaryPath) {
+    private Repository buildClassRepository(Path binaryPath, List<JavaClass> classes) {
         ClassPath classPath = new ClassPath(binaryPath.toString());
-        List<JavaClass> javaClasses = collectClasses(binaryPath);
         SyntheticRepository repo = SyntheticRepository.getInstance(classPath);
-
-        for(JavaClass javaClass : javaClasses){
-            repo.storeClass(javaClass);
-        }
+        classes.forEach(repo::storeClass);
         return repo;
     }
 
 
-    private List<JavaClass> collectClasses(Path jarPath) {
+    private List<JavaClass> collectClasses(Path binaryPath) {
+        if(binaryPath.toFile().isDirectory()){
+            return collectFromDir(binaryPath);
+        }
+        else {
+            return collectFromJar(binaryPath);
+        }
+    }
+
+    private List<JavaClass> collectFromDir(Path dirPath) {
+        List<JavaClass> classes = new ArrayList<>();
+
+        List<Language> scope = new ArrayList<Language>(){{ add(new Class()); }};
+        List<Path> paths = new PathCollector(dirPath, true, false, false, scope).getFilePaths().get(new Class());
+
+        paths.forEach(path -> {
+            try {
+                Path classPath = dirPath.resolve(path);
+                classes.add(new ClassParser(classPath.toString()).parse());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        return classes;
+    }
+
+    private List<JavaClass> collectFromJar(Path jarPath) {
         List<JavaClass> classes = new ArrayList<>();
 
         try {

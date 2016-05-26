@@ -2,6 +2,7 @@ package org.uva.rdewildt.mt.xloc;
 
 import org.uva.rdewildt.mt.xloc.lang.Java;
 import org.uva.rdewildt.mt.xloc.lang.Other;
+import org.uva.rdewildt.mt.xloc.lang.Class;
 import org.uva.rdewildt.mt.xloc.lang.visitor.Visitor;
 import org.uva.rdewildt.mt.xloc.pattern.BlankPattern;
 import org.uva.rdewildt.mt.xloc.pattern.MlCommentPattern;
@@ -19,6 +20,11 @@ public class XLocPatternFactory implements Visitor<XLocPatternBuilder,Void>  {
                 .addCommentPattern(new MlCommentPattern(
                     Pattern.compile("/\\*", Pattern.MULTILINE),
                     Pattern.compile("\\*/", Pattern.MULTILINE)));
+    }
+
+    @Override
+    public XLocPatternBuilder visit(Class lang, Void context) {
+        return new XLocPatternBuilder();
     }
 
     @Override
