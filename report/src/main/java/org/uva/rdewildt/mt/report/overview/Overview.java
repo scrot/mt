@@ -11,11 +11,9 @@ import java.util.Map;
  * Created by roy on 5/26/16.
  */
 public class Overview implements Reportable{
-    private String projectname;
+    private final String projectname;
 
-    private int totalfiles;
-    private int filterfiles;
-
+    private int files;
     private int cloc;
     private int sloc;
 
@@ -26,22 +24,22 @@ public class Overview implements Reportable{
     private int age;
     private int dev;
 
-    private int fdist;
-    private int cinf;
-    private int cgini;
-    private int fgini;
+    private double fdist;
+    private double cinf;
+    private double cgini;
+    private double fgini;
 
     public Overview(){
         this("");
     }
 
-    public Overview(String classname){
-        this(classname,0,0,0,0,0,0,0,0,0,0,0,0,0);
+    public Overview(String projectname){
+        this(projectname,0,0,0,0,0,0,0,0,0,0,0,0);
     }
 
     public Overview(Overview overview){
-        this(overview.getProjectname(), overview.getTotalfiles(),
-        overview.getFilterfiles(), overview.getCloc(),
+        this(overview.getProjectname(),
+        overview.getFiles(), overview.getCloc(),
         overview.getSloc(), overview.getFaults(),
         overview.getChanges(), overview.getAuthors(),
         overview.getAge(), overview.getDev(),
@@ -49,12 +47,11 @@ public class Overview implements Reportable{
         overview.getCgini(), overview.getFgini());
     }
 
-    public Overview(String projectname, int totalfiles, int filterfiles, int cloc, int sloc,
-                    int faults, int changes, int authors, int age, int dev, int fdist, int cinf,
-                    int cgini, int fgini) {
+    public Overview(String projectname, int files, int cloc, int sloc,
+                    int faults, int changes, int authors, int age, int dev, double fdist, double cinf,
+                    double cgini, double fgini) {
         this.projectname = projectname;
-        this.totalfiles = totalfiles;
-        this.filterfiles = filterfiles;
+        this.files = files;
         this.cloc = cloc;
         this.sloc = sloc;
         this.faults = faults;
@@ -71,8 +68,7 @@ public class Overview implements Reportable{
     private Map<String, Object> buildMap(){
         return new HashMap<String, Object>(){{
             put("ProjectName", getProjectname());
-            put("TotalFiles", getTotalfiles());
-            put("FilteredFiles", getFilterfiles());
+            put("TotalFiles", getFiles());
             put("CLOC", getCloc());
             put("SLOC", getSloc());
             put("Faults", getFaults());
@@ -101,12 +97,8 @@ public class Overview implements Reportable{
         return projectname;
     }
 
-    public int getTotalfiles() {
-        return totalfiles;
-    }
-
-    public int getFilterfiles() {
-        return filterfiles;
+    public int getFiles() {
+        return files;
     }
 
     public int getCloc() {
@@ -137,21 +129,67 @@ public class Overview implements Reportable{
         return dev;
     }
 
-    public int getFdist() {
+    public double getFdist() {
         return fdist;
     }
 
-    public int getCinf() {
+    public double getCinf() {
         return cinf;
     }
 
-    public int getCgini() {
+    public double getCgini() {
         return cgini;
     }
 
-    public int getFgini() {
+    public double getFgini() {
         return fgini;
     }
 
+    public void setFiles(int files) {
+        this.files = files;
+    }
 
+    public void setCloc(int cloc) {
+        this.cloc = cloc;
+    }
+
+    public void setSloc(int sloc) {
+        this.sloc = sloc;
+    }
+
+    public void setFaults(int faults) {
+        this.faults = faults;
+    }
+
+    public void setChanges(int changes) {
+        this.changes = changes;
+    }
+
+    public void setAuthors(int authors) {
+        this.authors = authors;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setDev(int dev) {
+        this.dev = dev;
+    }
+
+    public void setFdist(double fdist) {
+        this.fdist = fdist;
+    }
+
+    public void setCinF(double cinf) {
+        this.cinf = cinf;
+    }
+
+    public void setCgini(double cgini) {
+        this.cgini = cgini;
+    }
+
+    public void setFgini(double fgini) {
+        this.fgini = fgini;
+    }
 }

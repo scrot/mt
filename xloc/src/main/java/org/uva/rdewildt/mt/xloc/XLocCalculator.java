@@ -22,9 +22,22 @@ import java.util.Map;
 public class XLocCalculator {
     private final Map<Path, XLoc> classXLocMap;
 
-    public XLocCalculator(Path rootPath, List<Language> languages) throws IOException {
+    public XLocCalculator(Path rootPath, Map<Language, List<Path>> includes) throws IOException {
+        this.classXLocMap = new HashMap<>();
+        for(Map.Entry<Language, List<Path>> entry : includes.entrySet()){
+            XLocPatternBuilder xLocPatterns = entry.getKey().accept(new XLocPatternFactory(), null);
+            for(Path classPath : entry.getValue()){
+                List<String> classLines = mixedCharsetFileReader(classPath);
+                XLoc xLoc = calculateClassXLoc(classLines, xLocPatterns);
+                if(xLoc.getTotalLines() != 0){
+                    this.classXLocMap.put(rootPath.relativize(classPath), xLoc);
+                }
+            }
+        }
+    }
 
-        Map<Language, List<Path>> classPaths = new PathCollector(rootPath, true, true, true,languages).getFilePaths();
+    public XLocCalculator(Path rootPath, Boolean ignoreGenerated, Boolean ignoreTests, List<Language> languages) throws IOException {
+        Map<Language, List<Path>> classPaths = new PathCollector(rootPath, true, ignoreGenerated, ignoreTests,languages).getFilePaths();
         this.classXLocMap = new HashMap<>();
         for(Map.Entry<Language, List<Path>> entry : classPaths.entrySet()){
             XLocPatternBuilder xLocPatterns = entry.getKey().accept(new XLocPatternFactory(), null);

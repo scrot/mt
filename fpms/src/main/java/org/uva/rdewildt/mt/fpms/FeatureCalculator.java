@@ -2,8 +2,8 @@ package org.uva.rdewildt.mt.fpms;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
-import org.uva.rdewildt.mt.fpms.git.crawler.ClassCrawler;
-import org.uva.rdewildt.mt.fpms.git.crawler.LocalCrawler;
+import org.uva.rdewildt.mt.fpms.git.crawler.CLocalCrawler;
+import org.uva.rdewildt.mt.fpms.git.crawler.Crawler;
 import org.uva.rdewildt.mt.fpms.git.model.Commit;
 import org.uva.rdewildt.mt.lims.MetricCalculator;
 import org.uva.rdewildt.mt.xloc.lang.Java;
@@ -16,12 +16,12 @@ import java.util.stream.Collectors;
  * Created by roy on 5/22/16.
  */
 public class FeatureCalculator extends MetricCalculator {
-    private final ClassCrawler gcrawler;
+    private final Crawler gcrawler;
     private Map<String, Feature> features;
 
     public FeatureCalculator(Path binaryRoot, Path gitRoot, Boolean ignoreGenerated, Boolean ignoreTests) throws Exception {
         super(binaryRoot);
-        this.gcrawler = new LocalCrawler(gitRoot, ignoreGenerated, ignoreTests, new Java());
+        this.gcrawler = new CLocalCrawler(gitRoot, ignoreGenerated, ignoreTests, new Java());
         calculateFeatures();
     }
 
@@ -31,9 +31,9 @@ public class FeatureCalculator extends MetricCalculator {
 
     private void calculateFeatures() {
         Map<String, Integer> classesFaults = mapListLenghts(gcrawler.getFaults());
-        Map<String, Integer> classesChanges = mapListLenghts(gcrawler.getCommits());
+        Map<String, Integer> classesChanges = mapListLenghts(gcrawler.getChanges());
         Map<String, Integer> classesAuthors = mapListLenghts(gcrawler.getAuthors());
-        Map<String, Integer> classesAge = getClassAges(gcrawler.getCommits());
+        Map<String, Integer> classesAge = getClassAges(gcrawler.getChanges());
 
 
         this.features = new HashMap<>();

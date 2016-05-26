@@ -34,14 +34,14 @@ public class OverviewReports {
         Map<String, List<String>> rmap = report.getReport();
 
         List<Language> languageScope = new ArrayList<Language>(){{add(new Java());}};
-        ClassCrawler crawler = new LocalCrawler(project.getGitRoot());
+        Crawler crawler = new CLocalCrawler(project.getGitRoot());
 
         List<Path> projectFiles = new SourceCollector(project.getGitRoot(), true, true).collectFilePaths();
         Map<Path, XLoc> classesXLoc = new XLocCalculator(project.getGitRoot(), languageScope).getResult();
         XLoc totalXLoc = calculateTotalXLoc(classesXLoc);
 
 
-        //List<Commit> commitSorted = sortCommits(crawler.getCommits());
+        //List<Commit> commitSorted = sortCommits(crawler.getClassCommits());
         //Commit firstCommit = commitSorted.get(0);
         //Commit lastCommit = commitSorted.get(commitSorted.size() - 1);
 
@@ -56,10 +56,10 @@ public class OverviewReports {
         addValueToMapList(rmap, "CommLines", Integer.toString(totalXLoc.getCommentLines()));
         //addValueToMapList(rmap, "DevDays", Integer.toString(calculateDateDayDiff(firstCommit.getDate(), lastCommit.getDate())));
         //addValueToMapList(rmap, "AgeDays", Integer.toString(calculateDateDayDiff(firstCommit.getDate(), new Date())));
-        //addValueToMapList(rmap, "CodeCommits", Integer.toString(mapTotalListLenghts(crawler.getCommits())));
+        //addValueToMapList(rmap, "CodeCommits", Integer.toString(mapTotalListLenghts(crawler.getClassCommits())));
         addValueToMapList(rmap, "CodeIssues", Integer.toString(mapTotalListLenghts(crawler.getFaults())));
         addValueToMapList(rmap, "CodeFaults", Integer.toString(mapTotalListLenghts(crawler.getFaults())));
-        addValueToMapList(rmap, "CodeChanges", Integer.toString(mapTotalListLenghts(crawler.getCommits())));
+        addValueToMapList(rmap, "CodeChanges", Integer.toString(mapTotalListLenghts(crawler.getClassCommits())));
         //addValueToMapList(rmap, "CodeAuthors", Integer.toString(calculateTotalUniqueAuthors(codeAuthors)));
         //addValueToMapList(rmap, "FaultDist", "20-" + this.get20Percent(faultDistribution));
         //addValueToMapList(rmap, "FaultCode", "20-" +  getCodeIn20Percent(codeFaults, classesXLoc));
