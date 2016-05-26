@@ -14,10 +14,11 @@ import org.uva.rdewildt.mt.xloc.lang.Java;
 import org.uva.rdewildt.mt.xloc.lang.Language;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by roy on 5/26/16.
@@ -29,7 +30,7 @@ public class OverviewCalculator {
         Crawler crawler = new FLocalCrawler(project.getGitRoot(), ignoreGenerated, ignoreTests, new Java());
 
         Map<Path, XLoc> xlocs = new XLocCalculator(
-                project.getGitRoot(),
+                project.getGitRoot(), true,
                 ignoreGenerated, ignoreGenerated,
                 new ArrayList<Language>(){{add(new Java());}}).getResult();
         XLoc totalXloc = calculateTotalXLoc(xlocs);
@@ -54,8 +55,8 @@ public class OverviewCalculator {
             setFdist(get20Percent(faultdist));
             setCinF(getCodeIn20Percent(mapListLenghts(crawler.getFaults()), xlocs));
 
-            setFgini(faultdist.giniCoefficient());
-            setCgini(codedist.giniCoefficient());
+            setFgini(round(faultdist.giniCoefficient(),2));
+            setCgini(round(codedist.giniCoefficient(),2));
         }};
 
     }
@@ -94,11 +95,11 @@ public class OverviewCalculator {
         return d.cumulativeTailOfPartitionPercentage(new Percentage(20.0)).getPercentage().intValue();
     }
 
-    private Double getCodeIn20Percent(Map<String, Integer> faults, Map<Path, XLoc> xlocs){
+    private Integer getCodeIn20Percent(Map<String, Integer> faults, Map<Path, XLoc> xlocs){
         final double[] cloc = {0};
         Map<String, Integer> faulty = mapTakeByOrderedValue(faults, new Percentage(20.0));
         faulty.forEach((path, count) -> cloc[0] += xlocs.get(Paths.get(path)).getCodeLines());
-        return cloc[0] / calculateTotalXLoc(xlocs).getCodeLines() * 100;
+        return (int) (cloc[0] / calculateTotalXLoc(xlocs).getCodeLines()* 100);
     }
 
     private <T> Map<T, Integer> mapTakeByOrderedValue(Map<T, Integer> map, Percentage percentage){
@@ -163,6 +164,14 @@ public class OverviewCalculator {
         TreeSet<U> flatCommits = new TreeSet<>();
         commits.forEach((s, commitlist) -> flatCommits.addAll(commitlist));
         return flatCommits;
+    }
+
+    private double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
 }

@@ -2,10 +2,7 @@ package org.uva.rdewildt.mt.report.overview;
 
 import org.uva.rdewildt.mt.lims.Reportable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by roy on 5/26/16.
@@ -24,8 +21,8 @@ public class Overview implements Reportable{
     private int age;
     private int dev;
 
-    private double fdist;
-    private double cinf;
+    private int fdist;
+    private int cinf;
     private double cgini;
     private double fgini;
 
@@ -48,7 +45,7 @@ public class Overview implements Reportable{
     }
 
     public Overview(String projectname, int files, int cloc, int sloc,
-                    int faults, int changes, int authors, int age, int dev, double fdist, double cinf,
+                    int faults, int changes, int authors, int age, int dev, int fdist, int cinf,
                     double cgini, double fgini) {
         this.projectname = projectname;
         this.files = files;
@@ -66,9 +63,9 @@ public class Overview implements Reportable{
     }
 
     private Map<String, Object> buildMap(){
-        return new HashMap<String, Object>(){{
+        return new LinkedHashMap<String, Object>(){{
             put("ProjectName", getProjectname());
-            put("TotalFiles", getFiles());
+            put("Files", getFiles());
             put("CLOC", getCloc());
             put("SLOC", getSloc());
             put("Faults", getFaults());
@@ -76,8 +73,8 @@ public class Overview implements Reportable{
             put("Authors", getAuthors());
             put("Age", getAge());
             put("Dev", getDev());
-            put("FDist", getFdist());
-            put("CinF", getCinf());
+            put("FDist20", getFdist());
+            put("CinF20", getCinf());
             put("FGini", getFgini());
             put("CGini", getCgini());
         }};
@@ -129,11 +126,11 @@ public class Overview implements Reportable{
         return dev;
     }
 
-    public double getFdist() {
+    public int getFdist() {
         return fdist;
     }
 
-    public double getCinf() {
+    public int getCinf() {
         return cinf;
     }
 
@@ -177,11 +174,11 @@ public class Overview implements Reportable{
         this.dev = dev;
     }
 
-    public void setFdist(double fdist) {
+    public void setFdist(int fdist) {
         this.fdist = fdist;
     }
 
-    public void setCinF(double cinf) {
+    public void setCinF(int cinf) {
         this.cinf = cinf;
     }
 

@@ -10,10 +10,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeatureReports {
+public class FeatureReportsBuilder {
     private final List<Report> featureReports;
 
-    public FeatureReports(List<Project> projects, Boolean ignoreGenerated, Boolean ignoreTests) {
+    public FeatureReportsBuilder(List<Project> projects, Boolean ignoreGenerated, Boolean ignoreTests) {
         this.featureReports = new ArrayList<>();
         for(Project project : projects) {
             try {
@@ -30,7 +30,7 @@ public class FeatureReports {
         }
     }
 
-    public void writeOverviewReportToFile() {
+    public void writeReportsToFile() {
         for(Report featureReport : featureReports){
             try {
                 featureReport.writeToFile("_featureset", ',', true);

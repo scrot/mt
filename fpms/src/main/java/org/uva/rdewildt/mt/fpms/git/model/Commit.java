@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Commit {
+public class Commit implements Comparable {
     private final Object id;
     private final Author author;
     private final String message;
@@ -51,5 +51,13 @@ public class Commit {
 
     public Boolean containsIssues(Pattern issue) {
         return issue.matcher(this.getMessage()).find();
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if(o instanceof Commit){
+            return this.getDate().compareTo(((Commit) o).getDate());
+        }
+        return 0;
     }
 }

@@ -36,12 +36,13 @@ public class XLocCalculator {
         }
     }
 
-    public XLocCalculator(Path rootPath, Boolean ignoreGenerated, Boolean ignoreTests, List<Language> languages) throws IOException {
-        Map<Language, List<Path>> classPaths = new PathCollector(rootPath, true, ignoreGenerated, ignoreTests,languages).getFilePaths();
+    public XLocCalculator(Path rootPath, Boolean relativePaths, Boolean ignoreGenerated, Boolean ignoreTests, List<Language> languages) throws IOException {
+        Map<Language, List<Path>> classPaths = new PathCollector(rootPath, relativePaths, ignoreGenerated, ignoreTests,languages).getFilePaths();
         this.classXLocMap = new HashMap<>();
         for(Map.Entry<Language, List<Path>> entry : classPaths.entrySet()){
             XLocPatternBuilder xLocPatterns = entry.getKey().accept(new XLocPatternFactory(), null);
             for(Path classPath : entry.getValue()){
+                if(relativePaths){classPath = rootPath.resolve(classPath);}
                 List<String> classLines = mixedCharsetFileReader(classPath);
                 XLoc xLoc = calculateClassXLoc(classLines, xLocPatterns);
                 if(xLoc.getTotalLines() != 0){

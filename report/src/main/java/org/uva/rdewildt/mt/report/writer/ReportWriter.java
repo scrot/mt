@@ -12,9 +12,9 @@ public class ReportWriter {
         Path config = Paths.get("/home/roy/Workspace/MT/mt/report/src/main/resources/example.conf");
         ConfigReader confReader = new ConfigReader(config);
         List<Project> projects = confReader.getProjects();
-        //OverviewReports builder = new OverviewReports(confReader.getName(), projects);
-        //builder.writeOverviewReportToFile(", ");
-        FeatureReports fbuilder = new FeatureReports(projects, true, true);
-        fbuilder.writeOverviewReportToFile();
+        OverviewReportBuilder obuilder = new OverviewReportBuilder(confReader.getName(), confReader.getProjects(), true, true);
+        //FeatureReportsBuilder fbuilder = new FeatureReportsBuilder(projects, true, true);
+        obuilder.writeReportsToFile();
+        //fbuilder.writeReportsToFile();
     }
 }
