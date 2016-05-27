@@ -12,7 +12,7 @@ Desktop.ini
 # Recycle Bin used on path shares
 $RECYCLE.BIN/
 
-# Windows Installer files
+# Windows Installer changes
 *.cab
 *.msi
 *.msm
@@ -61,7 +61,7 @@ Temporary Items
 .idea/vcs.xml
 .idea/jsLibraryMappings.xml
 
-# Sensitive or high-churn files:
+# Sensitive or high-churn changes:
 .idea/dataSources.ids
 .idea/dataSources.xml
 .idea/dataSources.local.xml
@@ -79,7 +79,7 @@ Temporary Items
 ## File-based project format:
 *.iws
 
-## Plugin-specific files:
+## Plugin-specific changes:
 
 # IntelliJ
 /out/
@@ -108,7 +108,7 @@ fabric.properties
 .idea/vcs.xml
 .idea/jsLibraryMappings.xml
 
-# Sensitive or high-churn files:
+# Sensitive or high-churn changes:
 .idea/dataSources.ids
 .idea/dataSources.xml
 .idea/dataSources.local.xml
@@ -126,7 +126,7 @@ fabric.properties
 ## File-based project format:
 *.iws
 
-## Plugin-specific files:
+## Plugin-specific changes:
 
 # IntelliJ
 /out/
