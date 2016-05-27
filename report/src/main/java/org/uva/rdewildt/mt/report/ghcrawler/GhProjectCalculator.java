@@ -33,7 +33,7 @@ public class GhProjectCalculator {
                 null,
                 new LanguageFactory().stringToLanguage(repo.getLanguage()),
                 repo.getDescription(),
-                repo.listStargazers().asList().size(),
+                Math.toIntExact(repo.listStargazers().spliterator().estimateSize()),
                 repo.getForks(),
                 getReleaseCount(repo),
                 repo.getSubscribersCount(),
@@ -49,7 +49,7 @@ public class GhProjectCalculator {
     private Integer getReleaseCount(GHRepository repository){
         int count = 0;
         try{
-            count = repository.listReleases().asList().size();
+            count = Math.toIntExact(repository.listReleases().spliterator().estimateSize());
         } catch (IOException ignored) {}
         return count;
     }
@@ -57,7 +57,7 @@ public class GhProjectCalculator {
     private Integer getCollaboratorCount(GHRepository repository){
         int count = 0;
         try{
-            count = repository.listCollaborators().asList().size();
+            count = Math.toIntExact(repository.listCollaborators().spliterator().estimateSize());
         } catch (IOException ignored) {}
         return count;
     }
