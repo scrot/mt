@@ -33,7 +33,7 @@ public class ConfigReader {
         while ((line = reader.readLine()) != null) {
             String[] lineWords = line.split("\\s+");
             if(lineWords.length == 3) {
-                Project project = new Project(Paths.get(lineWords[1]), Paths.get(lineWords[2]), hostUrl, "", lineWords[0], auth);
+                Project project = new Project(null, Paths.get(lineWords[1]), Paths.get(lineWords[2]), "", lineWords[0], auth);
                 projects.add(project);
             }
             else {

@@ -125,7 +125,7 @@ public class MetricCalculator extends EmptyVisitor {
                 metrics.get(superClass).incrementNoc(1);
             }
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("\t\tcouldn't find superclass of " + jclass.getClassName());
         }
     }
 
@@ -134,7 +134,7 @@ public class MetricCalculator extends EmptyVisitor {
             Integer dit = jclass.getSuperClasses().length;
             metrics.get(jclass).incrementDit(dit);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("\t\tcouldn't find superclass of " + jclass.getClassName());
         }
     }
 
@@ -238,11 +238,11 @@ public class MetricCalculator extends EmptyVisitor {
     private void addClassCouplings(JavaClass jclass){
         try {
             this.classCouples.add(jclass.getSuperClass().getClassName());
-            this.classCouples.addAll(Arrays.asList(jclass.getInterfaceNames()));
         }
         catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("\t\tcouldn't find superclass of " + jclass.getClassName());
         }
+        this.classCouples.addAll(Arrays.asList(jclass.getInterfaceNames()));
     }
 
     private void addMethodCouplings(MethodGen methodGen){

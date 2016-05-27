@@ -21,18 +21,18 @@ public class OverviewReportBuilder {
 
     public OverviewReportBuilder(String name, List<Project> projects, Boolean ignoreGenerated, Boolean ignoreTests) {
         this.overviewReport = new OverviewReport(name);
-        for(Project project : projects) {
+        projects.stream().forEach(project -> {
             try {
                 OverviewCalculator ocalc = new OverviewCalculator(project, ignoreGenerated, ignoreTests);
                 this.overviewReport.updateReport(ocalc.getOverview().getValues());
             }
             catch (Exception e) { e.printStackTrace(); }
-        }
+        });
     }
 
     public void writeReportsToFile() {
         try {
-            this.overviewReport.writeToFile("_featureset", ',', true);
+            this.overviewReport.writeToFile("", ',', true);
         }
         catch (IOException e) { e.printStackTrace(); }
     }

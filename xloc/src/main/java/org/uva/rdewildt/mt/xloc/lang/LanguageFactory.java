@@ -13,6 +13,15 @@ public class LanguageFactory {
         this.extentions.put("class", new Class());
     }
 
+    public Language stringToLanguage(String string){
+        if(this.extentions.containsKey(string.toLowerCase())){
+            return this.extentions.get(string.toLowerCase());
+        }
+        else {
+            return new Other();
+        }
+    }
+
     public Language classPathToLanguage(Path classPath){
         String extentionString = getExtension(classPath.getFileName().toString());
         if(this.extentions.containsKey(extentionString)){

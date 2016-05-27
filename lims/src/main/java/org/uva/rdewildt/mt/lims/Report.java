@@ -64,12 +64,14 @@ public abstract class Report {
         }
         List<List<V>> values = new ArrayList<>(map.values());
         List<List<V>> newvalues = new ArrayList<>();
-        for(int i = 0; i < values.get(0).size(); i++){
-            List<V> row = new ArrayList<>();
-            for(int j = 0; j < values.size(); j++){
-                row.add(values.get(j).get(i));
+        if (values.get(0) != null) {
+            for(int i = 0; i < values.get(0).size(); i++){
+                List<V> row = new ArrayList<>();
+                for(int j = 0; j < values.size(); j++){
+                    row.add(values.get(j).get(i));
+                }
+                newvalues.add(row);
             }
-            newvalues.add(row);
         }
         return newvalues;
     }
