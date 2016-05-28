@@ -2,10 +2,7 @@ package org.uva.rdewildt.mt.lims;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class Report {
@@ -45,6 +42,7 @@ public abstract class Report {
         }
         writer.write(String.join(",", this.getHeader()) + '\n');
         for(List<Object> row : this.getBody()){
+            Collections.replaceAll(row, null, "NIL");
             writer.write(String.join(seperator.toString(), row.stream().map(Object::toString).collect(Collectors.toList())) + '\n');
         }
         writer.close();

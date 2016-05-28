@@ -3,7 +3,8 @@ package org.uva.rdewildt.mt.fpms;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.*;

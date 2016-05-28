@@ -1,5 +1,7 @@
 package org.uva.rdewildt.mt.report.distribution;
 
+import org.uva.rdewildt.mt.utils.model.Percentage;
+
 import java.util.*;
 import java.util.stream.Collectors;
 

@@ -1,16 +1,11 @@
 package org.uva.rdewildt.mt.report.writer;
 
-import org.uva.rdewildt.mt.fpms.Feature;
-import org.uva.rdewildt.mt.fpms.FeatureCalculator;
-import org.uva.rdewildt.mt.fpms.FeatureReport;
-import org.uva.rdewildt.mt.fpms.git.model.Project;
+import org.uva.rdewildt.mt.gcrawler.git.model.Project;
 import org.uva.rdewildt.mt.lims.Report;
-import org.uva.rdewildt.mt.report.overview.Overview;
 import org.uva.rdewildt.mt.report.overview.OverviewCalculator;
 import org.uva.rdewildt.mt.report.overview.OverviewReport;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

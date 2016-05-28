@@ -1,14 +1,11 @@
 package org.uva.rdewildt.mt.lims;
 
 import org.junit.Test;
-import org.uva.rdewildt.mt.lims.Metric;
-import org.uva.rdewildt.mt.lims.MetricCalculator;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Enumeration;
 import java.util.Map;
 

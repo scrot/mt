@@ -2,15 +2,17 @@ package org.uva.rdewildt.mt.fpms;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
-import org.uva.rdewildt.mt.fpms.git.crawler.CLocalCrawler;
-import org.uva.rdewildt.mt.fpms.git.crawler.Crawler;
-import org.uva.rdewildt.mt.fpms.git.model.Commit;
+import org.uva.rdewildt.mt.gcrawler.git.crawler.CLocalCrawler;
+import org.uva.rdewildt.mt.gcrawler.git.crawler.Crawler;
+import org.uva.rdewildt.mt.gcrawler.git.model.Commit;
 import org.uva.rdewildt.mt.lims.MetricCalculator;
-import org.uva.rdewildt.mt.xloc.lang.Java;
+import org.uva.rdewildt.mt.utils.lang.Java;
 
 import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static org.uva.rdewildt.mt.utils.MapUtils.mapListLenghts;
 
 /**
  * Created by roy on 5/22/16.
@@ -51,13 +53,6 @@ public class FeatureCalculator extends MetricCalculator {
     }
 
 
-    private <T,U> Map<T, Integer> mapListLenghts(Map<T, ? extends Collection<U>> map){
-        Map<T, Integer> counts = new HashMap<>();
-        for(Map.Entry<T, ? extends Collection<U>> col : map.entrySet()){
-            counts.put(col.getKey(), col.getValue().size());
-        }
-        return counts;
-    }
 
     private List<Commit> sortCommits(Set<Commit> commits) {
         return commits.stream()

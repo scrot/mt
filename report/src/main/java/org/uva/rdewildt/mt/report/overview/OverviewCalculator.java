@@ -2,16 +2,16 @@ package org.uva.rdewildt.mt.report.overview;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
-import org.uva.rdewildt.mt.fpms.git.crawler.Crawler;
-import org.uva.rdewildt.mt.fpms.git.crawler.FLocalCrawler;
-import org.uva.rdewildt.mt.fpms.git.model.Commit;
-import org.uva.rdewildt.mt.fpms.git.model.Project;
+import org.uva.rdewildt.mt.gcrawler.git.crawler.Crawler;
+import org.uva.rdewildt.mt.gcrawler.git.crawler.FLocalCrawler;
+import org.uva.rdewildt.mt.gcrawler.git.model.Commit;
+import org.uva.rdewildt.mt.gcrawler.git.model.Project;
 import org.uva.rdewildt.mt.report.distribution.Distribution;
-import org.uva.rdewildt.mt.report.distribution.Percentage;
+import org.uva.rdewildt.mt.utils.model.Percentage;
 import org.uva.rdewildt.mt.xloc.XLoc;
 import org.uva.rdewildt.mt.xloc.XLocCalculator;
-import org.uva.rdewildt.mt.xloc.lang.Java;
-import org.uva.rdewildt.mt.xloc.lang.Language;
+import org.uva.rdewildt.mt.utils.lang.Java;
+import org.uva.rdewildt.mt.utils.lang.Language;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -19,6 +19,8 @@ import java.math.RoundingMode;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+
+import static org.uva.rdewildt.mt.utils.MapUtils.*;
 
 /**
  * Created by roy on 5/26/16.
@@ -100,70 +102,6 @@ public class OverviewCalculator {
         Map<String, Integer> faulty = mapTakeByOrderedValue(faults, new Percentage(20.0));
         faulty.forEach((path, count) -> cloc[0] += xlocs.get(Paths.get(path)).getCodeLines());
         return (int) (cloc[0] / calculateTotalXLoc(xlocs).getCodeLines()* 100);
-    }
-
-    private <T> Map<T, Integer> mapTakeByOrderedValue(Map<T, Integer> map, Percentage percentage){
-        int limit =  (int) (percentage.getPercentage0to1() * map.size());
-        SortedMap<Integer, T> sorted = new TreeMap<>(mapSwapKeyValue(map));
-        return mapSwapKeyValue(mapTake(sorted, limit));
-
-    }
-
-    private<T,U> SortedMap<T,U> mapTake(SortedMap<T,U> map, int limit){
-        SortedMap<T,U> head = new TreeMap<>();
-        int i = 0;
-        for(Map.Entry<T,U> entry : map.entrySet()){
-            if(i < limit){
-                head.put(entry.getKey(), entry.getValue());
-            }
-            else {
-                break;
-            }
-        }
-        return head;
-    }
-
-    private <T,U> Map<U,T> mapSwapKeyValue(Map<T,U> map){
-        Map<U,T> rev = new HashMap<>();
-        for(Map.Entry<T,U> entry : map.entrySet()){
-            rev.put(entry.getValue(), entry.getKey());
-        }
-        return rev;
-    }
-
-    private <T,U> Integer mapTotalListLenghts(Map<T, ? extends Collection<U>> map){
-        Integer size = 0;
-
-        for(Collection<U> entry : map.values()){
-            size += entry.size();
-        }
-
-        return size;
-    }
-
-    private <T,U> Map<T, Integer> mapListLenghts(Map<T, ? extends Collection<U>> map){
-        Map<T, Integer> lengths = new HashMap<>();
-
-        for(Map.Entry<T, ? extends Collection> entry : map.entrySet()){
-            lengths.put(entry.getKey(), entry.getValue().size());
-        }
-
-        return lengths;
-    }
-
-    private <T,U> Integer calculateUniqueElements(Map<T, ? extends Collection<U>> map){
-        Set<U> uniqueAuthors = new HashSet<>();
-        for(Map.Entry<T, ? extends Collection> entry : map.entrySet()){
-            uniqueAuthors.addAll(entry.getValue());
-        }
-        return uniqueAuthors.size();
-    }
-
-
-    private <T,U> SortedSet<U> getSortedSet(Map<T, ? extends Collection<U>> commits){
-        TreeSet<U> flatCommits = new TreeSet<>();
-        commits.forEach((s, commitlist) -> flatCommits.addAll(commitlist));
-        return flatCommits;
     }
 
     private double round(double value, int places) {

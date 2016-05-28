@@ -1,5 +1,5 @@
 package org.uva.rdewildt.mt.report.writer;
-import org.uva.rdewildt.mt.fpms.git.model.Project;
+import org.uva.rdewildt.mt.gcrawler.git.model.Project;
 
 import java.io.BufferedReader;
 import java.io.IOException;
