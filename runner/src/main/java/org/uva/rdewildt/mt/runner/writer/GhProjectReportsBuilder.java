@@ -1,6 +1,6 @@
-package org.uva.rdewildt.mt.report.writer;
+package org.uva.rdewildt.mt.runner.writer;
 
-import org.uva.rdewildt.mt.lims.Report;
+import org.uva.rdewildt.mt.report.Report;
 import org.uva.rdewildt.mt.gcrawler.github.GhProject;
 import org.uva.rdewildt.mt.gcrawler.github.GhProjectCrawler;
 import org.uva.rdewildt.mt.gcrawler.github.GhProjectReport;
@@ -8,6 +8,7 @@ import org.uva.rdewildt.mt.gcrawler.github.GhProjectReport;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by roy on 5/27/16.
@@ -17,7 +18,7 @@ public class GhProjectReportsBuilder {
 
     public GhProjectReportsBuilder(String name, Integer numberRepos, Map<String,String> params) {
         this.ghProjectReport = new GhProjectReport(name);
-        List<GhProject> ghProjects = new GhProjectCrawler(numberRepos, params).getGhProjects();
+        Set<GhProject> ghProjects = new GhProjectCrawler(numberRepos, params).getGhProjects();
         ghProjects.stream().forEach(project -> {
             try {
                 this.ghProjectReport.updateReport(project.getValues());

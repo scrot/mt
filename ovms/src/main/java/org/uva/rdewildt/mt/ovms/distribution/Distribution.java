@@ -1,4 +1,4 @@
-package org.uva.rdewildt.mt.report.distribution;
+package org.uva.rdewildt.mt.ovms.distribution;
 
 import org.uva.rdewildt.mt.utils.model.Percentage;
 

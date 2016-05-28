@@ -1,4 +1,6 @@
-package org.uva.rdewildt.mt.report.writer;
+package org.uva.rdewildt.mt.runner.writer;
+
+
 import org.uva.rdewildt.mt.gcrawler.git.model.Project;
 
 import java.io.BufferedReader;

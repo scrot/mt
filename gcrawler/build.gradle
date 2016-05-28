@@ -8,7 +8,9 @@ repositories {
 }
 
 dependencies {
+    compile project(':xloc')
     compile project(':utils')
+    compile project(':report')
 
     compile 'org.eclipse.mylyn.github:org.eclipse.egit.github.core:2.1.5'
     compile 'org.eclipse.jgit:org.eclipse.jgit:4.3.0.201604071810-r'

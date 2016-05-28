@@ -13,6 +13,7 @@ import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.uva.rdewildt.mt.gcrawler.git.model.Commit;
 import org.uva.rdewildt.mt.utils.splitter.model.ClassSource;
+import org.uva.rdewildt.mt.utils.splitter.parser.java7.SourceVisitor;
 
 import java.io.IOException;
 import java.nio.file.Path;

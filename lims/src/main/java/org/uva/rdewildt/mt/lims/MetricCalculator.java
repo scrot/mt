@@ -6,7 +6,7 @@ import org.apache.bcel.generic.*;
 import org.apache.bcel.util.ClassPath;
 import org.apache.bcel.util.Repository;
 import org.apache.bcel.util.SyntheticRepository;
-import org.uva.rdewildt.mt.utils.PathCollector;
+import org.uva.rdewildt.mt.xloc.PathCollector;
 import org.uva.rdewildt.mt.utils.lang.Class;
 import org.uva.rdewildt.mt.utils.lang.Language;
 

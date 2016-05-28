@@ -1,6 +1,6 @@
-package org.uva.rdewildt.mt.report.overview;
+package org.uva.rdewildt.mt.ovms;
 
-import org.uva.rdewildt.mt.lims.Reportable;
+import org.uva.rdewildt.mt.report.Reportable;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * Created by roy on 5/26/16.
  */
-public class Overview implements Reportable{
+public class Overview implements Reportable {
     private final String projectname;
 
     private int files;

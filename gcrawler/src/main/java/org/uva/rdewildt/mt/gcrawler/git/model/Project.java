@@ -1,12 +1,9 @@
 package org.uva.rdewildt.mt.gcrawler.git.model;
 
-import org.uva.rdewildt.mt.lims.Reportable;
+import org.uva.rdewildt.mt.report.Reportable;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Project implements Reportable {
     private final String projectUrl;
@@ -75,5 +72,18 @@ public class Project implements Reportable {
 
     public String getAuthToken() {
         return this.authToken;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getProjectUrl().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof Project){
+            return Objects.equals(((Project) o).getProjectUrl(), this.getProjectUrl());
+        }
+        return super.equals(o);
     }
 }

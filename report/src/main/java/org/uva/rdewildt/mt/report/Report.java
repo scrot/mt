@@ -1,4 +1,4 @@
-package org.uva.rdewildt.mt.lims;
+package org.uva.rdewildt.mt.report;
 
 import java.io.FileWriter;
 import java.io.IOException;

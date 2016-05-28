@@ -1,18 +1,12 @@
 group 'org.uva.rdewildt.mt'
 version '0.1'
 
-apply plugin: 'application'
-
-mainClassName = 'org.uva.rdewildt.mt.report.writer/ReportWriter'
-
 repositories {
     mavenCentral()
 }
 
 dependencies {
     compile project(':utils')
-    compile project(':fpms')
-    compile project(":gcrawler")
 
     compile 'joda-time:joda-time:2.9.3'
 

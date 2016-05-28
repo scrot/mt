@@ -1,4 +1,4 @@
-package org.uva.rdewildt.mt.report.writer;
+package org.uva.rdewildt.mt.runner.writer;
 
 import org.uva.rdewildt.mt.gcrawler.git.model.Project;
 
@@ -18,7 +18,7 @@ public class ReportWriter {
         Map<String, String> params = new HashMap<String, String>(){{
             put("language", "Java");
         }};
-        GhProjectReportsBuilder ghbuilder = new GhProjectReportsBuilder("alljava", 1000, params);
+        GhProjectReportsBuilder ghbuilder = new GhProjectReportsBuilder("alljava", 3000000, params);
         ghbuilder.writeReportsToFile();
         //OverviewReportBuilder obuilder = new OverviewReportBuilder(confReader.getName(), confReader.getProjects(), true, true);
         //obuilder.writeReportsToFile();

@@ -1,9 +1,9 @@
-package org.uva.rdewildt.mt.report.writer;
+package org.uva.rdewildt.mt.runner.writer;
 
 import org.uva.rdewildt.mt.gcrawler.git.model.Project;
-import org.uva.rdewildt.mt.lims.Report;
-import org.uva.rdewildt.mt.report.overview.OverviewCalculator;
-import org.uva.rdewildt.mt.report.overview.OverviewReport;
+import org.uva.rdewildt.mt.ovms.OverviewCalculator;
+import org.uva.rdewildt.mt.ovms.OverviewReport;
+import org.uva.rdewildt.mt.report.Report;
 
 import java.io.IOException;
 import java.util.List;

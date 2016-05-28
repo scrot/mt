@@ -1,6 +1,6 @@
 package org.uva.rdewildt.mt.fpms;
 
-import org.uva.rdewildt.mt.lims.Report;
+import org.uva.rdewildt.mt.report.Report;
 
 /**
  * Created by roy on 5/23/16.

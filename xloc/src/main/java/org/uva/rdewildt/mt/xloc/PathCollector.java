@@ -1,4 +1,4 @@
-package org.uva.rdewildt.mt.utils;
+package org.uva.rdewildt.mt.xloc;
 
 import org.uva.rdewildt.mt.utils.lang.Language;
 import org.uva.rdewildt.mt.utils.lang.LanguageFactory;

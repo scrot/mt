@@ -1,4 +1,4 @@
-package org.uva.rdewildt.mt.lims;
+package org.uva.rdewildt.mt.report;
 
 import java.util.List;
 import java.util.Map;

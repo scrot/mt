@@ -1,4 +1,4 @@
-package org.uva.rdewildt.mt.report.overview;
+package org.uva.rdewildt.mt.ovms;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -6,12 +6,13 @@ import org.uva.rdewildt.mt.gcrawler.git.crawler.Crawler;
 import org.uva.rdewildt.mt.gcrawler.git.crawler.FLocalCrawler;
 import org.uva.rdewildt.mt.gcrawler.git.model.Commit;
 import org.uva.rdewildt.mt.gcrawler.git.model.Project;
-import org.uva.rdewildt.mt.report.distribution.Distribution;
+import org.uva.rdewildt.mt.ovms.distribution.Distribution;
+import org.uva.rdewildt.mt.utils.MapUtils;
 import org.uva.rdewildt.mt.utils.model.Percentage;
-import org.uva.rdewildt.mt.xloc.XLoc;
-import org.uva.rdewildt.mt.xloc.XLocCalculator;
 import org.uva.rdewildt.mt.utils.lang.Java;
 import org.uva.rdewildt.mt.utils.lang.Language;
+import org.uva.rdewildt.mt.xloc.XLoc;
+import org.uva.rdewildt.mt.xloc.XLocCalculator;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -37,9 +38,9 @@ public class OverviewCalculator {
                 new ArrayList<Language>(){{add(new Java());}}).getResult();
         XLoc totalXloc = calculateTotalXLoc(xlocs);
 
-        SortedSet<Commit> sorted = getSortedSet(crawler.getChanges());
+        SortedSet<Commit> sorted = MapUtils.getSortedSet(crawler.getChanges());
 
-        Distribution faultdist = new Distribution(mapListLenghts(crawler.getFaults()));
+        Distribution faultdist = new Distribution(MapUtils.mapListLenghts(crawler.getFaults()));
         Distribution codedist = new Distribution(getCodeCounts(xlocs));
 
         this.overview = new Overview(project.getProject()){{
@@ -47,15 +48,15 @@ public class OverviewCalculator {
             setCloc(totalXloc.getCodeLines());
             setSloc(totalXloc.getCommentLines());
 
-            setChanges(mapTotalListLenghts(crawler.getChanges()));
-            setFaults(mapTotalListLenghts(crawler.getFaults()));
-            setAuthors(calculateUniqueElements(crawler.getAuthors()));
+            setChanges(MapUtils.mapTotalListLenghts(crawler.getChanges()));
+            setFaults(MapUtils.mapTotalListLenghts(crawler.getFaults()));
+            setAuthors(MapUtils.calculateUniqueElements(crawler.getAuthors()));
 
             setAge(calculateDateDayDiff(sorted.first().getDate(), DateTime.now().toDate()));
             setDev(calculateDateDayDiff(sorted.first().getDate(), sorted.last().getDate()));
 
             setFdist(get20Percent(faultdist));
-            setCinF(getCodeIn20Percent(mapListLenghts(crawler.getFaults()), xlocs));
+            setCinF(getCodeIn20Percent(MapUtils.mapListLenghts(crawler.getFaults()), xlocs));
 
             setFgini(round(faultdist.giniCoefficient(),2));
             setCgini(round(codedist.giniCoefficient(),2));
@@ -99,7 +100,7 @@ public class OverviewCalculator {
 
     private Integer getCodeIn20Percent(Map<String, Integer> faults, Map<Path, XLoc> xlocs){
         final double[] cloc = {0};
-        Map<String, Integer> faulty = mapTakeByOrderedValue(faults, new Percentage(20.0));
+        Map<String, Integer> faulty = MapUtils.mapTakeByOrderedValue(faults, new Percentage(20.0));
         faulty.forEach((path, count) -> cloc[0] += xlocs.get(Paths.get(path)).getCodeLines());
         return (int) (cloc[0] / calculateTotalXLoc(xlocs).getCodeLines()* 100);
     }

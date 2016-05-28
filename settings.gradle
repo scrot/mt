@@ -2,4 +2,6 @@ rootProject.name = 'org.uva.rdewildt.mt'
 include ':lims', ':lims-test', ':xloc', ':fpms', ':report'
 include 'utils'
 include 'gcrawler'
+include 'runner'
+include 'ovms'
 
