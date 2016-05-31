@@ -6,6 +6,7 @@ import org.uva.rdewildt.mt.ovms.OverviewReport;
 import org.uva.rdewildt.mt.report.Report;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 /**
@@ -25,9 +26,9 @@ public class OverviewReportBuilder {
         });
     }
 
-    public void writeReportsToFile() {
+    public void writeReportsToFile(Path path) {
         try {
-            this.overviewReport.writeToFile("", ',', true);
+            this.overviewReport.writeToFile(path, "", ',', true);
         }
         catch (IOException e) { e.printStackTrace(); }
     }

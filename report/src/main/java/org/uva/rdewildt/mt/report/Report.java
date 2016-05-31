@@ -2,6 +2,8 @@ package org.uva.rdewildt.mt.report;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -35,8 +37,8 @@ public abstract class Report {
         }
     }
 
-    public void writeToFile(String nameAddition, Character seperator, Boolean seperatorFlag) throws IOException {
-        FileWriter writer = new FileWriter(this.getName() + nameAddition + ".csv");
+    public void writeToFile(Path path, String nameAddition, Character seperator, Boolean seperatorFlag) throws IOException {
+        FileWriter writer = new FileWriter(Paths.get(path.toString(), this.getName() + nameAddition + ".csv").toFile());
         if(seperatorFlag){
             writer.write("sep=" + seperator + "\n");
         }

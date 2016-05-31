@@ -28,6 +28,7 @@ public class FLocalCrawler extends Crawler {
 
         this.faults = collectFaults(getChanges());
         this.authors = collectAuthors(getChanges());
+        git.close();
     }
 
     @Override

@@ -27,6 +27,7 @@ public class CLocalCrawler extends Crawler {
 
         this.faults = collectFaults(getChanges());
         this.authors = collectAuthors(getChanges());
+        git.close();
     }
 
     @Override

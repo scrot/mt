@@ -14,12 +14,12 @@ import java.util.Map;
  * Created by roy on 5/27/16.
  */
 public class GhProject extends Project {
-    private Language language;
-    private String description;
-    private int stars;
-    private int forks;
-    private int size;
-    private Date pushdate;
+    private final Language language;
+    private final String description;
+    private final int stars;
+    private final int forks;
+    private final int size;
+    private final Date pushdate;
 
     public GhProject(){
         this(new Project(), new Other(), "", 0, 0, 0, null);
@@ -61,7 +61,7 @@ public class GhProject extends Project {
     private Map<String, Object> buildMap(){
         Map<String, Object> projectMap = super.getValues();
         projectMap.put("Language", getLanguage());
-        //projectMap.put("Description", getDescription());
+        projectMap.put("Description", getDescription());
         projectMap.put("Stars", getStars());
         projectMap.put("Forks", getForks());
         projectMap.put("Size", getSize());

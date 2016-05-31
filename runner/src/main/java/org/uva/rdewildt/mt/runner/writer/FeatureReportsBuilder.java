@@ -7,6 +7,7 @@ import org.uva.rdewildt.mt.gcrawler.git.model.Project;
 import org.uva.rdewildt.mt.report.Report;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,10 +31,10 @@ public class FeatureReportsBuilder {
         }
     }
 
-    public void writeReportsToFile() {
+    public void writeReportsToFile(Path path) {
         for(Report featureReport : featureReports){
             try {
-                featureReport.writeToFile("_featureset", ',', true);
+                featureReport.writeToFile(path, "_featureset", ',', true);
             }
             catch (IOException e) { e.printStackTrace(); }
         }
