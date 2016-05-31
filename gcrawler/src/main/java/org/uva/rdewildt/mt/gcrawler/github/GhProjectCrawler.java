@@ -60,7 +60,6 @@ public class GhProjectCrawler {
                             null,
                             repo.getOwner(),
                             repo.getName(),
-                            null,
                             new LanguageFactory().stringToLanguage(repo.getLanguage()),
                             repo.getDescription(),
                             repo.getWatchers(),

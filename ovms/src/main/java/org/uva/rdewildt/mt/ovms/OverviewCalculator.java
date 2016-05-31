@@ -43,25 +43,20 @@ public class OverviewCalculator {
         Distribution faultdist = new Distribution(MapUtils.mapListLenghts(crawler.getFaults()));
         Distribution codedist = new Distribution(getCodeCounts(xlocs));
 
-        this.overview = new Overview(project.getProject()){{
-            setFiles(crawler.getChanges().size());
-            setCloc(totalXloc.getCodeLines());
-            setSloc(totalXloc.getCommentLines());
-
-            setChanges(MapUtils.mapTotalListLenghts(crawler.getChanges()));
-            setFaults(MapUtils.mapTotalListLenghts(crawler.getFaults()));
-            setAuthors(MapUtils.calculateUniqueElements(crawler.getAuthors()));
-
-            setAge(calculateDateDayDiff(sorted.first().getDate(), DateTime.now().toDate()));
-            setDev(calculateDateDayDiff(sorted.first().getDate(), sorted.last().getDate()));
-
-            setFdist(get20Percent(faultdist));
-            setCinF(getCodeIn20Percent(MapUtils.mapListLenghts(crawler.getFaults()), xlocs));
-
-            setFgini(round(faultdist.giniCoefficient(),2));
-            setCgini(round(codedist.giniCoefficient(),2));
-        }};
-
+        this.overview = new Overview(project.getProject(),
+                crawler.getChanges().size(),
+                totalXloc.getCodeLines(),
+                totalXloc.getCommentLines(),
+                MapUtils.mapTotalListLenghts(crawler.getChanges()),
+                MapUtils.mapTotalListLenghts(crawler.getFaults()),
+                MapUtils.calculateUniqueElements(crawler.getAuthors()),
+                calculateDateDayDiff(sorted.first().getDate(), DateTime.now().toDate()),
+                calculateDateDayDiff(sorted.first().getDate(), sorted.last().getDate()),
+                get20Percent(faultdist),
+                getCodeIn20Percent(MapUtils.mapListLenghts(crawler.getFaults()), xlocs),
+                round(faultdist.giniCoefficient(),2),
+                round(codedist.giniCoefficient(),2)
+        );
     }
 
     public Overview getOverview() {

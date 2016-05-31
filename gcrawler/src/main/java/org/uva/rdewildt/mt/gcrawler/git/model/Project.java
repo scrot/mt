@@ -1,77 +1,60 @@
 package org.uva.rdewildt.mt.gcrawler.git.model;
 
+import org.eclipse.jgit.transport.URIish;
 import org.uva.rdewildt.mt.report.Reportable;
 
 import java.nio.file.Path;
 import java.util.*;
 
 public class Project implements Reportable {
-    private final String projectUrl;
-    private final Path gitPath;
-    private final Path binaryPath;
-    private final String group;
-    private final String project;
-    private final String authToken;
+    protected final Map<String, Object> map = new LinkedHashMap<>();
 
     public Project(){
-        this(null, null, null, "", "", "");
+        this(null, null, null, "", "");
     }
 
     public Project(Project p){
-        this(p.getProjectUrl(), p.getGitRoot(), p.getBinaryRoot(), p.getGroup(), p.getProject(), p.getAuthToken());
+        this(p.getProjectUrl(), p.getGitRoot(), p.getBinaryRoot(), p.getGroup(), p.getProject());
     }
 
-    public Project(String projectUrl, Path gitPath, Path binaryPath, String group, String project, String authToken) {
-        this.gitPath = gitPath;
-        this.binaryPath = binaryPath;
-        this.projectUrl = projectUrl;
-        this.group = group;
-        this.project = project;
-        this.authToken = authToken;
+    public Project(String projectUrl, Path gitPath, Path binaryPath, String group, String project) {
+        this.map.putAll(new HashMap<String, Object>(){{
+            put("Name", project);
+            put("Group", group);
+            put("URL", projectUrl);
+            put("GitPath", gitPath);
+            put("BinaryPath", binaryPath);
+        }});
     }
 
     @Override
     public List<String> getKeys() {
-        return new ArrayList<>(buildMap().keySet());
+        return new ArrayList<>(this.map.keySet());
     }
 
     @Override
     public Map<String, Object> getValues() {
-        return buildMap();
-    }
-
-    private Map<String, Object> buildMap(){
-        return new LinkedHashMap<String, Object>(){{
-            put("Name", getProject());
-            put("Group", getGroup());
-            put("URL", getProjectUrl());
-            put("gitPath", getGitRoot());
-            put("binaryPath", getBinaryRoot());
-        }};
-    }
-
-    public String getProjectUrl() {
-        return projectUrl;
-    }
-
-    public String getGroup() {
-        return this.group;
+        return this.map;
     }
 
     public String getProject() {
-        return this.project;
+        return (String) this.map.get("Name");
+    }
+
+    public String getGroup() {
+        return (String) this.map.get("Group");
+    }
+
+    public String getProjectUrl() {
+        return (String) this.map.get("URL");
     }
 
     public Path getGitRoot() {
-        return this.gitPath;
+        return (Path) this.map.get("GitPath");
     }
 
     public Path getBinaryRoot() {
-        return binaryPath;
-    }
-
-    public String getAuthToken() {
-        return this.authToken;
+        return (Path) this.map.get("BinaryPath");
     }
 
     @Override

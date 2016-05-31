@@ -18,7 +18,7 @@ public class MapUtils {
     }
 
 
-    public static  <T> Map<T, Integer> mapTakeByOrderedValue(Map<T, Integer> map, Percentage percentage){
+    public static <T> Map<T, Integer> mapTakeByOrderedValue(Map<T, Integer> map, Percentage percentage){
         int limit =  (int) (percentage.getPercentage0to1() * map.size());
         SortedMap<Integer, T> sorted = new TreeMap<>(mapSwapKeyValue(map));
         return mapSwapKeyValue(mapTake(sorted, limit));
@@ -39,7 +39,7 @@ public class MapUtils {
         return head;
     }
 
-    public static  <T,U> Map<U,T> mapSwapKeyValue(Map<T,U> map){
+    public static <T,U> Map<U,T> mapSwapKeyValue(Map<T,U> map){
         Map<U,T> rev = new HashMap<>();
         for(Map.Entry<T,U> entry : map.entrySet()){
             rev.put(entry.getValue(), entry.getKey());
@@ -47,7 +47,7 @@ public class MapUtils {
         return rev;
     }
 
-    public static  <T,U> Integer mapTotalListLenghts(Map<T, ? extends Collection<U>> map){
+    public static <T,U> Integer mapTotalListLenghts(Map<T, ? extends Collection<U>> map){
         Integer size = 0;
 
         for(Collection<U> entry : map.values()){
@@ -57,7 +57,7 @@ public class MapUtils {
         return size;
     }
 
-    public static  <T,U> Integer calculateUniqueElements(Map<T, ? extends Collection<U>> map){
+    public static <T,U> Integer calculateUniqueElements(Map<T, ? extends Collection<U>> map){
         Set<U> uniqueAuthors = new HashSet<>();
         for(Map.Entry<T, ? extends Collection> entry : map.entrySet()){
             uniqueAuthors.addAll(entry.getValue());
@@ -65,9 +65,14 @@ public class MapUtils {
         return uniqueAuthors.size();
     }
 
-    public static  <T,U> SortedSet<U> getSortedSet(Map<T, ? extends Collection<U>> commits){
+    public static <T,U> SortedSet<U> getSortedSet(Map<T, ? extends Collection<U>> commits){
         TreeSet<U> flatCommits = new TreeSet<>();
         commits.forEach((s, commitlist) -> flatCommits.addAll(commitlist));
         return flatCommits;
+    }
+
+    public static <T> void incrementMapValue(Map<T, Object> map, T key, Integer increment){
+        map.computeIfPresent(key, (k, v) -> v instanceof Integer ? (Integer) v + increment : v);
+        map.putIfAbsent(key, increment);
     }
 }

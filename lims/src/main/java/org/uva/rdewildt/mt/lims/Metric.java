@@ -1,6 +1,7 @@
 package org.uva.rdewildt.mt.lims;
 
 import org.uva.rdewildt.mt.report.Reportable;
+import org.uva.rdewildt.mt.utils.MapUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -11,23 +12,7 @@ import java.util.Map;
  * Created by roy on 5/22/16.
  */
 public class Metric implements Reportable {
-
-    private String classname;
-
-    //CK-metrics
-    private int wmc;
-    private int noc;
-    private int rfc;
-    private int cbo;
-    private int dit;
-    private int lcom;
-
-    //Li-Metrics
-    private int mpc;
-    private int dac;
-    private int nom;
-    private int size1;
-    private int size2;
+    protected final Map<String, Object> map = new LinkedHashMap<>();
 
     public Metric(){
         this("");
@@ -49,126 +34,110 @@ public class Metric implements Reportable {
     public Metric(String classname, int wmc, int noc, int rfc, int cbo, int dit,
                   int lcom, int mpc, int dac, int nom, int size1,
                   int size2) {
-        this.classname = classname;
-        this.wmc = wmc;
-        this.noc = noc;
-        this.rfc = rfc;
-        this.cbo = cbo;
-        this.dit = dit;
-        this.lcom = lcom;
-        this.mpc = mpc;
-        this.dac = dac;
-        this.nom = nom;
-        this.size1 = size1;
-        this.size2 = size2;
+        this.map.putAll(new LinkedHashMap<String, Object>(){{
+            put("Class", classname);
+            put("WMC", wmc);
+            put("DIT", noc);
+            put("NOC", rfc);
+            put("CBO", cbo);
+            put("RFC", dit);
+            put("LCOM", lcom);
+            put("DAC", mpc);
+            put("MPC", dac);
+            put("NOM", nom);
+            put("SIZE1", size1);
+            put("SIZE2", size2);
+        }});
     }
-
-    private Map<String, Object> buildMap(){
-        return new LinkedHashMap<String, Object>(){{
-            put("Class", getClassname());
-            put("WMC", getWmc());
-            put("DIT", getDit());
-            put("NOC", getNoc());
-            put("CBO", getCbo());
-            put("RFC", getRfc());
-            put("LCOM", getLcom());
-            put("DAC", getDac());
-            put("MPC", getMpc());
-            put("NOM", getNom());
-            put("SIZE1", getSize1());
-            put("SIZE2", getSize2());
-        }};
-    }
-
     @Override
     public List<String> getKeys(){
-        return new ArrayList<>(buildMap().keySet());
+        return new ArrayList<>(this.map.keySet());
     }
 
     @Override
     public Map<String, Object> getValues(){
-        return buildMap();
+        return this.map;
     }
 
     public String getClassname() {
-        return classname;
+        return (String) map.get("Class");
     }
 
     public int getWmc() {
-        return wmc;
+        return (Integer) map.get("WMC");
     }
 
     public int getNoc() {
-        return noc;
+        return (Integer) map.get("NOC");
     }
 
-    public int getRfc() { return rfc; }
+    public int getRfc() { return (Integer) map.get("RFC"); }
 
     public int getCbo() {
-        return cbo;
+        return (Integer) map.get("CBO");
     }
 
     public int getDit() {
-        return dit;
+        return (Integer) map.get("DIT");
     }
 
     public int getLcom() {
-        return lcom;
+        return (Integer) map.get("LCOM");
     }
 
     public int getMpc() {
-        return mpc;
+        return (Integer) map.get("MPC");
     }
 
     public int getDac() {
-        return dac;
+        return (Integer) map.get("DAC");
     }
 
     public int getNom() {
-        return nom;
+        return (Integer) map.get("NOM");
     }
 
-    public int getSize1() { return size1; }
+    public int getSize1() { return (Integer) map.get("SIZE1"); }
 
-    public int getSize2() { return size2; }
+    public int getSize2() { return (Integer) map.get("SIZE2"); }
 
     public void incrementWmc(Integer increment){
-        this.wmc += increment;
+        MapUtils.incrementMapValue(map, "WMC", increment);
     }
 
     public void incrementRfc(Integer increment){
-        this.rfc += increment;
+        MapUtils.incrementMapValue(map, "RFC", increment);
     }
 
     public void incrementNoc(Integer increment){
-        this.noc += increment;
+        MapUtils.incrementMapValue(map, "NOC", increment);
     }
 
     public void incrementDit(Integer increment){
-        this.dit += increment;
+        MapUtils.incrementMapValue(map, "DIT", increment);
     }
 
     public void incrementCbo(Integer increment){
-        this.cbo += increment;
+        MapUtils.incrementMapValue(map, "CBO", increment);
     }
 
     public void incrementLcom(Integer increment){
-        this.lcom += increment;
+        MapUtils.incrementMapValue(map, "LCOM", increment);
     }
 
     public void incrementMpc(Integer increment){
-        this.mpc += increment;
+        MapUtils.incrementMapValue(map, "MPC", increment);
     }
 
     public void incrementDac(Integer increment){
-        this.dac += increment;
+        MapUtils.incrementMapValue(map, "DAC", increment);
     }
 
     public void incrementNom(Integer increment){
-        this.nom += increment;
+        MapUtils.incrementMapValue(map, "NOM", increment);
     }
 
-    public void incrementSize1(Integer increment){ this.size1 += increment; }
+    public void incrementSize1(Integer increment){ MapUtils.incrementMapValue(map, "SIZE1", increment); }
 
-    public void incrementSize2(Integer increment){ this.size2 += increment; }
+    public void incrementSize2(Integer increment){ MapUtils.incrementMapValue(map, "SIZE2", increment); }
 }

@@ -11,23 +11,7 @@ import java.util.Map;
  * Created by roy on 5/26/16.
  */
 public class Overview implements Reportable {
-    private final String projectname;
-
-    private int files;
-    private int cloc;
-    private int sloc;
-
-    private int faults;
-    private int changes;
-    private int authors;
-
-    private int age;
-    private int dev;
-
-    private int fdist;
-    private int cinf;
-    private double cgini;
-    private double fgini;
+    protected final Map<String, Object> map = new LinkedHashMap<>();
 
     public Overview(){
         this("");
@@ -38,158 +22,89 @@ public class Overview implements Reportable {
     }
 
     public Overview(Overview overview){
-        this(overview.getProjectname(),
-        overview.getFiles(), overview.getCloc(),
-        overview.getSloc(), overview.getFaults(),
-        overview.getChanges(), overview.getAuthors(),
-        overview.getAge(), overview.getDev(),
-        overview.getFdist(), overview.getCinf(),
-        overview.getCgini(), overview.getFgini());
+        this(overview.getProjectname(), overview.getFiles(), overview.getCloc(), overview.getSloc(), overview.getFaults(),
+                overview.getChanges(), overview.getAuthors(), overview.getAge(), overview.getDev(), overview.getFdist(),
+                overview.getCinf(), overview.getCgini(), overview.getFgini());
     }
 
-    public Overview(String projectname, int files, int cloc, int sloc,
-                    int faults, int changes, int authors, int age, int dev, int fdist, int cinf,
-                    double cgini, double fgini) {
-        this.projectname = projectname;
-        this.files = files;
-        this.cloc = cloc;
-        this.sloc = sloc;
-        this.faults = faults;
-        this.changes = changes;
-        this.authors = authors;
-        this.age = age;
-        this.dev = dev;
-        this.fdist = fdist;
-        this.cinf = cinf;
-        this.cgini = cgini;
-        this.fgini = fgini;
-    }
-
-    private Map<String, Object> buildMap(){
-        return new LinkedHashMap<String, Object>(){{
-            put("ProjectName", getProjectname());
-            put("Files", getFiles());
-            put("CLOC", getCloc());
-            put("SLOC", getSloc());
-            put("Faults", getFaults());
-            put("Changes", getChanges());
-            put("Authors", getAuthors());
-            put("Age", getAge());
-            put("Dev", getDev());
-            put("FDist20", getFdist());
-            put("CinF20", getCinf());
-            put("FGini", getFgini());
-            put("CGini", getCgini());
-        }};
+    public Overview(String projectname, int files, int cloc, int sloc, int faults, int changes, int authors, int age,
+                    int dev, int fdist, int cinf, double cgini, double fgini) {
+        this.map.putAll(new LinkedHashMap<String, Object>(){{
+            put("Project", projectname);
+            put("Files", files);
+            put("CLOC", cloc);
+            put("SLOC", sloc);
+            put("Faults", faults);
+            put("Changes", changes);
+            put("Authors", authors);
+            put("Age", age);
+            put("Dev", dev);
+            put("FDist20", fdist);
+            put("CinF20", cinf);
+            put("FGini", fgini);
+            put("CGini", cgini);
+        }});
     }
 
     @Override
     public List<String> getKeys() {
-        return new ArrayList<>(buildMap().keySet());
+        return new ArrayList<>(this.map.keySet());
     }
 
     @Override
     public Map<String, Object> getValues() {
-        return buildMap();
+        return this.map;
     }
 
     public String getProjectname() {
-        return projectname;
+        return (String) this.map.get("Project");
     }
 
     public int getFiles() {
-        return files;
+        return (Integer) this.map.get("Files");
     }
 
     public int getCloc() {
-        return cloc;
+        return (Integer) this.map.get("CLOC");
     }
 
     public int getSloc() {
-        return sloc;
+        return (Integer) this.map.get("SLOC");
     }
 
     public int getFaults() {
-        return faults;
+        return (Integer) this.map.get("Faults");
     }
 
     public int getChanges() {
-        return changes;
+        return (Integer) this.map.get("Changes");
     }
 
     public int getAuthors() {
-        return authors;
+        return (Integer) this.map.get("Authors");
     }
 
     public int getAge() {
-        return age;
+        return (Integer) this.map.get("Age");
     }
 
     public int getDev() {
-        return dev;
+        return (Integer) this.map.get("Dev");
     }
 
     public int getFdist() {
-        return fdist;
+        return (Integer) this.map.get("FDist20");
     }
 
     public int getCinf() {
-        return cinf;
+        return (Integer) this.map.get("CinF20");
     }
 
     public double getCgini() {
-        return cgini;
+        return (Integer) this.map.get("FGini");
     }
 
     public double getFgini() {
-        return fgini;
-    }
-
-    public void setFiles(int files) {
-        this.files = files;
-    }
-
-    public void setCloc(int cloc) {
-        this.cloc = cloc;
-    }
-
-    public void setSloc(int sloc) {
-        this.sloc = sloc;
-    }
-
-    public void setFaults(int faults) {
-        this.faults = faults;
-    }
-
-    public void setChanges(int changes) {
-        this.changes = changes;
-    }
-
-    public void setAuthors(int authors) {
-        this.authors = authors;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public void setDev(int dev) {
-        this.dev = dev;
-    }
-
-    public void setFdist(int fdist) {
-        this.fdist = fdist;
-    }
-
-    public void setCinF(int cinf) {
-        this.cinf = cinf;
-    }
-
-    public void setCgini(double cgini) {
-        this.cgini = cgini;
-    }
-
-    public void setFgini(double fgini) {
-        this.fgini = fgini;
+        return (Integer) this.map.get("CGini");
     }
 }
