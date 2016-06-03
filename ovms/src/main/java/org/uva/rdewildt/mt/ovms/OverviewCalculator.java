@@ -29,11 +29,10 @@ import static org.uva.rdewildt.mt.utils.MapUtils.*;
 public class OverviewCalculator {
     private final Overview overview;
 
-    public OverviewCalculator(Project project, Boolean ignoreGenerated, Boolean ignoreTests) throws IOException {
-        Crawler crawler = new FLocalCrawler(project.getGitRoot(), ignoreGenerated, ignoreTests, new Java());
-
+    public OverviewCalculator(String projectName, Path projectRoot, Boolean ignoreGenerated, Boolean ignoreTests) throws IOException {
+        Crawler crawler = new FLocalCrawler(projectRoot, ignoreGenerated, ignoreTests, new Java());
         Map<Path, XLoc> xlocs = new XLocCalculator(
-                project.getGitRoot(), true,
+                projectRoot, true,
                 ignoreGenerated, ignoreGenerated,
                 new ArrayList<Language>(){{add(new Java());}}).getResult();
         XLoc totalXloc = calculateTotalXLoc(xlocs);
@@ -43,7 +42,7 @@ public class OverviewCalculator {
         Distribution faultdist = new Distribution(MapUtils.mapListLenghts(crawler.getFaults()));
         Distribution codedist = new Distribution(getCodeCounts(xlocs));
 
-        this.overview = new Overview(project.getProject(),
+        this.overview = new Overview(projectName,
                 crawler.getChanges().size(),
                 totalXloc.getCodeLines(),
                 totalXloc.getCommentLines(),

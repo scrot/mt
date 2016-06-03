@@ -12,11 +12,11 @@ import java.util.*;
  */
 public class GhProject extends Project {
     public GhProject(){
-        this(new Project(), new Other(), "", 0, 0, 0, null);
+        this(new Project(), new Other(), "", 0, 0, 0, null, false);
     }
 
     public GhProject(Project p, Language language, String description, Integer stars, Integer forks,
-                     Integer size, Date pushdate) {
+                     Integer size, Date pushdate, Boolean hasIssues) {
         super(p);
         this.map.putAll(new HashMap<String, Object>(){{
             put("Language", language);
@@ -25,11 +25,12 @@ public class GhProject extends Project {
             put("Forks", forks);
             put("Size", size);
             put("PushDate", pushdate);
+            put("hasIssues", hasIssues);
         }});
     }
 
     public GhProject(String projectUrl, Path gitPath, Path binaryPath, String group, String project, Language language,
-                     String description, Integer stars, Integer forks, Integer size, Date pushdate) {
+                     String description, Integer stars, Integer forks, Integer size, Date pushdate, Boolean hasIssues) {
         super(projectUrl, gitPath, binaryPath, group, project);
         this.map.putAll(new HashMap<String, Object>(){{
             put("Language", language);
@@ -38,6 +39,7 @@ public class GhProject extends Project {
             put("Forks", forks);
             put("Size", size);
             put("PushDate", pushdate);
+            put("hasIssues", hasIssues);
         }});
     }
 
@@ -73,5 +75,9 @@ public class GhProject extends Project {
 
     public Date getPushdate() {
         return (Date) this.map.get("PushDate");
+    }
+
+    public boolean getHasIssues() {
+        return (Boolean) this.map.get("hasIssues");
     }
 }

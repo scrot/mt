@@ -8,6 +8,7 @@ import org.uva.rdewildt.mt.report.Report;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by roy on 5/26/16.
@@ -15,11 +16,11 @@ import java.util.List;
 public class OverviewReportBuilder {
     private final Report overviewReport;
 
-    public OverviewReportBuilder(String name, List<Project> projects, Boolean ignoreGenerated, Boolean ignoreTests) {
+    public OverviewReportBuilder(String name, Map<String, Path> projects, Boolean ignoreGenerated, Boolean ignoreTests) {
         this.overviewReport = new OverviewReport(name);
-        projects.stream().forEach(project -> {
+        projects.forEach((k,v) -> {
             try {
-                OverviewCalculator ocalc = new OverviewCalculator(project, ignoreGenerated, ignoreTests);
+                OverviewCalculator ocalc = new OverviewCalculator(k, v, ignoreGenerated, ignoreTests);
                 this.overviewReport.updateReport(ocalc.getOverview().getValues());
             }
             catch (Exception e) { e.printStackTrace(); }
@@ -28,7 +29,7 @@ public class OverviewReportBuilder {
 
     public void writeReportsToFile(Path path) {
         try {
-            this.overviewReport.writeToFile(path, "", ',', true);
+            this.overviewReport.writeToFile(path, "_overview", ',', true);
         }
         catch (IOException e) { e.printStackTrace(); }
     }

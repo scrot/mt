@@ -75,4 +75,49 @@ public class MapUtils {
         map.computeIfPresent(key, (k, v) -> v instanceof Integer ? (Integer) v + increment : v);
         map.putIfAbsent(key, increment);
     }
+
+
+    public static <K,V> List<List<V>> transposeValues(Map<K, List<V>> map){
+        if(map.size() <= 0) {
+            return new ArrayList<>();
+        }
+        List<List<V>> values = new ArrayList<>(map.values());
+        List<List<V>> newvalues = new ArrayList<>();
+        if (values.get(0) != null) {
+            for(int i = 0; i < values.get(0).size(); i++){
+                List<V> row = new ArrayList<>();
+                for(int j = 0; j < values.size(); j++){
+                    row.add(values.get(j).get(i));
+                }
+                newvalues.add(row);
+            }
+        }
+        return newvalues;
+    }
+
+    public static <K, V> void addValueToMapList(Map<K, List<V>> map, K key, V value) {
+        if (map.get(key) == null) {
+            map.put(key, new ArrayList<V>() {{ add(value); }});
+        }
+        else {
+            List<V> newvalue = map.get(key);
+            newvalue.add(value);
+            map.put(key, newvalue);
+        }
+    }
+
+    public static <K,V> Map<K,V> listsToKeyValueMap(List<K> l1, List<V> l2){
+        Map<K,V> map = new HashMap<>();
+        Iterator<K> i1 = l1.iterator();
+        Iterator<V> i2 = l2.iterator();
+        while (i1.hasNext() && i2.hasNext()) {
+            map.put(i1.next(), i2.next());
+        }
+        if (i1.hasNext() || i2.hasNext()){
+            return new HashMap<>();
+        }
+        else {
+            return map;
+        }
+    }
 }

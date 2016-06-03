@@ -1,12 +1,6 @@
 group 'org.uva.rdewildt.mt'
 version '0.1'
 
-apply plugin: 'java'
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     compile project(':report')
     compile project(':gcrawler')

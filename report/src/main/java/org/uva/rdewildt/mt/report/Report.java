@@ -1,15 +1,34 @@
 package org.uva.rdewildt.mt.report;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import org.uva.rdewildt.mt.utils.MapUtils;
+
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.uva.rdewildt.mt.utils.MapUtils.addValueToMapList;
+import static org.uva.rdewildt.mt.utils.MapUtils.transposeValues;
+
 public abstract class Report {
-    private final String name;
-    private final Map<String, List<Object>> report;
+    private String name;
+    private Map<String, List<Object>> report;
+
+    public Report(Path filePath, Reportable reportable) throws IOException {
+        String filename = filePath.getFileName().toString();
+        this.name = filename.substring(0, filename.indexOf('.'));
+        Map<String, List<Object>> temp = this.report = readFromFile(filePath);
+        if(validReport(report, reportable)){
+            this.report = temp;
+        }
+        else {
+            throw new IOException();
+        }
+    }
 
     public Report(String name, Reportable reportable) {
         this.name = name;
@@ -26,6 +45,10 @@ public abstract class Report {
 
     public List<List<Object>> getBody(){ return transposeValues(this.report); }
 
+    public Map<String, List<Object>> getReport() {
+        return report;
+    }
+
     public void updateReport(Map<String, Object> row) throws NoSuchFieldException {
         if(getHeader().containsAll(row.keySet())){
             for(Map.Entry<String, Object> entry : row.entrySet()){
@@ -38,14 +61,15 @@ public abstract class Report {
     }
 
     public void writeToFile(Path path, String nameAddition, Character seperator, Boolean seperatorFlag) throws IOException {
-        FileWriter writer = new FileWriter(Paths.get(path.toString(), this.getName() + nameAddition + ".csv").toFile());
+        String filename = Paths.get(path.toString(), this.getName() + nameAddition + ".csv").toString();
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename), StandardCharsets.UTF_8));
         if(seperatorFlag){
             writer.write("sep=" + seperator + "\n");
         }
         writer.write(String.join(",", this.getHeader()) + '\n');
         for(List<Object> row : this.getBody()){
-            Collections.replaceAll(row, null, "NIL");
-            writer.write(String.join(seperator.toString(), row.stream().map(Object::toString).collect(Collectors.toList())) + '\n');
+            List<Object> normalized = normalizeValues(row, seperator);
+            writer.write(String.join(seperator.toString(), normalized.stream().map(Object::toString).collect(Collectors.toList())) + '\n');
         }
         writer.close();
     }
@@ -58,34 +82,44 @@ public abstract class Report {
         return emptyReport;
     }
 
-    private <K,V> List<List<V>> transposeValues(Map<K, List<V>> map){
-        if(map.size() <= 0) {
-            return new ArrayList<>();
+    private Map<String, List<Object>> readFromFile(Path path) throws IOException {
+        Map<String, List<Object>> map = new LinkedHashMap<>();
+
+        int index = 0;
+        List<String> lines = Files.readAllLines(path);
+
+        Character seperator = ',';
+        if(lines.get(index).contains("sep=")){
+            seperator = lines.get(index).toCharArray()[lines.get(index).length() - 1];
+            index++;
         }
-        List<List<V>> values = new ArrayList<>(map.values());
-        List<List<V>> newvalues = new ArrayList<>();
-        if (values.get(0) != null) {
-            for(int i = 0; i < values.get(0).size(); i++){
-                List<V> row = new ArrayList<>();
-                for(int j = 0; j < values.size(); j++){
-                    row.add(values.get(j).get(i));
-                }
-                newvalues.add(row);
-            }
+
+        List<String> indices = new ArrayList<>();
+        Arrays.stream(lines.get(index).split(seperator.toString())).forEach(o -> {
+            String x = o.replaceAll("\\s+", "");
+            map.put(x, null);
+            indices.add(x);
+        });
+        index++;
+
+        while(index < lines.size()) {
+            final int[] i = {0};
+            Arrays.stream(lines.get(index).split(seperator.toString())).forEach(o -> {
+                MapUtils.addValueToMapList(map, indices.get(i[0]), o);
+                i[0]++;
+            });
+            index++;
         }
-        return newvalues;
+        return map;
     }
 
-    private <K, V> void addValueToMapList(Map<K, List<V>> map, K key, V value) {
-        if (map.get(key) == null) {
-            map.put(key, new ArrayList<V>() {{ add(value); }});
-        }
-        else {
-            List<V> newvalue = map.get(key);
-            newvalue.add(value);
-            map.put(key, newvalue);
-        }
+    private Boolean validReport(Map<String, List<Object>> report, Reportable targetReport){
+        List<String> keys = new ArrayList<>(targetReport.getKeys());
+        keys.removeAll(report.keySet());
+        return keys.isEmpty();
     }
 
-
+    private List<Object> normalizeValues(List<Object> values, Character sep){
+        return values.stream().map(value -> value == null ? "NIL" : value.toString().replaceAll(sep.toString(), "")).collect(Collectors.toList());
+    }
 }

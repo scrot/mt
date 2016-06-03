@@ -32,6 +32,7 @@ public class FCommitCrawler extends CommitCrawler {
         for(Map.Entry<RevCommit, List<Path>> entry : commitPaths.entrySet()){
             entry.getValue().forEach(path -> {
                 addValueToMapSet(commits, path.toString(), revCommitToCommit(entry.getKey()));
+                System.out.println(" Lock je pc sukkel!");
             });
 
         }

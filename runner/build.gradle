@@ -4,10 +4,6 @@ version '0.1'
 apply plugin: 'application'
 mainClassName = 'org.uva.rdewildt.mt.runner.writer/ReportWriter'
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     compile project(':report')
     compile project(':ovms')

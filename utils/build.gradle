@@ -1,12 +1,6 @@
 group 'org.uva.rdewildt.mt'
 version '0.1'
 
-apply plugin: 'java'
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     compile 'org.antlr:antlr4-master:4.5.3'
     compile 'org.antlr:antlr4-runtime:4.5.3'

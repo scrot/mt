@@ -1,6 +1,7 @@
 package org.uva.rdewildt.mt.gcrawler.git.model;
 
 import org.eclipse.jgit.transport.URIish;
+import org.uva.rdewildt.mt.gcrawler.github.GhProject;
 import org.uva.rdewildt.mt.report.Reportable;
 
 import java.nio.file.Path;
@@ -37,6 +38,8 @@ public class Project implements Reportable {
         return this.map;
     }
 
+    public String getId() { return this.getGroup() + '-' + this.getProject(); }
+
     public String getProject() {
         return (String) this.map.get("Name");
     }
@@ -55,6 +58,26 @@ public class Project implements Reportable {
 
     public Path getBinaryRoot() {
         return (Path) this.map.get("BinaryPath");
+    }
+
+    public void setProject(String value) {
+        this.map.put("Name", value);
+    }
+
+    public void setGroup(String value) {
+        this.map.put("Group", value);
+    }
+
+    public void setProjectUrl(String value) {
+        this.map.put("URL", value);
+    }
+
+    public void setGitRoot(String value) {
+        this.map.put("GitPath", value);
+    }
+
+    public void setBinaryRoot(String value) {
+        this.map.put("BinaryPath", value);
     }
 
     @Override
