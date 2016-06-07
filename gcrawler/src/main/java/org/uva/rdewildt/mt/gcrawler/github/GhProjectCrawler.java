@@ -97,7 +97,7 @@ public class GhProjectCrawler {
         this.ghProjects.forEach((k,v) -> {
             try {
                 URIish uri = new URIish(v.getProjectUrl());
-                //GitClone.gitClone(uri, clonePath);
+                //GitUtils.gitClone(uri, clonePath);
                 v.setGitRoot(Paths.get(clonePath.toString(), k).toString());
                 v.setBinaryRoot(Paths.get(clonePath.toString(), k).toString());
             } catch (URISyntaxException e) {

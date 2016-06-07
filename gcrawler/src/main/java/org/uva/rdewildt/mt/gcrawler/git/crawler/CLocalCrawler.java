@@ -1,6 +1,7 @@
 package org.uva.rdewildt.mt.gcrawler.git.crawler;
 
 import org.eclipse.jgit.api.Git;
+import org.uva.rdewildt.mt.gcrawler.git.GitUtils;
 import org.uva.rdewildt.mt.gcrawler.git.model.Author;
 import org.uva.rdewildt.mt.gcrawler.git.model.Commit;
 import org.uva.rdewildt.mt.gcrawler.git.model.Fault;
@@ -20,7 +21,7 @@ public class CLocalCrawler extends Crawler {
     private final Map<String, Set<Author>> authors;
 
     public CLocalCrawler(Path gitRoot, Boolean ignoreGenerated, Boolean ignoreTests, Language ofLanguage) throws Exception {
-        Git git = gitFromPath(gitRoot);
+        Git git = GitUtils.gitFromPath(gitRoot);
         List<Language> lang = new ArrayList<Language>(){{add(ofLanguage);}};
         PathCollector collector = new PathCollector(gitRoot, true, ignoreGenerated, ignoreTests, lang);
         this.commitCrawler = new CCommitCrawler(git, collector.getFilePaths().get(ofLanguage));

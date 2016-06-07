@@ -14,7 +14,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/limstest/limstest.iml" filepath="$PROJECT_DIR$/.idea/modules/limstest/limstest.iml" group="limstest" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/limstest/limstest_main.iml" filepath="$PROJECT_DIR$/.idea/modules/limstest/limstest_main.iml" group="limstest" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/limstest/limstest_test.iml" filepath="$PROJECT_DIR$/.idea/modules/limstest/limstest_test.iml" group="limstest" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/mt.iml" filepath="$PROJECT_DIR$/.idea/mt.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt.iml" filepath="$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt_main.iml" filepath="$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt_main.iml" group="org.uva.rdewildt.mt" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt_test.iml" filepath="$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt_test.iml" group="org.uva.rdewildt.mt" />

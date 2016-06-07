@@ -56,16 +56,6 @@ public abstract class Crawler {
         return authors;
     }
 
-    protected Git gitFromPath(Path gitPath) throws IOException {
-        File gitFolder = Paths.get(gitPath.toString(), ".git").toFile();
-        FileRepositoryBuilder builder = new FileRepositoryBuilder();
-        Repository repo = builder.setGitDir(gitFolder)
-                .readEnvironment()
-                .findGitDir()
-                .build();
-        return new Git(repo);
-    }
-
     private Pattern faultPattern(){
         return Pattern.compile(
                 "(?i)(clos(e[sd]?|ing)|fix(e[sd]|ing)?|resolv(e[sd]?))"
