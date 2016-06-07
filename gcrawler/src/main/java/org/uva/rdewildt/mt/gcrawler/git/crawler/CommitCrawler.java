@@ -44,7 +44,7 @@ public abstract class CommitCrawler {
 
     protected Commit revCommitToCommit(RevCommit revCommit){
         return new Commit(
-                revCommit.getId(),
+                revCommit.getName(),
                 new Author(revCommit.getAuthorIdent().getName()),
                 revCommit.getFullMessage(),
                 revCommit.getAuthorIdent().getWhen());
