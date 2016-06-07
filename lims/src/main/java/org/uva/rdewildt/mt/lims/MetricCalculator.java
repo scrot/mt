@@ -6,6 +6,7 @@ import org.apache.bcel.generic.*;
 import org.apache.bcel.util.ClassPath;
 import org.apache.bcel.util.Repository;
 import org.apache.bcel.util.SyntheticRepository;
+import org.uva.rdewildt.mt.utils.MapUtils;
 import org.uva.rdewildt.mt.xloc.PathCollector;
 import org.uva.rdewildt.mt.utils.lang.Class;
 import org.uva.rdewildt.mt.utils.lang.Language;
@@ -21,11 +22,16 @@ public class MetricCalculator extends EmptyVisitor {
 
     private final Map<String, JavaClass> classesMap;
     private final Map<String, Set<String>> classCouplesMap;
+    private Map<String, Set<Method>> classesMethodMap;
+    private Map<String,Set<String>> classesMethodArgumentsMap;
 
     private JavaClass currectClass;
     private Set<String> classResponses;
     private Set<String> classCouples;
+    private Set<Method> classMethods;
+    private Set<String> classMethodArguments;
     private Set<String> classInstanceVariables;
+
     private Map<String, Set<String>> methodVariablesMap;
 
     public MetricCalculator(Path binaryRoot) {
@@ -35,6 +41,8 @@ public class MetricCalculator extends EmptyVisitor {
 
         this.classesMap = new HashMap<>();
         this.classCouplesMap = new HashMap<>();
+        this.classesMethodMap = new HashMap<>();
+        this.classesMethodArgumentsMap = new HashMap<>();
 
         for(JavaClass jclass : classes){
             this.classesMap.put(jclass.getClassName(), jclass);
@@ -45,6 +53,8 @@ public class MetricCalculator extends EmptyVisitor {
         }
 
         updateClassesCbo();
+        updateClassesCmiec();
+        updateClassesPoly();
     }
 
     @Override
@@ -52,6 +62,8 @@ public class MetricCalculator extends EmptyVisitor {
         this.currectClass = jclass;
         this.classResponses = new HashSet<>();
         this.classCouples = new HashSet<>();
+        this.classMethods = new HashSet<>();
+        this.classMethodArguments = new HashSet<>();
         this.classInstanceVariables = new HashSet<>();
         this.methodVariablesMap = new HashMap<>();
 
@@ -73,8 +85,10 @@ public class MetricCalculator extends EmptyVisitor {
 
         updateClassRfc(jclass);
         updateClassDac();
-        updateClassCouplingMap(jclass, this.classCouples);
+        MapUtils.addValueToMapSet(this.classCouplesMap, jclass.getClassName(), this.classCouples);
         updateClassLcom(jclass);
+        MapUtils.addValueToMapSet(this.classesMethodMap, jclass.getClassName(), this.classMethods);
+        MapUtils.addValueToMapSet(this.classesMethodArgumentsMap, jclass.getClassName(), this.classMethodArguments);
     }
 
     @Override
@@ -89,6 +103,8 @@ public class MetricCalculator extends EmptyVisitor {
         updateClassMpc(methodGen);
         updateClassNom(methodGen);
         updateClassSize1(methodGen);
+        addTypeClasses(this.classMethodArguments, Arrays.asList(methodGen.getArgumentTypes()));
+        this.classMethods.add(method);
     }
 
     @Override
@@ -96,7 +112,7 @@ public class MetricCalculator extends EmptyVisitor {
         ConstantPoolGen constantPoolGen = new ConstantPoolGen(this.currectClass.getConstantPool());
         FieldGen fieldGen = new FieldGen(field, constantPoolGen);
         this.classInstanceVariables.add(fieldGen.getName());
-        addToCouplings(fieldGen.getType());
+        addTypeClass(this.classCouples, fieldGen.getType());
         //updateClassDac(fieldGen);
     }
 
@@ -140,18 +156,14 @@ public class MetricCalculator extends EmptyVisitor {
 
     private void updateClassesCbo() {
         Map<String, Set<String>> biCouples = new HashMap<>(this.classCouplesMap);
-        for(Map.Entry<String, Set<String>> entry : this.classCouplesMap.entrySet()){
-            for(String className : entry.getValue()){
-                addValueToMapSet(biCouples, className, entry.getKey());
-            }
-        }
+        this.classCouplesMap.forEach((k,v) -> v.forEach(name -> MapUtils.addValueToMapSet(biCouples, name, k)));
 
-        for(Map.Entry<String, Set<String>> entry : biCouples.entrySet()){
-            JavaClass jclass = this.classesMap.get(entry.getKey());
+        biCouples.forEach((k,v) -> {
+            JavaClass jclass = this.classesMap.get(k);
             if(this.metrics.containsKey(jclass)){
-                this.metrics.get(jclass).incrementCbo(entry.getValue().size());
+                this.metrics.get(jclass).incrementCbo(v.size());
             }
-        }
+        });
     }
 
     private void updateClassLcom(JavaClass jclass) {
@@ -210,9 +222,60 @@ public class MetricCalculator extends EmptyVisitor {
         }
     }
 
+    private void updateClassesCmiec(){
+        this.classesMethodArgumentsMap.forEach((k, v) -> v.forEach(t -> {
+            JavaClass current = this.classesMap.get(k);
+            JavaClass type= this.classesMap.get(t);
 
-    private void updateClassCouplingMap(JavaClass jclass, Set<String> classCouples) {
-        addValueToMapSet(this.classCouplesMap, jclass.getClassName(), classCouples);
+            if(isAncestor(type, current)){
+                this.metrics.get(current).incrementAcmic(1);
+                if(this.metrics.containsKey(type)){
+                    this.metrics.get(type).incrementDcmec(1);
+                }
+            }
+            else if (isDecendant(type, current)){
+                this.metrics.get(current).incrementDcmic(1);
+                if(this.metrics.containsKey(type)){
+                    this.metrics.get(type).incrementAcmec(1);
+                }
+            }
+            else {
+                this.metrics.get(current).incrementOcmic(1);
+                if(this.metrics.containsKey(type)){
+                    this.metrics.get(type).incrementOcmec(1);
+                }
+            }
+        }));
+    }
+
+    private void updateClassesPoly(){
+        Map<String, Set<String>> methodToClassesMap = new HashMap<>();
+        this.classesMethodMap.forEach((k,v) -> v.forEach(m -> {
+            if(!m.getName().contains("<init>")){
+                MapUtils.addValueToMapSet(methodToClassesMap, m.getName(), k);
+            }
+        }));
+
+        methodToClassesMap.forEach((k, v) -> {
+            List<String> mclasses = new ArrayList<>(v);
+            for(int i = 0; i < v.size(); i++){
+                for(int j = i + 1; j < v.size(); j++){
+                    JavaClass x = this.classesMap.get(mclasses.get(i));
+                    JavaClass y= this.classesMap.get(mclasses.get(j));
+
+                    if(isAncestor(x, y)){
+                        //TODO: add SPA and SPD
+                    }
+                    else if (isDecendant(x, y)){
+                        //TODO: add DPA and DPD
+                    }
+                    else {
+                        this.metrics.get(x).incrementNip(1);
+                        this.metrics.get(y).incrementNip(1);
+                    }
+                }
+            }
+        });
     }
 
     private void addToResponses(MethodGen methodGen, ConstantPoolGen constantPoolGen){
@@ -229,7 +292,7 @@ public class MetricCalculator extends EmptyVisitor {
 
                     String iiClass = ii.getReferenceType(constantPoolGen).getSignature();
                     iiClass = iiClass.substring(1, iiClass.length() - 1).replace('/', '.');
-                    addValueToMapSet(this.classCouplesMap, this.currectClass.getClassName(), iiClass);
+                    MapUtils.addValueToMapSet(this.classCouplesMap, this.currectClass.getClassName(), iiClass);
                 }
             }
         }
@@ -246,29 +309,29 @@ public class MetricCalculator extends EmptyVisitor {
     }
 
     private void addMethodCouplings(MethodGen methodGen){
-        addToCouplings(methodGen.getReturnType());
-        addToCouplings(Arrays.asList(methodGen.getArgumentTypes()));
+        addTypeClass(this.classCouples, methodGen.getReturnType());
+        addTypeClasses(this.classCouples, Arrays.asList(methodGen.getArgumentTypes()));
 
         for(LocalVariableGen local : methodGen.getLocalVariables()){
-            addToCouplings(local.getType());
+            addTypeClass(this.classCouples, local.getType());
         }
 
         this.classCouples.addAll(Arrays.asList(methodGen.getExceptions()));
 
     }
 
-    private void addToCouplings(Type type){
+    private void addTypeClass(Collection<String> collection, Type type){
         if(ReferenceName(type) != null && !ReferenceName(type).equals(this.currectClass.getClassName())){
             String typeString = ReferenceName(type);
             if(typeString != null){
-                this.classCouples.add(ReferenceName(type));
+                collection.add(ReferenceName(type));
             }
         }
     }
 
-    private void addToCouplings(List<Type> types){
+    private void addTypeClasses(Collection<String> collection, List<Type> types){
         for(Type type : types){
-            addToCouplings(type);
+            addTypeClass(collection, type);
         }
     }
 
@@ -409,26 +472,23 @@ public class MetricCalculator extends EmptyVisitor {
         return classes;
     }
 
-    private <K, V> void addValueToMapSet(Map<K, Set<V>> map, K key, V value) {
-        if (!map.containsKey(key)) {
-            map.put(key, new HashSet<V>() {{ add(value); }});
-        }
-        else {
-            Set<V> newvalue = map.get(key);
-            newvalue.add(value);
-            map.put(key, newvalue);
-        }
+    private Boolean isDecendant(JavaClass maybeDecendant, JavaClass jclass){
+        return isAncestor(jclass, maybeDecendant);
     }
 
-    private <K, V> void addValueToMapSet(Map<K, Set<V>> map, K key, Set<V> value) {
-        if (!map.containsKey(key)) {
-            map.put(key, value);
+    private Boolean isAncestor(JavaClass maybeAncestor, JavaClass jclass) {
+        if (jclass == null || maybeAncestor == null) {
+            return false;
         }
-        else {
-            Set<V> newvalue = map.get(key);
-            newvalue.addAll(value);
-            map.put(key, newvalue);
-        }
-    }
 
+        try {
+            List<JavaClass> supers = Arrays.asList(jclass.getSuperClasses());
+            if (supers.contains(maybeAncestor)) {
+                return true;
+            }
+        } catch (ClassNotFoundException ignore) {
+            return false;
+        }
+        return false;
+    }
 }

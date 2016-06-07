@@ -7,7 +7,6 @@ import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.gradle.tooling.GradleConnector;
 import org.gradle.tooling.ProjectConnection;
-import org.uva.rdewildt.mt.gcrawler.git.GitClone;
 import org.uva.rdewildt.mt.utils.lang.LanguageFactory;
 
 import java.io.IOException;

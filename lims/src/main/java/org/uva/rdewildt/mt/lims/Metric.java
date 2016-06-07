@@ -19,34 +19,46 @@ public class Metric implements Reportable {
     }
 
     public Metric(String classname){
-        this(classname,0,0,0,0,0,0,0,0,0,0,0);
+        this(classname,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 
     }
 
     public Metric(Metric metric){
         this(metric.getClassname(), metric.getWmc(), metric.getNoc(),
-        metric.getRfc(), metric.getCbo(), metric.getDit(),
-        metric.getLcom(), metric.getMpc(), metric.getDac(),
-        metric.getNom(), metric.getSize1(), metric.getSize2());
-
+                metric.getRfc(), metric.getCbo(), metric.getDit(),
+                metric.getLcom(), metric.getMpc(), metric.getDac(),
+                metric.getNom(), metric.getSize1(), metric.getSize2(), metric.getAcmic(),
+                metric.getAcmec(), metric.getDcmic(), metric.getDcmec(),
+                metric.getOcmic(), metric.getOcmec(), metric.getNip());
     }
 
     public Metric(String classname, int wmc, int noc, int rfc, int cbo, int dit,
-                  int lcom, int mpc, int dac, int nom, int size1,
-                  int size2) {
+                  int lcom, int mpc, int dac, int nom, int size1, int size2,
+                  int acmic, int acmec, int dcmic, int dcmec, int ocmic, int ocmec, int nip) {
         this.map.putAll(new LinkedHashMap<String, Object>(){{
             put("Class", classname);
+            // Chidamber-Kemerer metrics
             put("WMC", wmc);
             put("DIT", noc);
             put("NOC", rfc);
             put("CBO", cbo);
             put("RFC", dit);
             put("LCOM", lcom);
+            // Li-Henry metrics
             put("DAC", mpc);
             put("MPC", dac);
             put("NOM", nom);
             put("SIZE1", size1);
             put("SIZE2", size2);
+            // Briand metrics
+            put("ACMIC", acmic);
+            put("ACMEC", acmec);
+            put("DCMIC", dcmic);
+            put("DCMEC", dcmec);
+            put("OCMIC", ocmic);
+            put("OCMEC", ocmec);
+            // Benlarbi metrics
+            put("NIP", nip);
         }});
     }
     @Override
@@ -101,6 +113,20 @@ public class Metric implements Reportable {
 
     public int getSize2() { return (Integer) map.get("SIZE2"); }
 
+    public int getAcmic() { return (Integer) map.get("ACMIC"); }
+
+    public int getAcmec() { return (Integer) map.get("ACMEC"); }
+
+    public int getDcmic() { return (Integer) map.get("DCMIC"); }
+
+    public int getDcmec() { return (Integer) map.get("DCMEC"); }
+
+    public int getOcmic() { return (Integer) map.get("OCMIC"); }
+
+    public int getOcmec() { return (Integer) map.get("OCMEC"); }
+
+    public int getNip() { return (Integer) map.get("NIP"); }
+
     public void incrementWmc(Integer increment){
         MapUtils.incrementMapValue(map, "WMC", increment);
     }
@@ -140,4 +166,18 @@ public class Metric implements Reportable {
     public void incrementSize1(Integer increment){ MapUtils.incrementMapValue(map, "SIZE1", increment); }
 
     public void incrementSize2(Integer increment){ MapUtils.incrementMapValue(map, "SIZE2", increment); }
+
+    public void incrementAcmic(Integer increment){ MapUtils.incrementMapValue(map, "ACMIC", increment); }
+
+    public void incrementAcmec(Integer increment){ MapUtils.incrementMapValue(map, "ACMEC", increment); }
+
+    public void incrementDcmic(Integer increment){ MapUtils.incrementMapValue(map, "DCMIC", increment); }
+
+    public void incrementDcmec(Integer increment){ MapUtils.incrementMapValue(map, "DCMEC", increment); }
+
+    public void incrementOcmic(Integer increment){ MapUtils.incrementMapValue(map, "OCMIC", increment); }
+
+    public void incrementOcmec(Integer increment){ MapUtils.incrementMapValue(map, "OCMEC", increment); }
+
+    public void incrementNip(Integer increment){ MapUtils.incrementMapValue(map, "NIP", increment); }
 }
