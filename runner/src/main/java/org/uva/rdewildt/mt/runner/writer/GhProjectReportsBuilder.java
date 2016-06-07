@@ -14,15 +14,19 @@ import java.util.Set;
  * Created by roy on 5/27/16.
  */
 public class GhProjectReportsBuilder {
-    private final GhReport ghReport;
+    private GhReport ghReport;
 
     public GhProjectReportsBuilder(String name, Integer numberRepos, Map<String,String> params, Path clonePath) {
-        this.ghReport = new GhReport(name);
+        try {
+            this.ghReport = new GhReport(name);
+        } catch (NoSuchFieldException e) {e.printStackTrace();}
         Map<String, GhProject> ghProjects = new GhProjectCrawler(numberRepos, params, clonePath, false).getGhProjects();
         ghProjects.values().stream().forEach(project -> {
             try {
-                this.ghReport.updateReport(project.getValues());
-            } catch (NoSuchFieldException e) { e.printStackTrace(); }
+                this.ghReport.updateReport(project );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
     }
 

@@ -1,6 +1,8 @@
 package org.uva.rdewildt.mt.runner.writer;
 
 import org.uva.rdewildt.mt.gcrawler.git.GitUtils;
+import org.uva.rdewildt.mt.gcrawler.git.model.GReport;
+import org.uva.rdewildt.mt.gcrawler.git.model.Project;
 import org.uva.rdewildt.mt.gcrawler.github.GhReport;
 import org.uva.rdewildt.mt.report.Report;
 import org.uva.rdewildt.mt.utils.MapUtils;
@@ -22,8 +24,9 @@ public class ReportWriter {
         //List<Path> paths = top1000Report.getReport().get("GitPath").stream().map(x -> Paths.get(x.toString())).collect(Collectors.toList());
         //OverviewReportBuilder obuilder = new OverviewReportBuilder("top1000", MapUtils.listsToKeyValueMap(names, paths), true, true);
         //obuilder.writeReportsToFile(top1000);
-        //FeatureReportsBuilder fbuilder = new FeatureReportsBuilder(projects, true, true);
-        //fbuilder.writeReportsToFile();
+        GReport testReport = new GReport(Paths.get("/home/roy/Workspace/MT/mt/report/src/main/resources/opensource.conf"));
+        FeatureReportsBuilder fbuilder = new FeatureReportsBuilder(testReport, true, true);
+        fbuilder.writeReportsToFile(Paths.get("/home/roy/Workspace/MT/"));
     }
 
     private static void GhBuilder(Path top1000) {

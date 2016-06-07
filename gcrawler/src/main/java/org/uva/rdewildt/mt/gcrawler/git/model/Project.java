@@ -8,14 +8,10 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class Project implements Reportable {
-    protected final Map<String, Object> map = new LinkedHashMap<>();
+    protected Map<String, Object> map = new LinkedHashMap<>();
 
     public Project(){
-        this(null, null, null, "", "");
-    }
-
-    public Project(Project p){
-        this(p.getProjectUrl(), p.getGitRoot(), p.getBinaryRoot(), p.getGroup(), p.getProject());
+        this("", null, null, "", "");
     }
 
     public Project(String projectUrl, Path gitPath, Path binaryPath, String group, String project) {
@@ -36,6 +32,21 @@ public class Project implements Reportable {
     @Override
     public Map<String, Object> getValues() {
         return this.map;
+    }
+
+    @Override
+    public void setValues(Map<String, Object> values) throws NoSuchFieldException {
+        if(this.map.keySet().containsAll(values.keySet())){
+            this.map = values;
+        }
+        else {
+            throw new NoSuchFieldException("Input keys don't match with this keys");
+        }
+    }
+
+    @Override
+    public Project getNewInstance(){
+        return new Project();
     }
 
     public String getId() { return this.getGroup() + '-' + this.getProject(); }

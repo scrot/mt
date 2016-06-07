@@ -7,6 +7,7 @@ import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.io.NullOutputStream;
 import org.gradle.tooling.GradleConnector;
 import org.gradle.tooling.ProjectConnection;
+import org.uva.rdewildt.mt.gcrawler.git.model.Project;
 import org.uva.rdewildt.mt.utils.lang.LanguageFactory;
 
 import java.io.IOException;
@@ -60,19 +61,17 @@ public class GhProjectCrawler {
                 List<SearchRepository> repos = service.searchRepositories(filterParameters, i);
                 repos.stream().limit(1000).forEach(repo -> {
                     this.ghRepos.add(repo);
-                    this.ghProjects.put(repo.getOwner() + '-' + repo.getName(), new GhProject(
-                            repo.getUrl(),
-                            null,
-                            null,
-                            repo.getOwner(),
-                            repo.getName(),
-                            new LanguageFactory().stringToLanguage(repo.getLanguage()),
-                            repo.getDescription(),
-                            repo.getWatchers(),
-                            repo.getForks(),
-                            repo.getSize(),
-                            repo.getPushedAt(),
-                            repo.isHasIssues()));
+                    try {
+                        this.ghProjects.put(repo.getOwner() + '-' + repo.getName(), new GhProject(
+                                new Project(repo.getUrl(), null, null, repo.getOwner(), repo.getName()),
+                                new LanguageFactory().stringToLanguage(repo.getLanguage()),
+                                repo.getDescription(),
+                                repo.getWatchers(),
+                                repo.getForks(),
+                                repo.getSize(),
+                                repo.getPushedAt(),
+                                repo.isHasIssues()));
+                    } catch (NoSuchFieldException e) { e.printStackTrace(); }
                     lastElem[0] = repo;
                 });
             } catch (IOException ignore) {

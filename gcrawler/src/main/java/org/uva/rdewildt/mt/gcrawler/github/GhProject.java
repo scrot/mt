@@ -11,27 +11,23 @@ import java.util.*;
  * Created by roy on 5/27/16.
  */
 public class GhProject extends Project {
-    public GhProject(){
-        this(new Project(), new Other(), "", 0, 0, 0, null, false);
-    }
 
-    public GhProject(Project p, Language language, String description, Integer stars, Integer forks,
-                     Integer size, Date pushdate, Boolean hasIssues) {
-        super(p);
+    public GhProject() {
+        super();
         this.map.putAll(new HashMap<String, Object>(){{
-            put("Language", language);
-            put("Description", description);
-            put("Stars", stars);
-            put("Forks", forks);
-            put("Size", size);
-            put("PushDate", pushdate);
-            put("hasIssues", hasIssues);
+            put("Language", new Other());
+            put("Description", "");
+            put("Stars", 0);
+            put("Forks", 0);
+            put("Size", 0);
+            put("PushDate", null);
+            put("hasIssues", false);
         }});
     }
 
-    public GhProject(String projectUrl, Path gitPath, Path binaryPath, String group, String project, Language language,
-                     String description, Integer stars, Integer forks, Integer size, Date pushdate, Boolean hasIssues) {
-        super(projectUrl, gitPath, binaryPath, group, project);
+    public GhProject(Project p, Language language, String description, Integer stars, Integer forks,
+                     Integer size, Date pushdate, Boolean hasIssues) throws NoSuchFieldException {
+        this.setValues(p.getValues());
         this.map.putAll(new HashMap<String, Object>(){{
             put("Language", language);
             put("Description", description);
@@ -51,6 +47,11 @@ public class GhProject extends Project {
     @Override
     public Map<String, Object> getValues() {
         return this.map;
+    }
+
+    @Override
+    public GhProject getNewInstance(){
+        return new GhProject();
     }
 
     public Language getLanguage() {

@@ -28,14 +28,8 @@ public class FCommitCrawler extends CommitCrawler {
 
     private Map<String, Set<Commit>> collectChanges(List<Path> includes) {
         Map<String, Set<Commit>> commits = new HashMap<>();
-        Map<RevCommit, List<Path>> commitPaths =  getFilteredCommitsPaths(includes);
-        for(Map.Entry<RevCommit, List<Path>> entry : commitPaths.entrySet()){
-            entry.getValue().forEach(path -> {
-                addValueToMapSet(commits, path.toString(), revCommitToCommit(entry.getKey()));
-                System.out.println(" Lock je pc sukkel!");
-            });
-
-        }
+        Map<RevCommit, List<Path>> commitPaths = getFilteredCommitsPaths(includes);
+        commitPaths.forEach((k,v) -> v.forEach(path -> addValueToMapSet(commits, path.toString(), revCommitToCommit(k))));
         return commits;
     }
 }

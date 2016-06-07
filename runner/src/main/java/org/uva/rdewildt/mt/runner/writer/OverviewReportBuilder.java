@@ -21,7 +21,7 @@ public class OverviewReportBuilder {
         projects.forEach((k,v) -> {
             try {
                 OverviewCalculator ocalc = new OverviewCalculator(k, v, ignoreGenerated, ignoreTests);
-                this.overviewReport.updateReport(ocalc.getOverview().getValues());
+                this.overviewReport.updateReport(ocalc.getOverview());
             }
             catch (Exception e) { e.printStackTrace(); }
         });

@@ -9,7 +9,7 @@ import java.nio.file.Path;
  * Created by roy on 5/23/16.
  */
 public class FeatureReport extends Report {
-    public FeatureReport(Path filePath) throws IOException {
+    public FeatureReport(Path filePath) throws IOException, NoSuchFieldException {
         super(filePath, new Feature());
     }
 

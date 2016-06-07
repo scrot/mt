@@ -12,7 +12,7 @@ import java.util.Map;
  * Created by roy on 5/22/16.
  */
 public class Metric implements Reportable {
-    protected final Map<String, Object> map = new LinkedHashMap<>();
+    protected Map<String, Object> map = new LinkedHashMap<>();
 
     public Metric(){
         this("");
@@ -20,16 +20,6 @@ public class Metric implements Reportable {
 
     public Metric(String classname){
         this(classname,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-
-    }
-
-    public Metric(Metric metric){
-        this(metric.getClassname(), metric.getWmc(), metric.getNoc(),
-                metric.getRfc(), metric.getCbo(), metric.getDit(),
-                metric.getLcom(), metric.getMpc(), metric.getDac(),
-                metric.getNom(), metric.getSize1(), metric.getSize2(), metric.getAcmic(),
-                metric.getAcmec(), metric.getDcmic(), metric.getDcmec(),
-                metric.getOcmic(), metric.getOcmec(), metric.getNip());
     }
 
     public Metric(String classname, int wmc, int noc, int rfc, int cbo, int dit,
@@ -69,6 +59,21 @@ public class Metric implements Reportable {
     @Override
     public Map<String, Object> getValues(){
         return this.map;
+    }
+
+    @Override
+    public void setValues(Map<String, Object> values) throws NoSuchFieldException {
+        if(this.map.keySet().containsAll(values.keySet())){
+            this.map = values;
+        }
+        else {
+            throw new NoSuchFieldException("Input keys don't match with this keys");
+        }
+    }
+
+    @Override
+    public Metric getNewInstance(){
+        return new Metric();
     }
 
     public String getClassname() {

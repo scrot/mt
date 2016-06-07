@@ -31,7 +31,7 @@ public class FeatureCalculator extends MetricCalculator {
         return features;
     }
 
-    private void calculateFeatures() {
+    private void calculateFeatures() throws NoSuchFieldException {
         Map<String, Integer> classesFaults = mapListLenghts(gcrawler.getFaults());
         Map<String, Integer> classesChanges = mapListLenghts(gcrawler.getChanges());
         Map<String, Integer> classesAuthors = mapListLenghts(gcrawler.getAuthors());

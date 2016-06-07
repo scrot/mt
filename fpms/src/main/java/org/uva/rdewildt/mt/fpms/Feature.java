@@ -12,16 +12,23 @@ import java.util.Map;
  * Created by roy on 5/22/16.
  */
 public class Feature extends Metric {
+
     public Feature(){
         this("");
     }
 
     public Feature(String classname) {
         super(classname);
+        this.map.putAll(new HashMap<String, Object>(){{
+            put("Faults", 0);
+            put("Changes", 0);
+            put("Authors", 0);
+            put("Age", 0);
+        }});
     }
 
-    public Feature(Metric m, int faults, int changes, int authors, int age){
-        super(m);
+    public Feature(Metric m, int faults, int changes, int authors, int age) throws NoSuchFieldException {
+        this.setValues(m.getValues());
         this.map.putAll(new HashMap<String, Object>(){{
             put("Faults", faults);
             put("Changes", changes);
@@ -38,6 +45,11 @@ public class Feature extends Metric {
     @Override
     public Map<String, Object> getValues(){
         return this.map;
+    }
+
+    @Override
+    public Feature getNewInstance(){
+        return new Feature();
     }
 
     public int getFaults() {

@@ -1,5 +1,6 @@
 package org.uva.rdewildt.mt.ovms;
 
+import org.uva.rdewildt.mt.gcrawler.git.model.Project;
 import org.uva.rdewildt.mt.report.Reportable;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.Map;
  * Created by roy on 5/26/16.
  */
 public class Overview implements Reportable {
-    protected final Map<String, Object> map = new LinkedHashMap<>();
+    protected Map<String, Object> map = new LinkedHashMap<>();
 
     public Overview(){
         this("");
@@ -21,10 +22,13 @@ public class Overview implements Reportable {
         this(projectname,0,0,0,0,0,0,0,0,0,0,0,0);
     }
 
-    public Overview(Overview overview){
-        this(overview.getProjectname(), overview.getFiles(), overview.getCloc(), overview.getSloc(), overview.getFaults(),
-                overview.getChanges(), overview.getAuthors(), overview.getAge(), overview.getDev(), overview.getFdist(),
-                overview.getCinf(), overview.getCgini(), overview.getFgini());
+    public Overview(Map<String, Object> reportMap) throws NoSuchFieldException {
+        if(map.keySet().containsAll(reportMap.keySet())){
+            this.map = reportMap;
+        }
+        else {
+            throw new NoSuchFieldException("Input keys don't match with this keys");
+        }
     }
 
     public Overview(String projectname, int files, int cloc, int sloc, int faults, int changes, int authors, int age,
@@ -54,6 +58,21 @@ public class Overview implements Reportable {
     @Override
     public Map<String, Object> getValues() {
         return this.map;
+    }
+
+    @Override
+    public void setValues(Map<String, Object> values) throws NoSuchFieldException {
+        if(this.map.keySet().containsAll(values.keySet())){
+            this.map = values;
+        }
+        else {
+            throw new NoSuchFieldException("Input keys don't match with this keys");
+        }
+    }
+
+    @Override
+    public Overview getNewInstance(){
+        return new Overview();
     }
 
     public String getProjectname() {

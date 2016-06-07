@@ -9,7 +9,7 @@ import java.nio.file.Path;
  * Created by roy on 5/23/16.
  */
 public class MetricReport extends Report {
-    public MetricReport(Path filePath) throws IOException {
+    public MetricReport(Path filePath) throws IOException, NoSuchFieldException {
         super(filePath, new Metric());
     }
 

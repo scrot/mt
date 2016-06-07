@@ -1,9 +1,6 @@
 package org.uva.rdewildt.mt.report;
 
-import org.uva.rdewildt.mt.utils.MapUtils;
-
 import java.io.*;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,28 +8,23 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.uva.rdewildt.mt.utils.MapUtils.addValueToMapList;
-import static org.uva.rdewildt.mt.utils.MapUtils.transposeValues;
 
 public abstract class Report {
-    private String name;
-    private Map<String, List<Object>> report;
+    private final String name;
+    private final List<String> keys;
+    private Set<Reportable> report;
 
-    public Report(Path filePath, Reportable reportable) throws IOException {
+    public Report(Path filePath, Reportable reportable) throws IOException, NoSuchFieldException {
         String filename = filePath.getFileName().toString();
         this.name = filename.substring(0, filename.indexOf('.'));
-        Map<String, List<Object>> temp = this.report = readFromFile(filePath);
-        if(validReport(report, reportable)){
-            this.report = temp;
-        }
-        else {
-            throw new IOException();
-        }
+        this.keys = reportable.getKeys();
+        this.report = importReportsFromFile(filePath,reportable);
     }
 
     public Report(String name, Reportable reportable) {
         this.name = name;
-        this.report = initReport(reportable);
+        this.keys = reportable.getKeys();
+        this.report = new HashSet<>();
     }
 
     public String getName() {
@@ -40,23 +32,30 @@ public abstract class Report {
     }
 
     public List<String> getHeader(){
-        return new ArrayList<>(report.keySet());
+        return new ArrayList<>(this.keys);
     }
 
-    public List<List<Object>> getBody(){ return transposeValues(this.report); }
-
-    public Map<String, List<Object>> getReport() {
-        return report;
+    public List<List<Object>> getBody(){
+        List<List<Object>> rows = new ArrayList<>();
+        this.report.forEach(reportable -> {
+            List<Object> values = new ArrayList<>();
+            this.keys.forEach(key -> values.add(reportable.getValues().get(key)));
+            rows.add(values);
+        });
+        return rows;
     }
 
-    public void updateReport(Map<String, Object> row) throws NoSuchFieldException {
-        if(getHeader().containsAll(row.keySet())){
-            for(Map.Entry<String, Object> entry : row.entrySet()){
-                addValueToMapList(this.report, entry.getKey(), entry.getValue());
-            }
+    public Set<Reportable> getReport() {
+        return this.report;
+    }
+
+    public void updateReport(Reportable reportable) throws Exception {
+        List<String> inputKeys = reportable.getKeys();
+        if(this.keys.containsAll(inputKeys)) {
+            report.add(reportable);
         }
-        else{
-            throw new NoSuchFieldException();
+        else {
+            throw new NoSuchFieldException("Input keys don't match report keys");
         }
     }
 
@@ -74,16 +73,8 @@ public abstract class Report {
         writer.close();
     }
 
-    private Map<String, List<Object>> initReport(Reportable reportable){
-        Map<String, List<Object>> emptyReport = new LinkedHashMap<>();
-        for(String column : reportable.getKeys()){
-            emptyReport.put(column, null);
-        }
-        return emptyReport;
-    }
-
-    private Map<String, List<Object>> readFromFile(Path path) throws IOException {
-        Map<String, List<Object>> map = new LinkedHashMap<>();
+    private Set<Reportable> importReportsFromFile(Path path, Reportable reportType) throws IOException, NoSuchFieldException {
+        Set<Reportable> reportables = new HashSet<>();
 
         int index = 0;
         List<String> lines = Files.readAllLines(path);
@@ -94,23 +85,29 @@ public abstract class Report {
             index++;
         }
 
-        List<String> indices = new ArrayList<>();
+        List<String> keys = new ArrayList<>();
         Arrays.stream(lines.get(index).split(seperator.toString())).forEach(o -> {
             String x = o.replaceAll("\\s+", "");
-            map.put(x, null);
-            indices.add(x);
+            keys.add(x);
         });
         index++;
 
         while(index < lines.size()) {
+            Map<String, Object> map = new HashMap<>();
+
             final int[] i = {0};
             Arrays.stream(lines.get(index).split(seperator.toString())).forEach(o -> {
-                MapUtils.addValueToMapList(map, indices.get(i[0]), o);
+                map.put(keys.get(i[0]), o);
                 i[0]++;
             });
+
+            Reportable reportable = reportType.getNewInstance();
+            reportable.setValues(map);
+            reportables.add(reportable);
+
             index++;
         }
-        return map;
+        return reportables;
     }
 
     private Boolean validReport(Map<String, List<Object>> report, Reportable targetReport){

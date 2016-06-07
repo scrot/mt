@@ -3,32 +3,36 @@ package org.uva.rdewildt.mt.runner.writer;
 import org.uva.rdewildt.mt.fpms.Feature;
 import org.uva.rdewildt.mt.fpms.FeatureCalculator;
 import org.uva.rdewildt.mt.fpms.FeatureReport;
+import org.uva.rdewildt.mt.gcrawler.git.model.GReport;
 import org.uva.rdewildt.mt.gcrawler.git.model.Project;
 import org.uva.rdewildt.mt.report.Report;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FeatureReportsBuilder {
     private final List<Report> featureReports;
 
-    public FeatureReportsBuilder(List<Project> projects, Boolean ignoreGenerated, Boolean ignoreTests) {
+    public FeatureReportsBuilder(GReport greport, Boolean ignoreGenerated, Boolean ignoreTests) {
         this.featureReports = new ArrayList<>();
-        for(Project project : projects) {
+        List<String> header = greport.getHeader();
+        greport.getBody().forEach(row -> {
             try {
-                FeatureReport report = new FeatureReport(project.getProject());
-                FeatureCalculator fcalc = new FeatureCalculator(project.getBinaryRoot(), project.getGitRoot(), ignoreGenerated, ignoreTests);
+                FeatureReport report = new FeatureReport(row.get(header.indexOf("Name")).toString());
+                FeatureCalculator fcalc = new FeatureCalculator(Paths.get(row.get(header.indexOf("BinaryPath")).toString()),
+                        Paths.get(row.get(header.indexOf("GitPath")).toString()), ignoreGenerated, ignoreTests);
 
                 for(Feature feature : fcalc.getFeatures().values()){
-                    report.updateReport(feature.getValues());
+                    report.updateReport(feature);
                 }
 
                 featureReports.add(report);
             }
             catch (Exception e) { e.printStackTrace(); }
-        }
+        });
     }
 
     public void writeReportsToFile(Path path) {
