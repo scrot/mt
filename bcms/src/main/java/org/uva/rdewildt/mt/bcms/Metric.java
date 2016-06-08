@@ -1,4 +1,4 @@
-package org.uva.rdewildt.mt.lims;
+package org.uva.rdewildt.mt.bcms;
 
 import org.uva.rdewildt.mt.report.Reportable;
 import org.uva.rdewildt.mt.utils.MapUtils;
@@ -27,6 +27,7 @@ public class Metric implements Reportable {
                   int acmic, int acmec, int dcmic, int dcmec, int ocmic, int ocmec, int nip) {
         this.map.putAll(new LinkedHashMap<String, Object>(){{
             put("Class", classname);
+
             // Chidamber-Kemerer metrics
             put("WMC", wmc);
             put("DIT", noc);
@@ -34,12 +35,14 @@ public class Metric implements Reportable {
             put("CBO", cbo);
             put("RFC", dit);
             put("LCOM", lcom);
+
             // Li-Henry metrics
             put("DAC", mpc);
             put("MPC", dac);
             put("NOM", nom);
             put("SIZE1", size1);
             put("SIZE2", size2);
+
             // Briand metrics
             put("ACMIC", acmic);
             put("ACMEC", acmec);
@@ -47,6 +50,7 @@ public class Metric implements Reportable {
             put("DCMEC", dcmec);
             put("OCMIC", ocmic);
             put("OCMEC", ocmec);
+
             // Benlarbi metrics
             put("NIP", nip);
         }});

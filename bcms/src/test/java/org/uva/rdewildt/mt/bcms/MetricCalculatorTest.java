@@ -1,4 +1,4 @@
-package org.uva.rdewildt.mt.lims;
+package org.uva.rdewildt.mt.bcms;
 
 import org.junit.Test;
 

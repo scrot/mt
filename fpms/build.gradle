@@ -3,7 +3,7 @@ version '0.1'
 
 dependencies {
     compile project(":utils")
-    compile project(':lims')
+    compile project(':bcms')
     compile project(':xloc')
     compile project(":gcrawler")
 

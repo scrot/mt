@@ -5,7 +5,7 @@ import org.joda.time.Days;
 import org.uva.rdewildt.mt.gcrawler.git.crawler.CLocalCrawler;
 import org.uva.rdewildt.mt.gcrawler.git.crawler.Crawler;
 import org.uva.rdewildt.mt.gcrawler.git.model.Commit;
-import org.uva.rdewildt.mt.lims.MetricCalculator;
+import org.uva.rdewildt.mt.bcms.MetricCalculator;
 import org.uva.rdewildt.mt.utils.lang.Java;
 
 import java.nio.file.Path;

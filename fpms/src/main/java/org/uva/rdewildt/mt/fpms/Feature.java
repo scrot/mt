@@ -1,6 +1,6 @@
 package org.uva.rdewildt.mt.fpms;
 
-import org.uva.rdewildt.mt.lims.Metric;
+import org.uva.rdewildt.mt.bcms.Metric;
 import org.uva.rdewildt.mt.utils.MapUtils;
 
 import java.util.ArrayList;
