@@ -1,20 +1,15 @@
 package org.uva.rdewildt.mt.fpms;
 
-import org.apache.bcel.classfile.JavaClass;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
-import org.uva.rdewildt.mt.bcms.MetricCalculator2;
 import org.uva.rdewildt.mt.gcrawler.git.crawler.CLocalCrawler;
 import org.uva.rdewildt.mt.gcrawler.git.crawler.Crawler;
-import org.uva.rdewildt.mt.gcrawler.git.crawler.FLocalCrawler;
 import org.uva.rdewildt.mt.gcrawler.git.model.Commit;
 import org.uva.rdewildt.mt.utils.lang.Java;
 
 import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static org.uva.rdewildt.mt.utils.MapUtils.mapListLenghts;
 
 /**
  * Created by roy on 6/8/16.

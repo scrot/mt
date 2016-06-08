@@ -163,7 +163,7 @@ public class MetricCalculatorTest {
 
     private Map<String, Metric> getMetrics(String name) {
         Path x = getResource(name);
-        return new MetricCalculator(x).getMetrics();
+        return new MetricCalculator(x, false).getMetrics();
     }
 
     private Path getResource(String name){

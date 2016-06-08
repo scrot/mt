@@ -189,4 +189,58 @@ public class Metric implements Reportable {
     public void incrementOcmec(Integer increment){ MapUtils.incrementMapValue(map, "OCMEC", increment); }
 
     public void incrementNip(Integer increment){ MapUtils.incrementMapValue(map, "NIP", increment); }
+    
+    public void setWmc(Integer value){
+        map.put("WMC", value);
+    }
+
+    public void setRfc(Integer value){
+        map.put("RFC", value);
+    }
+
+    public void setNoc(Integer value){
+        map.put("NOC", value);
+    }
+
+    public void setDit(Integer value){
+        map.put("DIT", value);
+    }
+
+    public void setCbo(Integer value){
+        map.put("CBO", value);
+    }
+
+    public void setLcom(Integer value){
+        map.put("LCOM", value);
+    }
+
+    public void setMpc(Integer value){
+        map.put("MPC", value);
+    }
+
+    public void setDac(Integer value){
+        map.put("DAC", value);
+    }
+
+    public void setNom(Integer value){
+        map.put("NOM", value);
+    }
+
+    public void setSize1(Integer value){ map.put("SIZE1", value); }
+
+    public void setSize2(Integer value){ map.put("SIZE2", value); }
+
+    public void setAcmic(Integer value){ map.put("ACMIC", value); }
+
+    public void setAcmec(Integer value){ map.put("ACMEC", value); }
+
+    public void setDcmic(Integer value){ map.put("DCMIC", value); }
+
+    public void setDcmec(Integer value){ map.put("DCMEC", value); }
+
+    public void setOcmic(Integer value){ map.put("OCMIC", value); }
+
+    public void setOcmec(Integer value){ map.put("OCMEC", value); }
+
+    public void setNip(Integer value){ map.put("NIP", value); }
 }
