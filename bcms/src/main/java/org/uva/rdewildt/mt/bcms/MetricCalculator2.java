@@ -147,7 +147,10 @@ public class MetricCalculator2 extends EmptyVisitor {
     private void updateClassDit(JavaClass jclass){
         try {
             Integer dit = jclass.getSuperClasses().length;
-            metrics.get(getOuterClass(jclass)).incrementDit(dit);
+            Integer current = this.metrics.get(getOuterClass(jclass)).getDit();
+            if(dit > current){
+                metrics.get(getOuterClass(jclass)).incrementDit(dit - current);
+            }
         } catch (ClassNotFoundException e) {
             System.out.println("\t\tcouldn't find superclass of " + jclass.getClassName());
         }
