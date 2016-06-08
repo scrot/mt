@@ -25,7 +25,7 @@ public class ReportWriter {
         //OverviewReportBuilder obuilder = new OverviewReportBuilder("top1000", MapUtils.listsToKeyValueMap(names, paths), true, true);
         //obuilder.writeReportsToFile(top1000);
         GReport testReport = new GReport(Paths.get("/home/roy/Workspace/MT/mt/report/src/main/resources/opensource.conf"));
-        FeatureReportsBuilder fbuilder = new FeatureReportsBuilder(testReport, true, true);
+        FeatureReportsBuilder fbuilder = new FeatureReportsBuilder(testReport, true, true, true);
         fbuilder.writeReportsToFile(Paths.get("/home/roy/Workspace/MT/"));
     }
 

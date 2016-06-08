@@ -21,17 +21,22 @@ public class FeatureCalculator extends MetricCalculator {
     private final Crawler gcrawler;
     private Map<String, Feature> features;
 
-    public FeatureCalculator(Path binaryRoot, Path gitRoot, Boolean ignoreGenerated, Boolean ignoreTests) throws Exception {
-        super(binaryRoot);
+    public FeatureCalculator(Path binaryRoot, Path gitRoot, Boolean ignoreGenerated, Boolean ignoreTests, Boolean onlyOuterClasses) throws Exception {
+        super(binaryRoot, onlyOuterClasses);
         this.gcrawler = new CLocalCrawler(gitRoot, ignoreGenerated, ignoreTests, new Java());
-        calculateFeatures();
+        if(onlyOuterClasses){
+            calculateOuterClassFeatures();
+        }
+        else{
+            calculateAllFeatures();
+        }
     }
 
     public Map<String, Feature> getFeatures() {
         return features;
     }
 
-    private void calculateFeatures() throws NoSuchFieldException {
+    private void calculateAllFeatures() throws NoSuchFieldException {
         Map<String, Integer> classesFaults = mapListLenghts(gcrawler.getFaults());
         Map<String, Integer> classesChanges = mapListLenghts(gcrawler.getChanges());
         Map<String, Integer> classesAuthors = mapListLenghts(gcrawler.getAuthors());
@@ -50,6 +55,27 @@ public class FeatureCalculator extends MetricCalculator {
                 features.put(entry.getKey(), feature);
             }
         }
+    }
+
+    private void calculateOuterClassFeatures() throws NoSuchFieldException {
+        Map<String, Integer> fileFaults = outerClassSum(gcrawler.getFaults());
+        Map<String, Integer> fileChanges = outerClassSum(gcrawler.getChanges());
+
+
+        this.features = new HashMap<>();
+        fileChanges.forEach((k,v) -> {
+            if(this.getMetrics().containsKey(k)){
+                try {
+                    Feature feature = new Feature(
+                            this.getMetrics().get(k),
+                            fileFaults.get(k),
+                            fileChanges.get(k),
+                            0,
+                            0);
+                    features.put(k, feature);
+                } catch (NoSuchFieldException e) {e.printStackTrace();}
+            }
+        });
     }
 
 
@@ -76,5 +102,30 @@ public class FeatureCalculator extends MetricCalculator {
         DateTime endt = new DateTime(end);
         Days d = Days.daysBetween(startt, endt);
         return d.getDays();
+    }
+
+    private <U> Map<String, Integer> outerClassSum(Map<String, ? extends Collection<U>> map){
+        Map<String, Integer> counts = new HashMap<>();
+        for(Map.Entry<String, ? extends Collection<U>> col : map.entrySet()){
+            String outer = getOuterClass(col.getKey());
+            if(counts.containsKey(outer)){
+                int size = counts.get(outer);
+                size += col.getValue().size();
+                counts.put(outer, size);
+            }
+            else{
+                counts.put(outer, col.getValue().size());
+            }
+        }
+        return counts;
+    }
+
+    private String getOuterClass(String classname){
+        if(classname.contains("$")){
+            return classname.substring(0,classname.indexOf("$"));
+        }
+        else {
+            return classname;
+        }
     }
 }

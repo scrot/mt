@@ -89,10 +89,9 @@ public class MetricCalculator extends EmptyVisitor {
         updateClassDac();
         updateClassLcom(jclass);
 
-        String className = onlyOuterClasses ? getOuterClass(jclass) : jclass.getClassName();
-        MapUtils.addValueToMapSet(this.classCouplesMap, className, this.classCouples);
-        MapUtils.addValueToMapSet(this.classesMethodMap, className, this.classMethods);
-        MapUtils.addValueToMapSet(this.classesMethodArgumentsMap, className, this.classMethodArguments);
+        MapUtils.addValueToMapSet(this.classCouplesMap, getClassName(jclass), this.classCouples);
+        MapUtils.addValueToMapSet(this.classesMethodMap, getClassName(jclass), this.classMethods);
+        MapUtils.addValueToMapSet(this.classesMethodArgumentsMap, getClassName(jclass), this.classMethodArguments);
     }
 
     @Override
@@ -304,7 +303,7 @@ public class MetricCalculator extends EmptyVisitor {
 
                     String iiClass = ii.getReferenceType(constantPoolGen).getSignature();
                     iiClass = iiClass.substring(1, iiClass.length() - 1).replace('/', '.');
-                    MapUtils.addValueToMapSet(this.classCouplesMap, this.currectClass.getClassName(), iiClass);
+                    MapUtils.addValueToMapSet(this.classCouplesMap, getClassName(this.currectClass), getClassName(iiClass));
                 }
             }
         }
@@ -414,24 +413,10 @@ public class MetricCalculator extends EmptyVisitor {
         return "L" + this.currectClass.getClassName() + ';' + methodGen.getName() + Arrays.toString(methodGen.getArgumentTypes());
     }
 
-    private String className(JavaClass jclass){
-        if(!jclass.getPackageName().equals("")){
-            return jclass.getPackageName() + "." + jclass.getClassName();
-        }
-        else {
-            return jclass.getClassName();
-        }
-    }
-
     private Map<String, Metric> initializeMetrics(List<JavaClass> classes) {
         Map<String, Metric> emptyMetrics = new HashMap<>();
         for(JavaClass jclass : classes){
-            if(onlyOuterClasses){
-                emptyMetrics.put(getOuterClass(jclass), new Metric(className(jclass)));
-            }
-            else {
-                emptyMetrics.put(jclass.getClassName(), new Metric(className(jclass)));
-            }
+            emptyMetrics.put(getClassName(jclass), new Metric(getClassName(jclass)));
         }
         return emptyMetrics;
     }
@@ -489,27 +474,6 @@ public class MetricCalculator extends EmptyVisitor {
         return classes;
     }
 
-    private Metric getMetric(JavaClass jclass){
-        if(onlyOuterClasses){
-            return this.metrics.get(getOuterClass(jclass));
-        }
-        else{
-            return this.metrics.get(jclass.getClassName());
-        }
-    }
-
-    private Boolean metricsContains(JavaClass jclass){
-        if(jclass == null){
-            return false;
-        }
-        if(onlyOuterClasses){
-            return this.metrics.containsKey(getOuterClass(jclass));
-        }
-        else{
-            return this.metrics.containsKey(jclass.getClassName());
-        }
-    }
-
     private Boolean isDecendant(JavaClass maybeDecendant, JavaClass jclass){
         return isAncestor(jclass, maybeDecendant);
     }
@@ -530,17 +494,57 @@ public class MetricCalculator extends EmptyVisitor {
         return false;
     }
 
+    private Metric getMetric(JavaClass jclass){
+        return this.metrics.get(getClassName(jclass));
+    }
 
-    private String getOuterClass(JavaClass jclass){
+    private String getClassName(String classname){
+        if(onlyOuterClasses){
+            return getOuterClass(classname);
+        }
+        else{
+            return classname;
+        }
+    }
+
+    private String getClassName(JavaClass jclass){
         if(jclass == null){
             return "";
         }
-        String classname = jclass.getClassName();
+        else if(onlyOuterClasses){
+            return getOuterClass(jclass);
+        }
+        else{
+            return jclass.getClassName();
+        }
+    }
+
+    private Boolean metricsContains(JavaClass jclass){
+        if(jclass == null){
+            return false;
+        }
+        if(onlyOuterClasses){
+            return this.metrics.containsKey(getOuterClass(jclass));
+        }
+        else{
+            return this.metrics.containsKey(jclass.getClassName());
+        }
+    }
+
+    private String getOuterClass(String classname){
         if(classname.contains("$")){
             return classname.substring(0,classname.indexOf("$"));
         }
         else {
             return classname;
         }
+    }
+
+
+    private String getOuterClass(JavaClass jclass){
+        if(jclass == null){
+            return "";
+        }
+        return getOuterClass(jclass.getClassName());
     }
 }
