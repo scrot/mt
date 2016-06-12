@@ -156,9 +156,57 @@ public class MetricCalculatorTest {
     }
 
     @Test
+    public void testOvo() {
+        Map<String, Metric> ms = getMetrics("limstest.jar");
+        assertEquals(5, ms.get("PolyTest1$Poly1").getOvo());
+        assertEquals(0, ms.get("PolyTest1$Poly2").getOvo());
+        assertEquals(0, ms.get("PolyTest1$Poly3").getOvo());
+        assertEquals(0, ms.get("PolyTest1$Poly4").getOvo());
+    }
+
+    @Test
+    public void testSpa() {
+        Map<String, Metric> ms = getMetrics("limstest.jar");
+        assertEquals(2, ms.get("PolyTest1$Poly1").getSpa());
+        assertEquals(0, ms.get("PolyTest1$Poly2").getSpa());
+        assertEquals(0, ms.get("PolyTest1$Poly3").getSpa());
+        assertEquals(0, ms.get("PolyTest1$Poly4").getSpa());
+    }
+
+    @Test
+    public void testSpd() {
+        Map<String, Metric> ms = getMetrics("limstest.jar");
+        assertEquals(0, ms.get("PolyTest1$Poly1").getSpd());
+        assertEquals(1, ms.get("PolyTest1$Poly2").getSpd());
+        assertEquals(1, ms.get("PolyTest1$Poly3").getSpd());
+        assertEquals(0, ms.get("PolyTest1$Poly4").getSpd());
+    }
+
+    @Test
+    public void testDpa() {
+        Map<String, Metric> ms = getMetrics("limstest.jar");
+        assertEquals(1, ms.get("PolyTest1$Poly1").getDpa());
+        assertEquals(1, ms.get("PolyTest1$Poly2").getDpa());
+        assertEquals(0, ms.get("PolyTest1$Poly3").getDpa());
+        assertEquals(0, ms.get("PolyTest1$Poly4").getDpa());
+    }
+
+    @Test
+    public void testDpd() {
+        Map<String, Metric> ms = getMetrics("limstest.jar");
+        assertEquals(0, ms.get("PolyTest1$Poly1").getDpd());
+        assertEquals(0, ms.get("PolyTest1$Poly2").getDpd());
+        assertEquals(2, ms.get("PolyTest1$Poly3").getDpd());
+        assertEquals(0, ms.get("PolyTest1$Poly4").getDpd());
+    }
+
+    @Test
     public void testNip() {
         Map<String, Metric> ms = getMetrics("limstest.jar");
-        assertEquals(3, ms.get("NipTest1$Nip4").getNip());
+        assertEquals(1, ms.get("PolyTest1$Poly1").getNip());
+        assertEquals(1, ms.get("PolyTest1$Poly2").getNip());
+        assertEquals(1, ms.get("PolyTest1$Poly3").getNip());
+        assertEquals(3, ms.get("PolyTest1$Poly4").getNip());
     }
 
     private Map<String, Metric> getMetrics(String name) {

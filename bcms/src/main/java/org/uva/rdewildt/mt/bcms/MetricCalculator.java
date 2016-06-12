@@ -130,7 +130,7 @@ public class MetricCalculator extends EmptyVisitor {
 
     private void updateClassRfc(JavaClass jclass){
         Integer rfc = classResponses.size();
-        getMetric(jclass).setRfc(rfc);
+        getMetric(jclass).incrementRfc(rfc);
     }
 
     private void updateSuperClassNoc(JavaClass jclass){
@@ -148,7 +148,7 @@ public class MetricCalculator extends EmptyVisitor {
         try {
             Integer current = getMetric(jclass).getDit();
             Integer dit = jclass.getSuperClasses().length > current ? jclass.getSuperClasses().length : current;
-            getMetric(jclass).setDit(dit);
+            getMetric(jclass).incrementDit(dit);
         } catch (ClassNotFoundException e) {
             System.out.println("couldn't find superclass of " + jclass.getClassName());
         }
@@ -161,7 +161,7 @@ public class MetricCalculator extends EmptyVisitor {
         biCouples.forEach((k,v) -> {
             JavaClass jclass = this.classesMap.get(k);
             if(metricsContains(jclass)){
-                getMetric(jclass).setCbo(v.size());
+                getMetric(jclass).incrementCbo(v.size());
             }
         });
     }
@@ -183,11 +183,8 @@ public class MetricCalculator extends EmptyVisitor {
                 }
             }
         }
-        if(lcom <= 0){
-            getMetric(jclass).setLcom(0);
-        }
-        else {
-            getMetric(jclass).setLcom(lcom);
+        if(lcom > 0) {
+            getMetric(jclass).incrementLcom(lcom);
         }
     }
 
@@ -255,38 +252,54 @@ public class MetricCalculator extends EmptyVisitor {
     }
 
     private void updateClassesPoly(){
-        Map<String, Set<String>> methodToClassesMap = new HashMap<>();
+        Map<MethodWrapper, JavaClass> methodToClassesMap = new HashMap<>();
         this.classesMethodMap.forEach((k,v) -> v.forEach(m -> {
             if(!m.getName().contains("<init>")){
-                MapUtils.addValueToMapSet(methodToClassesMap, m.getName(), k);
+                methodToClassesMap.put(new MethodWrapper(m), this.classesMap.get(k));
             }
         }));
 
-        methodToClassesMap.forEach((k, v) -> {
-            List<String> mclasses = new ArrayList<>(v);
-            for(int i = 0; i < v.size(); i++){
-                for(int j = i + 1; j < v.size(); j++){
-                    JavaClass x = this.classesMap.get(mclasses.get(i));
-                    JavaClass y= this.classesMap.get(mclasses.get(j));
+        List<Pair> spaPairs = new ArrayList<>();
+        List<Pair> spdPairs = new ArrayList<>();
+        List<Pair> dpaPairs = new ArrayList<>();
+        List<Pair> dpdPairs = new ArrayList<>();
+        List<Pair> nipPairs = new ArrayList<>();
 
-                    if(isAncestor(x, y)){
-                        //TODO: add SPA and SPD
-                    }
-                    else if (isDecendant(x, y)){
-                        //TODO: add DPA and DPD
-                    }
-                    else {
-                        if(metricsContains(x)) {
-                            getMetric(x).incrementNip(1);
-                        }
+        for(Map.Entry<MethodWrapper, JavaClass> entry : methodToClassesMap.entrySet()) {
+            for (Map.Entry<MethodWrapper, JavaClass> entry2 : methodToClassesMap.entrySet()) {
+                Method m1 = entry.getKey().getM();
+                Method m2 = entry2.getKey().getM();
 
-                        if(metricsContains(y)) {
-                            getMetric(y).incrementNip(1);
-                        }
+                JavaClass c1 = entry.getValue();
+                JavaClass c2 = entry2.getValue();
+                Pair cpair = new Pair(c1, c2);
+
+                if (!c1.getClassName().equals(c2.getClassName())) {
+                    if (!dpaPairs.contains(cpair) && m1.toString().equals(m2.toString()) && isAncestor(c1, c2)) {
+                        getMetric(c1).incrementDpa(1);
+                        dpaPairs.add(cpair);
+                    }
+                    else if (!dpdPairs.contains(cpair) && m1.toString().equals(m2.toString()) && isDecendant(c1, c2)) {
+                        getMetric(c1).incrementDpd(1);
+                        dpdPairs.add(cpair);
+                    }
+                    else if (!spaPairs.contains(cpair) && m1.getName().equals(m2.getName()) && isAncestor(c1, c2)) {
+                        getMetric(c1).incrementSpa(1);
+                        spaPairs.add(cpair);
+                    }
+                    else if (!spdPairs.contains(cpair) && m1.getName().equals(m2.getName()) && isDecendant(c1, c2)) {
+                        getMetric(c1).incrementSpd(1);
+                        spdPairs.add(cpair);
+                    }
+                    else if (!dpaPairs.contains(cpair) && !dpdPairs.contains(cpair) && !spaPairs.contains(cpair) &&
+                            !spdPairs.contains(cpair) && !nipPairs.contains(cpair) && m1.getName().equals(m2.getName())){
+                        getMetric(c1).incrementNip(1);
+                        getMetric(c2).incrementNip(1);
+                        nipPairs.add(cpair);
                     }
                 }
             }
-        });
+        }
     }
 
     private void addToResponses(MethodGen methodGen, ConstantPoolGen constantPoolGen){
@@ -540,11 +553,46 @@ public class MetricCalculator extends EmptyVisitor {
         }
     }
 
-
     private String getOuterClass(JavaClass jclass){
         if(jclass == null){
             return "";
         }
         return getOuterClass(jclass.getClassName());
+    }
+
+    private class Pair {
+        Object o1;
+        Object o2;
+
+        Pair(Object o1, Object o2) {
+            this.o1 = o1;
+            this.o2 = o2;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if(o instanceof Pair){
+                Pair cp = (Pair) o;
+                return o1.equals(cp.o1) && o2.equals(cp.o2) || o1.equals(cp.o2) && o2.equals(cp.o1) ;
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return o1.hashCode() + o2.hashCode() * 31;
+        }
+    }
+
+    private class MethodWrapper {
+        Method m;
+
+        MethodWrapper(Method m) {
+            this.m = m;
+        }
+
+        Method getM() {
+            return m;
+        }
     }
 }
