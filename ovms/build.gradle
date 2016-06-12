@@ -1,0 +1,10 @@
+group 'org.uva.rdewildt.mt'
+version '0.1'
+
+dependencies {
+    compile project(':report')
+    compile project(':gcrawler')
+    compile project(':xloc')
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}

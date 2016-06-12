@@ -4,4 +4,9 @@ version '0.1'
 allprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
+
+    repositories {
+        mavenCentral()
+        maven { url 'https://repo.gradle.org/gradle/libs-releases-local' }
+    }
 }

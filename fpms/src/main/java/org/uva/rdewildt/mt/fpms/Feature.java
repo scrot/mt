@@ -1,8 +1,10 @@
 package org.uva.rdewildt.mt.fpms;
 
-import org.uva.rdewildt.mt.lims.Metric;
+import org.uva.rdewildt.mt.bcms.Metric;
+import org.uva.rdewildt.mt.utils.MapUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,10 +12,6 @@ import java.util.Map;
  * Created by roy on 5/22/16.
  */
 public class Feature extends Metric {
-    private int faults;
-    private int changes;
-    private int authors;
-    private int age;
 
     public Feature(){
         this("");
@@ -21,68 +19,68 @@ public class Feature extends Metric {
 
     public Feature(String classname) {
         super(classname);
-        this.faults = 0;
-        this.changes = 0;
-        this.authors = 0;
-        this.age = 0;
+        this.map.putAll(new HashMap<String, Object>(){{
+            put("Faults", 0);
+            put("Changes", 0);
+            put("Authors", 0);
+            put("Age", 0);
+        }});
     }
 
-    public Feature(Metric m, int faults, int changes, int authors, int age){
-        super(m);
-        this.faults = faults;
-        this.changes = changes;
-        this.authors = authors;
-        this.age = age;
-    }
-
-    private Map<String, Object> buildMap(){
-        Map<String, Object> features = super.getValues();
-        features.put("Faults", getFaults());
-        features.put("Changes", getChanges());
-        features.put("Authors", getAuthors());
-        features.put("Age", getAge());
-        return features;
+    public Feature(Metric m, int faults, int changes, int authors, int age) throws NoSuchFieldException {
+        this.setValues(m.getValues());
+        this.map.putAll(new HashMap<String, Object>(){{
+            put("Faults", faults);
+            put("Changes", changes);
+            put("Authors", authors);
+            put("Age", age);
+        }});
     }
 
     @Override
     public List<String> getKeys(){
-        return new ArrayList<>(buildMap().keySet());
+        return new ArrayList<>(this.map.keySet());
     }
 
     @Override
     public Map<String, Object> getValues(){
-        return buildMap();
+        return this.map;
+    }
+
+    @Override
+    public Feature getNewInstance(){
+        return new Feature();
     }
 
     public int getFaults() {
-        return faults;
+        return (Integer) this.map.get("Faults");
     }
 
     public int getChanges() {
-        return changes;
+        return (Integer) this.map.get("Changes");
     }
 
     public int getAuthors() {
-        return authors;
+        return (Integer) this.map.get("Authors");
     }
 
     public int getAge() {
-        return age;
+        return (Integer) this.map.get("Age");
     }
 
     public void incrementFaults(Integer increment){
-        this.faults += increment;
+        MapUtils.incrementMapValue(this.map, "Faults", increment);
     }
 
     public void incrementChanges(Integer increment){
-        this.changes += increment;
+        MapUtils.incrementMapValue(this.map, "Changes", increment);
     }
 
     public void incrementAuthors(Integer increment){
-        this.authors += increment;
+        MapUtils.incrementMapValue(this.map, "Authors", increment);
     }
 
     public void incrementAge(Integer increment){
-        this.age += increment;
+        MapUtils.incrementMapValue(this.map, "Age", increment);
     }
 }

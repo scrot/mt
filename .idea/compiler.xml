@@ -19,16 +19,22 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="bcms_main" target="1.8" />
+      <module name="bcms_test" target="1.8" />
       <module name="fpms_main" target="1.8" />
       <module name="fpms_test" target="1.8" />
-      <module name="lims-test_main" target="1.8" />
-      <module name="lims-test_test" target="1.8" />
-      <module name="lims_main" target="1.8" />
-      <module name="lims_test" target="1.8" />
-      <module name="org.uva.rdewildt.mt_main" target="1.8" />
-      <module name="org.uva.rdewildt.mt_test" target="1.8" />
+      <module name="gcrawler_main" target="1.8" />
+      <module name="gcrawler_test" target="1.8" />
+      <module name="limstest_main" target="1.8" />
+      <module name="limstest_test" target="1.8" />
+      <module name="ovms_main" target="1.8" />
+      <module name="ovms_test" target="1.8" />
       <module name="report_main" target="1.8" />
       <module name="report_test" target="1.8" />
+      <module name="runner_main" target="1.8" />
+      <module name="runner_test" target="1.8" />
+      <module name="utils_main" target="1.8" />
+      <module name="utils_test" target="1.8" />
       <module name="xloc_main" target="1.8" />
       <module name="xloc_test" target="1.8" />
     </bytecodeTargetLevel>

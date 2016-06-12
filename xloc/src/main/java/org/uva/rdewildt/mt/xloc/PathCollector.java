@@ -1,21 +1,27 @@
 package org.uva.rdewildt.mt.xloc;
 
-import org.uva.rdewildt.mt.xloc.lang.Language;
-import org.uva.rdewildt.mt.xloc.lang.LanguageFactory;
+import org.uva.rdewildt.mt.utils.lang.Language;
+import org.uva.rdewildt.mt.utils.lang.LanguageFactory;
+import org.uva.rdewildt.mt.xloc.XLocPatternFactory;
 import org.uva.rdewildt.mt.xloc.pattern.XLocPatternBuilder;
 
-import java.io.*;
-import java.nio.channels.Channels;
-import java.nio.channels.FileChannel;
-import java.nio.charset.*;
-import java.nio.file.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CodingErrorAction;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class PathCollector extends SimpleFileVisitor<Path> {
     private final Map<Language, List<Path>> classPaths;

@@ -1,0 +1,13 @@
+group 'org.uva.rdewildt.mt'
+version '0.1'
+
+apply plugin: 'application'
+mainClassName = 'org.uva.rdewildt.mt.runner.writer/ReportWriter'
+
+dependencies {
+    compile project(':report')
+    compile project(':ovms')
+    compile project(':fpms')
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
