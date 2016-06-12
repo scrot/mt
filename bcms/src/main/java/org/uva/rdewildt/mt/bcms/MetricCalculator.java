@@ -274,7 +274,7 @@ public class MetricCalculator extends EmptyVisitor {
                 JavaClass c2 = entry2.getValue();
                 Pair cpair = new Pair(c1, c2);
 
-                if (!c1.getClassName().equals(c2.getClassName())) {
+                if (!c1.equals(c2)) {
                     if (!dpaPairs.contains(cpair) && m1.toString().equals(m2.toString()) && isAncestor(c1, c2)) {
                         getMetric(c1).incrementDpa(1);
                         dpaPairs.add(cpair);

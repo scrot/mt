@@ -155,6 +155,7 @@ public class MetricCalculatorTest {
         assertEquals(0, ms.get("OcmecTest1$Ocmec5").getOcmec());
     }
 
+    /*
     @Test
     public void testOvo() {
         Map<String, Metric> ms = getMetrics("limstest.jar");
@@ -163,6 +164,7 @@ public class MetricCalculatorTest {
         assertEquals(0, ms.get("PolyTest1$Poly3").getOvo());
         assertEquals(0, ms.get("PolyTest1$Poly4").getOvo());
     }
+    */
 
     @Test
     public void testSpa() {
