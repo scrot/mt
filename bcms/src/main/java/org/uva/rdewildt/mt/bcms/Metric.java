@@ -19,12 +19,12 @@ public class Metric implements Reportable {
     }
 
     public Metric(String classname){
-        this(classname,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+        this(classname,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
     }
 
-    public Metric(String classname, int wmc, int noc, int rfc, int cbo, int dit,
-                  int lcom, int mpc, int dac, int nom, int size1, int size2,
-                  int acmic, int acmec, int dcmic, int dcmec, int ocmic, int ocmec, int nip) {
+    public Metric(String classname, int wmc, int noc, int rfc, int cbo, int dit, int lcom, int mpc, int dac, int nom,
+                  int size1, int size2, int acmic, int acmec, int dcmic, int dcmec, int ocmic, int ocmec, int ovo, int sp,
+                  int spa, int spd, int dp, int dpa, int dpd, int nip) {
         this.map.putAll(new LinkedHashMap<String, Object>(){{
             put("Class", classname);
 
@@ -52,6 +52,13 @@ public class Metric implements Reportable {
             put("OCMEC", ocmec);
 
             // Benlarbi metrics
+            put("OVO", ovo);
+            put("SP", sp);
+            put("SPA", spa);
+            put("SPD", spd);
+            put("DP",  dp);
+            put("DPA", dpa);
+            put("DPD", dpd);
             put("NIP", nip);
         }});
     }
@@ -134,6 +141,20 @@ public class Metric implements Reportable {
 
     public int getOcmec() { return (Integer) map.get("OCMEC"); }
 
+    public int getOvo() { return (Integer) map.get("OVO"); }
+
+    public int getSp() { return (Integer) map.get("SP"); }
+
+    public int getSpa() { return (Integer) map.get("SPA"); }
+
+    public int getSpd() { return (Integer) map.get("SPD"); }
+
+    public int getDp() { return (Integer) map.get("DP"); }
+
+    public int getDpa() { return (Integer) map.get("DPA"); }
+
+    public int getDpd() { return (Integer) map.get("DPD"); }
+
     public int getNip() { return (Integer) map.get("NIP"); }
 
     public void incrementWmc(Integer increment){
@@ -188,59 +209,19 @@ public class Metric implements Reportable {
 
     public void incrementOcmec(Integer increment){ MapUtils.incrementMapValue(map, "OCMEC", increment); }
 
+    public void incrementOvo(Integer increment){ MapUtils.incrementMapValue(map, "OVO", increment); }
+
+    public void incrementSp(Integer increment){ MapUtils.incrementMapValue(map, "SP", increment); }
+
+    public void incrementSpa(Integer increment){ MapUtils.incrementMapValue(map, "SPA", increment); }
+
+    public void incrementSpd(Integer increment){ MapUtils.incrementMapValue(map, "SPD", increment); }
+
+    public void incrementDp(Integer increment){ MapUtils.incrementMapValue(map, "DP", increment); }
+
+    public void incrementDpa(Integer increment){ MapUtils.incrementMapValue(map, "DPA", increment); }
+
+    public void incrementDpd(Integer increment){ MapUtils.incrementMapValue(map, "DPD", increment); }
+
     public void incrementNip(Integer increment){ MapUtils.incrementMapValue(map, "NIP", increment); }
-    
-    public void setWmc(Integer value){
-        map.put("WMC", value);
-    }
-
-    public void setRfc(Integer value){
-        map.put("RFC", value);
-    }
-
-    public void setNoc(Integer value){
-        map.put("NOC", value);
-    }
-
-    public void setDit(Integer value){
-        map.put("DIT", value);
-    }
-
-    public void setCbo(Integer value){
-        map.put("CBO", value);
-    }
-
-    public void setLcom(Integer value){
-        map.put("LCOM", value);
-    }
-
-    public void setMpc(Integer value){
-        map.put("MPC", value);
-    }
-
-    public void setDac(Integer value){
-        map.put("DAC", value);
-    }
-
-    public void setNom(Integer value){
-        map.put("NOM", value);
-    }
-
-    public void setSize1(Integer value){ map.put("SIZE1", value); }
-
-    public void setSize2(Integer value){ map.put("SIZE2", value); }
-
-    public void setAcmic(Integer value){ map.put("ACMIC", value); }
-
-    public void setAcmec(Integer value){ map.put("ACMEC", value); }
-
-    public void setDcmic(Integer value){ map.put("DCMIC", value); }
-
-    public void setDcmec(Integer value){ map.put("DCMEC", value); }
-
-    public void setOcmic(Integer value){ map.put("OCMIC", value); }
-
-    public void setOcmec(Integer value){ map.put("OCMEC", value); }
-
-    public void setNip(Integer value){ map.put("NIP", value); }
 }
