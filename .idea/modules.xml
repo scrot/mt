@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bcms/bcms.iml" filepath="$PROJECT_DIR$/.idea/modules/bcms/bcms.iml" group="bcms" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bcms/bcms_main.iml" filepath="$PROJECT_DIR$/.idea/modules/bcms/bcms_main.iml" group="bcms" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bcms/bcms_test.iml" filepath="$PROJECT_DIR$/.idea/modules/bcms/bcms_test.iml" group="bcms" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bcmstest/bcmstest.iml" filepath="$PROJECT_DIR$/.idea/modules/bcmstest/bcmstest.iml" group="bcmstest" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bcmstest/bcmstest_main.iml" filepath="$PROJECT_DIR$/.idea/modules/bcmstest/bcmstest_main.iml" group="bcmstest" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bcmstest/bcmstest_test.iml" filepath="$PROJECT_DIR$/.idea/modules/bcmstest/bcmstest_test.iml" group="bcmstest" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fpms/fpms.iml" filepath="$PROJECT_DIR$/.idea/modules/fpms/fpms.iml" group="fpms" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fpms/fpms_main.iml" filepath="$PROJECT_DIR$/.idea/modules/fpms/fpms_main.iml" group="fpms" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fpms/fpms_test.iml" filepath="$PROJECT_DIR$/.idea/modules/fpms/fpms_test.iml" group="fpms" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gcrawler/gcrawler.iml" filepath="$PROJECT_DIR$/.idea/modules/gcrawler/gcrawler.iml" group="gcrawler" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gcrawler/gcrawler_main.iml" filepath="$PROJECT_DIR$/.idea/modules/gcrawler/gcrawler_main.iml" group="gcrawler" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gcrawler/gcrawler_test.iml" filepath="$PROJECT_DIR$/.idea/modules/gcrawler/gcrawler_test.iml" group="gcrawler" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt.iml" filepath="$PROJECT_DIR$/.idea/modules/org.uva.rdewildt.mt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ovms/ovms.iml" filepath="$PROJECT_DIR$/.idea/modules/ovms/ovms.iml" group="ovms" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ovms/ovms_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ovms/ovms_main.iml" group="ovms" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ovms/ovms_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ovms/ovms_test.iml" group="ovms" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/report/report.iml" filepath="$PROJECT_DIR$/.idea/modules/report/report.iml" group="report" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/report/report_main.iml" filepath="$PROJECT_DIR$/.idea/modules/report/report_main.iml" group="report" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/report/report_test.iml" filepath="$PROJECT_DIR$/.idea/modules/report/report_test.iml" group="report" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/runner/runner.iml" filepath="$PROJECT_DIR$/.idea/modules/runner/runner.iml" group="runner" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/runner/runner_main.iml" filepath="$PROJECT_DIR$/.idea/modules/runner/runner_main.iml" group="runner" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/runner/runner_test.iml" filepath="$PROJECT_DIR$/.idea/modules/runner/runner_test.iml" group="runner" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/utils/utils.iml" filepath="$PROJECT_DIR$/.idea/modules/utils/utils.iml" group="utils" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/utils/utils_main.iml" filepath="$PROJECT_DIR$/.idea/modules/utils/utils_main.iml" group="utils" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/utils/utils_test.iml" filepath="$PROJECT_DIR$/.idea/modules/utils/utils_test.iml" group="utils" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/xloc/xloc.iml" filepath="$PROJECT_DIR$/.idea/modules/xloc/xloc.iml" group="xloc" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/xloc/xloc_main.iml" filepath="$PROJECT_DIR$/.idea/modules/xloc/xloc_main.iml" group="xloc" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/xloc/xloc_test.iml" filepath="$PROJECT_DIR$/.idea/modules/xloc/xloc_test.iml" group="xloc" />
+    </modules>
+  </component>
+</project>
