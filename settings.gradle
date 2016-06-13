@@ -1,6 +1,6 @@
 rootProject.name = 'org.uva.rdewildt.mt'
 include 'bcms'
-include 'limstest'
+include 'bcmstest'
 include 'xloc'
 include'fpms'
 include 'report'

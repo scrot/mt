@@ -19,12 +19,13 @@ public class Metric implements Reportable {
     }
 
     public Metric(String classname){
-        this(classname,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+        this(classname,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
     }
 
     public Metric(String classname, int wmc, int noc, int rfc, int cbo, int dit, int lcom, int mpc, int dac, int nom,
-                  int size1, int size2, int acmic, int acmec, int dcmic, int dcmec, int ocmic, int ocmec, int ovo, int sp,
-                  int spa, int spd, int dp, int dpa, int dpd, int nip) {
+                  int size1, int size2,int acaic, int acaec, int dcaic, int dcaec, int ocaic, int ocaec, int acmic,
+                  int acmec, int dcmic, int dcmec, int ocmic, int ocmec, int ovo, int sp, int spa, int spd, int dp,
+                  int dpa, int dpd, int nip) {
         this.map.putAll(new LinkedHashMap<String, Object>(){{
             put("Class", classname);
 
@@ -44,6 +45,12 @@ public class Metric implements Reportable {
             put("SIZE2", size2);
 
             // Briand metrics
+            put("ACAIC", acaic);
+            put("ACAEC", acaec);
+            put("DCAIC", dcaic);
+            put("DCAEC", dcaec);
+            put("OCAIC", ocaic);
+            put("OCAEC", ocaec);
             put("ACMIC", acmic);
             put("ACMEC", acmec);
             put("DCMIC", dcmic);
@@ -129,6 +136,18 @@ public class Metric implements Reportable {
 
     public int getSize2() { return (Integer) map.get("SIZE2"); }
 
+    public int getAcaic() { return (Integer) map.get("ACAIC"); }
+
+    public int getAcaec() { return (Integer) map.get("ACAEC"); }
+
+    public int getDcaic() { return (Integer) map.get("DCAIC"); }
+
+    public int getDcaec() { return (Integer) map.get("DCAEC"); }
+
+    public int getOcaic() { return (Integer) map.get("OCAIC"); }
+
+    public int getOcaec() { return (Integer) map.get("OCAEC"); }
+
     public int getAcmic() { return (Integer) map.get("ACMIC"); }
 
     public int getAcmec() { return (Integer) map.get("ACMEC"); }
@@ -196,6 +215,18 @@ public class Metric implements Reportable {
     public void incrementSize1(Integer increment){ MapUtils.incrementMapValue(map, "SIZE1", increment); }
 
     public void incrementSize2(Integer increment){ MapUtils.incrementMapValue(map, "SIZE2", increment); }
+
+    public void incrementAcaic(Integer increment){ MapUtils.incrementMapValue(map, "ACAIC", increment); }
+
+    public void incrementAcaec(Integer increment){ MapUtils.incrementMapValue(map, "ACAEC", increment); }
+
+    public void incrementDcaic(Integer increment){ MapUtils.incrementMapValue(map, "DCAIC", increment); }
+
+    public void incrementDcaec(Integer increment){ MapUtils.incrementMapValue(map, "DCAEC", increment); }
+
+    public void incrementOcaic(Integer increment){ MapUtils.incrementMapValue(map, "OCAIC", increment); }
+
+    public void incrementOcaec(Integer increment){ MapUtils.incrementMapValue(map, "OCAEC", increment); }
 
     public void incrementAcmic(Integer increment){ MapUtils.incrementMapValue(map, "ACMIC", increment); }
 
