@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public abstract class Report {
     private final String name;
     private final List<String> keys;
-    private Set<Reportable> report;
+    private List<Reportable> report;
 
     public Report(Path filePath, Reportable reportable) throws IOException, NoSuchFieldException {
         String filename = filePath.getFileName().toString();
@@ -24,7 +24,7 @@ public abstract class Report {
     public Report(String name, Reportable reportable) {
         this.name = name;
         this.keys = reportable.getKeys();
-        this.report = new HashSet<>();
+        this.report = new ArrayList<>();
     }
 
     public String getName() {
@@ -45,7 +45,7 @@ public abstract class Report {
         return rows;
     }
 
-    public Set<Reportable> getReport() {
+    public List<Reportable> getReport() {
         return this.report;
     }
 
@@ -73,8 +73,8 @@ public abstract class Report {
         writer.close();
     }
 
-    private Set<Reportable> importReportsFromFile(Path path, Reportable reportType) throws IOException, NoSuchFieldException {
-        Set<Reportable> reportables = new HashSet<>();
+    private List<Reportable> importReportsFromFile(Path path, Reportable reportType) throws IOException, NoSuchFieldException {
+        List<Reportable> reportables = new ArrayList<>();
 
         int index = 0;
         List<String> lines = Files.readAllLines(path);
