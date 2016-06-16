@@ -20,10 +20,10 @@ public class FCommitCrawler extends CommitCrawler {
     Path gitRoot;
     private final Map<String, Set<Commit>> commits;
 
-    public FCommitCrawler(Git git, Path gitRoot, List<Path> includes) {
+    public FCommitCrawler(Git git, Path gitRoot, Boolean usePathNames, List<Path> includes) {
         super(git);
         this.gitRoot = gitRoot;
-        this.commits = collectChanges(includes);
+        this.commits = collectChanges(includes, usePathNames);
     }
 
     @Override
@@ -31,10 +31,15 @@ public class FCommitCrawler extends CommitCrawler {
         return commits;
     }
 
-    private Map<String, Set<Commit>> collectChanges(List<Path> includes) {
+    private Map<String, Set<Commit>> collectChanges(List<Path> includes, Boolean usePathNames) {
         Map<String, Set<Commit>> commits = new HashMap<>();
         Map<RevCommit, List<Path>> commitPaths = getFilteredCommitsPaths(includes);
-        commitPaths.forEach((k,v) -> v.forEach(path -> addValueToMapSet(commits, getFileName(Paths.get(gitRoot.toString(), path.toString())), revCommitToCommit(k))));
+        if(usePathNames){
+            commitPaths.forEach((k,v) -> v.forEach(path -> addValueToMapSet(commits, path.toString(), revCommitToCommit(k))));
+        }
+        else {
+            commitPaths.forEach((k,v) -> v.forEach(path -> addValueToMapSet(commits, getFileName(Paths.get(gitRoot.toString(), path.toString())), revCommitToCommit(k))));
+        }
         return commits;
     }
 

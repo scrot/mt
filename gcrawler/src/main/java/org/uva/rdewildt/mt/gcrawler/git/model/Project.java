@@ -5,6 +5,7 @@ import org.uva.rdewildt.mt.gcrawler.github.GhProject;
 import org.uva.rdewildt.mt.report.Reportable;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class Project implements Reportable {
@@ -64,11 +65,11 @@ public class Project implements Reportable {
     }
 
     public Path getGitRoot() {
-        return (Path) this.map.get("GitPath");
+        return Paths.get(this.map.get("GitPath").toString());
     }
 
     public Path getBinaryRoot() {
-        return (Path) this.map.get("BinaryPath");
+        return Paths.get(this.map.get("BinaryPath").toString());
     }
 
     public void setProject(String value) {

@@ -80,7 +80,7 @@ public class FeatureCalculator extends MetricCalculator {
     }
 
     private void calculateOuterClassFeaturesGreedy(Path gitRoot, Boolean ignoreGenerated, Boolean ignoreTests) throws Exception {
-        Crawler gcrawler = new FLocalCrawler(gitRoot, ignoreGenerated, ignoreTests, new Java());
+        Crawler gcrawler = new FLocalCrawler(gitRoot, ignoreGenerated, ignoreTests, false, new Java());
         Map<String, Integer> classesFaults = mapListLenghts(gcrawler.getFaults());
         Map<String, Integer> classesChanges = mapListLenghts(gcrawler.getChanges());
         Map<String, Integer> classesAuthors = mapListLenghts(gcrawler.getAuthors());

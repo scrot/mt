@@ -18,15 +18,22 @@ public class ReportWriter {
     public static void main(String[] args) throws Exception {
         //Path top1000 = Paths.get("/home/roy/Workspace/MT/mt/dataset/original/top1000.csv");
         //Report top1000Report = new GhReport(top1000);
+        Path config = Paths.get("C:\\Users\\royw\\Workspace\\mt\\runner\\src\\main\\resources\\opensource.conf");
+        Path output = Paths.get("C:\\Users\\royw\\Workspace\\");
 
-        //List<String> names = top1000Report.getReport().get("Name").stream().map(Object::toString).collect(Collectors.toList());
-        //List<String> groups = top1000Report.getReport().get("Group").stream().map(Object::toString).collect(Collectors.toList());
-        //List<Path> paths = top1000Report.getReport().get("GitPath").stream().map(x -> Paths.get(x.toString())).collect(Collectors.toList());
-        //OverviewReportBuilder obuilder = new OverviewReportBuilder("top1000", MapUtils.listsToKeyValueMap(names, paths), true, true);
-        //obuilder.writeReportsToFile(top1000);
-        GReport testReport = new GReport(Paths.get("C:\\Users\\royw\\Workspace\\mt\\runner\\src\\main\\resources\\opensource.conf"));
+        GReport testReport = new GReport(config);
+
+        Map<String, Path> ovinput = new HashMap<>();
+        testReport.getReport().forEach(reportable -> {
+            Project project = (Project) reportable;
+            ovinput.put(project.getId(), project.getGitRoot());
+        });
+
+        OverviewReportBuilder obuilder = new OverviewReportBuilder("systems",ovinput, true, true);
+        obuilder.writeReportsToFile(output);
+
         FeatureReportsBuilder fbuilder = new FeatureReportsBuilder(testReport, true, true, true);
-        fbuilder.writeReportsToFile(Paths.get("C:\\Users\\royw\\Workspace\\"));
+        fbuilder.writeReportsToFile(output);
     }
 
     private static void GhBuilder(Path top1000) {

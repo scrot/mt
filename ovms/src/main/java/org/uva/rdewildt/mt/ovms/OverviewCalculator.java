@@ -30,7 +30,7 @@ public class OverviewCalculator {
     private final Overview overview;
 
     public OverviewCalculator(String projectName, Path projectRoot, Boolean ignoreGenerated, Boolean ignoreTests) throws IOException {
-        Crawler crawler = new FLocalCrawler(projectRoot, ignoreGenerated, ignoreTests, new Java());
+        Crawler crawler = new FLocalCrawler(projectRoot, ignoreGenerated, ignoreTests, true, new Java());
         Map<Path, XLoc> xlocs = new XLocCalculator(
                 projectRoot, true,
                 ignoreGenerated, ignoreGenerated,

@@ -21,11 +21,11 @@ public class FLocalCrawler extends Crawler {
     private final Map<String, Set<Fault>> faults;
     private final Map<String, Set<Author>> authors;
 
-    public FLocalCrawler(Path gitRoot, Boolean ignoreGenerated, Boolean ignoreTests, Language ofLanguage) throws IOException {
+    public FLocalCrawler(Path gitRoot, Boolean ignoreGenerated, Boolean ignoreTests, Boolean usePathNames, Language ofLanguage) throws IOException {
         Git git = GitUtils.gitFromPath(gitRoot);
         List<Language> lang = new ArrayList<Language>(){{add(ofLanguage);}};
-        PathCollector collector = new PathCollector(gitRoot, true, ignoreGenerated, ignoreTests, lang);
-        this.commitCrawler = new FCommitCrawler(git, gitRoot, collector.getFilePaths().get(ofLanguage));
+        PathCollector collector = new PathCollector(gitRoot, true, ignoreGenerated, ignoreTests,  lang);
+        this.commitCrawler = new FCommitCrawler(git, gitRoot, usePathNames, collector.getFilePaths().get(ofLanguage));
 
         this.faults = collectFaults(getChanges());
         this.authors = collectAuthors(getChanges());
