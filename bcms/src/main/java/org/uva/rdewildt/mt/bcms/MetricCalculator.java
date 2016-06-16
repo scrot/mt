@@ -294,67 +294,57 @@ public class MetricCalculator extends EmptyVisitor {
     }
 
     private void updateClassesPoly(){
-        Map<MethodWrapper, JavaClass> methodToClassesMap = new HashMap<>();
+        Map<String, Set<JavaClass>> methodToClassesMap = new HashMap<>();
         this.classesMethodMap.forEach((k,v) -> {
             Set<String> methodClassNames = new HashSet<>();
             v.forEach(m -> {
                 if(!m.getName().contains("<init>")){
                     JavaClass jclass = this.classesMap.get(k);
-                    methodToClassesMap.put(new MethodWrapper(m), jclass);
+                    MapUtils.addValueToMapSet(methodToClassesMap,m.getName(), jclass);
+
                     if(!methodClassNames.contains(m.getName())){
                         methodClassNames.add(m.getName());
                     }
                     else {
                         getMetric(jclass).incrementOvo(1);
                     }
-                }});
+                }
             });
+        });
 
-        List<Pair> spaPairs = new ArrayList<>();
-        List<Pair> spdPairs = new ArrayList<>();
-        List<Pair> dpaPairs = new ArrayList<>();
-        List<Pair> dpdPairs = new ArrayList<>();
-        List<Pair> nipPairs = new ArrayList<>();
+        Set<Pair> spaPairs = new HashSet<>();
+        Set<Pair> spdPairs = new HashSet<>();
+        Set<Pair> dpaPairs = new HashSet<>();
+        Set<Pair> dpdPairs = new HashSet<>();
+        Set<Pair> nipPairs = new HashSet<>();
 
-        for(Map.Entry<MethodWrapper, JavaClass> entry : methodToClassesMap.entrySet()) {
-            for (Map.Entry<MethodWrapper, JavaClass> entry2 : methodToClassesMap.entrySet()) {
-                Method m1 = entry.getKey().getM();
-                Method m2 = entry2.getKey().getM();
-
-                JavaClass c1 = entry.getValue();
-                JavaClass c2 = entry2.getValue();
+        methodToClassesMap.forEach( (k,v) -> v.forEach(c1 -> v.forEach(c2 -> {
+            if(!c1.equals(c2)) {
+                List<Method> ms1 = this.classesMethodMap.get(getClassName(c1)).stream().filter(m1 -> k.equals(m1.getName())).collect(Collectors.toList());
+                List<Method> ms2 = this.classesMethodMap.get(getClassName(c2)).stream().filter(m2 -> k.equals(m2.getName())).collect(Collectors.toList());
                 Pair cpair = new Pair(c1, c2);
 
-                if (!c1.equals(c2)) {
+                ms1.forEach(m1 -> ms2.forEach(m2 -> {
                     if (!dpaPairs.contains(cpair) && m1.toString().equals(m2.toString()) && isAncestor(c1, c2)) {
-                        getMetric(c1).incrementDp(1);
                         getMetric(c1).incrementDpa(1);
                         dpaPairs.add(cpair);
-                    }
-                    else if (!dpdPairs.contains(cpair) && m1.toString().equals(m2.toString()) && isDecendant(c1, c2)) {
-                        getMetric(c1).incrementDp(1);
+                    } else if (!dpdPairs.contains(cpair) && m1.toString().equals(m2.toString()) && isDecendant(c1, c2)) {
                         getMetric(c1).incrementDpd(1);
                         dpdPairs.add(cpair);
-                    }
-                    else if (!spaPairs.contains(cpair) && m1.getName().equals(m2.getName()) && isAncestor(c1, c2)) {
-                        getMetric(c1).incrementSp(1);
+                    } else if (!spaPairs.contains(cpair) && m1.getName().equals(m2.getName()) && isAncestor(c1, c2)) {
                         getMetric(c1).incrementSpa(1);
                         spaPairs.add(cpair);
-                    }
-                    else if (!spdPairs.contains(cpair) && m1.getName().equals(m2.getName()) && isDecendant(c1, c2)) {
-                        getMetric(c1).incrementSp(1);
+                    } else if (!spdPairs.contains(cpair) && m1.getName().equals(m2.getName()) && isDecendant(c1, c2)) {
                         getMetric(c1).incrementSpd(1);
                         spdPairs.add(cpair);
-                    }
-                    else if (!dpaPairs.contains(cpair) && !dpdPairs.contains(cpair) && !spaPairs.contains(cpair) &&
+                    } else if (!dpaPairs.contains(cpair) && !dpdPairs.contains(cpair) && !spaPairs.contains(cpair) &&
                             !spdPairs.contains(cpair) && !nipPairs.contains(cpair) && m1.getName().equals(m2.getName())){
                         getMetric(c1).incrementNip(1);
-                        getMetric(c2).incrementNip(1);
                         nipPairs.add(cpair);
                     }
-                }
+                }));
             }
-        }
+        })));
     }
 
     private void addToResponses(MethodGen methodGen, ConstantPoolGen constantPoolGen){
@@ -542,6 +532,13 @@ public class MetricCalculator extends EmptyVisitor {
         return classes;
     }
 
+    private Boolean sameSimpleName(Method m1, Method m2){
+        if(m1 == null | m2 == null){
+            return false;
+        }
+        return m1.getName().equals(m2.getName());
+    }
+
     private Boolean isDecendant(JavaClass maybeDecendant, JavaClass jclass){
         return isAncestor(jclass, maybeDecendant);
     }
@@ -628,7 +625,7 @@ public class MetricCalculator extends EmptyVisitor {
         public boolean equals(Object o) {
             if(o instanceof Pair){
                 Pair cp = (Pair) o;
-                return o1.equals(cp.o1) && o2.equals(cp.o2) || o1.equals(cp.o2) && o2.equals(cp.o1) ;
+                return o1.equals(cp.o1) && o2.equals(cp.o2) ;
             }
             return false;
         }
@@ -636,18 +633,6 @@ public class MetricCalculator extends EmptyVisitor {
         @Override
         public int hashCode() {
             return o1.hashCode() + o2.hashCode() * 31;
-        }
-    }
-
-    private class MethodWrapper {
-        Method m;
-
-        MethodWrapper(Method m) {
-            this.m = m;
-        }
-
-        Method getM() {
-            return m;
         }
     }
 }
