@@ -1,6 +1,7 @@
 package org.uva.rdewildt.mt.report;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -59,18 +60,20 @@ public abstract class Report {
         }
     }
 
-    public void writeToFile(Path path, String nameAddition, Character seperator, Boolean seperatorFlag) throws IOException {
-        String filename = Paths.get(path.toString(), this.getName() + nameAddition + ".csv").toString();
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename), StandardCharsets.UTF_8));
-        if(seperatorFlag){
-            writer.write("sep=" + seperator + "\n");
+    public void writeToFile(Path path, String nameAddition, Character seperator, Boolean seperatorFlag) {
+        Path filename = Paths.get(path.toString(), this.getName() + nameAddition + ".csv");
+        try(BufferedWriter writer = Files.newBufferedWriter(filename, StandardCharsets.UTF_8)){
+            if(seperatorFlag){
+                writer.write("sep=" + seperator + "\n");
+            }
+            writer.write(String.join(",", this.getHeader()) + '\n');
+            for(List<Object> row : this.getBody()){
+                List<Object> normalized = normalizeValues(row, seperator);
+                writer.write(String.join(seperator.toString(), normalized.stream().map(Object::toString).collect(Collectors.toList())) + '\n');
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        writer.write(String.join(",", this.getHeader()) + '\n');
-        for(List<Object> row : this.getBody()){
-            List<Object> normalized = normalizeValues(row, seperator);
-            writer.write(String.join(seperator.toString(), normalized.stream().map(Object::toString).collect(Collectors.toList())) + '\n');
-        }
-        writer.close();
     }
 
     private List<Reportable> importReportsFromFile(Path path, Reportable reportType) throws IOException, NoSuchFieldException {

@@ -84,22 +84,23 @@ public class XLocCalculator {
         return xLocCounter.getXLoc();
     }
 
-    private List<String> mixedCharsetFileReader(Path classpath) throws IOException {
+    private List<String> mixedCharsetFileReader(Path classpath) {
         CharsetDecoder decoder = Charset.forName("UTF-8").newDecoder();
         decoder.onMalformedInput(CodingErrorAction.IGNORE);
 
-        FileInputStream stream = new FileInputStream(classpath.toFile());
-        InputStreamReader reader = new InputStreamReader(stream, decoder);
-        BufferedReader bufferedReader = new BufferedReader(reader);
+        try(FileInputStream stream = new FileInputStream(classpath.toFile())) {
+            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream, decoder))) {
+                List<String> classLines = new ArrayList<>();
 
-        List<String> classLines = new ArrayList<>();
-
-        String line;
-        while ((line = bufferedReader.readLine()) != null) {
-            classLines.add(line);
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    classLines.add(line);
+                }
+                return classLines;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        bufferedReader.close();
-
-        return classLines;
+        return new ArrayList<>();
     }
 }

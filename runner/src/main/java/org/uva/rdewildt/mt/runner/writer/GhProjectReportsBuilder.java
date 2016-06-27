@@ -31,10 +31,7 @@ public class GhProjectReportsBuilder {
     }
 
     public void writeReportsToFile(Path path) {
-        try {
-            this.ghReport.writeToFile(path, "", ',', true);
-        }
-        catch (IOException e) { e.printStackTrace(); }
+        this.ghReport.writeToFile(path, "", ',', true);
     }
 
     public Report getghProjectReport() {

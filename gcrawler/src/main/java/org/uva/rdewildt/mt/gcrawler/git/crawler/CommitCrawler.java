@@ -53,8 +53,7 @@ public abstract class CommitCrawler {
     private List<Path> getCommitPaths(RevCommit revCommit, List<Path> includes) {
         List<Path> files = new ArrayList<>();
 
-        try {
-            ObjectReader reader = this.git.getRepository().newObjectReader();
+        try (ObjectReader reader = this.git.getRepository().newObjectReader()){
             CanonicalTreeParser oldTree = new CanonicalTreeParser();
             oldTree.reset(reader, revCommit.getTree());
             CanonicalTreeParser newTree = new CanonicalTreeParser();

@@ -12,11 +12,15 @@ import org.uva.rdewildt.mt.utils.lang.Class;
 import org.uva.rdewildt.mt.utils.lang.Language;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 public class MetricCalculator extends EmptyVisitor {
     private final Boolean onlyOuterClasses;
@@ -514,17 +518,17 @@ public class MetricCalculator extends EmptyVisitor {
         return classes;
     }
 
-    private List<JavaClass> collectFromJar(Path jarPath) {
+    private List<JavaClass> collectFromJar(Path jarPath){
         List<JavaClass> classes = new ArrayList<>();
-
-        try {
-            Enumeration<JarEntry> jarFiles = new JarFile(jarPath.toFile()).entries();
-            while (jarFiles.hasMoreElements()) {
-                String filename = jarFiles.nextElement().getName();
+        try (InputStream input = Files.newInputStream(jarPath); ZipInputStream zip = new ZipInputStream(input)){
+            ZipEntry zipEntry = zip.getNextEntry();
+            while(zipEntry != null){
+                String filename = zipEntry.getName();
                 if (filename.endsWith(".class")) {
                     JavaClass javaClass = new ClassParser(jarPath.toString(), filename).parse();
                     classes.add(javaClass);
                 }
+                zipEntry = zip.getNextEntry();
             }
         } catch (IOException e) {
             e.printStackTrace();

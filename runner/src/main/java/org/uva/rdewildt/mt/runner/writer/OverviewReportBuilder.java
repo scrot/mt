@@ -28,10 +28,7 @@ public class OverviewReportBuilder {
     }
 
     public void writeReportsToFile(Path path) {
-        try {
-            this.overviewReport.writeToFile(path, "_overview", ',', true);
-        }
-        catch (IOException e) { e.printStackTrace(); }
+        this.overviewReport.writeToFile(path, "_overview", ',', true);
     }
 
     public Report getOverviewReport() {

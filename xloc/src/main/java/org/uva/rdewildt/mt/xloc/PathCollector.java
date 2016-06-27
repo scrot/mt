@@ -89,25 +89,26 @@ public class PathCollector extends SimpleFileVisitor<Path> {
         }
     }
 
-    private List<String> mixedCharsetFileReader(Path file, Integer limit) throws IOException {
+    private List<String> mixedCharsetFileReader(Path file, Integer limit) {
         CharsetDecoder decoder = Charset.forName("UTF-8").newDecoder();
         decoder.onMalformedInput(CodingErrorAction.IGNORE);
 
-        FileInputStream stream = new FileInputStream(file.toFile());
-        InputStreamReader reader = new InputStreamReader(stream, decoder);
-        BufferedReader bufferedReader = new BufferedReader(reader);
+        try(FileInputStream stream = new FileInputStream(file.toFile())) {
+            try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream, decoder))){
+                List<String> classLines = new ArrayList<>();
 
-        List<String> classLines = new ArrayList<>();
-
-        int i = 0;
-        String line;
-        while ((line = bufferedReader.readLine()) != null && i < limit) {
-            classLines.add(line);
-            i++;
+                int i = 0;
+                String line;
+                while ((line = bufferedReader.readLine()) != null && i < limit) {
+                    classLines.add(line);
+                    i++;
+                }
+                return classLines;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        bufferedReader.close();
-
-        return classLines;
+        return new ArrayList<>();
     }
 
     private Language getLanguageFromClassPath(Path classPath) {

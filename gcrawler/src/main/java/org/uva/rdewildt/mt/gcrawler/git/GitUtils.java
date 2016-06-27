@@ -72,12 +72,16 @@ public class GitUtils {
         }
     }
 
-    public static Git gitFromPath(Path gitPath) throws IOException {
+    public static Git gitFromPath(Path gitPath) {
         File gitFolder = Paths.get(gitPath.toString(), ".git").toFile();
         FileRepositoryBuilder builder = new FileRepositoryBuilder();
-        Repository repo = builder.setGitDir(gitFolder)
+        try(Repository repo = builder.setGitDir(gitFolder)
                 .readEnvironment()
-                .build();
-        return new Git(repo);
+                .build()){
+            return new Git(repo);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

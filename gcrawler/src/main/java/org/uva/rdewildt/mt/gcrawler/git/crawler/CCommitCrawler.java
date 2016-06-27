@@ -61,8 +61,7 @@ public class CCommitCrawler extends CommitCrawler{
     private Set<String> classesAffectedByCommit(RevCommit commit, Map<String, ClassSource> commitClasses) {
         Set<String> classes = new HashSet<>();
 
-        try {
-            ObjectReader reader = this.git.getRepository().newObjectReader();
+        try (ObjectReader reader = this.git.getRepository().newObjectReader()){
             CanonicalTreeParser oldTree = new CanonicalTreeParser();
             oldTree.reset(reader, commit.getTree());
             CanonicalTreeParser newTree = new CanonicalTreeParser();

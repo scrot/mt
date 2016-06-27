@@ -18,8 +18,8 @@ public class ReportWriter {
     public static void main(String[] args) throws Exception {
         //Path top1000 = Paths.get("/home/roy/Workspace/MT/mt/dataset/original/top1000.csv");
         //Report top1000Report = new GhReport(top1000);
-        Path config = Paths.get("C:\\Users\\royw\\Workspace\\mt\\runner\\src\\main\\resources\\opensource.conf");
-        Path output = Paths.get("C:\\Users\\royw\\Workspace\\");
+        Path config = Paths.get("/home/roy/Workspace/MT/mt/runner/src/main/resources/opensource.conf");
+        Path output = Paths.get("/home/roy/Workspace/MT");
 
         GReport testReport = new GReport(config);
 
@@ -29,9 +29,11 @@ public class ReportWriter {
             ovinput.put(project.getId(), project.getGitRoot());
         });
 
+        System.out.println("Building overview report");
         OverviewReportBuilder obuilder = new OverviewReportBuilder("systems",ovinput, true, true);
         obuilder.writeReportsToFile(output);
 
+        System.out.println("Building feature reports");
         FeatureReportsBuilder fbuilder = new FeatureReportsBuilder(testReport, true, true, true);
         fbuilder.writeReportsToFile(output);
     }
