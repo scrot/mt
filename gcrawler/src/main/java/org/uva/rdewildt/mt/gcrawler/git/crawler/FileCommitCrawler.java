@@ -13,14 +13,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static org.uva.rdewildt.mt.utils.MapUtils.addValueToMapSet;
+
 /**
  * Created by roy on 5/26/16.
  */
-public class FCommitCrawler extends CommitCrawler {
+public class FileCommitCrawler extends CommitCrawler {
     Path gitRoot;
     private final Map<String, Set<Commit>> commits;
 
-    public FCommitCrawler(Git git, Path gitRoot, Boolean usePathNames, List<Path> includes) {
+    public FileCommitCrawler(Git git, Path gitRoot, Boolean usePathNames, List<Path> includes) {
         super(git);
         this.gitRoot = gitRoot;
         this.commits = collectChanges(includes, usePathNames);

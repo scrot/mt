@@ -2,10 +2,10 @@ package org.uva.rdewildt.mt.gcrawler.git;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ResetCommand;
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.InvalidRemoteException;
-import org.eclipse.jgit.api.errors.TransportException;
-import org.eclipse.jgit.lib.*;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
@@ -16,24 +16,25 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class GitUtils {
     public static Map<String, String> gitLastCommits(Map<String, Path> gitRoots){
         Map<String, String> lastcommits = new HashMap<>();
         gitRoots.forEach((k,v) -> {
-            try {
-                Repository repo = gitFromPath(v).getRepository();
-                ObjectId head = repo.resolve(Constants.HEAD);
+            try(Git git = gitFromPath(v)){
+                if (git != null) {
+                    try(Repository repo = git.getRepository()){
+                        ObjectId head = repo.resolve(Constants.HEAD);
 
-                try (RevWalk walk = new RevWalk(repo)) {
-                    RevCommit commit = walk.parseCommit(head);
-                    lastcommits.put(v.toString(), commit.getName());
-                    walk.dispose();
+                        try (RevWalk walk = new RevWalk(repo)) {
+                            RevCommit commit = walk.parseCommit(head);
+                            lastcommits.put(v.toString(), commit.getName());
+                            walk.dispose();
+                        }
+                    } catch (IOException e) {e.printStackTrace();}
                 }
-            } catch (IOException e) {e.printStackTrace();}
-        });
+            }});
 
         return lastcommits;
     }
@@ -69,6 +70,16 @@ public class GitUtils {
             } catch (Exception e) {
                 System.out.println("pulling " + gitUri.getHumanishName() + " failed");
             }
+        }
+    }
+
+    public static void gitReset(Path gitPath, String commitId){
+        try(Git git = gitFromPath(gitPath)){
+            if (git != null) {
+                git.reset().setRef(commitId).setMode(ResetCommand.ResetType.HARD).call();
+            }
+        } catch (Exception e1) {
+            e1.printStackTrace();
         }
     }
 

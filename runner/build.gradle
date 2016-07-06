@@ -12,6 +12,6 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
-run{
-    jvmArgs = ["-javaagent:/home/roy/Workspace/MT/mt/fld.jar=trace=/home/roy/Workspace/MT/mt/file-leak-trace.log,error=/home/roy/Workspace/MT/mt/file-leak-error.log,threshold=200"]
-}
+//run{
+//    jvmArgs = ["-javaagent:/home/roy/Workspace/MT/mt/fld.jar=trace=/home/roy/Workspace/MT/mt/file-leak-trace.log,error=/home/roy/Workspace/MT/mt/file-leak-error.log,threshold=200"]
+//}

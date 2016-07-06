@@ -9,34 +9,36 @@ import org.uva.rdewildt.mt.gcrawler.git.model.Issue;
 import org.uva.rdewildt.mt.xloc.PathCollector;
 import org.uva.rdewildt.mt.utils.lang.Language;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
 
 /**
- * Created by roy on 5/26/16.
+ * Created by roy on 5/5/16.
  */
-public class FLocalCrawler extends Crawler {
+public class ClassCrawler extends Crawler {
     private final CommitCrawler commitCrawler;
     private final Map<String, Set<Fault>> faults;
     private final Map<String, Set<Author>> authors;
 
-    public FLocalCrawler(Path gitRoot, Boolean ignoreGenerated, Boolean ignoreTests, Boolean usePathNames, Language ofLanguage) throws IOException {
-        try (Git git = GitUtils.gitFromPath(gitRoot)) {
-            List<Language> lang = new ArrayList<Language>() {{
-                add(ofLanguage);
-            }};
-            PathCollector collector = new PathCollector(gitRoot, true, ignoreGenerated, ignoreTests, lang);
-            this.commitCrawler = new FCommitCrawler(git, gitRoot, usePathNames, collector.getFilePaths().get(ofLanguage));
+    public ClassCrawler(Path gitRoot, Boolean ignoreGenerated, Boolean ignoreTests, Language ofLanguage) throws Exception {
+        Git git = GitUtils.gitFromPath(gitRoot);
+        List<Language> lang = new ArrayList<Language>(){{add(ofLanguage);}};
+        PathCollector collector = new PathCollector(gitRoot, true, ignoreGenerated, ignoreTests, lang);
+        this.commitCrawler = new ClassCommitCrawler(git, collector.getFilePaths().get(ofLanguage));
 
-            this.faults = collectFaults(getChanges());
-            this.authors = collectAuthors(getChanges());
-        }
+        this.faults = collectFaults(getChanges());
+        this.authors = collectAuthors(getChanges());
+        git.close();
     }
 
     @Override
     public Map<String, Set<Commit>> getChanges() {
-        return this.commitCrawler.getChanges();
+        return commitCrawler.getChanges();
+    }
+
+    @Override
+    public Map<Integer, Issue> getIssues() {
+        return new HashMap<>();
     }
 
     @Override
@@ -49,8 +51,4 @@ public class FLocalCrawler extends Crawler {
         return this.authors;
     }
 
-    @Override
-    public Map<Integer, Issue> getIssues() {
-        return new HashMap<>();
-    }
 }

@@ -24,10 +24,13 @@ import java.util.zip.ZipInputStream;
 
 public class MetricCalculator extends EmptyVisitor {
     private final Boolean onlyOuterClasses;
-    private final Map<String, Metric> metrics;
 
-    private final Map<String, JavaClass> classesMap;
-    private final Map<String, Set<String>> classCouplesMap;
+    private final List<JavaClass> classes;
+    private final Map<String, Metric> metrics;
+    private final Repository classRepository;
+
+    private Map<String, JavaClass> classesMap;
+    private Map<String, Set<String>> classCouplesMap;
     private Map<String, Set<Method>> classesMethodMap;
     private Map<String, Set<String>> classesAttributesMap;
     private Map<String,Set<String>> classesMethodArgumentsMap;
@@ -44,10 +47,15 @@ public class MetricCalculator extends EmptyVisitor {
 
     public MetricCalculator(Path binaryRoot, Boolean onlyOuterClasses) {
         this.onlyOuterClasses = onlyOuterClasses;
-        List<JavaClass> classes = collectClasses(binaryRoot);
-        this.metrics = initializeMetrics(classes);
-        Repository classRepository = buildClassRepository(binaryRoot, classes);
 
+        this.classes = collectClasses(binaryRoot);
+        this.metrics = initializeMetrics(classes);
+        this.classRepository = buildClassRepository(binaryRoot, classes);
+
+        start();
+    }
+
+    private void start(){
         this.classesMap = new HashMap<>();
         this.classCouplesMap = new HashMap<>();
         this.classesMethodMap = new HashMap<>();

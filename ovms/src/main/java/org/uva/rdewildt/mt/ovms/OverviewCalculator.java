@@ -3,9 +3,8 @@ package org.uva.rdewildt.mt.ovms;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.uva.rdewildt.mt.gcrawler.git.crawler.Crawler;
-import org.uva.rdewildt.mt.gcrawler.git.crawler.FLocalCrawler;
+import org.uva.rdewildt.mt.gcrawler.git.crawler.FileCrawler;
 import org.uva.rdewildt.mt.gcrawler.git.model.Commit;
-import org.uva.rdewildt.mt.gcrawler.git.model.Project;
 import org.uva.rdewildt.mt.ovms.distribution.Distribution;
 import org.uva.rdewildt.mt.utils.MapUtils;
 import org.uva.rdewildt.mt.utils.model.Percentage;
@@ -21,8 +20,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-import static org.uva.rdewildt.mt.utils.MapUtils.*;
-
 /**
  * Created by roy on 5/26/16.
  */
@@ -30,7 +27,7 @@ public class OverviewCalculator {
     private final Overview overview;
 
     public OverviewCalculator(String projectName, Path projectRoot, Boolean ignoreGenerated, Boolean ignoreTests) throws IOException {
-        Crawler crawler = new FLocalCrawler(projectRoot, ignoreGenerated, ignoreTests, true, new Java());
+        Crawler crawler = new FileCrawler(projectRoot, ignoreGenerated, ignoreTests, true, new Java());
         Map<Path, XLoc> xlocs = new XLocCalculator(
                 projectRoot, true,
                 ignoreGenerated, ignoreGenerated,

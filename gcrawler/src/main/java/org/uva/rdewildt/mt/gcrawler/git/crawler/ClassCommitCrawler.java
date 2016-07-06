@@ -21,14 +21,16 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.uva.rdewildt.mt.utils.MapUtils.addValueToMapSet;
+
 /**
  * Created by roy on 5/2/16.
  */
-public class CCommitCrawler extends CommitCrawler{
+public class ClassCommitCrawler extends CommitCrawler{
     private final Map<String, Set<Commit>> commits;
 
 
-    public CCommitCrawler(Git git, List<Path> includes) {
+    public ClassCommitCrawler(Git git, List<Path> includes) {
         super(git);
         this.commits = collectChanges(includes);
     }

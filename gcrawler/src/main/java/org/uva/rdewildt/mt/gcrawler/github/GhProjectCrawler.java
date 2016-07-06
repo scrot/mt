@@ -138,7 +138,7 @@ public class GhProjectCrawler {
         });
     }
 
-    private boolean isMavenPath(Path path) {
+    private Boolean isMavenPath(Path path) {
         return Paths.get(path.toString(), "pom.xml").toFile().exists();
     }
 
