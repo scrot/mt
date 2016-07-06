@@ -8,7 +8,6 @@ dependencies {
     compile project(":gcrawler")
 
     compile 'com.google.code.findbugs:bcel-findbugs:6.0'
-    compile group: 'commons-io', name: 'commons-io', version: '2.5'
     compile 'org.slf4j:slf4j-nop:1.7.21'
 
     compile 'joda-time:joda-time:2.9.3'

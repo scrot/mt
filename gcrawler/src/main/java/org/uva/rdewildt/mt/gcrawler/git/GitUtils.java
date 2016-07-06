@@ -2,6 +2,7 @@ package org.uva.rdewildt.mt.gcrawler.git;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ResetCommand;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -89,10 +90,19 @@ public class GitUtils {
         try(Repository repo = builder.setGitDir(gitFolder)
                 .readEnvironment()
                 .build()){
-            return new Git(repo);
+            Git git = new Git(repo);
+            return git;
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void gc(Git git){
+        try {
+            git.gc().call();
+        } catch (GitAPIException e) {
+            e.printStackTrace();
+        }
     }
 }

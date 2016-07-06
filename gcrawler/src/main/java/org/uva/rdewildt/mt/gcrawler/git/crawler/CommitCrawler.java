@@ -1,5 +1,6 @@
 package org.uva.rdewildt.mt.gcrawler.git.crawler;
 
+import org.eclipse.jgit.api.GarbageCollectCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.DiffEntry;
@@ -18,6 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+import static org.uva.rdewildt.mt.gcrawler.git.GitUtils.gc;
 import static org.uva.rdewildt.mt.gcrawler.git.GitUtils.gitFromPath;
 
 /**
@@ -56,7 +58,6 @@ public abstract class CommitCrawler {
                 commitPaths.put(revCommit, paths);
             }
         });
-
         return commitPaths;
     }
 
@@ -73,8 +74,8 @@ public abstract class CommitCrawler {
 
         try(Git git = gitFromPath(this.gitRoot)) {
             if (git != null) {
-            AbstractTreeIterator oldTree = prepareTreeParser(git.getRepository(), revCommit);
-            AbstractTreeIterator newTree = prepareTreeParser(git.getRepository(), revCommit.getParent(0));
+                AbstractTreeIterator oldTree = prepareTreeParser(git.getRepository(), revCommit);
+                AbstractTreeIterator newTree = prepareTreeParser(git.getRepository(), revCommit.getParent(0));
 
                 List<DiffEntry> diffs = git.diff().setNewTree(newTree).setOldTree(oldTree).call();
 
@@ -102,14 +103,12 @@ public abstract class CommitCrawler {
         try (RevWalk walk = new RevWalk(repository)) {
             RevTree tree = walk.parseTree(commit.getTree().getId());
 
-            CanonicalTreeParser oldTreeParser = new CanonicalTreeParser();
+            CanonicalTreeParser treeParser = new CanonicalTreeParser();
             try (ObjectReader oldReader = repository.newObjectReader()) {
-                oldTreeParser.reset(oldReader, tree.getId());
+                treeParser.reset(oldReader, tree.getId());
             }
 
-            walk.dispose();
-
-            return oldTreeParser;
+            return treeParser;
         }
     }
 }

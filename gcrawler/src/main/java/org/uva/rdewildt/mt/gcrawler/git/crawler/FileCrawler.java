@@ -22,16 +22,14 @@ public class FileCrawler extends Crawler {
     private final Map<String, Set<Author>> authors;
 
     public FileCrawler(Path gitRoot, Boolean ignoreGenerated, Boolean ignoreTests, Boolean usePathNames, Language ofLanguage) throws IOException {
-        try (Git git = GitUtils.gitFromPath(gitRoot)) {
-            List<Language> lang = new ArrayList<Language>() {{
-                add(ofLanguage);
-            }};
-            PathCollector collector = new PathCollector(gitRoot, true, ignoreGenerated, ignoreTests, lang);
-            this.commitCrawler = new FileCommitCrawler(gitRoot, usePathNames, collector.getFilePaths().get(ofLanguage));
+        List<Language> lang = new ArrayList<Language>() {{
+            add(ofLanguage);
+        }};
+        PathCollector collector = new PathCollector(gitRoot, true, ignoreGenerated, ignoreTests, lang);
+        this.commitCrawler = new FileCommitCrawler(gitRoot, usePathNames, collector.getFilePaths().get(ofLanguage));
 
-            this.faults = collectFaults(getChanges());
-            this.authors = collectAuthors(getChanges());
-        }
+        this.faults = collectFaults(getChanges());
+        this.authors = collectAuthors(getChanges());
     }
 
     @Override

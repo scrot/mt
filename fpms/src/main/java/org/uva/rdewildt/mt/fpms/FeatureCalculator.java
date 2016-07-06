@@ -28,7 +28,7 @@ public class FeatureCalculator extends MetricCalculator {
     public FeatureCalculator(Path binaryRoot, Path gitRoot, Boolean ignoreGenerated, Boolean ignoreTests, Boolean onlyOuterClasses, Boolean stateAware) throws Exception {
         super(binaryRoot, onlyOuterClasses);
         if(onlyOuterClasses){
-            if(false){
+            if(stateAware){
                 if(!binaryRoot.toFile().isDirectory()){
                     throw new Exception("Binary root path is not a directory");
                 }
