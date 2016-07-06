@@ -4,7 +4,6 @@ import org.uva.rdewildt.mt.gcrawler.git.model.Project;
 import org.uva.rdewildt.mt.utils.lang.Language;
 import org.uva.rdewildt.mt.utils.lang.Other;
 
-import java.nio.file.Path;
 import java.util.*;
 
 /**

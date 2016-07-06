@@ -2,7 +2,6 @@ package org.uva.rdewildt.mt.xloc;
 
 import org.uva.rdewildt.mt.utils.lang.Language;
 import org.uva.rdewildt.mt.utils.lang.LanguageFactory;
-import org.uva.rdewildt.mt.xloc.XLocPatternFactory;
 import org.uva.rdewildt.mt.xloc.pattern.XLocPatternBuilder;
 
 import java.io.BufferedReader;

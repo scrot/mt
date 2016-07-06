@@ -1,13 +1,11 @@
 package org.uva.rdewildt.mt.gcrawler.git.crawler;
 
-import org.eclipse.jgit.api.Git;
-import org.uva.rdewildt.mt.gcrawler.git.GitUtils;
 import org.uva.rdewildt.mt.gcrawler.git.model.Author;
 import org.uva.rdewildt.mt.gcrawler.git.model.Commit;
 import org.uva.rdewildt.mt.gcrawler.git.model.Fault;
 import org.uva.rdewildt.mt.gcrawler.git.model.Issue;
-import org.uva.rdewildt.mt.xloc.PathCollector;
 import org.uva.rdewildt.mt.utils.lang.Language;
+import org.uva.rdewildt.mt.xloc.PathCollector;
 
 import java.nio.file.Path;
 import java.util.*;

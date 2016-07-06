@@ -7,17 +7,15 @@ import org.apache.bcel.util.ClassPath;
 import org.apache.bcel.util.Repository;
 import org.apache.bcel.util.SyntheticRepository;
 import org.uva.rdewildt.mt.utils.MapUtils;
-import org.uva.rdewildt.mt.xloc.PathCollector;
 import org.uva.rdewildt.mt.utils.lang.Class;
 import org.uva.rdewildt.mt.utils.lang.Language;
+import org.uva.rdewildt.mt.xloc.PathCollector;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -339,15 +337,19 @@ public class MetricCalculator extends EmptyVisitor {
                 ms1.forEach(m1 -> ms2.forEach(m2 -> {
                     if (!dpaPairs.contains(cpair) && m1.toString().equals(m2.toString()) && isAncestor(c1, c2)) {
                         getMetric(c1).incrementDpa(1);
+                        getMetric(c1).incrementDp(1);
                         dpaPairs.add(cpair);
                     } else if (!dpdPairs.contains(cpair) && m1.toString().equals(m2.toString()) && isDecendant(c1, c2)) {
                         getMetric(c1).incrementDpd(1);
+                        getMetric(c1).incrementDp(1);
                         dpdPairs.add(cpair);
                     } else if (!spaPairs.contains(cpair) && m1.getName().equals(m2.getName()) && isAncestor(c1, c2)) {
                         getMetric(c1).incrementSpa(1);
+                        getMetric(c1).incrementSp(1);
                         spaPairs.add(cpair);
                     } else if (!spdPairs.contains(cpair) && m1.getName().equals(m2.getName()) && isDecendant(c1, c2)) {
                         getMetric(c1).incrementSpd(1);
+                        getMetric(c1).incrementSp(1);
                         spdPairs.add(cpair);
                     } else if (!dpaPairs.contains(cpair) && !dpdPairs.contains(cpair) && !spaPairs.contains(cpair) &&
                             !spdPairs.contains(cpair) && !nipPairs.contains(cpair) && m1.getName().equals(m2.getName())){

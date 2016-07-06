@@ -4,9 +4,12 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
-import org.uva.rdewildt.mt.gcrawler.git.GitUtils;
 import org.uva.rdewildt.mt.gcrawler.git.model.Author;
 import org.uva.rdewildt.mt.gcrawler.git.model.Commit;
 
@@ -35,7 +38,11 @@ public abstract class CommitCrawler {
         List<RevCommit> revCommits = new ArrayList<>();
         try (Git git =  gitFromPath(this.gitRoot)){
             if (git != null) {
-                git.log().call().forEach(revCommits::add);
+                git.log().call().forEach(revCommit -> {
+                    if(revCommit.getParentCount() > 0){
+                        revCommits.add(revCommit);
+                    }
+                });
             }
         }
         catch (Exception e){
@@ -66,34 +73,43 @@ public abstract class CommitCrawler {
 
         try(Git git = gitFromPath(this.gitRoot)) {
             if (git != null) {
-                try (ObjectReader reader = git.getRepository().newObjectReader()) {
+            AbstractTreeIterator oldTree = prepareTreeParser(git.getRepository(), revCommit);
+            AbstractTreeIterator newTree = prepareTreeParser(git.getRepository(), revCommit.getParent(0));
 
-                    CanonicalTreeParser oldTree = new CanonicalTreeParser();
-                    oldTree.reset(reader, revCommit.getTree());
-                    CanonicalTreeParser newTree = new CanonicalTreeParser();
-                    newTree.reset(reader, revCommit.getParent(0).getTree());
+                List<DiffEntry> diffs = git.diff().setNewTree(newTree).setOldTree(oldTree).call();
 
-                    List<DiffEntry> diffs = git.diff().setNewTree(newTree).setOldTree(oldTree).call();
-
-                    diffs.forEach(diff -> {
-                        if (diff.getChangeType() == DiffEntry.ChangeType.DELETE) {
-                            Path path = Paths.get(diff.getOldPath());
-                            if (includes.contains(path)) {
-                                files.add(path);
-                            }
-                        } else {
-                            Path path = Paths.get(diff.getNewPath());
-                            if (includes.contains(path)) {
-                                files.add(path);
-                            }
+                diffs.forEach(diff -> {
+                    if (diff.getChangeType() == DiffEntry.ChangeType.DELETE) {
+                        Path path = Paths.get(diff.getOldPath());
+                        if (includes.contains(path)) {
+                            files.add(path);
                         }
-                    });
-                } catch (IOException | GitAPIException e) {
-                    e.printStackTrace();
-                }
+                    } else {
+                        Path path = Paths.get(diff.getNewPath());
+                        if (includes.contains(path)) {
+                            files.add(path);
+                        }
+                    }
+                });
             }
+        } catch (GitAPIException | IOException e) {
+        e.printStackTrace();
         }
-
         return files;
+    }
+
+    private static AbstractTreeIterator prepareTreeParser(Repository repository, RevCommit commit) throws IOException {
+        try (RevWalk walk = new RevWalk(repository)) {
+            RevTree tree = walk.parseTree(commit.getTree().getId());
+
+            CanonicalTreeParser oldTreeParser = new CanonicalTreeParser();
+            try (ObjectReader oldReader = repository.newObjectReader()) {
+                oldTreeParser.reset(oldReader, tree.getId());
+            }
+
+            walk.dispose();
+
+            return oldTreeParser;
+        }
     }
 }

@@ -6,7 +6,6 @@ import org.uva.rdewildt.mt.fpms.FeatureReport;
 import org.uva.rdewildt.mt.gcrawler.git.model.GReport;
 import org.uva.rdewildt.mt.report.Report;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -37,7 +36,7 @@ public class FeatureReportsBuilder {
 
     public void writeReportsToFile(Path path) {
         for(Report featureReport : featureReports){
-            featureReport.writeToFile(path, "_featureset", ',', true);
+            featureReport.writeToFile(path, "_featureset", ',', false);
         }
     }
 

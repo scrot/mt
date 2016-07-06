@@ -1,17 +1,10 @@
 package org.uva.rdewildt.mt.gcrawler.git.crawler;
 
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.uva.rdewildt.mt.gcrawler.git.model.Author;
 import org.uva.rdewildt.mt.gcrawler.git.model.Commit;
 import org.uva.rdewildt.mt.gcrawler.git.model.Fault;
 import org.uva.rdewildt.mt.gcrawler.git.model.Issue;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Pattern;
 

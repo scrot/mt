@@ -1,24 +1,18 @@
 package org.uva.rdewildt.mt.runner.writer;
 
-import org.uva.rdewildt.mt.gcrawler.git.GitUtils;
 import org.uva.rdewildt.mt.gcrawler.git.model.GReport;
 import org.uva.rdewildt.mt.gcrawler.git.model.Project;
-import org.uva.rdewildt.mt.gcrawler.github.GhReport;
-import org.uva.rdewildt.mt.report.Report;
-import org.uva.rdewildt.mt.utils.MapUtils;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class ReportWriter {
     public static void main(String[] args) throws IOException, NoSuchFieldException {
         Path config = Paths.get("/home/roy/Workspace/MT/mt/runner/src/main/resources/linux_home.csv");
-        Path output = Paths.get("C/home/roy/Workspace/MT");
+        Path output = Paths.get("/home/roy/Workspace/MT");
         fBuilder(config,output);
     }
 

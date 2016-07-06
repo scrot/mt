@@ -1,13 +1,10 @@
 package org.uva.rdewildt.mt.runner.writer;
 
-import org.uva.rdewildt.mt.gcrawler.git.model.Project;
 import org.uva.rdewildt.mt.ovms.OverviewCalculator;
 import org.uva.rdewildt.mt.ovms.OverviewReport;
 import org.uva.rdewildt.mt.report.Report;
 
-import java.io.IOException;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Map;
 
 /**

@@ -10,7 +10,6 @@ import org.uva.rdewildt.mt.utils.splitter.model.ClassSource;
 import org.uva.rdewildt.mt.utils.splitter.model.Location;
 import org.uva.rdewildt.mt.utils.splitter.model.Position;
 
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;

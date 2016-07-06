@@ -2,17 +2,16 @@ package org.uva.rdewildt.mt.fpms;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
+import org.uva.rdewildt.mt.bcms.MetricCalculator;
 import org.uva.rdewildt.mt.gcrawler.git.GitUtils;
 import org.uva.rdewildt.mt.gcrawler.git.crawler.ClassCrawler;
 import org.uva.rdewildt.mt.gcrawler.git.crawler.Crawler;
 import org.uva.rdewildt.mt.gcrawler.git.crawler.FileCrawler;
 import org.uva.rdewildt.mt.gcrawler.git.model.Commit;
-import org.uva.rdewildt.mt.bcms.MetricCalculator;
 import org.uva.rdewildt.mt.gcrawler.git.model.Fault;
 import org.uva.rdewildt.mt.utils.MapUtils;
 import org.uva.rdewildt.mt.utils.lang.Java;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
@@ -29,7 +28,7 @@ public class FeatureCalculator extends MetricCalculator {
     public FeatureCalculator(Path binaryRoot, Path gitRoot, Boolean ignoreGenerated, Boolean ignoreTests, Boolean onlyOuterClasses, Boolean stateAware) throws Exception {
         super(binaryRoot, onlyOuterClasses);
         if(onlyOuterClasses){
-            if(stateAware){
+            if(false){
                 if(!binaryRoot.toFile().isDirectory()){
                     throw new Exception("Binary root path is not a directory");
                 }

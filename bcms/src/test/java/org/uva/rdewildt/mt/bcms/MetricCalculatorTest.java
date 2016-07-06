@@ -213,6 +213,15 @@ public class MetricCalculatorTest {
     }
 
     @Test
+    public void testSp() {
+        Map<String, Metric> ms = getMetrics("bcmstest.jar");
+        assertEquals(2, ms.get("PolyTest1$Poly1").getSp());
+        assertEquals(1, ms.get("PolyTest1$Poly2").getSp());
+        assertEquals(1, ms.get("PolyTest1$Poly3").getSp());
+        assertEquals(0, ms.get("PolyTest1$Poly4").getSp());
+    }
+
+    @Test
     public void testSpa() {
         Map<String, Metric> ms = getMetrics("bcmstest.jar");
         assertEquals(2, ms.get("PolyTest1$Poly1").getSpa());
@@ -228,6 +237,15 @@ public class MetricCalculatorTest {
         assertEquals(1, ms.get("PolyTest1$Poly2").getSpd());
         assertEquals(1, ms.get("PolyTest1$Poly3").getSpd());
         assertEquals(0, ms.get("PolyTest1$Poly4").getSpd());
+    }
+
+    @Test
+    public void testDp() {
+        Map<String, Metric> ms = getMetrics("bcmstest.jar");
+        assertEquals(1, ms.get("PolyTest1$Poly1").getDp());
+        assertEquals(1, ms.get("PolyTest1$Poly2").getDp());
+        assertEquals(2, ms.get("PolyTest1$Poly3").getDp());
+        assertEquals(0, ms.get("PolyTest1$Poly4").getDp());
     }
 
     @Test

@@ -1,6 +1,5 @@
 package org.uva.rdewildt.mt.ovms;
 
-import org.uva.rdewildt.mt.gcrawler.git.model.Project;
 import org.uva.rdewildt.mt.report.Reportable;
 
 import java.util.ArrayList;

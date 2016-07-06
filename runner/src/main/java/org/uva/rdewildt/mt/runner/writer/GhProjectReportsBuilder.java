@@ -1,14 +1,12 @@
 package org.uva.rdewildt.mt.runner.writer;
 
-import org.uva.rdewildt.mt.report.Report;
 import org.uva.rdewildt.mt.gcrawler.github.GhProject;
 import org.uva.rdewildt.mt.gcrawler.github.GhProjectCrawler;
 import org.uva.rdewildt.mt.gcrawler.github.GhReport;
+import org.uva.rdewildt.mt.report.Report;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by roy on 5/27/16.

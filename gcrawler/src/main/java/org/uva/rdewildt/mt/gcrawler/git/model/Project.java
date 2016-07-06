@@ -1,7 +1,5 @@
 package org.uva.rdewildt.mt.gcrawler.git.model;
 
-import org.eclipse.jgit.transport.URIish;
-import org.uva.rdewildt.mt.gcrawler.github.GhProject;
 import org.uva.rdewildt.mt.report.Reportable;
 
 import java.nio.file.Path;
