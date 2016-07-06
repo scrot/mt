@@ -1,6 +1,5 @@
 package org.uva.rdewildt.mt.fpms;
 
-import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.uva.rdewildt.mt.gcrawler.git.GitUtils;
@@ -210,26 +209,5 @@ public class FeatureCalculator extends MetricCalculator {
         else {
             return classname;
         }
-    }
-
-    private void cleanWorkingDir(Path gitRoot){
-        File root = new File(gitRoot.toUri());
-        File[] files = root.listFiles(file -> !file.toString().endsWith(".git"));
-        Arrays.stream(files).forEach(file -> {
-            if(file.isDirectory()){
-                try {
-                    FileUtils.deleteDirectory(file);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            else{
-                try {
-                    FileUtils.forceDelete(file);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 }

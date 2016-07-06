@@ -4,6 +4,9 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.Edit;
+import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -21,6 +24,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.uva.rdewildt.mt.gcrawler.git.GitUtils.gitFromPath;
 import static org.uva.rdewildt.mt.utils.MapUtils.addValueToMapSet;
 
 /**
@@ -30,8 +34,8 @@ public class ClassCommitCrawler extends CommitCrawler{
     private final Map<String, Set<Commit>> commits;
 
 
-    public ClassCommitCrawler(Git git, List<Path> includes) {
-        super(git);
+    public ClassCommitCrawler(Path gitRoot, List<Path> includes) {
+        super(gitRoot);
         this.commits = collectChanges(includes);
     }
 
@@ -63,38 +67,45 @@ public class ClassCommitCrawler extends CommitCrawler{
     private Set<String> classesAffectedByCommit(RevCommit commit, Map<String, ClassSource> commitClasses) {
         Set<String> classes = new HashSet<>();
 
-        try (ObjectReader reader = this.git.getRepository().newObjectReader()){
-            CanonicalTreeParser oldTree = new CanonicalTreeParser();
-            oldTree.reset(reader, commit.getTree());
-            CanonicalTreeParser newTree = new CanonicalTreeParser();
-            newTree.reset(reader, commit.getParent(0).getTree());
+        try (Git git = gitFromPath(this.gitRoot)) {
+            if (git != null) {
+                try (ObjectReader reader = git.getRepository().newObjectReader()) {
 
+                    CanonicalTreeParser oldTree = new CanonicalTreeParser();
+                    oldTree.reset(reader, commit.getTree());
+                    CanonicalTreeParser newTree = new CanonicalTreeParser();
+                    newTree.reset(reader, commit.getParent(0).getTree());
 
-            DiffFormatter diffFormatter = new DiffFormatter(DisabledOutputStream.INSTANCE);
-            diffFormatter.setRepository(git.getRepository());
-            diffFormatter.setContext(0);
+                    DiffFormatter diffFormatter = new DiffFormatter(DisabledOutputStream.INSTANCE);
+                    diffFormatter.setRepository(git.getRepository());
+                    diffFormatter.setContext(0);
 
-            List<DiffEntry> diffs = git.diff().setNewTree(newTree).setOldTree(oldTree).call();
-            diffs.forEach(diff -> {
-                Path path = diff.getChangeType() == DiffEntry.ChangeType.DELETE ? Paths.get(diff.getOldPath()) : Paths.get(diff.getNewPath());
+                    List<DiffEntry> diffs = git.diff().setNewTree(newTree).setOldTree(oldTree).call();
+                    diffs.forEach(diff -> {
+                        Path path = diff.getChangeType() == DiffEntry.ChangeType.DELETE ? Paths.get(diff.getOldPath()) : Paths.get(diff.getNewPath());
 
-                List<Edit> editList = new ArrayList<>();
-                try { editList = diffFormatter.toFileHeader(diff).toEditList(); } catch (IOException e) { e.printStackTrace(); }
-
-                Map<Integer, String> classMap = getClassMap(commitClasses, path);
-                editList.forEach(edit -> {
-                    int start = edit.getBeginA();
-                    int end = edit.getEndA();
-                    for(int i = start; i <= end; i++){
-                        if(classMap.containsKey(i)){
-                            classes.add(classMap.get(i));
+                        List<Edit> editList = new ArrayList<>();
+                        try {
+                            editList = diffFormatter.toFileHeader(diff).toEditList();
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                    }
-                });
-            });
-        }
-        catch (Exception e){
-            e.getStackTrace();
+
+                        Map<Integer, String> classMap = getClassMap(commitClasses, path);
+                        editList.forEach(edit -> {
+                            int start = edit.getBeginA();
+                            int end = edit.getEndA();
+                            for (int i = start; i <= end; i++) {
+                                if (classMap.containsKey(i)) {
+                                    classes.add(classMap.get(i));
+                                }
+                            }
+                        });
+                    });
+                } catch (Exception e) {
+                    e.getStackTrace();
+                }
+            }
         }
 
         return classes;
@@ -119,19 +130,20 @@ public class ClassCommitCrawler extends CommitCrawler{
     }
 
     private String getCommitSource(RevCommit commit, Path filePath) {
-        try {
-            TreeWalk treeWalk = new TreeWalk(this.git.getRepository());
-            treeWalk.addTree(commit.getTree());
-            treeWalk.setRecursive(true);
-            treeWalk.setFilter(PathFilter.create(filePath.toString().replace('\\', '/')));
-            treeWalk.next();
-            ObjectLoader loader = this.git.getRepository().open(treeWalk.getObjectId(0));
-            return new String(loader.getCachedBytes(Integer.MAX_VALUE));
+        try (Git git = gitFromPath(this.gitRoot)) {
+            if(git != null) {
+                try(TreeWalk treeWalk = new TreeWalk(git.getRepository())) {
+                    treeWalk.addTree(commit.getTree());
+                    treeWalk.setRecursive(true);
+                    treeWalk.setFilter(PathFilter.create(filePath.toString().replace('\\', '/')));
+                    treeWalk.next();
+                    ObjectLoader loader = git.getRepository().open(treeWalk.getObjectId(0));
+                    return new String(loader.getCachedBytes(Integer.MAX_VALUE));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        catch (Exception e){
-            e.getStackTrace();
-        }
-
         return "";
     }
 

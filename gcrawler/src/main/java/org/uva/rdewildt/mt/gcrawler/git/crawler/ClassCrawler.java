@@ -21,14 +21,12 @@ public class ClassCrawler extends Crawler {
     private final Map<String, Set<Author>> authors;
 
     public ClassCrawler(Path gitRoot, Boolean ignoreGenerated, Boolean ignoreTests, Language ofLanguage) throws Exception {
-        Git git = GitUtils.gitFromPath(gitRoot);
         List<Language> lang = new ArrayList<Language>(){{add(ofLanguage);}};
         PathCollector collector = new PathCollector(gitRoot, true, ignoreGenerated, ignoreTests, lang);
-        this.commitCrawler = new ClassCommitCrawler(git, collector.getFilePaths().get(ofLanguage));
+        this.commitCrawler = new ClassCommitCrawler(gitRoot, collector.getFilePaths().get(ofLanguage));
 
         this.faults = collectFaults(getChanges());
         this.authors = collectAuthors(getChanges());
-        git.close();
     }
 
     @Override

@@ -27,7 +27,7 @@ public class FileCrawler extends Crawler {
                 add(ofLanguage);
             }};
             PathCollector collector = new PathCollector(gitRoot, true, ignoreGenerated, ignoreTests, lang);
-            this.commitCrawler = new FileCommitCrawler(git, gitRoot, usePathNames, collector.getFilePaths().get(ofLanguage));
+            this.commitCrawler = new FileCommitCrawler(gitRoot, usePathNames, collector.getFilePaths().get(ofLanguage));
 
             this.faults = collectFaults(getChanges());
             this.authors = collectAuthors(getChanges());

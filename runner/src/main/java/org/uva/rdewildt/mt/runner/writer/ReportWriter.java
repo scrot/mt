@@ -7,6 +7,7 @@ import org.uva.rdewildt.mt.gcrawler.github.GhReport;
 import org.uva.rdewildt.mt.report.Report;
 import org.uva.rdewildt.mt.utils.MapUtils;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -15,33 +16,35 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ReportWriter {
-    public static void main(String[] args) throws Exception {
-        //Path top1000 = Paths.get("/home/roy/Workspace/MT/mt/dataset/original/top1000.csv");
-        //Report top1000Report = new GhReport(top1000);
-        Path config = Paths.get("C:\\Users\\royw\\Workspace\\mt\\runner\\src\\main\\resources\\opensource.conf");
-        Path output = Paths.get("C:\\Users\\royw\\Workspace\\");
+    public static void main(String[] args) throws IOException, NoSuchFieldException {
+        Path config = Paths.get("/home/roy/Workspace/MT/mt/runner/src/main/resources/linux_home.csv");
+        Path output = Paths.get("C/home/roy/Workspace/MT");
+        fBuilder(config,output);
+    }
 
+    private void ghBuilder(Path config, Path output) {
+        Map<String, String> params = new HashMap<String, String>(){{put("language", "Java");}};
+        GhProjectReportsBuilder ghbuilder = new GhProjectReportsBuilder("top1000", 1000, params, config);
+        ghbuilder.writeReportsToFile(config);
+    }
+
+    private void ovBuilder(Path config, Path output) throws IOException, NoSuchFieldException {
         GReport testReport = new GReport(config);
-
         Map<String, Path> ovinput = new HashMap<>();
         testReport.getReport().forEach(reportable -> {
             Project project = (Project) reportable;
             ovinput.put(project.getId(), project.getGitRoot());
         });
 
-        //System.out.println("Building overview report");
-        //OverviewReportBuilder obuilder = new OverviewReportBuilder("systems",ovinput, true, true);
-        //obuilder.writeReportsToFile(output);
+        System.out.println("Building overview report");
+        OverviewReportBuilder obuilder = new OverviewReportBuilder("systems",ovinput, true, true);
+        obuilder.writeReportsToFile(output);
+    }
 
+    private static void fBuilder(Path config, Path output) throws IOException, NoSuchFieldException {
+        GReport testReport = new GReport(config);
         System.out.println("Building feature reports");
         FeatureReportsBuilder fbuilder = new FeatureReportsBuilder(testReport, true, true, true, true);
         fbuilder.writeReportsToFile(output);
-    }
-
-    private static void GhBuilder(Path top1000) {
-        //GhBuilder
-        Map<String, String> params = new HashMap<String, String>(){{put("language", "Java");}};
-        GhProjectReportsBuilder ghbuilder = new GhProjectReportsBuilder("top1000", 1000, params, top1000);
-        ghbuilder.writeReportsToFile(top1000);
     }
 }

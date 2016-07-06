@@ -22,8 +22,8 @@ public class FileCommitCrawler extends CommitCrawler {
     Path gitRoot;
     private final Map<String, Set<Commit>> commits;
 
-    public FileCommitCrawler(Git git, Path gitRoot, Boolean usePathNames, List<Path> includes) {
-        super(git);
+    public FileCommitCrawler(Path gitRoot, Boolean usePathNames, List<Path> includes) {
+        super(gitRoot);
         this.gitRoot = gitRoot;
         this.commits = collectChanges(includes, usePathNames);
     }
