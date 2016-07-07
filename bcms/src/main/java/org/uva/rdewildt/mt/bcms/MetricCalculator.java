@@ -168,7 +168,7 @@ public class MetricCalculator extends EmptyVisitor {
         try {
             Integer current = getMetric(jclass).getDit();
             Integer dit = jclass.getSuperClasses().length > current ? jclass.getSuperClasses().length : current;
-            getMetric(jclass).incrementDit(dit);
+            getMetric(jclass).setDit(dit);
         } catch (ClassNotFoundException e) {
             System.out.println("couldn't find superclass of " + jclass.getClassName());
         }
@@ -204,27 +204,27 @@ public class MetricCalculator extends EmptyVisitor {
             }
         }
         if(lcom > 0) {
-            getMetric(jclass).incrementLcom(lcom);
+            getMetric(jclass).setLcom(lcom);
         }
     }
 
     private void updateClassMpc(MethodGen methodGen){
-        if(methodGen.getInstructionList() != null) {
-            for (Instruction instruction : methodGen.getInstructionList().getInstructions()) {
+        try {
+            Arrays.stream(methodGen.getInstructionList().getInstructions()).forEach(instruction -> {
                 if (instruction instanceof InvokeInstruction) {
                     getMetric(this.currectClass).incrementMpc(1);
                 }
-            }
-        }
+            });
+        } catch (Exception ignore){}
     }
 
     private void updateClassDac() {
-        for(String clazz : classCouples){
+        classCouples.forEach(clazz -> {
             JavaClass jclass = this.classesMap.get(clazz);
             if(jclass != null && (jclass.isInterface() || jclass.isAbstract())){
                 getMetric(this.currectClass).incrementDac(1);
             }
-        }
+        });
     }
 
     private void updateClassNom(MethodGen methodGen){
@@ -234,9 +234,9 @@ public class MetricCalculator extends EmptyVisitor {
     }
 
     private void updateClassSize1(MethodGen methodGen){
-        if(methodGen.getInstructionList() != null) {
+        try {
             getMetric(currectClass).incrementSize1(methodGen.getInstructionList().getInstructions().length);
-        }
+        } catch (Exception ignore){}
     }
 
     private void updateClassesMethodCouples(){
@@ -364,13 +364,13 @@ public class MetricCalculator extends EmptyVisitor {
     private void addToResponses(MethodGen methodGen, ConstantPoolGen constantPoolGen){
         this.classResponses.add(methodSignature(methodGen));
 
-        if(methodGen.getInstructionList() != null) {
+        try {
             for (Instruction instruction : methodGen.getInstructionList().getInstructions()) {
                 if (instruction instanceof InvokeInstruction) {
                     InvokeInstruction ii = (InvokeInstruction) instruction;
                     String iiAll = ii.getReferenceType(constantPoolGen).getSignature()
-                                    + ii.getMethodName(constantPoolGen)
-                                    + Arrays.toString(ii.getArgumentTypes(constantPoolGen));
+                            + ii.getMethodName(constantPoolGen)
+                            + Arrays.toString(ii.getArgumentTypes(constantPoolGen));
                     this.classResponses.add(iiAll);
 
                     String iiClass = ii.getReferenceType(constantPoolGen).getSignature();
@@ -378,7 +378,7 @@ public class MetricCalculator extends EmptyVisitor {
                     MapUtils.addValueToMapSet(this.classCouplesMap, getClassName(this.currectClass), getClassName(iiClass));
                 }
             }
-        }
+        } catch (Exception ignore){}
     }
 
     private void addClassCouplings(JavaClass jclass){
@@ -421,7 +421,7 @@ public class MetricCalculator extends EmptyVisitor {
     private void addMethodInstanceVariables(MethodGen methodGen) {
         Set<String> locals = new HashSet<>();
         ConstantPoolGen constantPoolGen = methodGen.getConstantPool();
-        if(methodGen.getInstructionList() != null) {
+        try {
             List<Instruction> methodInstructions = Arrays.asList(methodGen.getInstructionList().getInstructions());
             for (Instruction instruction : methodInstructions) {
                 if (instruction instanceof PUTFIELD) {
@@ -434,7 +434,7 @@ public class MetricCalculator extends EmptyVisitor {
             if (locals.size() > 0) {
                 this.methodVariablesMap.put(methodSignature(methodGen), locals);
             }
-        }
+        } catch (Exception ignore){}
     }
 
     private boolean complementIsEmpty(Set<String> setI, Set<String> setJ) {
@@ -447,13 +447,13 @@ public class MetricCalculator extends EmptyVisitor {
 
     private Integer calculateMethodCC(MethodGen methodGen) {
         if(methodGen.getInstructionList() != null){
-            List<Instruction> methodInstructions = Arrays.asList(methodGen.getInstructionList().getInstructions());
-            return 1 + getBranch(methodInstructions)
-                    + methodGen.getExceptions().length;
+            try {
+                List<Instruction> methodInstructions = Arrays.asList(methodGen.getInstructionList().getInstructions());
+                return 1 + getBranch(methodInstructions)
+                        + methodGen.getExceptions().length;
+            } catch (Exception ignore){}
         }
-        else {
-            return 1;
-        }
+        return 1;
     }
 
     private Integer getBranch(List<Instruction> methodInstructions) {

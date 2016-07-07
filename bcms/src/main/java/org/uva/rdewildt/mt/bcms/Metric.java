@@ -188,16 +188,16 @@ public class Metric implements Reportable {
         MapUtils.incrementMapValue(map, "NOC", increment);
     }
 
-    public void incrementDit(Integer increment){
-        MapUtils.incrementMapValue(map, "DIT", increment);
+    public void setDit(Integer value){
+        map.put("DIT", value);
     }
 
     public void incrementCbo(Integer increment){
         MapUtils.incrementMapValue(map, "CBO", increment);
     }
 
-    public void incrementLcom(Integer increment){
-        MapUtils.incrementMapValue(map, "LCOM", increment);
+    public void setLcom(Integer value){
+        map.put("LCOM", value);
     }
 
     public void incrementMpc(Integer increment){
