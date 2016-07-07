@@ -1,3 +1,8 @@
-sep=;
 Name;Group;URL;GitPath;BinaryPath
 spring-mvc;spring;nil;/home/roy/Workspace/MT/projects/spring-mvc-showcase;/home/roy/Workspace/MT/projects/spring-mvc-showcase
+commons-io;apache;nil;/home/roy/Workspace/MT/projects/commons-io;/home/roy/Workspace/MT/projects/commons-io
+guava;google;nil;/home/roy/Workspace/MT/projects/guava;/home/roy/Workspace/MT/projects/guava
+java-design-patterns;unknown;nil;/home/roy/Workspace/MT/projects/java-design-patterns;/home/roy/Workspace/MT/projects/java-design-patterns
+log4j;unknown;nil;/home/roy/Workspace/MT/projects/log4j;/home/roy/Workspace/MT/projects/log4j
+react-native;facebook;nil;/home/roy/Workspace/MT/projects/react-native;/home/roy/Workspace/MT/projects/react-native
+spring-framework;spring;nil;/home/roy/Workspace/MT/projects/spring-framework;/home/roy/Workspace/MT/projects/spring-framework

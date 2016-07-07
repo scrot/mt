@@ -4,10 +4,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ResetCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.lib.*;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
@@ -27,17 +24,17 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class GitUtils {
-    public static List<RevCommit> getAllCommits(Path gitRoot) throws IOException, GitAPIException {
+    public static List<RevCommit> getCurrentBranchCommits(Path gitRoot) throws IOException, GitAPIException {
         List<RevCommit> commits = new ArrayList<>();
         try (Repository repository = repoFromPath(gitRoot)) {
-            Ref head = repository.exactRef("refs/heads/master");
-            try (RevWalk walk = new RevWalk(repository)) {
-                RevCommit commit = walk.parseCommit(head.getObjectId());
-                walk.markStart(commit);
-                for (RevCommit rev : walk) {
-                    commits.add(rev);
+            try (Git git = new Git(repository)) {
+                String remote = repository.getRemoteNames().stream().findFirst().orElse("master");
+                String branch = repository.getBranch();
+                ObjectId currentBranchRef = repository.resolve("remotes/" + remote + '/' + branch);
+                Iterable<RevCommit> revcommits = git.log().add(currentBranchRef).call();
+                for (RevCommit revcommit : revcommits) {
+                    commits.add(revcommit);
                 }
-                walk.dispose();
             }
         }
         return commits;
@@ -82,7 +79,7 @@ public class GitUtils {
 
 
     public static Map<RevCommit, List<Path>> getFilteredCommitsPaths(Path gitRoot, List<Path> includes) throws IOException, GitAPIException {
-        List<RevCommit> revCommits = getAllCommits(gitRoot);
+        List<RevCommit> revCommits = getCurrentBranchCommits(gitRoot);
         Map<RevCommit, List<Path>> commitPaths = new HashMap<>();
         revCommits.forEach(revCommit -> {
             List<Path> paths = getCommitPaths(gitRoot, revCommit).stream()

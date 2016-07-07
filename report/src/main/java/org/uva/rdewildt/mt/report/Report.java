@@ -79,9 +79,10 @@ public abstract class Report {
         List<Reportable> reportables = new ArrayList<>();
 
         int index = 0;
-        List<String> lines = Files.readAllLines(path);
+        List<String> lines = Files.readAllLines(path).stream()
+                .filter(line -> !line.startsWith("//")).collect(Collectors.toList());
 
-        Character seperator = ',';
+        Character seperator = ';';
         if (lines.get(index).contains("sep=")) {
             seperator = lines.get(index).toCharArray()[lines.get(index).length() - 1];
             index++;

@@ -13,7 +13,8 @@ public class ReportWriter {
     public static void main(String[] args) throws IOException, NoSuchFieldException {
         Path config = Paths.get("/home/roy/Workspace/MT/mt/runner/src/main/resources/linux_home.csv");
         Path output = Paths.get("/home/roy/Workspace/MT");
-        fBuilder(config, output);
+        ovBuilder(config,output);
+        //fBuilder(config, output);
     }
 
     private static void fBuilder(Path config, Path output) throws IOException, NoSuchFieldException {
@@ -23,7 +24,7 @@ public class ReportWriter {
         fbuilder.writeReportsToFile(output);
     }
 
-    private void ghBuilder(Path config, Path output) {
+    private static void ghBuilder(Path config, Path output) {
         Map<String, String> params = new HashMap<String, String>() {{
             put("language", "Java");
         }};
@@ -31,7 +32,7 @@ public class ReportWriter {
         ghbuilder.writeReportsToFile(config);
     }
 
-    private void ovBuilder(Path config, Path output) throws IOException, NoSuchFieldException {
+    private static void ovBuilder(Path config, Path output) throws IOException, NoSuchFieldException {
         GReport testReport = new GReport(config);
         Map<String, Path> ovinput = new HashMap<>();
         testReport.getReport().forEach(reportable -> {
