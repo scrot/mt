@@ -28,7 +28,7 @@ public class FeatureCalculator extends MetricCalculator {
     public FeatureCalculator(Path binaryRoot, Path gitRoot, Boolean ignoreGenerated, Boolean ignoreTests, Boolean onlyOuterClasses, Boolean stateAware) throws Exception {
         super(binaryRoot, onlyOuterClasses);
         if(onlyOuterClasses){
-            if(stateAware){
+            if(false){
                 if(!binaryRoot.toFile().isDirectory()){
                     throw new Exception("Binary root path is not a directory");
                 }
@@ -94,13 +94,9 @@ public class FeatureCalculator extends MetricCalculator {
         return features;
     }
 
-    private Map<String, Feature> calculateOuterClassFeaturesGreedy(Path gitRoot, Boolean ignoreGenerated, Boolean ignoreTests) {
-        Crawler gcrawler = null;
-        try {
-            gcrawler = new FileCrawler(gitRoot, ignoreGenerated, ignoreTests, false, new Java());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private Map<String, Feature> calculateOuterClassFeaturesGreedy(Path gitRoot, Boolean ignoreGenerated, Boolean ignoreTests) throws IOException {
+        Crawler gcrawler = new FileCrawler(gitRoot, ignoreGenerated, ignoreTests, false, new Java());
+
         Map<String, Integer> classesFaults = mapListLenghts(gcrawler.getFaults());
         Map<String, Integer> classesChanges = mapListLenghts(gcrawler.getChanges());
         Map<String, Integer> classesAuthors = mapListLenghts(gcrawler.getAuthors());
@@ -135,14 +131,16 @@ public class FeatureCalculator extends MetricCalculator {
        classFaults.forEach((k,v) -> features.remove(k));
 
         faults.forEach(fault -> {
-            String faultCommitId = fault.getCommit().getId().toString();
-            System.out.println("Resetting system state to commit " + faultCommitId + "...");
-            GitUtils.gitReset(gitRoot, faultCommitId);
-            System.out.println("Recompiling classes...");
-            BuildUtils.buildProject(gitRoot);
-            System.out.println("Calculating features...");
-            Map<String, Feature> stateFeatures = calculateOuterClassFeaturesGreedy(gitRoot, ignoreGenerated, ignoreTests);
-            faultClasses.get(fault).forEach(clazz -> features.put(clazz + '$' + faultCommitId, stateFeatures.get(clazz)));
+            try {
+                String faultCommitId = fault.getCommit().getId().toString();
+                System.out.println("Resetting system state to commit " + faultCommitId + "...");
+                GitUtils.gitReset(gitRoot, faultCommitId);
+                System.out.println("Recompiling classes...");
+                BuildUtils.buildProject(gitRoot);
+                System.out.println("Calculating features...");
+                Map<String, Feature> stateFeatures = calculateOuterClassFeaturesGreedy(gitRoot, ignoreGenerated, ignoreTests);
+                faultClasses.get(fault).forEach(clazz -> features.put(clazz + '$' + faultCommitId, stateFeatures.get(clazz)));
+            } catch (Exception ignore){}
         });
 
         return features;

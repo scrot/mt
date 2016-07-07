@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import static org.uva.rdewildt.mt.utils.ReaderUtils.mixedCharsetFileReader;
+
 public class PathCollector extends SimpleFileVisitor<Path> {
     private final Map<Language, List<Path>> classPaths;
 
@@ -73,8 +75,7 @@ public class PathCollector extends SimpleFileVisitor<Path> {
 
     private Boolean isTestFile(Path file) throws IOException {
         if(this.ignoreTests){
-            return file.toString().contains("test") ||
-                    mixedCharsetFileReader(file,30).stream().anyMatch(line -> Pattern.compile("(?mi)@(Test|Before|After)").matcher(line).find());
+            return mixedCharsetFileReader(file,30).stream().anyMatch(line -> Pattern.compile("(?mi)@(Test|Before|After)").matcher(line).find());
         }
         return false;
     }
@@ -86,28 +87,6 @@ public class PathCollector extends SimpleFileVisitor<Path> {
         else {
             return false;
         }
-    }
-
-    private List<String> mixedCharsetFileReader(Path file, Integer limit) {
-        CharsetDecoder decoder = Charset.forName("UTF-8").newDecoder();
-        decoder.onMalformedInput(CodingErrorAction.IGNORE);
-
-        try(FileInputStream stream = new FileInputStream(file.toFile())) {
-            try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream, decoder))){
-                List<String> classLines = new ArrayList<>();
-
-                int i = 0;
-                String line;
-                while ((line = bufferedReader.readLine()) != null && i < limit) {
-                    classLines.add(line);
-                    i++;
-                }
-                return classLines;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return new ArrayList<>();
     }
 
     private Language getLanguageFromClassPath(Path classPath) {

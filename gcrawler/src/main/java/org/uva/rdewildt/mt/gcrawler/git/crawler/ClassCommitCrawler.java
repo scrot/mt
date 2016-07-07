@@ -1,11 +1,13 @@
 package org.uva.rdewildt.mt.gcrawler.git.crawler;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -21,19 +23,26 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.uva.rdewildt.mt.gcrawler.git.GitUtils.gitFromPath;
+import static org.uva.rdewildt.mt.gcrawler.git.GitUtils.getFilteredCommitsPaths;
+import static org.uva.rdewildt.mt.gcrawler.git.GitUtils.repoFromPath;
+import static org.uva.rdewildt.mt.gcrawler.git.GitUtils.revCommitToCommit;
 import static org.uva.rdewildt.mt.utils.MapUtils.addValueToMapSet;
 
 /**
  * Created by roy on 5/2/16.
  */
-public class ClassCommitCrawler extends CommitCrawler{
-    private final Map<String, Set<Commit>> commits;
+public class ClassCommitCrawler implements CommitCrawler{
+    private Path gitRoot;
+    private Map<String, Set<Commit>> commits;
 
 
     public ClassCommitCrawler(Path gitRoot, List<Path> includes) {
-        super(gitRoot);
-        this.commits = collectChanges(includes);
+        this.gitRoot = gitRoot;
+        try {
+            this.commits = collectChanges(includes);
+        } catch (IOException | GitAPIException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -41,42 +50,46 @@ public class ClassCommitCrawler extends CommitCrawler{
         return this.commits;
     }
 
-    private Map<String, Set<Commit>> collectChanges(List<Path> includes){
+    private Map<String, Set<Commit>> collectChanges(List<Path> includes) throws IOException, GitAPIException {
         Map<String, Set<Commit>> classCommits = new HashMap<>();
 
         System.out.println("Collecting and filtering commit paths...");
-        Map<RevCommit, List<Path>> commitPaths =  getFilteredCommitsPaths(includes);
+        Map<RevCommit, List<Path>> commitPaths =  getFilteredCommitsPaths(this.gitRoot, includes);
 
         int i = 0;
         for(Map.Entry<RevCommit, List<Path>> entry : commitPaths.entrySet()){
             System.out.println("Analysing commit " + i++ + " of " + commitPaths.size());
             entry.getValue().stream().forEach(commitPath -> {
-                System.out.println("\t Path: " + commitPath.toString());
-                String commitSource = getCommitSource(entry.getKey(), commitPath);
-                Map<String, ClassSource> commitClasses = new SourceVisitor(commitPath, commitSource).getClassSources();
-                Set<String> affectedClasses = classesAffectedByCommit(entry.getKey(), commitClasses);
-                affectedClasses.forEach(jclass -> addValueToMapSet(classCommits, jclass, revCommitToCommit(entry.getKey())));
+                try {
+                    System.out.println("\t Path: " + commitPath.toString());
+                    String commitSource = getCommitSource(entry.getKey(), commitPath);
+                    Map<String, ClassSource> commitClasses = new SourceVisitor(commitPath, commitSource).getClassSources();
+                    Set<String> affectedClasses = classesAffectedByCommit(entry.getKey(), commitClasses);
+                    affectedClasses.forEach(jclass -> addValueToMapSet(classCommits, jclass, revCommitToCommit(entry.getKey())));
+                } catch (GitAPIException | IOException e) {
+                    e.printStackTrace();
+                }
             });
         }
         return classCommits;
     }
 
-    private Set<String> classesAffectedByCommit(RevCommit commit, Map<String, ClassSource> commitClasses) {
+    private Set<String> classesAffectedByCommit(RevCommit commit, Map<String, ClassSource> commitClasses) throws GitAPIException, IOException {
         Set<String> classes = new HashSet<>();
 
-        try (Git git = gitFromPath(this.gitRoot)) {
-            if (git != null) {
-                try (ObjectReader reader = git.getRepository().newObjectReader()) {
+        try (Repository repo = repoFromPath(this.gitRoot)) {
+            try (ObjectReader reader = repo.newObjectReader()) {
 
-                    CanonicalTreeParser oldTree = new CanonicalTreeParser();
-                    oldTree.reset(reader, commit.getTree());
-                    CanonicalTreeParser newTree = new CanonicalTreeParser();
-                    newTree.reset(reader, commit.getParent(0).getTree());
+                CanonicalTreeParser oldTree = new CanonicalTreeParser();
+                oldTree.reset(reader, commit.getTree());
+                CanonicalTreeParser newTree = new CanonicalTreeParser();
+                newTree.reset(reader, commit.getParent(0).getTree());
 
-                    DiffFormatter diffFormatter = new DiffFormatter(DisabledOutputStream.INSTANCE);
-                    diffFormatter.setRepository(git.getRepository());
-                    diffFormatter.setContext(0);
+                DiffFormatter diffFormatter = new DiffFormatter(DisabledOutputStream.INSTANCE);
+                diffFormatter.setRepository(repo);
+                diffFormatter.setContext(0);
 
+                try (Git git = new Git(repo)) {
                     List<DiffEntry> diffs = git.diff().setNewTree(newTree).setOldTree(oldTree).call();
                     diffs.forEach(diff -> {
                         Path path = diff.getChangeType() == DiffEntry.ChangeType.DELETE ? Paths.get(diff.getOldPath()) : Paths.get(diff.getNewPath());
@@ -99,8 +112,6 @@ public class ClassCommitCrawler extends CommitCrawler{
                             }
                         });
                     });
-                } catch (Exception e) {
-                    e.getStackTrace();
                 }
             }
         }
@@ -126,19 +137,17 @@ public class ClassCommitCrawler extends CommitCrawler{
         return classMap;
     }
 
-    private String getCommitSource(RevCommit commit, Path filePath) {
-        try (Git git = gitFromPath(this.gitRoot)) {
-            if(git != null) {
-                try(TreeWalk treeWalk = new TreeWalk(git.getRepository())) {
-                    treeWalk.addTree(commit.getTree());
-                    treeWalk.setRecursive(true);
-                    treeWalk.setFilter(PathFilter.create(filePath.toString().replace('\\', '/')));
-                    treeWalk.next();
-                    ObjectLoader loader = git.getRepository().open(treeWalk.getObjectId(0));
-                    return new String(loader.getCachedBytes(Integer.MAX_VALUE));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+    private String getCommitSource(RevCommit commit, Path filePath) throws IOException {
+        try (Repository repo = repoFromPath(this.gitRoot)) {
+            try(TreeWalk treeWalk = new TreeWalk(repo)) {
+                treeWalk.addTree(commit.getTree());
+                treeWalk.setRecursive(true);
+                treeWalk.setFilter(PathFilter.create(filePath.toString().replace('\\', '/')));
+                treeWalk.next();
+                ObjectLoader loader = repo.open(treeWalk.getObjectId(0));
+                return new String(loader.getCachedBytes(Integer.MAX_VALUE));
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
         return "";

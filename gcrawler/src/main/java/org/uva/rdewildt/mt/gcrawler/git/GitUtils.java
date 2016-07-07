@@ -3,41 +3,109 @@ package org.uva.rdewildt.mt.gcrawler.git;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ResetCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.lib.*;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.treewalk.CanonicalTreeParser;
+import org.uva.rdewildt.mt.gcrawler.git.model.Author;
+import org.uva.rdewildt.mt.gcrawler.git.model.Commit;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class GitUtils {
-    public static Map<String, String> gitLastCommits(Map<String, Path> gitRoots){
-        Map<String, String> lastcommits = new HashMap<>();
-        gitRoots.forEach((k,v) -> {
-            try(Git git = gitFromPath(v)){
-                if (git != null) {
-                    try(Repository repo = git.getRepository()){
-                        ObjectId head = repo.resolve(Constants.HEAD);
-
-                        try (RevWalk walk = new RevWalk(repo)) {
-                            RevCommit commit = walk.parseCommit(head);
-                            lastcommits.put(v.toString(), commit.getName());
-                            walk.dispose();
-                        }
-                    } catch (IOException e) {e.printStackTrace();}
+    public static List<RevCommit> getAllCommits(Path gitRoot) throws IOException, GitAPIException {
+        List<RevCommit> commits = new ArrayList<>();
+        try (Repository repository = repoFromPath(gitRoot)) {
+            Ref head = repository.exactRef("refs/heads/master");
+            try (RevWalk walk = new RevWalk(repository)) {
+                RevCommit commit = walk.parseCommit(head.getObjectId());
+                walk.markStart(commit);
+                for (RevCommit rev : walk) {
+                    commits.add(rev);
                 }
-            }});
+                walk.dispose();
+            }
+        }
+        return commits;
+    }
 
-        return lastcommits;
+    public static List<Path> getCommitPaths(Path gitRoot, RevCommit revCommit) {
+        List<Path> files = new ArrayList<>();
+
+        if(revCommit.getParentCount() <= 0){
+            return files;
+        }
+
+        try(Repository repo = repoFromPath(gitRoot)) {
+            try (ObjectReader reader = repo.newObjectReader()) {
+                CanonicalTreeParser oldTreeIter = new CanonicalTreeParser();
+                oldTreeIter.reset(reader, revCommit.getTree());
+                CanonicalTreeParser newTreeIter = new CanonicalTreeParser();
+                newTreeIter.reset(reader, revCommit.getParent(0).getTree());
+
+                try (Git git = new Git(repo)) {
+                    List<DiffEntry> diffs = git.diff()
+                            .setNewTree(newTreeIter)
+                            .setOldTree(oldTreeIter)
+                            .call();
+
+                    for(DiffEntry diff : diffs){
+                        if (diff.getChangeType() == DiffEntry.ChangeType.DELETE) {
+                            Path path = Paths.get(diff.getOldPath());
+                            files.add(path);
+                        } else {
+                            Path path = Paths.get(diff.getNewPath());
+                            files.add(path);
+                        }
+                    }
+                }
+            }
+        } catch (GitAPIException | IOException e) {
+            e.printStackTrace();
+        }
+        return files;
+    }
+
+
+    public static Map<RevCommit, List<Path>> getFilteredCommitsPaths(Path gitRoot, List<Path> includes) throws IOException, GitAPIException {
+        List<RevCommit> revCommits = getAllCommits(gitRoot);
+        Map<RevCommit, List<Path>> commitPaths = new HashMap<>();
+        revCommits.forEach(revCommit -> {
+            List<Path> paths = getCommitPaths(gitRoot, revCommit).stream()
+                    .filter(includes::contains)
+                    .collect(Collectors.toList());
+            if (!paths.isEmpty()) {
+                commitPaths.put(revCommit, paths);
+            }
+        });
+        return commitPaths;
+    }
+
+    public static Commit revCommitToCommit(RevCommit revCommit){
+        return new Commit(
+                revCommit.getName(),
+                new Author(revCommit.getAuthorIdent().getName()),
+                revCommit.getFullMessage(),
+                revCommit.getAuthorIdent().getWhen());
+    }
+
+    public static Repository repoFromPath(Path gitPath) throws IOException {
+        File gitFolder = Paths.get(gitPath.toString(), ".git").toFile();
+        FileRepositoryBuilder builder = new FileRepositoryBuilder();
+        return builder.setGitDir(gitFolder)
+                .readEnvironment()
+                .build();
     }
 
     public static void gitClone(URIish gitUri, Path path){
@@ -74,35 +142,11 @@ public class GitUtils {
         }
     }
 
-    public static void gitReset(Path gitPath, String commitId){
-        try(Git git = gitFromPath(gitPath)){
-            if (git != null) {
+    public static void gitReset(Path gitPath, String commitId) throws IOException, GitAPIException {
+        try(Repository repo = repoFromPath(gitPath)) {
+            try (Git git = new Git(repo)) {
                 git.reset().setRef(commitId).setMode(ResetCommand.ResetType.HARD).call();
             }
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
-    }
-
-    public static Git gitFromPath(Path gitPath) {
-        File gitFolder = Paths.get(gitPath.toString(), ".git").toFile();
-        FileRepositoryBuilder builder = new FileRepositoryBuilder();
-        try(Repository repo = builder.setGitDir(gitFolder)
-                .readEnvironment()
-                .build()){
-            Git git = new Git(repo);
-            return git;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static void gc(Git git){
-        try {
-            git.gc().call();
-        } catch (GitAPIException e) {
-            e.printStackTrace();
         }
     }
 }
