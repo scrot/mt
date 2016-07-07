@@ -20,7 +20,7 @@ public class FeatureReportsBuilder {
         greport.getBody().forEach(row -> {
             try {
                 FeatureReport report = new FeatureReport(row.get(header.indexOf("Name")).toString());
-                System.out.println("\tBuilding report " + report.getName());
+                System.out.println("Building report " + report.getName());
                 StateFeatureCalculator fcalc = new StateFeatureCalculator(
                         Paths.get(row.get(header.indexOf("BinaryPath")).toString()),
                         Paths.get(row.get(header.indexOf("GitPath")).toString()),
