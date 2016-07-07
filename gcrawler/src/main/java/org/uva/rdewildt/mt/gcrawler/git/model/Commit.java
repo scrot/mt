@@ -35,9 +35,9 @@ public class Commit implements Comparable {
         return this.date;
     }
 
-    public List<Integer> getIssueNumbers(Pattern issue){
+    public List<Integer> getIssueNumbers(Pattern issue) {
         List<Integer> issueNumbers = new ArrayList<>();
-        if(this.containsIssues(issue)) {
+        if (this.containsIssues(issue)) {
             Matcher issueMatcher = Pattern.compile("#\\d+").matcher(this.getMessage());
 
             while (issueMatcher.find()) {
@@ -55,7 +55,7 @@ public class Commit implements Comparable {
 
     @Override
     public int compareTo(Object o) {
-        if(o instanceof Commit){
+        if (o instanceof Commit) {
             return this.getDate().compareTo(((Commit) o).getDate());
         }
         return 0;

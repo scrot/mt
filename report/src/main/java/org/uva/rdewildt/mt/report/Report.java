@@ -19,7 +19,7 @@ public abstract class Report {
         String filename = filePath.getFileName().toString();
         this.name = filename.substring(0, filename.indexOf('.'));
         this.keys = reportable.getKeys();
-        this.report = importReportsFromFile(filePath,reportable);
+        this.report = importReportsFromFile(filePath, reportable);
     }
 
     public Report(String name, Reportable reportable) {
@@ -32,11 +32,11 @@ public abstract class Report {
         return name;
     }
 
-    public List<String> getHeader(){
+    public List<String> getHeader() {
         return new ArrayList<>(this.keys);
     }
 
-    public List<List<Object>> getBody(){
+    public List<List<Object>> getBody() {
         List<List<Object>> rows = new ArrayList<>();
         this.report.forEach(reportable -> {
             List<Object> values = new ArrayList<>();
@@ -52,22 +52,21 @@ public abstract class Report {
 
     public void updateReport(Reportable reportable) throws Exception {
         List<String> inputKeys = reportable.getKeys();
-        if(this.keys.containsAll(inputKeys)) {
+        if (this.keys.containsAll(inputKeys)) {
             report.add(reportable);
-        }
-        else {
+        } else {
             throw new NoSuchFieldException("Input keys don't match report keys");
         }
     }
 
     public void writeToFile(Path path, String nameAddition, Character seperator, Boolean seperatorFlag) {
         Path filename = Paths.get(path.toString(), this.getName() + nameAddition + ".csv");
-        try(BufferedWriter writer = Files.newBufferedWriter(filename, StandardCharsets.UTF_8)){
-            if(seperatorFlag){
+        try (BufferedWriter writer = Files.newBufferedWriter(filename, StandardCharsets.UTF_8)) {
+            if (seperatorFlag) {
                 writer.write("sep=" + seperator + "\n");
             }
             writer.write(String.join(",", this.getHeader()) + '\n');
-            for(List<Object> row : this.getBody()){
+            for (List<Object> row : this.getBody()) {
                 List<Object> normalized = normalizeValues(row, seperator);
                 writer.write(String.join(seperator.toString(), normalized.stream().map(Object::toString).collect(Collectors.toList())) + '\n');
             }
@@ -83,7 +82,7 @@ public abstract class Report {
         List<String> lines = Files.readAllLines(path);
 
         Character seperator = ',';
-        if(lines.get(index).contains("sep=")){
+        if (lines.get(index).contains("sep=")) {
             seperator = lines.get(index).toCharArray()[lines.get(index).length() - 1];
             index++;
         }
@@ -95,7 +94,7 @@ public abstract class Report {
         });
         index++;
 
-        while(index < lines.size()) {
+        while (index < lines.size()) {
             Map<String, Object> map = new HashMap<>();
 
             final int[] i = {0};
@@ -113,13 +112,13 @@ public abstract class Report {
         return reportables;
     }
 
-    private Boolean validReport(Map<String, List<Object>> report, Reportable targetReport){
+    private Boolean validReport(Map<String, List<Object>> report, Reportable targetReport) {
         List<String> keys = new ArrayList<>(targetReport.getKeys());
         keys.removeAll(report.keySet());
         return keys.isEmpty();
     }
 
-    private List<Object> normalizeValues(List<Object> values, Character sep){
+    private List<Object> normalizeValues(List<Object> values, Character sep) {
         return values.stream().map(value -> value == null ? "NIL" : value.toString().replaceAll(sep.toString(), "")).collect(Collectors.toList());
     }
 }

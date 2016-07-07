@@ -24,12 +24,12 @@ public class XLocCalculator {
 
     public XLocCalculator(Path rootPath, Map<Language, List<Path>> includes) throws IOException {
         this.classXLocMap = new HashMap<>();
-        for(Map.Entry<Language, List<Path>> entry : includes.entrySet()){
+        for (Map.Entry<Language, List<Path>> entry : includes.entrySet()) {
             XLocPatternBuilder xLocPatterns = entry.getKey().accept(new XLocPatternFactory(), null);
-            for(Path classPath : entry.getValue()){
+            for (Path classPath : entry.getValue()) {
                 List<String> classLines = mixedCharsetFileReader(classPath);
                 XLoc xLoc = calculateClassXLoc(classLines, xLocPatterns);
-                if(xLoc.getTotalLines() != 0){
+                if (xLoc.getTotalLines() != 0) {
                     this.classXLocMap.put(rootPath.relativize(classPath), xLoc);
                 }
             }
@@ -37,15 +37,17 @@ public class XLocCalculator {
     }
 
     public XLocCalculator(Path rootPath, Boolean relativePaths, Boolean ignoreGenerated, Boolean ignoreTests, List<Language> languages) throws IOException {
-        Map<Language, List<Path>> classPaths = new PathCollector(rootPath, relativePaths, ignoreGenerated, ignoreTests,languages).getFilePaths();
+        Map<Language, List<Path>> classPaths = new PathCollector(rootPath, relativePaths, ignoreGenerated, ignoreTests, languages).getFilePaths();
         this.classXLocMap = new HashMap<>();
-        for(Map.Entry<Language, List<Path>> entry : classPaths.entrySet()){
+        for (Map.Entry<Language, List<Path>> entry : classPaths.entrySet()) {
             XLocPatternBuilder xLocPatterns = entry.getKey().accept(new XLocPatternFactory(), null);
-            for(Path classPath : entry.getValue()){
-                if(relativePaths){classPath = rootPath.resolve(classPath);}
+            for (Path classPath : entry.getValue()) {
+                if (relativePaths) {
+                    classPath = rootPath.resolve(classPath);
+                }
                 List<String> classLines = mixedCharsetFileReader(classPath);
                 XLoc xLoc = calculateClassXLoc(classLines, xLocPatterns);
-                if(xLoc.getTotalLines() != 0){
+                if (xLoc.getTotalLines() != 0) {
                     this.classXLocMap.put(rootPath.relativize(classPath), xLoc);
                 }
             }
@@ -59,7 +61,7 @@ public class XLocCalculator {
     private XLoc calculateClassXLoc(List<String> classLines, XLocPatternBuilder xLocPatterns) {
         XLocCounter xLocCounter = new XLocCounter();
 
-        for(String classLine : classLines){
+        for (String classLine : classLines) {
 
             Boolean blankline = xLocPatterns.isBlankLine(classLine);
             Boolean commentline = xLocPatterns.isCommentLine(classLine);
@@ -67,16 +69,13 @@ public class XLocCalculator {
             Boolean unknownline = xLocPatterns.isUnknownLine(classLine);
             assert blankline || commentline || codeline || unknownline;
 
-            if(blankline){
+            if (blankline) {
                 xLocCounter.incrementBlankLines();
-            }
-            else if(commentline){
+            } else if (commentline) {
                 xLocCounter.incrementCommentLines();
-            }
-            else if(unknownline){
+            } else if (unknownline) {
                 xLocCounter.incrementUnknownLines();
-            }
-            else {
+            } else {
                 xLocCounter.incrementCodeLines();
             }
         }
@@ -88,7 +87,7 @@ public class XLocCalculator {
         CharsetDecoder decoder = Charset.forName("UTF-8").newDecoder();
         decoder.onMalformedInput(CodingErrorAction.IGNORE);
 
-        try(FileInputStream stream = new FileInputStream(classpath.toFile())) {
+        try (FileInputStream stream = new FileInputStream(classpath.toFile())) {
             try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream, decoder))) {
                 List<String> classLines = new ArrayList<>();
 

@@ -13,7 +13,7 @@ public class Author {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Author){
+        if (obj instanceof Author) {
             Author author = (Author) obj;
             return author.getName().equalsIgnoreCase(this.getName());
         }

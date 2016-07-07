@@ -20,10 +20,9 @@ public class Position implements Comparable {
     @Override
     public int compareTo(Object o) {
         Position p = (Position) o;
-        if(this.getLine() != p.getLine()){
+        if (this.getLine() != p.getLine()) {
             return this.getLine() - p.getLine();
-        }
-        else{
+        } else {
             return this.getColumn() - p.getColumn();
         }
     }

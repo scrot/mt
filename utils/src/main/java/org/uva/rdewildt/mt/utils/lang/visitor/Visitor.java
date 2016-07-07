@@ -6,6 +6,8 @@ import org.uva.rdewildt.mt.utils.lang.Other;
 
 public interface Visitor<T, C> {
     T visit(Java lang, C context);
+
     T visit(Class lang, C context);
+
     T visit(Other lang, C context);
 }

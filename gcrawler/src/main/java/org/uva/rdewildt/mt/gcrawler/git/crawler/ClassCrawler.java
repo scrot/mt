@@ -19,7 +19,9 @@ public class ClassCrawler extends Crawler {
     private final Map<String, Set<Author>> authors;
 
     public ClassCrawler(Path gitRoot, Boolean ignoreGenerated, Boolean ignoreTests, Language ofLanguage) throws Exception {
-        List<Language> lang = new ArrayList<Language>(){{add(ofLanguage);}};
+        List<Language> lang = new ArrayList<Language>() {{
+            add(ofLanguage);
+        }};
         PathCollector collector = new PathCollector(gitRoot, true, ignoreGenerated, ignoreTests, lang);
         this.commitCrawler = new ClassCommitCrawler(gitRoot, collector.getFilePaths().get(ofLanguage));
 

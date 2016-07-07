@@ -10,7 +10,7 @@ public class XcaxxTest1 {
         private Xcaxx1 x1;
     }
 
-    class Xcaxx3 extends Xcaxx2{
+    class Xcaxx3 extends Xcaxx2 {
         private Xcaxx1 x1;
     }
 

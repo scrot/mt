@@ -10,7 +10,7 @@ public abstract class Language implements Visitable {
 
     @Override
     public boolean equals(Object o) {
-        if(o instanceof Language){
+        if (o instanceof Language) {
             Language l = (Language) o;
             return l.toString().equals(this.toString());
         }

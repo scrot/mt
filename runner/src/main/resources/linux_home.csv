@@ -1,4 +1,3 @@
 sep=;
 Name;Group;URL;GitPath;BinaryPath
-junit4;junitteam;nil;/home/roy/Workspace/MT/projects/junit4;/home/roy/Workspace/MT/projects/junit4/
-guava;google;nil;/home/roy/Workspace/MT/projects/guava;/home/roy/Workspace/MT/projects/guava/
+spring-mvc;spring;nil;/home/roy/Workspace/MT/projects/spring-mvc-showcase;/home/roy/Workspace/MT/projects/spring-mvc-showcase

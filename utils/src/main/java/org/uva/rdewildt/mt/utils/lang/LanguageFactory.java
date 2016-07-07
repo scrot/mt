@@ -13,21 +13,19 @@ public class LanguageFactory {
         this.extentions.put("class", new Class());
     }
 
-    public Language stringToLanguage(String string){
-        if(this.extentions.containsKey(string.toLowerCase())){
+    public Language stringToLanguage(String string) {
+        if (this.extentions.containsKey(string.toLowerCase())) {
             return this.extentions.get(string.toLowerCase());
-        }
-        else {
+        } else {
             return new Other();
         }
     }
 
-    public Language classPathToLanguage(Path classPath){
+    public Language classPathToLanguage(Path classPath) {
         String extentionString = getExtension(classPath.getFileName().toString());
-        if(this.extentions.containsKey(extentionString)){
+        if (this.extentions.containsKey(extentionString)) {
             return this.extentions.get(extentionString);
-        }
-        else {
+        } else {
             return new Other();
         }
     }
@@ -37,7 +35,7 @@ public class LanguageFactory {
 
         int i = fileName.lastIndexOf('.');
         if (i > 0) {
-            extension = fileName.substring(i+1);
+            extension = fileName.substring(i + 1);
         }
 
         return extension;

@@ -62,7 +62,7 @@ public class SourceVisitor extends Java7BaseVisitor<Void> {
     @Override
     public Void visitPackageDeclaration(Java7Parser.PackageDeclarationContext ctx) {
         this.packagePrefix = "";
-        for(TerminalNode id : ctx.qualifiedName().Identifier()){
+        for (TerminalNode id : ctx.qualifiedName().Identifier()) {
             this.packagePrefix += id.getText() + ".";
         }
         return super.visitPackageDeclaration(ctx);
@@ -113,7 +113,7 @@ public class SourceVisitor extends Java7BaseVisitor<Void> {
 
     @Override
     public Void visitEnumConstant(Java7Parser.EnumConstantContext ctx) {
-        if(ctx.classBody() != null){
+        if (ctx.classBody() != null) {
             appendOuterClass(Integer.toString(this.anonclass.get(this.outerClass)));
             addClassLocation(ctx);
             super.visitEnumConstant(ctx);
@@ -125,7 +125,7 @@ public class SourceVisitor extends Java7BaseVisitor<Void> {
 
     @Override
     public Void visitCreator(Java7Parser.CreatorContext ctx) {
-        if(ctx.createdName() != null && this.anonclass.get(this.outerClass) != null){
+        if (ctx.createdName() != null && this.anonclass.get(this.outerClass) != null) {
             appendOuterClass(Integer.toString(this.anonclass.get(this.outerClass)));
             addClassLocation(ctx);
             super.visitCreator(ctx);
@@ -137,7 +137,7 @@ public class SourceVisitor extends Java7BaseVisitor<Void> {
 
     @Override
     public Void visitInnerCreator(Java7Parser.InnerCreatorContext ctx) {
-        if(ctx.Identifier() != null){
+        if (ctx.Identifier() != null) {
             appendOuterClass(Integer.toString(this.anonclass.get(this.outerClass)));
             addClassLocation(ctx);
             super.visitInnerCreator(ctx);
@@ -147,42 +147,39 @@ public class SourceVisitor extends Java7BaseVisitor<Void> {
         return null;
     }
 
-    private void addClassLocation(ParserRuleContext ctx){
+    private void addClassLocation(ParserRuleContext ctx) {
         Position start = new Position(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine());
         Position end = new Position(ctx.getStop().getLine(), ctx.getStop().getCharPositionInLine());
         this.classSources.put(this.outerClass, new ClassSource(this.outerClass, this.path, null, new Location(start, end, this.path)));
     }
 
-    private void appendOuterClass(TerminalNode jclass){
-        if(jclass != null){
+    private void appendOuterClass(TerminalNode jclass) {
+        if (jclass != null) {
             this.oldOuterClass = this.outerClass;
-            if(this.outerClass.equals("")){
+            if (this.outerClass.equals("")) {
                 this.outerClass = this.packagePrefix + jclass.getText();
-            }
-            else {
+            } else {
                 this.outerClass += "$" + jclass.getText();
             }
             this.anonclass.put(this.outerClass, 1);
         }
     }
 
-    private void appendOuterClass(String jclass){
-            this.oldOuterClass = this.outerClass;
-            if(this.outerClass.equals("")){
-                this.outerClass = this.packagePrefix + jclass;
-            }
-            else {
-                this.outerClass += "$" + jclass;
-            }
-            this.anonclass.put(this.outerClass, 1);
+    private void appendOuterClass(String jclass) {
+        this.oldOuterClass = this.outerClass;
+        if (this.outerClass.equals("")) {
+            this.outerClass = this.packagePrefix + jclass;
+        } else {
+            this.outerClass += "$" + jclass;
+        }
+        this.anonclass.put(this.outerClass, 1);
     }
 
-    private void IncreaseAnonClass(){
-        if(this.anonclass.containsKey(this.outerClass)){
+    private void IncreaseAnonClass() {
+        if (this.anonclass.containsKey(this.outerClass)) {
             Integer i = this.anonclass.get(this.outerClass);
-            this.anonclass.put(this.outerClass, i+1);
-        }
-        else{
+            this.anonclass.put(this.outerClass, i + 1);
+        } else {
             this.anonclass.put(this.outerClass, 1);
         }
     }

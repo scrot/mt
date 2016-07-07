@@ -20,17 +20,17 @@ public class XLocPatternBuilder {
         this.unknownPatterns = new ArrayList<>();
     }
 
-    public XLocPatternBuilder addBlankPattern(BlankPattern blankPattern){
+    public XLocPatternBuilder addBlankPattern(BlankPattern blankPattern) {
         this.blankPatterns.add(blankPattern);
         return this;
     }
 
-    public XLocPatternBuilder addCommentPattern(CommentPattern commentPattern){
+    public XLocPatternBuilder addCommentPattern(CommentPattern commentPattern) {
         this.commentPatterns.add(commentPattern);
         return this;
     }
 
-    public XLocPatternBuilder addCodePattern(CodePattern codePattern){
+    public XLocPatternBuilder addCodePattern(CodePattern codePattern) {
         this.codePatterns.add(codePattern);
         return this;
     }
@@ -40,36 +40,36 @@ public class XLocPatternBuilder {
         return this;
     }
 
-    public Boolean isBlankLine(String line){
-        for (XLocPattern pattern : this.blankPatterns){
-            if(pattern.isMatch(line)){
+    public Boolean isBlankLine(String line) {
+        for (XLocPattern pattern : this.blankPatterns) {
+            if (pattern.isMatch(line)) {
                 return true;
             }
         }
         return false;
     }
 
-    public Boolean isCommentLine(String line){
-        for (XLocPattern pattern : this.commentPatterns){
-            if(pattern.isMatch(line)){
+    public Boolean isCommentLine(String line) {
+        for (XLocPattern pattern : this.commentPatterns) {
+            if (pattern.isMatch(line)) {
                 return true;
             }
         }
         return false;
     }
 
-    public Boolean isCodeLine(String line){
-        for (XLocPattern pattern : this.codePatterns){
-            if(pattern.isMatch(line)){
+    public Boolean isCodeLine(String line) {
+        for (XLocPattern pattern : this.codePatterns) {
+            if (pattern.isMatch(line)) {
                 return true;
             }
         }
         return false;
     }
 
-    public Boolean isUnknownLine(String line){
-        for (XLocPattern pattern : this.unknownPatterns){
-            if(pattern.isMatch(line)){
+    public Boolean isUnknownLine(String line) {
+        for (XLocPattern pattern : this.unknownPatterns) {
+            if (pattern.isMatch(line)) {
                 return true;
             }
         }

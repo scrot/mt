@@ -38,7 +38,7 @@ public class GhProjectCrawler {
         collectRepos(limit, filterParameters);
         cloneRepos(clonePath);
 
-        if(autoBuild){
+        if (autoBuild) {
             buildProjects();
         }
     }
@@ -55,7 +55,7 @@ public class GhProjectCrawler {
         int pages = limit / 100;
 
         RepositoryService service = new RepositoryService(new GhConnector("27ebc848263606096d44116e72df5c9c6493f1f3").getGithub());
-        for(int i = 0; i <= pages; i++){
+        for (int i = 0; i <= pages; i++) {
             final SearchRepository[] lastElem = {null};
             try {
                 List<SearchRepository> repos = service.searchRepositories(filterParameters, i);
@@ -71,29 +71,31 @@ public class GhProjectCrawler {
                                 repo.getSize(),
                                 repo.getPushedAt(),
                                 repo.isHasIssues()));
-                    } catch (NoSuchFieldException e) { e.printStackTrace(); }
+                    } catch (NoSuchFieldException e) {
+                        e.printStackTrace();
+                    }
                     lastElem[0] = repo;
                 });
             } catch (IOException ignore) {
                 System.out.println("Asking for too many repositories, limit is 1000");
             }
 
-            if(ghProjects.size() >= 1000){
+            if (ghProjects.size() >= 1000) {
                 filterParameters.put("stars", "<" + (lastElem[0].getWatchers() - 10));
                 i = 0;
             }
 
             System.out.println("Retrieved " + ghProjects.size() + " repositories");
 
-            if(ghProjects.size() >= limit){
+            if (ghProjects.size() >= limit) {
                 break;
             }
         }
     }
 
-    private Map<GhProject, Path> cloneRepos(Path clonePath){
+    private Map<GhProject, Path> cloneRepos(Path clonePath) {
         Map<GhProject, Path> cloned = new HashMap<>();
-        this.ghProjects.forEach((k,v) -> {
+        this.ghProjects.forEach((k, v) -> {
             try {
                 URIish uri = new URIish(v.getProjectUrl());
                 //GitUtils.gitClone(uri, clonePath);
@@ -107,24 +109,26 @@ public class GhProjectCrawler {
     }
 
     private void buildProjects() {
-        this.ghProjects.forEach((k,v) -> {
-            if(isGradlePath(v.getGitRoot())){
+        this.ghProjects.forEach((k, v) -> {
+            if (isGradlePath(v.getGitRoot())) {
                 ProjectConnection gradle = GradleConnector
                         .newConnector()
                         .forProjectDirectory(v.getGitRoot().toFile())
                         .connect();
-                try{
+                try {
                     gradle.newBuild()
                             .forTasks("clean", "build")
                             .setStandardOutput(NullOutputStream.INSTANCE)
                             .run();
                     GhProject update = this.ghProjects.get(k);
                     this.ghProjects.replace(update.getId(), update);
-                } catch (Exception e){
-                    System.out.println("Gradle project " + v.getProject() + " could not be build"); }
-                finally { gradle.close(); }
+                } catch (Exception e) {
+                    System.out.println("Gradle project " + v.getProject() + " could not be build");
+                } finally {
+                    gradle.close();
+                }
             }
-            if(isMavenPath(v.getGitRoot())){
+            if (isMavenPath(v.getGitRoot())) {
                 try {
                     MavenCli cli = new MavenCli();
                     PrintStream devnull = new PrintStream(NullOutputStream.INSTANCE);
@@ -133,7 +137,8 @@ public class GhProjectCrawler {
                     GhProject update = this.ghProjects.get(k);
                     this.ghProjects.replace(update.getId(), update);
                 } catch (Exception e) {
-                    System.out.println("maven project " + v.getProject() + " could not be build");}
+                    System.out.println("maven project " + v.getProject() + " could not be build");
+                }
             }
         });
     }
@@ -142,7 +147,7 @@ public class GhProjectCrawler {
         return Paths.get(path.toString(), "pom.xml").toFile().exists();
     }
 
-    private Boolean isGradlePath(Path path){
+    private Boolean isGradlePath(Path path) {
         return Paths.get(path.toString(), "build.gradle").toFile().exists();
     }
 }

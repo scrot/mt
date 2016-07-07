@@ -25,7 +25,9 @@ public class XLoc implements Comparable {
         return this.blankLines;
     }
 
-    public Integer getUnknownLines() { return this.unknownLines; }
+    public Integer getUnknownLines() {
+        return this.unknownLines;
+    }
 
     public Integer getTotalLines() {
         return this.codeLines + this.commentLines + this.blankLines + this.unknownLines;
@@ -40,7 +42,7 @@ public class XLoc implements Comparable {
                 "; Total lines: " + getTotalLines();
     }
 
-    public XLoc add(XLoc rhs){
+    public XLoc add(XLoc rhs) {
         return new XLoc(
                 this.codeLines + rhs.getCodeLines(),
                 this.commentLines + rhs.getCommentLines(),
@@ -50,16 +52,14 @@ public class XLoc implements Comparable {
 
     @Override
     public int compareTo(Object o) {
-        if(o instanceof XLoc){
+        if (o instanceof XLoc) {
             XLoc xLoc = (XLoc) o;
-            if(xLoc.getCodeLines() > 0 && this.codeLines > 0){
+            if (xLoc.getCodeLines() > 0 && this.codeLines > 0) {
                 return this.codeLines - xLoc.getCodeLines();
-            }
-            else {
+            } else {
                 return this.getTotalLines() - xLoc.getTotalLines();
             }
-        }
-        else {
+        } else {
             throw new UnsupportedOperationException();
         }
     }

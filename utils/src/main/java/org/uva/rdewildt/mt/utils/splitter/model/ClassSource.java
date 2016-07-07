@@ -53,13 +53,13 @@ public class ClassSource implements Source {
     }
     */
 
-    private Boolean innerClass(Integer index, List<ClassSource> innerClasses){
-        for(ClassSource innerClass : innerClasses){
+    private Boolean innerClass(Integer index, List<ClassSource> innerClasses) {
+        for (ClassSource innerClass : innerClasses) {
             Integer innerStart = innerClass.getLocation().getStart().getLine();
             Integer innerEnd = innerClass.getLocation().getEnd().getLine();
             Integer thisStart = this.getLocation().getStart().getLine();
             Integer thisEnd = this.getLocation().getEnd().getLine();
-            if(innerStart > thisStart && innerEnd < thisEnd && index >= innerStart && index <= innerEnd){
+            if (innerStart > thisStart && innerEnd < thisEnd && index >= innerStart && index <= innerEnd) {
                 return true;
             }
         }

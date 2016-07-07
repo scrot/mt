@@ -3,23 +3,18 @@ package org.uva.rdewildt.mt.gcrawler.git.crawler;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.uva.rdewildt.mt.gcrawler.git.model.Commit;
-import org.uva.rdewildt.mt.xloc.XLocPatternFactory;
-import org.uva.rdewildt.mt.xloc.pattern.XLocPatternBuilder;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
-import static org.uva.rdewildt.mt.gcrawler.git.GitUtils.*;
+import static org.uva.rdewildt.mt.gcrawler.git.GitUtils.getFilteredCommitsPaths;
+import static org.uva.rdewildt.mt.gcrawler.git.GitUtils.revCommitToCommit;
 import static org.uva.rdewildt.mt.utils.MapUtils.addValueToMapSet;
-import static org.uva.rdewildt.mt.utils.ReaderUtils.getLanguageFromClassPath;
 import static org.uva.rdewildt.mt.utils.ReaderUtils.mixedCharsetFileReader;
 
 /**
@@ -46,14 +41,13 @@ public class FileCommitCrawler implements CommitCrawler {
     private Map<String, Set<Commit>> collectChanges(List<Path> includes, Boolean usePathNames) throws IOException, GitAPIException {
         Map<String, Set<Commit>> commits = new HashMap<>();
         Map<RevCommit, List<Path>> commitPaths = getFilteredCommitsPaths(this.gitRoot, includes);
-        if(usePathNames){
+        if (usePathNames) {
             commitPaths.forEach(
-                    (k,v) -> v.forEach(
+                    (k, v) -> v.forEach(
                             path -> addValueToMapSet(commits, path.toString(), revCommitToCommit(k))));
-        }
-        else {
+        } else {
             commitPaths.forEach(
-                    (k,v) -> v.forEach(
+                    (k, v) -> v.forEach(
                             path -> addValueToMapSet(commits, extractPackageName(Paths.get(gitRoot.toString(), path.toString())), revCommitToCommit(k))));
         }
         return commits;
@@ -62,7 +56,7 @@ public class FileCommitCrawler implements CommitCrawler {
 
     private String extractPackageName(Path path) {
         final String[] name = {path.toFile().getName().replaceFirst("[.][^.]+$", "")};
-        List<String> lines = mixedCharsetFileReader(path,50);
+        List<String> lines = mixedCharsetFileReader(path, 50);
         lines.stream().forEach(l -> name[0] = l.contains("package") ? l.substring(8, l.length() - 1) + '.' + name[0] : name[0]);
         return name[0];
     }

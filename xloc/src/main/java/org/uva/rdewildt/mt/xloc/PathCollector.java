@@ -4,13 +4,7 @@ import org.uva.rdewildt.mt.utils.lang.Language;
 import org.uva.rdewildt.mt.utils.lang.LanguageFactory;
 import org.uva.rdewildt.mt.xloc.pattern.XLocPatternBuilder;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CodingErrorAction;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -44,8 +38,9 @@ public class PathCollector extends SimpleFileVisitor<Path> {
 
         try {
             Files.walkFileTree(sourcePath, this);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        catch (IOException e) { e.printStackTrace(); }
     }
 
     @Override
@@ -65,26 +60,25 @@ public class PathCollector extends SimpleFileVisitor<Path> {
     }
 
     private Boolean isGeneratedFile(Path file) throws IOException {
-        if(ignoreGenerated){
+        if (ignoreGenerated) {
             XLocPatternBuilder xLocPatterns = getLanguageFromClassPath(file).accept(new XLocPatternFactory(), null);
             List<String> lines = mixedCharsetFileReader(file, 15);
-            return lines.stream().anyMatch( line -> xLocPatterns.isCommentLine(line) && Pattern.compile("(?i)generated").matcher(line).find());
+            return lines.stream().anyMatch(line -> xLocPatterns.isCommentLine(line) && Pattern.compile("(?i)generated").matcher(line).find());
         }
         return false;
     }
 
     private Boolean isTestFile(Path file) throws IOException {
-        if(this.ignoreTests){
-            return mixedCharsetFileReader(file,30).stream().anyMatch(line -> Pattern.compile("(?mi)@(Test|Before|After)").matcher(line).find());
+        if (this.ignoreTests) {
+            return mixedCharsetFileReader(file, 30).stream().anyMatch(line -> Pattern.compile("(?mi)@(Test|Before|After)").matcher(line).find());
         }
         return false;
     }
 
-    private Boolean isOfLanguage(Path file){
-        if(this.ofLanguage.contains(getLanguageFromClassPath(file))){
+    private Boolean isOfLanguage(Path file) {
+        if (this.ofLanguage.contains(getLanguageFromClassPath(file))) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -96,9 +90,10 @@ public class PathCollector extends SimpleFileVisitor<Path> {
 
     private <K, V> void addValueToMapList(Map<K, List<V>> map, K key, V value) {
         if (!map.containsKey(key)) {
-            map.put(key, new ArrayList<V>() {{ add(value); }});
-        }
-        else {
+            map.put(key, new ArrayList<V>() {{
+                add(value);
+            }});
+        } else {
             List<V> newvalue = map.get(key);
             newvalue.add(value);
             map.put(key, newvalue);

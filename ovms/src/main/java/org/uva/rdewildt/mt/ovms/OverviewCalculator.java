@@ -31,7 +31,9 @@ public class OverviewCalculator {
         Map<Path, XLoc> xlocs = new XLocCalculator(
                 projectRoot, true,
                 ignoreGenerated, ignoreGenerated,
-                new ArrayList<Language>(){{add(new Java());}}).getResult();
+                new ArrayList<Language>() {{
+                    add(new Java());
+                }}).getResult();
         XLoc totalXloc = calculateTotalXLoc(xlocs);
 
         SortedSet<Commit> sorted = MapUtils.getSortedSet(crawler.getChanges());
@@ -50,8 +52,8 @@ public class OverviewCalculator {
                 calculateDateDayDiff(sorted.first().getDate(), sorted.last().getDate()),
                 get20Percent(faultdist),
                 getCodeIn20Percent(MapUtils.mapListLenghts(crawler.getFaults()), xlocs),
-                round(faultdist.giniCoefficient(),2),
-                round(codedist.giniCoefficient(),2)
+                round(faultdist.giniCoefficient(), 2),
+                round(codedist.giniCoefficient(), 2)
         );
     }
 
@@ -68,32 +70,32 @@ public class OverviewCalculator {
     }
 
     private <T> XLoc calculateTotalXLoc(Map<T, XLoc> classesXLoc) {
-        XLoc totalXLoc = new XLoc(0,0,0,0);
-        for(Map.Entry<T, XLoc> entry : classesXLoc.entrySet()){
+        XLoc totalXLoc = new XLoc(0, 0, 0, 0);
+        for (Map.Entry<T, XLoc> entry : classesXLoc.entrySet()) {
             totalXLoc = totalXLoc.add(entry.getValue());
         }
         return totalXLoc;
     }
 
-    private <T> Map<T, Integer> getCodeCounts(Map<T, XLoc> values){
+    private <T> Map<T, Integer> getCodeCounts(Map<T, XLoc> values) {
         Map<T, Integer> counts = new HashMap<>();
 
-        for(Map.Entry<T, XLoc> entry : values.entrySet()){
+        for (Map.Entry<T, XLoc> entry : values.entrySet()) {
             counts.put(entry.getKey(), entry.getValue().getCodeLines());
         }
 
         return counts;
     }
 
-    private Integer get20Percent(Distribution d){
+    private Integer get20Percent(Distribution d) {
         return d.cumulativeTailOfPartitionPercentage(new Percentage(20.0)).getPercentage().intValue();
     }
 
-    private Integer getCodeIn20Percent(Map<String, Integer> faults, Map<Path, XLoc> xlocs){
+    private Integer getCodeIn20Percent(Map<String, Integer> faults, Map<Path, XLoc> xlocs) {
         final double[] cloc = {0};
         Map<String, Integer> faulty = MapUtils.mapTakeByOrderedValue(faults, new Percentage(20.0));
         faulty.forEach((path, count) -> cloc[0] += xlocs.get(Paths.get(path)).getCodeLines());
-        return (int) (cloc[0] / calculateTotalXLoc(xlocs).getCodeLines()* 100);
+        return (int) (cloc[0] / calculateTotalXLoc(xlocs).getCodeLines() * 100);
     }
 
     private double round(double value, int places) {

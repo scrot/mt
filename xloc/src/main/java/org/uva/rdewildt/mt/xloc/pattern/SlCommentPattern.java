@@ -13,7 +13,7 @@ public class SlCommentPattern extends CommentPattern {
     }
 
     @Override
-    public Boolean isMatch(String line){
+    public Boolean isMatch(String line) {
         return pattern.matcher(line).matches();
     }
 

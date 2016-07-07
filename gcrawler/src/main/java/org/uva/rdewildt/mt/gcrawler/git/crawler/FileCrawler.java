@@ -1,7 +1,5 @@
 package org.uva.rdewildt.mt.gcrawler.git.crawler;
 
-import org.eclipse.jgit.api.Git;
-import org.uva.rdewildt.mt.gcrawler.git.GitUtils;
 import org.uva.rdewildt.mt.gcrawler.git.model.Author;
 import org.uva.rdewildt.mt.gcrawler.git.model.Commit;
 import org.uva.rdewildt.mt.gcrawler.git.model.Fault;

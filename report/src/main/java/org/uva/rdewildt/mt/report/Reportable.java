@@ -8,7 +8,10 @@ import java.util.Map;
  */
 public interface Reportable {
     Reportable getNewInstance();
+
     List<String> getKeys();
+
     Map<String, Object> getValues();
+
     void setValues(Map<String, Object> values) throws NoSuchFieldException;
 }

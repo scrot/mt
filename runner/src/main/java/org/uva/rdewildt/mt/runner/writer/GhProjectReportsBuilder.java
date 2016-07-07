@@ -14,14 +14,16 @@ import java.util.Map;
 public class GhProjectReportsBuilder {
     private GhReport ghReport;
 
-    public GhProjectReportsBuilder(String name, Integer numberRepos, Map<String,String> params, Path clonePath) {
+    public GhProjectReportsBuilder(String name, Integer numberRepos, Map<String, String> params, Path clonePath) {
         try {
             this.ghReport = new GhReport(name);
-        } catch (NoSuchFieldException e) {e.printStackTrace();}
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
         Map<String, GhProject> ghProjects = new GhProjectCrawler(numberRepos, params, clonePath, false).getGhProjects();
         ghProjects.values().stream().forEach(project -> {
             try {
-                this.ghReport.updateReport(project );
+                this.ghReport.updateReport(project);
             } catch (Exception e) {
                 e.printStackTrace();
             }

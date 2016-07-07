@@ -27,8 +27,8 @@ public class ReaderUtils {
         CharsetDecoder decoder = Charset.forName("UTF-8").newDecoder();
         decoder.onMalformedInput(CodingErrorAction.IGNORE);
 
-        try(FileInputStream stream = new FileInputStream(file)) {
-            try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream, decoder))){
+        try (FileInputStream stream = new FileInputStream(file)) {
+            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream, decoder))) {
                 List<String> classLines = new ArrayList<>();
 
                 int i = 0;

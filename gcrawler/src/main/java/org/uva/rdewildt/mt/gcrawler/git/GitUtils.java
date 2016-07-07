@@ -4,7 +4,10 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ResetCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.lib.*;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
@@ -43,11 +46,11 @@ public class GitUtils {
     public static List<Path> getCommitPaths(Path gitRoot, RevCommit revCommit) {
         List<Path> files = new ArrayList<>();
 
-        if(revCommit.getParentCount() <= 0){
+        if (revCommit.getParentCount() <= 0) {
             return files;
         }
 
-        try(Repository repo = repoFromPath(gitRoot)) {
+        try (Repository repo = repoFromPath(gitRoot)) {
             try (ObjectReader reader = repo.newObjectReader()) {
                 CanonicalTreeParser oldTreeIter = new CanonicalTreeParser();
                 oldTreeIter.reset(reader, revCommit.getTree());
@@ -60,7 +63,7 @@ public class GitUtils {
                             .setOldTree(oldTreeIter)
                             .call();
 
-                    for(DiffEntry diff : diffs){
+                    for (DiffEntry diff : diffs) {
                         if (diff.getChangeType() == DiffEntry.ChangeType.DELETE) {
                             Path path = Paths.get(diff.getOldPath());
                             files.add(path);
@@ -92,7 +95,7 @@ public class GitUtils {
         return commitPaths;
     }
 
-    public static Commit revCommitToCommit(RevCommit revCommit){
+    public static Commit revCommitToCommit(RevCommit revCommit) {
         return new Commit(
                 revCommit.getName(),
                 new Author(revCommit.getAuthorIdent().getName()),
@@ -108,11 +111,11 @@ public class GitUtils {
                 .build();
     }
 
-    public static void gitClone(URIish gitUri, Path path){
-        File projectroot= Paths.get(path.toString(), gitUri.getPath().replace('/','-').substring(1)).toFile();
+    public static void gitClone(URIish gitUri, Path path) {
+        File projectroot = Paths.get(path.toString(), gitUri.getPath().replace('/', '-').substring(1)).toFile();
         File gitroot = Paths.get(projectroot.toString(), ".git").toFile();
 
-        if(gitUri.isRemote() && !projectroot.exists()){
+        if (gitUri.isRemote() && !projectroot.exists()) {
             try {
                 Git.cloneRepository()
                         .setURI(gitUri.toString())
@@ -122,13 +125,12 @@ public class GitUtils {
             } catch (Exception e) {
                 System.out.println("cloning into " + gitUri.getHumanishName() + " failed");
             }
-        }
-        else if (gitroot.exists()){
+        } else if (gitroot.exists()) {
             try {
                 Git git = Git.open(gitroot);
 
                 StoredConfig config = git.getRepository().getConfig();
-                config.setBoolean( "http", null, "sslVerify", false );
+                config.setBoolean("http", null, "sslVerify", false);
                 config.save();
 
                 git.reset().setMode(ResetCommand.ResetType.HARD).call();
@@ -142,10 +144,18 @@ public class GitUtils {
         }
     }
 
-    public static void gitReset(Path gitPath, String commitId) throws IOException, GitAPIException {
-        try(Repository repo = repoFromPath(gitPath)) {
+    public static void gitReset(Path gitPath, String ref) throws IOException, GitAPIException {
+        try (Repository repo = repoFromPath(gitPath)) {
             try (Git git = new Git(repo)) {
-                git.reset().setRef(commitId).setMode(ResetCommand.ResetType.HARD).call();
+                git.reset().setRef(ref).setMode(ResetCommand.ResetType.HARD).call();
+            }
+        }
+    }
+
+    public static void gitPull(Path gitPath) throws IOException, GitAPIException {
+        try (Repository repo = repoFromPath(gitPath)) {
+            try (Git git = new Git(repo)) {
+                git.pull().call();
             }
         }
     }

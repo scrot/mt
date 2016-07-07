@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 public class MetricCalculatorTest {
 
     @Test
-    public void testWmc(){
+    public void testWmc() {
         Map<String, Metric> ms = getMetrics("bcmstest.jar");
         assertEquals(16, ms.get("WmcTest1").getWmc());
     }
@@ -41,7 +41,7 @@ public class MetricCalculatorTest {
     }
 
     @Test
-    public void testCbo(){
+    public void testCbo() {
         Map<String, Metric> ms = getMetrics("bcmstest.jar");
         assertEquals(9, ms.get("CboTest1$Main1").getCbo());
         assertEquals(5, ms.get("CboTest1$Main2").getCbo());
@@ -280,13 +280,14 @@ public class MetricCalculatorTest {
         return new MetricCalculator(x, false).getMetrics();
     }
 
-    private Path getResource(String name){
+    private Path getResource(String name) {
         try {
             Enumeration<URL> roots = ClassLoader.getSystemClassLoader().getResources(name);
             URL url = roots.nextElement();
             return new File(url.getFile()).toPath();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        catch (IOException e) {e.printStackTrace();}
         return null;
     }
 }

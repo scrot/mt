@@ -28,20 +28,16 @@ public class Location implements Comparable {
     @Override
     public int compareTo(Object o) {
         Location l = (Location) o;
-        if(this.start.compareTo(l.start) < 0){
+        if (this.start.compareTo(l.start) < 0) {
             return -1;
-        }
-        else if(this.start.compareTo(l.start) > 0){
+        } else if (this.start.compareTo(l.start) > 0) {
             return 1;
-        }
-        else {
-            if(this.end.compareTo(l.end) < 0){
+        } else {
+            if (this.end.compareTo(l.end) < 0) {
                 return -1;
-            }
-            else if(this.end.compareTo(l.end) > 0){
+            } else if (this.end.compareTo(l.end) > 0) {
                 return 1;
-            }
-            else {
+            } else {
                 return 0;
             }
         }

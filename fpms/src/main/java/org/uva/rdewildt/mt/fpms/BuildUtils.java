@@ -5,12 +5,13 @@ import org.eclipse.jgit.util.io.NullOutputStream;
 import org.gradle.tooling.GradleConnector;
 import org.gradle.tooling.ProjectConnection;
 
+import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class BuildUtils {
-    public static void buildProject(Path gitRoot) {
+    public static void buildProject(Path gitRoot) throws IOException {
         if (isGradlePath(gitRoot)) {
             ProjectConnection gradle = GradleConnector
                     .newConnector()
@@ -27,7 +28,7 @@ public class BuildUtils {
             cli.doMain(new String[]{"clean", "compile"}, Paths.get(gitRoot.toString(), "pom.xml").toString(),
                     devnull, devnull);
         } else {
-            System.out.println("no maven/gradle project found in path " + gitRoot.toString());
+            throw new IOException("no maven/gradle project found in path " + gitRoot.toString());
         }
     }
 
@@ -35,7 +36,7 @@ public class BuildUtils {
         return Paths.get(path.toString(), "pom.xml").toFile().exists();
     }
 
-    private static Boolean isGradlePath(Path path){
+    private static Boolean isGradlePath(Path path) {
         return Paths.get(path.toString(), "build.gradle").toFile().exists();
     }
 }

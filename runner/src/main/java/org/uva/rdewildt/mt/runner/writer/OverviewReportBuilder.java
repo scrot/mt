@@ -15,12 +15,13 @@ public class OverviewReportBuilder {
 
     public OverviewReportBuilder(String name, Map<String, Path> projects, Boolean ignoreGenerated, Boolean ignoreTests) {
         this.overviewReport = new OverviewReport(name);
-        projects.forEach((k,v) -> {
+        projects.forEach((k, v) -> {
             try {
                 OverviewCalculator ocalc = new OverviewCalculator(k, v, ignoreGenerated, ignoreTests);
                 this.overviewReport.updateReport(ocalc.getOverview());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            catch (Exception e) { e.printStackTrace(); }
         });
     }
 

@@ -13,7 +13,7 @@ public class GhProject extends Project {
 
     public GhProject() {
         super();
-        this.map.putAll(new HashMap<String, Object>(){{
+        this.map.putAll(new HashMap<String, Object>() {{
             put("Language", new Other());
             put("Description", "");
             put("Stars", 0);
@@ -27,7 +27,7 @@ public class GhProject extends Project {
     public GhProject(Project p, Language language, String description, Integer stars, Integer forks,
                      Integer size, Date pushdate, Boolean hasIssues) throws NoSuchFieldException {
         this.setValues(p.getValues());
-        this.map.putAll(new HashMap<String, Object>(){{
+        this.map.putAll(new HashMap<String, Object>() {{
             put("Language", language);
             put("Description", description);
             put("Stars", stars);
@@ -49,7 +49,7 @@ public class GhProject extends Project {
     }
 
     @Override
-    public GhProject getNewInstance(){
+    public GhProject getNewInstance() {
         return new GhProject();
     }
 

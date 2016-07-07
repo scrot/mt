@@ -2,17 +2,16 @@ import java.util.List;
 
 /**
  * Created by roy on 5/21/16.
- *
+ * <p>
  * CBO Test 1:
  * Coupling between objects
- *
+ * <p>
  * Main1 = 9
  * Main2 = 5
  * Couple1 = 4
  * Couple2 = 3
  * Couple3 = 4
  * InnerCouple1 = 2
- *
  */
 public class CboTest1 {
     class Main1 {
@@ -24,7 +23,7 @@ public class CboTest1 {
 
         public Main1() throws Exception { // +1
             System.out.println(new Couple2()); // +2
-            Couple1 c12 =  new Couple2(); // +0 (Already counted)
+            Couple1 c12 = new Couple2(); // +0 (Already counted)
         }
 
         // +1 Main2 coupled to this method

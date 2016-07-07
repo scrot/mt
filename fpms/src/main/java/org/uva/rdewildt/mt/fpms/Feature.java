@@ -13,13 +13,13 @@ import java.util.Map;
  */
 public class Feature extends Metric {
 
-    public Feature(){
+    public Feature() {
         this("");
     }
 
     public Feature(String classname) {
         super(classname);
-        this.map.putAll(new HashMap<String, Object>(){{
+        this.map.putAll(new HashMap<String, Object>() {{
             put("Faults", 0);
             put("Changes", 0);
             put("Authors", 0);
@@ -29,7 +29,7 @@ public class Feature extends Metric {
 
     public Feature(Metric m, int faults, int changes, int authors, int age) throws NoSuchFieldException {
         this.setValues(m.getValues());
-        this.map.putAll(new HashMap<String, Object>(){{
+        this.map.putAll(new HashMap<String, Object>() {{
             put("Faults", faults);
             put("Changes", changes);
             put("Authors", authors);
@@ -38,17 +38,17 @@ public class Feature extends Metric {
     }
 
     @Override
-    public List<String> getKeys(){
+    public List<String> getKeys() {
         return new ArrayList<>(this.map.keySet());
     }
 
     @Override
-    public Map<String, Object> getValues(){
+    public Map<String, Object> getValues() {
         return this.map;
     }
 
     @Override
-    public Feature getNewInstance(){
+    public Feature getNewInstance() {
         return new Feature();
     }
 
@@ -68,19 +68,19 @@ public class Feature extends Metric {
         return (Integer) this.map.get("Age");
     }
 
-    public void incrementFaults(Integer increment){
+    public void incrementFaults(Integer increment) {
         MapUtils.incrementMapValue(this.map, "Faults", increment);
     }
 
-    public void incrementChanges(Integer increment){
+    public void incrementChanges(Integer increment) {
         MapUtils.incrementMapValue(this.map, "Changes", increment);
     }
 
-    public void incrementAuthors(Integer increment){
+    public void incrementAuthors(Integer increment) {
         MapUtils.incrementMapValue(this.map, "Authors", increment);
     }
 
-    public void incrementAge(Integer increment){
+    public void incrementAge(Integer increment) {
         MapUtils.incrementMapValue(this.map, "Age", increment);
     }
 }

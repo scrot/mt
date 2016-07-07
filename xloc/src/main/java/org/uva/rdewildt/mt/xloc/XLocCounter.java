@@ -25,9 +25,11 @@ public class XLocCounter {
         this.blankLines++;
     }
 
-    public void incrementUnknownLines() { this.unknownLines++; }
+    public void incrementUnknownLines() {
+        this.unknownLines++;
+    }
 
-    public XLoc getXLoc(){
+    public XLoc getXLoc() {
         return new XLoc(this.codeLines, this.commentLines, this.blankLines, this.unknownLines);
     }
 }

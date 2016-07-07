@@ -11,15 +11,15 @@ import org.uva.rdewildt.mt.xloc.pattern.XLocPatternBuilder;
 
 import java.util.regex.Pattern;
 
-public class XLocPatternFactory implements Visitor<XLocPatternBuilder,Void>  {
+public class XLocPatternFactory implements Visitor<XLocPatternBuilder, Void> {
     @Override
     public XLocPatternBuilder visit(Java lang, Void context) {
         return new XLocPatternBuilder()
                 .addBlankPattern(new BlankPattern(Pattern.compile("\\s*$", Pattern.MULTILINE)))
                 .addCommentPattern(new SlCommentPattern(Pattern.compile("^\\s*//.*$", Pattern.MULTILINE)))
                 .addCommentPattern(new MlCommentPattern(
-                    Pattern.compile("/\\*", Pattern.MULTILINE),
-                    Pattern.compile("\\*/", Pattern.MULTILINE)));
+                        Pattern.compile("/\\*", Pattern.MULTILINE),
+                        Pattern.compile("\\*/", Pattern.MULTILINE)));
     }
 
     @Override

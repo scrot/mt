@@ -13,26 +13,25 @@ import java.util.Map;
 public class Overview implements Reportable {
     protected Map<String, Object> map = new LinkedHashMap<>();
 
-    public Overview(){
+    public Overview() {
         this("");
     }
 
-    public Overview(String projectname){
-        this(projectname,0,0,0,0,0,0,0,0,0,0,0,0);
+    public Overview(String projectname) {
+        this(projectname, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
     public Overview(Map<String, Object> reportMap) throws NoSuchFieldException {
-        if(map.keySet().containsAll(reportMap.keySet())){
+        if (map.keySet().containsAll(reportMap.keySet())) {
             this.map = reportMap;
-        }
-        else {
+        } else {
             throw new NoSuchFieldException("Input keys don't match with this keys");
         }
     }
 
     public Overview(String projectname, int files, int cloc, int sloc, int faults, int changes, int authors, int age,
                     int dev, int fdist, int cinf, double cgini, double fgini) {
-        this.map.putAll(new LinkedHashMap<String, Object>(){{
+        this.map.putAll(new LinkedHashMap<String, Object>() {{
             put("Project", projectname);
             put("Files", files);
             put("CLOC", cloc);
@@ -61,16 +60,15 @@ public class Overview implements Reportable {
 
     @Override
     public void setValues(Map<String, Object> values) throws NoSuchFieldException {
-        if(this.map.keySet().containsAll(values.keySet())){
+        if (this.map.keySet().containsAll(values.keySet())) {
             this.map = values;
-        }
-        else {
+        } else {
             throw new NoSuchFieldException("Input keys don't match with this keys");
         }
     }
 
     @Override
-    public Overview getNewInstance(){
+    public Overview getNewInstance() {
         return new Overview();
     }
 

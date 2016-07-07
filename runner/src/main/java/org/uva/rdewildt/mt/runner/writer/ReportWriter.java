@@ -13,11 +13,20 @@ public class ReportWriter {
     public static void main(String[] args) throws IOException, NoSuchFieldException {
         Path config = Paths.get("/home/roy/Workspace/MT/mt/runner/src/main/resources/linux_home.csv");
         Path output = Paths.get("/home/roy/Workspace/MT");
-        fBuilder(config,output);
+        fBuilder(config, output);
+    }
+
+    private static void fBuilder(Path config, Path output) throws IOException, NoSuchFieldException {
+        GReport testReport = new GReport(config);
+        System.out.println("Building feature reports");
+        FeatureReportsBuilder fbuilder = new FeatureReportsBuilder(testReport, true, true, true);
+        fbuilder.writeReportsToFile(output);
     }
 
     private void ghBuilder(Path config, Path output) {
-        Map<String, String> params = new HashMap<String, String>(){{put("language", "Java");}};
+        Map<String, String> params = new HashMap<String, String>() {{
+            put("language", "Java");
+        }};
         GhProjectReportsBuilder ghbuilder = new GhProjectReportsBuilder("top1000", 1000, params, config);
         ghbuilder.writeReportsToFile(config);
     }
@@ -31,14 +40,7 @@ public class ReportWriter {
         });
 
         System.out.println("Building overview report");
-        OverviewReportBuilder obuilder = new OverviewReportBuilder("systems",ovinput, true, true);
+        OverviewReportBuilder obuilder = new OverviewReportBuilder("systems", ovinput, true, true);
         obuilder.writeReportsToFile(output);
-    }
-
-    private static void fBuilder(Path config, Path output) throws IOException, NoSuchFieldException {
-        GReport testReport = new GReport(config);
-        System.out.println("Building feature reports");
-        FeatureReportsBuilder fbuilder = new FeatureReportsBuilder(testReport, true, true, true, true);
-        fbuilder.writeReportsToFile(output);
     }
 }

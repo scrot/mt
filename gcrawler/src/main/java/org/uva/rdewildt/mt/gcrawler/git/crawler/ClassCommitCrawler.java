@@ -23,15 +23,13 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.uva.rdewildt.mt.gcrawler.git.GitUtils.getFilteredCommitsPaths;
-import static org.uva.rdewildt.mt.gcrawler.git.GitUtils.repoFromPath;
-import static org.uva.rdewildt.mt.gcrawler.git.GitUtils.revCommitToCommit;
+import static org.uva.rdewildt.mt.gcrawler.git.GitUtils.*;
 import static org.uva.rdewildt.mt.utils.MapUtils.addValueToMapSet;
 
 /**
  * Created by roy on 5/2/16.
  */
-public class ClassCommitCrawler implements CommitCrawler{
+public class ClassCommitCrawler implements CommitCrawler {
     private Path gitRoot;
     private Map<String, Set<Commit>> commits;
 
@@ -54,10 +52,10 @@ public class ClassCommitCrawler implements CommitCrawler{
         Map<String, Set<Commit>> classCommits = new HashMap<>();
 
         System.out.println("Collecting and filtering commit paths...");
-        Map<RevCommit, List<Path>> commitPaths =  getFilteredCommitsPaths(this.gitRoot, includes);
+        Map<RevCommit, List<Path>> commitPaths = getFilteredCommitsPaths(this.gitRoot, includes);
 
         int i = 0;
-        for(Map.Entry<RevCommit, List<Path>> entry : commitPaths.entrySet()){
+        for (Map.Entry<RevCommit, List<Path>> entry : commitPaths.entrySet()) {
             System.out.println("Analysing commit " + i++ + " of " + commitPaths.size());
             entry.getValue().stream().forEach(commitPath -> {
                 try {
@@ -119,11 +117,11 @@ public class ClassCommitCrawler implements CommitCrawler{
         return classes;
     }
 
-    private Map<Integer, String> getClassMap(Map<String, ClassSource> classSources, Path classPath){
+    private Map<Integer, String> getClassMap(Map<String, ClassSource> classSources, Path classPath) {
         Map<Integer, String> classMap = new HashMap<>();
 
         List<ClassSource> sortedOnLoc = classSources.values().stream().sorted((c1, c2) -> c1.getLocation().compareTo(c2.getLocation())).collect(Collectors.toList());
-        for(ClassSource classSource : sortedOnLoc){
+        for (ClassSource classSource : sortedOnLoc) {
             if (classSource.getSourceFile().equals(classPath)) {
                 int start = classSource.getLocation().getStart().getLine();
                 int end = classSource.getLocation().getEnd().getLine();
@@ -139,7 +137,7 @@ public class ClassCommitCrawler implements CommitCrawler{
 
     private String getCommitSource(RevCommit commit, Path filePath) throws IOException {
         try (Repository repo = repoFromPath(this.gitRoot)) {
-            try(TreeWalk treeWalk = new TreeWalk(repo)) {
+            try (TreeWalk treeWalk = new TreeWalk(repo)) {
                 treeWalk.addTree(commit.getTree());
                 treeWalk.setRecursive(true);
                 treeWalk.setFilter(PathFilter.create(filePath.toString().replace('\\', '/')));

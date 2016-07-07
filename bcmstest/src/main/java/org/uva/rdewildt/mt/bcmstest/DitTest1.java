@@ -2,10 +2,10 @@ import java.util.ArrayList;
 
 /**
  * Created by roy on 5/21/16.
- *
+ * <p>
  * DIT Test 1:
  * maximum number of steps from the class node to the root of the tree
- *
+ * <p>
  * Super = 1
  * Child = 2
  * Infant = 3
@@ -14,12 +14,21 @@ import java.util.ArrayList;
  * NewList =
  */
 public class DitTest1 {
-    abstract class Super{}
-    abstract class Child extends Super{}
-    class Infant extends Child{}
+    interface Interface {
+    }
 
-    interface Interface{}
-    class Implementation implements Interface{}
+    abstract class Super {
+    }
 
-    class NewList extends ArrayList {}
+    abstract class Child extends Super {
+    }
+
+    class Infant extends Child {
+    }
+
+    class Implementation implements Interface {
+    }
+
+    class NewList extends ArrayList {
+    }
 }
