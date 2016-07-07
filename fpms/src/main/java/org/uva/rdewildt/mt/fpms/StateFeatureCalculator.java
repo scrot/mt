@@ -14,6 +14,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static org.uva.rdewildt.mt.gcrawler.git.GitUtils.currentBranch;
+import static org.uva.rdewildt.mt.utils.MapUtils.mapValuesFlatmap;
+import static org.uva.rdewildt.mt.utils.MapUtils.mapValuesUniqueFlatmap;
+
 /**
  * Created by roy on 7/7/16.
  */
@@ -30,7 +34,7 @@ public class StateFeatureCalculator {
 
     private Map<String, Feature> calculateOuterClassStateFeaturesGreedy(Path binaryRoot, Path gitRoot, Boolean ignoreGenerated, Boolean ignoreTests, Boolean onlyOuterClasses) throws Exception {
         System.out.println("Resetting system state to HEAD...");
-        GitUtils.gitReset(gitRoot, "refs/heads/master");
+        GitUtils.gitReset(gitRoot, currentBranch(gitRoot).getName());
         GitUtils.gitPull(gitRoot);
         System.out.println("Recompiling classes...");
         BuildUtils.buildProject(gitRoot);
@@ -39,8 +43,8 @@ public class StateFeatureCalculator {
 
         Crawler gcrawler = new FileCrawler(gitRoot, ignoreGenerated, ignoreTests, false, new Java());
         Map<String, Set<String>> faultClassMap = getFaultClasses(gcrawler.getFaults());
-        Set<Fault> faults = gcrawler.getFaults().values().stream().flatMap(Collection::stream).collect(Collectors.toSet());
-        Set<String> faultyclasses = faultClassMap.values().stream().flatMap(Collection::stream).collect(Collectors.toSet());
+        Set<Fault> faults = mapValuesUniqueFlatmap(gcrawler.getFaults());
+        Set<String> faultyclasses = mapValuesUniqueFlatmap(faultClassMap);
 
         Map<String, Feature> headFeatures = new HashMap<>();
         new FeatureCalculator(binaryRoot, gitRoot, ignoreGenerated, ignoreTests, onlyOuterClasses).getFeatures().forEach((k, v) -> {

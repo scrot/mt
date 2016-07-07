@@ -65,7 +65,7 @@ public abstract class Report {
             if (seperatorFlag) {
                 writer.write("sep=" + seperator + "\n");
             }
-            writer.write(String.join(",", this.getHeader()) + '\n');
+            writer.write(String.join(seperator.toString(), this.getHeader()) + '\n');
             for (List<Object> row : this.getBody()) {
                 List<Object> normalized = normalizeValues(row, seperator);
                 writer.write(String.join(seperator.toString(), normalized.stream().map(Object::toString).collect(Collectors.toList())) + '\n');

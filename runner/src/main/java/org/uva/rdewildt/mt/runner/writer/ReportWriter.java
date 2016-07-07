@@ -14,10 +14,10 @@ public class ReportWriter {
         Path config = Paths.get("/home/roy/Workspace/MT/mt/runner/src/main/resources/linux_home.csv");
         Path output = Paths.get("/home/roy/Workspace/MT");
         ovBuilder(config,output);
-        //fBuilder(config, output);
+        fBuilder(config, output);
     }
 
-    private static void fBuilder(Path config, Path output) throws IOException, NoSuchFieldException {
+    public static void fBuilder(Path config, Path output) throws IOException, NoSuchFieldException {
         GReport testReport = new GReport(config);
         System.out.println("Building feature reports");
         FeatureReportsBuilder fbuilder = new FeatureReportsBuilder(testReport, true, true, true);

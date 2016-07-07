@@ -15,6 +15,11 @@ public class Distribution {
     public Double giniCoefficient() {
         Double linSpace = 0.5 * this.cumulativeHeadOfPartition(new Percentage(100.0)) * this.distribution.size();
         Double lorenzSpace = 0.0;
+
+        if(linSpace == 0) {
+            return 0.0;
+        }
+
         for (Integer i = 1; i <= this.distribution.size(); i++) {
             if (i == 1) {
                 lorenzSpace += 0.5 * this.distribution.get(i).doubleValue();

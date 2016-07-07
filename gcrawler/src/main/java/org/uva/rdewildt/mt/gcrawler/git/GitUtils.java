@@ -6,7 +6,6 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.*;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
@@ -28,10 +27,7 @@ public class GitUtils {
         List<RevCommit> commits = new ArrayList<>();
         try (Repository repository = repoFromPath(gitRoot)) {
             try (Git git = new Git(repository)) {
-                String remote = repository.getRemoteNames().stream().findFirst().orElse("master");
-                String branch = repository.getBranch();
-                ObjectId currentBranchRef = repository.resolve("remotes/" + remote + '/' + branch);
-                Iterable<RevCommit> revcommits = git.log().add(currentBranchRef).call();
+                Iterable<RevCommit> revcommits = git.log().add(currentBranch(gitRoot)).call();
                 for (RevCommit revcommit : revcommits) {
                     commits.add(revcommit);
                 }
@@ -39,6 +35,15 @@ public class GitUtils {
         }
         return commits;
     }
+
+    public static ObjectId currentBranch(Path gitRoot) throws IOException {
+        try (Repository repository = repoFromPath(gitRoot)) {
+            String remote = repository.getRemoteNames().stream().findFirst().orElse("master");
+            String branch = repository.getBranch();
+            return repository.resolve("remotes/" + remote + '/' + branch);
+        }
+    }
+
 
     public static List<Path> getCommitPaths(Path gitRoot, RevCommit revCommit) {
         List<Path> files = new ArrayList<>();

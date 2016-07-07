@@ -39,7 +39,7 @@ public class FeatureReportsBuilder {
 
     public void writeReportsToFile(Path path) {
         for (Report featureReport : featureReports) {
-            featureReport.writeToFile(path, "_featureset", ',', false);
+            featureReport.writeToFile(path, "_featureset", ';', false);
         }
     }
 

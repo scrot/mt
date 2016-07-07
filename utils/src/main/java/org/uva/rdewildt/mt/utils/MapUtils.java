@@ -3,6 +3,7 @@ package org.uva.rdewildt.mt.utils;
 import org.uva.rdewildt.mt.utils.model.Percentage;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by roy on 5/28/16.
@@ -15,6 +16,14 @@ public class MapUtils {
             counts.put(col.getKey(), col.getValue().size());
         }
         return counts;
+    }
+
+    public static <T, U> List<U> mapValuesFlatmap(Map<T, ? extends Collection<U>> map) {
+        return map.values().stream().flatMap(Collection::stream).collect(Collectors.toList());
+    }
+
+    public static <T, U> Set<U> mapValuesUniqueFlatmap(Map<T, ? extends Collection<U>> map) {
+        return map.values().stream().flatMap(Collection::stream).collect(Collectors.toSet());
     }
 
 

@@ -11,25 +11,29 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class BuildUtils {
-    public static void buildProject(Path gitRoot) throws IOException {
-        if (isGradlePath(gitRoot)) {
-            ProjectConnection gradle = GradleConnector
-                    .newConnector()
-                    .forProjectDirectory(gitRoot.toFile())
-                    .connect();
-            gradle.newBuild()
-                    .forTasks("clean", "build")
-                    .setStandardOutput(NullOutputStream.INSTANCE)
-                    .run();
-            gradle.close();
-        } else if (isMavenPath(gitRoot)) {
-            MavenCli cli = new MavenCli();
-            PrintStream devnull = new PrintStream(NullOutputStream.INSTANCE);
-            cli.doMain(new String[]{"clean", "compile"}, Paths.get(gitRoot.toString(), "pom.xml").toString(),
-                    devnull, devnull);
-        } else {
-            throw new IOException("no maven/gradle project found in path " + gitRoot.toString());
-        }
+    public static void buildProject(Path gitRoot) {
+        try {
+            if (isGradlePath(gitRoot)) {
+                ProjectConnection gradle = GradleConnector
+                        .newConnector()
+                        .useBuildDistribution()
+                        .forProjectDirectory(gitRoot.toFile())
+                        .connect();
+                gradle.newBuild()
+                        .setStandardOutput(NullOutputStream.INSTANCE)
+                        .setStandardError(NullOutputStream.INSTANCE)
+                        .forTasks("clean", "build")
+                        .run();
+                gradle.close();
+            } else if (isMavenPath(gitRoot)) {
+                MavenCli cli = new MavenCli();
+                PrintStream devnull = new PrintStream(NullOutputStream.INSTANCE);
+                cli.doMain(new String[]{"clean", "compile"}, Paths.get(gitRoot.toString(), "pom.xml").toString(),
+                        devnull, devnull);
+            } else {
+                throw new IOException("no maven/gradle project found in path " + gitRoot.toString());
+            }
+        } catch (Exception ignore){}
     }
 
     private static Boolean isMavenPath(Path path) {

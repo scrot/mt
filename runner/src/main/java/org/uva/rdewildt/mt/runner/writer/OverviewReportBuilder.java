@@ -26,7 +26,7 @@ public class OverviewReportBuilder {
     }
 
     public void writeReportsToFile(Path path) {
-        this.overviewReport.writeToFile(path, "_overview", ',', true);
+        this.overviewReport.writeToFile(path, "_overview", ';', false);
     }
 
     public Report getOverviewReport() {

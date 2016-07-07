@@ -20,6 +20,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+import static org.uva.rdewildt.mt.utils.MapUtils.mapListLenghts;
+import static org.uva.rdewildt.mt.utils.MapUtils.mapValuesUniqueFlatmap;
+
 /**
  * Created by roy on 5/26/16.
  */
@@ -38,20 +41,20 @@ public class OverviewCalculator {
 
         SortedSet<Commit> sorted = MapUtils.getSortedSet(crawler.getChanges());
 
-        Distribution faultdist = new Distribution(MapUtils.mapListLenghts(crawler.getFaults()));
+        Distribution faultdist = new Distribution(mapListLenghts(crawler.getFaults()));
         Distribution codedist = new Distribution(getCodeCounts(xlocs));
 
         this.overview = new Overview(projectName,
                 crawler.getChanges().size(),
                 totalXloc.getCodeLines(),
                 totalXloc.getCommentLines(),
-                MapUtils.mapTotalListLenghts(crawler.getChanges()),
-                MapUtils.mapTotalListLenghts(crawler.getFaults()),
-                MapUtils.calculateUniqueElements(crawler.getAuthors()),
+                mapValuesUniqueFlatmap(crawler.getFaults()).size(),
+                mapValuesUniqueFlatmap(crawler.getChanges()).size(),
+                mapValuesUniqueFlatmap(crawler.getAuthors()).size(),
                 calculateDateDayDiff(sorted.first().getDate(), DateTime.now().toDate()),
                 calculateDateDayDiff(sorted.first().getDate(), sorted.last().getDate()),
                 get20Percent(faultdist),
-                getCodeIn20Percent(MapUtils.mapListLenghts(crawler.getFaults()), xlocs),
+                getCodeIn20Percent(mapListLenghts(crawler.getFaults()), xlocs),
                 round(faultdist.giniCoefficient(), 2),
                 round(codedist.giniCoefficient(), 2)
         );
