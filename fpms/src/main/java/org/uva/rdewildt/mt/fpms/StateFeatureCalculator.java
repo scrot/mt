@@ -56,10 +56,13 @@ public class StateFeatureCalculator {
         faults.forEach(fault -> {
             String faultId = fault.getCommit().getId().toString();
             try {
+                // first restore git state, 'force pull' online branch
                 System.out.println("Resetting system state to commit " + faultId + "...");
-                GitUtils.gitReset(gitRoot, "refs/heads/master");
+                GitUtils.gitReset(gitRoot, currentBranch(gitRoot).getName());
                 GitUtils.gitPull(gitRoot);
-                GitUtils.gitReset(gitRoot, faultId);
+
+                // reset to commit before fault commit (using ~)
+                GitUtils.gitReset(gitRoot, faultId + '~');
 
                 System.out.println("Recompiling classes...");
                 BuildUtils.buildProject(gitRoot);
@@ -69,10 +72,14 @@ public class StateFeatureCalculator {
 
                 System.out.println("Merging features...");
                 faultClassMap.get(faultId).forEach(classname -> {
-                    stateFeatures.get(classname).setClassName(classname + '$' + faultId);
-                    headFeatures.put(classname + '$' + faultId, stateFeatures.get(classname));
+                    // check for null, not all source files are compiled
+                    if(stateFeatures.get(classname) == null){
+                        stateFeatures.get(classname).setClassName(classname + '$' + faultId);
+                        headFeatures.put(classname + '$' + faultId, stateFeatures.get(classname));
+                    }
                 });
-            } catch (Exception ignore) {
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
 
