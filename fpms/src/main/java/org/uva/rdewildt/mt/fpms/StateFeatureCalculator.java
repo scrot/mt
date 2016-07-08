@@ -60,7 +60,6 @@ public class StateFeatureCalculator implements FeatureCalculator {
                 System.out.print("Resetting system state to commit " + faultId + "...");
                 GitUtils.gitReset(gitRoot, currentBranch(gitRoot).getName());
                 GitUtils.gitPull(gitRoot);
-
                 GitUtils.gitReset(gitRoot, faultId + '~');
                 System.out.println("done");
 
