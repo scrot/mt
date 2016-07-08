@@ -15,7 +15,7 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
-public class FeatureCalculatorTest {
+public class StatelessFeatureCalculatorTest {
     @Test
     public void testFaults() {
         Map<String, Feature> fs = getFeatures("featuretests.zip");
@@ -58,7 +58,7 @@ public class FeatureCalculatorTest {
 
         try {
             unzip(getResource(zipRoot).toString(), getResource(zipRoot).getParent());
-            mc = new FeatureCalculator(sourcePath, sourcePath, true, false, false).getFeatures();
+            mc = new StatelessFeatureCalculator(sourcePath, sourcePath, true, false, false).getFeatures();
             FileUtils.deleteDirectory(sourcePath.toFile());
         } catch (Exception e) {
             e.printStackTrace();

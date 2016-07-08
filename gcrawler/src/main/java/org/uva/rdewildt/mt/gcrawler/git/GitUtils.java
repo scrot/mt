@@ -39,7 +39,7 @@ public class GitUtils {
     public static ObjectId currentBranch(Path gitRoot) throws IOException {
         try (Repository repository = repoFromPath(gitRoot)) {
             String remote = repository.getRemoteNames().stream().findFirst().orElse("origin");
-            String branch = repository.getBranch() != null ? repository.getBranch() : "master";
+            String branch = repository.getBranch()!= null ? repository.getBranch() : "master";
             return repository.resolve("remotes/" + remote + '/' + branch);
         }
     }

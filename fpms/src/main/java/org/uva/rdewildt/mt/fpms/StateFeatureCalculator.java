@@ -8,26 +8,24 @@ import org.uva.rdewildt.mt.utils.MapUtils;
 import org.uva.rdewildt.mt.utils.lang.Java;
 
 import java.nio.file.Path;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static org.uva.rdewildt.mt.gcrawler.git.GitUtils.currentBranch;
-import static org.uva.rdewildt.mt.utils.MapUtils.mapValuesFlatmap;
 import static org.uva.rdewildt.mt.utils.MapUtils.mapValuesUniqueFlatmap;
 
 /**
  * Created by roy on 7/7/16.
  */
-public class StateFeatureCalculator {
+public class StateFeatureCalculator implements FeatureCalculator {
     private final Map<String, Feature> features;
 
     public StateFeatureCalculator(Path binaryRoot, Path gitRoot, Boolean ignoreGenerated, Boolean ignoreTests, Boolean onlyOuterClasses) throws Exception {
         this.features = calculateOuterClassStateFeaturesGreedy(binaryRoot, gitRoot, ignoreGenerated, ignoreTests, onlyOuterClasses);
     }
 
+    @Override
     public Map<String, Feature> getFeatures() {
         return features;
     }
@@ -48,7 +46,7 @@ public class StateFeatureCalculator {
         Set<String> faultyclasses = mapValuesUniqueFlatmap(faultClassMap);
 
         Map<String, Feature> headFeatures = new HashMap<>();
-        new FeatureCalculator(binaryRoot, gitRoot, ignoreGenerated, ignoreTests, onlyOuterClasses).getFeatures().forEach((k, v) -> {
+        new StatelessFeatureCalculator(binaryRoot, gitRoot, ignoreGenerated, ignoreTests, onlyOuterClasses).getFeatures().forEach((k, v) -> {
             if (!faultyclasses.contains(v.getClassname())) {
                 headFeatures.put(k, v);
             }
@@ -72,13 +70,13 @@ public class StateFeatureCalculator {
                 System.out.println("done");
 
                 System.out.print("Calculating features...");
-                Map<String, Feature> stateFeatures = new FeatureCalculator(binaryRoot, gitRoot, ignoreGenerated, ignoreTests, onlyOuterClasses).getFeatures();
+                Map<String, Feature> stateFeatures = new StatelessFeatureCalculator(binaryRoot, gitRoot, ignoreGenerated, ignoreTests, onlyOuterClasses).getFeatures();
                 System.out.println("done");
 
                 System.out.print("Merging features...");
                 faultClassMap.get(faultId).forEach(classname -> {
                     // check for null, not all source files are compiled
-                    if(stateFeatures.isEmpty() || stateFeatures.get(classname) == null){
+                    if(!stateFeatures.isEmpty() || stateFeatures.get(classname) == null){
                         stateFeatures.get(classname).setClassName(classname + '$' + faultId);
                         headFeatures.put(classname + '$' + faultId, stateFeatures.get(classname));
                     }
