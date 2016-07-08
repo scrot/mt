@@ -14,7 +14,7 @@ public class ReportWriter {
     private static Path output;
 
     public static void main(String[] args) throws IOException, NoSuchFieldException {
-        loadWindowsIsConfig();
+        loadRinseConfig();
 
         assert config != null && output != null;
         ovBuilder(config,output);
@@ -57,5 +57,10 @@ public class ReportWriter {
     private static void loadWindowsIsConfig(){
         config = Paths.get("C:\\Users\\royw\\Workspace\\mt\\runner\\src\\main\\resources\\windows_is.csv");
         output = Paths.get("C:\\Users\\royw\\Workspace");
+    }
+
+    private static void loadRinseConfig(){
+        config = Paths.get("/home/mp44cc/ROY/rinse.csv");
+        output = Paths.get("/home/mp44cc/ROY/");
     }
 }
