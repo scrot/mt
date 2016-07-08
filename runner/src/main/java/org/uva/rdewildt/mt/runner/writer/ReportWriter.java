@@ -10,9 +10,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ReportWriter {
+    private static Path config;
+    private static Path output;
+
     public static void main(String[] args) throws IOException, NoSuchFieldException {
-        Path config = Paths.get("/home/roy/Workspace/MT/mt/runner/src/main/resources/linux_home.csv");
-        Path output = Paths.get("/home/roy/Workspace/MT");
+        loadWindowsIsConfig();
+
+        assert config != null && output != null;
         ovBuilder(config,output);
         fBuilder(config, output);
     }
@@ -43,5 +47,15 @@ public class ReportWriter {
         System.out.println("Building overview report");
         OverviewReportBuilder obuilder = new OverviewReportBuilder("systems", ovinput, true, true);
         obuilder.writeReportsToFile(output);
+    }
+
+    private static void loadLinuxHomeConfig(){
+        config = Paths.get("/home/roy/Workspace/MT/mt/runner/src/main/resources/linux_home.csv");
+        output = Paths.get("/home/roy/Workspace/MT");
+    }
+
+    private static void loadWindowsIsConfig(){
+        config = Paths.get("C:\\Users\\royw\\Workspace\\mt\\runner\\src\\main\\resources\\windows_is.csv");
+        output = Paths.get("C:\\Users\\royw\\Workspace");
     }
 }

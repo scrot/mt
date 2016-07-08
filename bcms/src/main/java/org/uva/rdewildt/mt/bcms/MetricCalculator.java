@@ -562,7 +562,6 @@ public class MetricCalculator extends EmptyVisitor {
                 return true;
             }
         } catch (ClassNotFoundException ignore) {
-            return false;
         }
         return false;
     }
