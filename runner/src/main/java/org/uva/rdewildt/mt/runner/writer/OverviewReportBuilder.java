@@ -2,7 +2,7 @@ package org.uva.rdewildt.mt.runner.writer;
 
 import org.uva.rdewildt.mt.ovms.OverviewCalculator;
 import org.uva.rdewildt.mt.ovms.OverviewReport;
-import org.uva.rdewildt.mt.report.Report;
+import org.uva.rdewildt.mt.utils.model.report.Report;
 
 import java.nio.file.Path;
 import java.util.Map;

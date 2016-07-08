@@ -2,13 +2,13 @@ package org.uva.rdewildt.mt.ovms;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
-import org.uva.rdewildt.mt.gcrawler.git.crawler.Crawler;
-import org.uva.rdewildt.mt.gcrawler.git.crawler.FileCrawler;
-import org.uva.rdewildt.mt.gcrawler.git.model.Commit;
+import org.uva.rdewildt.mt.gcrawler.git.Crawler;
+import org.uva.rdewildt.mt.gcrawler.git.FileCrawler;
+import org.uva.rdewildt.mt.utils.model.git.Commit;
 import org.uva.rdewildt.mt.ovms.distribution.Distribution;
 import org.uva.rdewildt.mt.utils.MapUtils;
-import org.uva.rdewildt.mt.utils.lang.Java;
-import org.uva.rdewildt.mt.utils.lang.Language;
+import org.uva.rdewildt.mt.utils.model.lang.Java;
+import org.uva.rdewildt.mt.utils.model.lang.Language;
 import org.uva.rdewildt.mt.utils.model.Percentage;
 import org.uva.rdewildt.mt.xloc.XLoc;
 import org.uva.rdewildt.mt.xloc.XLocCalculator;

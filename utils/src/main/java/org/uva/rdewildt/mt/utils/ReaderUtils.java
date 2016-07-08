@@ -1,7 +1,7 @@
 package org.uva.rdewildt.mt.utils;
 
-import org.uva.rdewildt.mt.utils.lang.Language;
-import org.uva.rdewildt.mt.utils.lang.LanguageFactory;
+import org.uva.rdewildt.mt.utils.model.lang.Language;
+import org.uva.rdewildt.mt.utils.model.lang.LanguageFactory;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -20,8 +20,6 @@ public class ReaderUtils {
     }
 
     public static List<String> mixedCharsetFileReader(Path filePath, Integer limit) {
-        List<String> lines = new ArrayList<>();
-
         File file = filePath.toFile();
 
         CharsetDecoder decoder = Charset.forName("UTF-8").newDecoder();

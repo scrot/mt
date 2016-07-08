@@ -3,11 +3,11 @@ package org.uva.rdewildt.mt.fpms;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.uva.rdewildt.mt.bcms.MetricCalculator;
-import org.uva.rdewildt.mt.gcrawler.git.crawler.ClassCrawler;
-import org.uva.rdewildt.mt.gcrawler.git.crawler.Crawler;
-import org.uva.rdewildt.mt.gcrawler.git.crawler.FileCrawler;
-import org.uva.rdewildt.mt.gcrawler.git.model.Commit;
-import org.uva.rdewildt.mt.utils.lang.Java;
+import org.uva.rdewildt.mt.gcrawler.git.ClassCrawler;
+import org.uva.rdewildt.mt.gcrawler.git.Crawler;
+import org.uva.rdewildt.mt.gcrawler.git.FileCrawler;
+import org.uva.rdewildt.mt.utils.model.git.Commit;
+import org.uva.rdewildt.mt.utils.model.lang.Java;
 
 import java.io.IOException;
 import java.nio.file.Path;

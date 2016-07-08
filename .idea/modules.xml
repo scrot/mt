@@ -18,9 +18,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ovms/ovms.iml" filepath="$PROJECT_DIR$/.idea/modules/ovms/ovms.iml" group="ovms" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ovms/ovms_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ovms/ovms_main.iml" group="ovms" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ovms/ovms_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ovms/ovms_test.iml" group="ovms" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/report/report.iml" filepath="$PROJECT_DIR$/.idea/modules/report/report.iml" group="report" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/report/report_main.iml" filepath="$PROJECT_DIR$/.idea/modules/report/report_main.iml" group="report" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/report/report_test.iml" filepath="$PROJECT_DIR$/.idea/modules/report/report_test.iml" group="report" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/runner/runner.iml" filepath="$PROJECT_DIR$/.idea/modules/runner/runner.iml" group="runner" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/runner/runner_main.iml" filepath="$PROJECT_DIR$/.idea/modules/runner/runner_main.iml" group="runner" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/runner/runner_test.iml" filepath="$PROJECT_DIR$/.idea/modules/runner/runner_test.iml" group="runner" />

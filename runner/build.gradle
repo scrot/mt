@@ -5,9 +5,9 @@ apply plugin: 'application'
 mainClassName = 'org.uva.rdewildt.mt.runner.writer/ReportWriter'
 
 dependencies {
-    compile project(':report')
     compile project(':ovms')
     compile project(':fpms')
+    compile project(':utils')
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }

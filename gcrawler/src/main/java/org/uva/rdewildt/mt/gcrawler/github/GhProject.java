@@ -1,8 +1,8 @@
 package org.uva.rdewildt.mt.gcrawler.github;
 
-import org.uva.rdewildt.mt.gcrawler.git.model.Project;
-import org.uva.rdewildt.mt.utils.lang.Language;
-import org.uva.rdewildt.mt.utils.lang.Other;
+import org.uva.rdewildt.mt.utils.model.git.Project;
+import org.uva.rdewildt.mt.utils.model.lang.Language;
+import org.uva.rdewildt.mt.utils.model.lang.Other;
 
 import java.util.*;
 

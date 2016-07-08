@@ -1,7 +1,7 @@
 package org.uva.rdewildt.mt.runner.writer;
 
-import org.uva.rdewildt.mt.gcrawler.git.model.GReport;
-import org.uva.rdewildt.mt.gcrawler.git.model.Project;
+import org.uva.rdewildt.mt.utils.model.git.GReport;
+import org.uva.rdewildt.mt.utils.model.git.Project;
 
 import java.io.IOException;
 import java.nio.file.Path;

@@ -1,18 +1,19 @@
 package org.uva.rdewildt.mt.fpms;
 
-import org.uva.rdewildt.mt.gcrawler.git.GitUtils;
-import org.uva.rdewildt.mt.gcrawler.git.crawler.Crawler;
-import org.uva.rdewildt.mt.gcrawler.git.crawler.FileCrawler;
-import org.uva.rdewildt.mt.gcrawler.git.model.Fault;
+import org.uva.rdewildt.mt.gcrawler.git.Crawler;
+import org.uva.rdewildt.mt.gcrawler.git.FileCrawler;
+import org.uva.rdewildt.mt.utils.GitUtils;
+import org.uva.rdewildt.mt.utils.model.git.Fault;
+import org.uva.rdewildt.mt.utils.BuildUtils;
 import org.uva.rdewildt.mt.utils.MapUtils;
-import org.uva.rdewildt.mt.utils.lang.Java;
+import org.uva.rdewildt.mt.utils.model.lang.Java;
 
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static org.uva.rdewildt.mt.gcrawler.git.GitUtils.currentBranch;
+import static org.uva.rdewildt.mt.utils.GitUtils.currentBranch;
 import static org.uva.rdewildt.mt.utils.MapUtils.mapValuesUniqueFlatmap;
 
 /**
@@ -84,6 +85,7 @@ public class StateFeatureCalculator implements FeatureCalculator {
                 System.out.println("done");
             } catch (Exception e) {
                 System.out.println("failed");
+                e.printStackTrace();
             }
         });
 

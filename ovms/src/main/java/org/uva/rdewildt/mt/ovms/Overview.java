@@ -1,6 +1,6 @@
 package org.uva.rdewildt.mt.ovms;
 
-import org.uva.rdewildt.mt.report.Reportable;
+import org.uva.rdewildt.mt.utils.model.report.Reportable;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

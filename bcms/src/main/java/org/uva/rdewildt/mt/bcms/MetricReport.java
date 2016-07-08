@@ -1,6 +1,6 @@
 package org.uva.rdewildt.mt.bcms;
 
-import org.uva.rdewildt.mt.report.Report;
+import org.uva.rdewildt.mt.utils.model.report.Report;
 
 import java.io.IOException;
 import java.nio.file.Path;

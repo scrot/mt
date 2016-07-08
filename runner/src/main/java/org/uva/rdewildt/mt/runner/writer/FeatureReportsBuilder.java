@@ -3,8 +3,8 @@ package org.uva.rdewildt.mt.runner.writer;
 import org.uva.rdewildt.mt.fpms.Feature;
 import org.uva.rdewildt.mt.fpms.FeatureReport;
 import org.uva.rdewildt.mt.fpms.StateFeatureCalculator;
-import org.uva.rdewildt.mt.gcrawler.git.model.GReport;
-import org.uva.rdewildt.mt.report.Report;
+import org.uva.rdewildt.mt.utils.model.git.GReport;
+import org.uva.rdewildt.mt.utils.model.report.Report;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

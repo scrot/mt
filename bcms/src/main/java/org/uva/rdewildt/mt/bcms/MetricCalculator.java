@@ -7,8 +7,8 @@ import org.apache.bcel.util.ClassPath;
 import org.apache.bcel.util.Repository;
 import org.apache.bcel.util.SyntheticRepository;
 import org.uva.rdewildt.mt.utils.MapUtils;
-import org.uva.rdewildt.mt.utils.lang.Class;
-import org.uva.rdewildt.mt.utils.lang.Language;
+import org.uva.rdewildt.mt.utils.model.lang.Class;
+import org.uva.rdewildt.mt.utils.model.lang.Language;
 import org.uva.rdewildt.mt.xloc.PathCollector;
 
 import java.io.IOException;

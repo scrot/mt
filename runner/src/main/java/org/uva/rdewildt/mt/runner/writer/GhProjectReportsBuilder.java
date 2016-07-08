@@ -3,7 +3,7 @@ package org.uva.rdewildt.mt.runner.writer;
 import org.uva.rdewildt.mt.gcrawler.github.GhProject;
 import org.uva.rdewildt.mt.gcrawler.github.GhProjectCrawler;
 import org.uva.rdewildt.mt.gcrawler.github.GhReport;
-import org.uva.rdewildt.mt.report.Report;
+import org.uva.rdewildt.mt.utils.model.report.Report;
 
 import java.nio.file.Path;
 import java.util.Map;

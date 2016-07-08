@@ -1,6 +1,6 @@
 package org.uva.rdewildt.mt.bcms;
 
-import org.uva.rdewildt.mt.report.Reportable;
+import org.uva.rdewildt.mt.utils.model.report.Reportable;
 import org.uva.rdewildt.mt.utils.MapUtils;
 
 import java.util.ArrayList;
