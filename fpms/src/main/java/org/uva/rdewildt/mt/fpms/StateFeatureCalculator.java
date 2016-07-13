@@ -1,5 +1,8 @@
 package org.uva.rdewildt.mt.fpms;
 
+import org.apache.commons.io.FileUtils;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.uva.rdewildt.mt.gcrawler.git.Crawler;
 import org.uva.rdewildt.mt.gcrawler.git.FileCrawler;
 import org.uva.rdewildt.mt.utils.GitUtils;
@@ -8,10 +11,10 @@ import org.uva.rdewildt.mt.utils.BuildUtils;
 import org.uva.rdewildt.mt.utils.MapUtils;
 import org.uva.rdewildt.mt.utils.model.lang.Java;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static org.uva.rdewildt.mt.utils.GitUtils.currentBranch;
 import static org.uva.rdewildt.mt.utils.MapUtils.mapValuesUniqueFlatmap;
@@ -32,10 +35,7 @@ public class StateFeatureCalculator implements FeatureCalculator {
     }
 
     private Map<String, Feature> calculateOuterClassStateFeaturesGreedy(Path binaryRoot, Path gitRoot, Boolean ignoreGenerated, Boolean ignoreTests, Boolean onlyOuterClasses) throws Exception {
-        System.out.print("Resetting system state to HEAD...");
-        GitUtils.gitReset(gitRoot, currentBranch(gitRoot).getName());
-        GitUtils.gitPull(gitRoot);
-        System.out.println("done");
+        GitUtils.cRProcedure(gitRoot, currentBranch(gitRoot).getName());
         System.out.print("Recompiling classes...");
         BuildUtils.buildProject(gitRoot);
         System.out.println("done");
@@ -57,11 +57,7 @@ public class StateFeatureCalculator implements FeatureCalculator {
         faults.forEach(fault -> {
             String faultId = fault.getCommit().getId().toString();
             try {
-                System.out.print("Resetting system state to commit " + faultId + "...");
-                GitUtils.gitReset(gitRoot, currentBranch(gitRoot).getName());
-                GitUtils.gitPull(gitRoot);
-                GitUtils.gitReset(gitRoot, faultId + '~');
-                System.out.println("done");
+                GitUtils.cRProcedure(gitRoot, faultId + '~');
 
                 System.out.print("Recompiling classes...");
                 BuildUtils.buildProject(gitRoot);

@@ -1,10 +1,12 @@
 package org.uva.rdewildt.mt.utils;
 
+import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ResetCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.*;
+import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.transport.URIish;
@@ -16,10 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class GitUtils {
@@ -154,11 +153,47 @@ public class GitUtils {
         }
     }
 
-    public static void gitPull(Path gitPath) throws IOException, GitAPIException {
+    public static void gitFetch(Path gitPath) throws IOException, GitAPIException {
         try (Repository repo = repoFromPath(gitPath)) {
             try (Git git = new Git(repo)) {
-                git.pull().call();
+                git.fetch().call();
             }
         }
+    }
+
+    public static void cRProcedure(Path gitRoot, String faultId) throws IOException, GitAPIException {
+        System.out.print("Cleaning local working folder" + "...");
+        cleanGitWorkingDir(gitRoot);
+        System.out.println("done");
+        System.out.print("Resetting system state to commit " + faultId + "...");
+        GitUtils.gitFetch(gitRoot);
+        GitUtils.gitReset(gitRoot, faultId);
+        System.out.println("done");
+    }
+
+
+
+    public static void cleanGitWorkingDir(Path gitRoot){
+        File gitFile = gitRoot.toFile();
+        List<File> files = new ArrayList<>();
+        if(gitFile.exists() && gitFile.isDirectory()){
+            File[] fileArray = gitFile.listFiles();
+            if(fileArray != null) {
+                files = Arrays.asList(fileArray);
+            }
+        }
+        files.forEach(file -> {
+            try {
+                if (file.isFile()) {
+                    FileUtils.forceDelete(file);
+                } else {
+                    if(!file.toString().endsWith(".git")) {
+                        FileUtils.deleteDirectory(file);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

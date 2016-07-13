@@ -13,11 +13,11 @@ import java.util.Map;
 public class OverviewReportBuilder {
     private final Report overviewReport;
 
-    public OverviewReportBuilder(String name, Map<String, Path> projects, Boolean ignoreGenerated, Boolean ignoreTests) {
+    public OverviewReportBuilder(String name, Map<String, Path> projects, Boolean ignoreGenerated, Boolean ignoreTests, Boolean resetAndRebuild) {
         this.overviewReport = new OverviewReport(name);
         projects.forEach((k, v) -> {
             try {
-                OverviewCalculator ocalc = new OverviewCalculator(k, v, ignoreGenerated, ignoreTests);
+                OverviewCalculator ocalc = new OverviewCalculator(k, v, ignoreGenerated, ignoreTests, resetAndRebuild);
                 this.overviewReport.updateReport(ocalc.getOverview());
             } catch (Exception e) {
                 e.printStackTrace();

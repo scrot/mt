@@ -1,9 +1,12 @@
 package org.uva.rdewildt.mt.ovms;
 
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.uva.rdewildt.mt.gcrawler.git.Crawler;
 import org.uva.rdewildt.mt.gcrawler.git.FileCrawler;
+import org.uva.rdewildt.mt.utils.BuildUtils;
+import org.uva.rdewildt.mt.utils.GitUtils;
 import org.uva.rdewildt.mt.utils.model.git.Commit;
 import org.uva.rdewildt.mt.ovms.distribution.Distribution;
 import org.uva.rdewildt.mt.utils.MapUtils;
@@ -29,7 +32,11 @@ import static org.uva.rdewildt.mt.utils.MapUtils.mapValuesUniqueFlatmap;
 public class OverviewCalculator {
     private final Overview overview;
 
-    public OverviewCalculator(String projectName, Path projectRoot, Boolean ignoreGenerated, Boolean ignoreTests) throws IOException {
+    public OverviewCalculator(String projectName, Path projectRoot, Boolean ignoreGenerated, Boolean ignoreTests, Boolean resetAndRebuild) throws IOException, GitAPIException {
+        if(resetAndRebuild) {
+            GitUtils.cRProcedure(projectRoot, GitUtils.currentBranch(projectRoot).getName());
+        }
+
         Crawler crawler = new FileCrawler(projectRoot, ignoreGenerated, ignoreTests, true, new Java());
         Map<Path, XLoc> xlocs = new XLocCalculator(
                 projectRoot, true,

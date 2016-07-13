@@ -14,7 +14,7 @@ public class ReportWriter {
     private static Path output;
 
     public static void main(String[] args) throws IOException, NoSuchFieldException {
-        loadRinseConfig();
+        loadLinuxHomeConfig();
 
         assert config != null && output != null;
         ovBuilder(config,output);
@@ -45,7 +45,7 @@ public class ReportWriter {
         });
 
         System.out.println("Building overview report");
-        OverviewReportBuilder obuilder = new OverviewReportBuilder("systems", ovinput, true, true);
+        OverviewReportBuilder obuilder = new OverviewReportBuilder("systems", ovinput, true, true, true);
         obuilder.writeReportsToFile(output);
     }
 
