@@ -14,7 +14,7 @@ public class ReportWriter {
     private static Path output;
 
     public static void main(String[] args) throws IOException, NoSuchFieldException {
-        loadRinseConfig();
+        loadLinuxHomeConfig();
 
         assert config != null && output != null;
         ovBuilder(config,output);

@@ -1,5 +1,15 @@
 package org.uva.rdewildt.mt.utils;
 
+import com.jcraft.jsch.IdentityRepository;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
+import com.jcraft.jsch.agentproxy.AgentProxyException;
+import com.jcraft.jsch.agentproxy.Connector;
+import com.jcraft.jsch.agentproxy.RemoteIdentityRepository;
+import com.jcraft.jsch.agentproxy.USocketFactory;
+import com.jcraft.jsch.agentproxy.connector.SSHAgentConnector;
+import com.jcraft.jsch.agentproxy.usocket.JNAUSocketFactory;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ResetCommand;
@@ -9,8 +19,12 @@ import org.eclipse.jgit.lib.*;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+import org.eclipse.jgit.transport.JschConfigSessionFactory;
+import org.eclipse.jgit.transport.OpenSshConfig;
+import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
+import org.eclipse.jgit.util.FS;
 import org.uva.rdewildt.mt.utils.model.git.Author;
 import org.uva.rdewildt.mt.utils.model.git.Commit;
 
@@ -106,6 +120,34 @@ public class GitUtils {
 
     public static Repository repoFromPath(Path gitPath) throws IOException {
         File gitFolder = Paths.get(gitPath.toString(), ".git").toFile();
+
+        JschConfigSessionFactory sessionFactory = new JschConfigSessionFactory() {
+            @Override
+            protected void configure(OpenSshConfig.Host host, Session session) {}
+
+            @Override
+            protected JSch createDefaultJSch(FS fs) throws JSchException {
+                Connector con = null;
+                try {
+                    if(SSHAgentConnector.isConnectorAvailable()){
+                        USocketFactory usf = new JNAUSocketFactory();
+                        con = new SSHAgentConnector(usf);
+                    }
+                } catch(AgentProxyException e){
+                    e.printStackTrace();
+                }
+
+                final JSch jsch = super.createDefaultJSch(fs);
+                if (con != null) {
+                    JSch.setConfig("PreferredAuthentications", "publickey");
+                    IdentityRepository identityRepository = new RemoteIdentityRepository(con);
+                    jsch.setIdentityRepository(identityRepository);
+                }
+                return jsch;
+            }
+        };
+        SshSessionFactory.setInstance(sessionFactory);
+
         FileRepositoryBuilder builder = new FileRepositoryBuilder();
         return builder.setGitDir(gitFolder)
                 .readEnvironment()
