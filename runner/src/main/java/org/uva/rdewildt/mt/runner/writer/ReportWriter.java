@@ -54,6 +54,11 @@ public class ReportWriter {
         output = Paths.get("/home/roy/Workspace/MT");
     }
 
+    private static void loadOsxMacbookConfig(){
+        config = Paths.get("/Users/roydewildt/Workspace/UvA/MT/mt/runner/src/main/resources/osx_macbook.csv");
+        output = Paths.get("/Users/roydewildt/Workspace/UvA/MT/projects/");
+    }
+
     private static void loadWindowsIsConfig(){
         config = Paths.get("C:\\Users\\royw\\Workspace\\mt\\runner\\src\\main\\resources\\windows_is.csv");
         output = Paths.get("C:\\Users\\royw\\Workspace");
